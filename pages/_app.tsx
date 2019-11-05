@@ -15,6 +15,8 @@ function NetworkHeader() {
           padding-left: 80px;
           padding-top: 12px;
           padding-bottom: 9px;
+          border-bottom: 5px solid #1E988A;
+
         }
         a {
           color: white;
