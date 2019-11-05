@@ -39,6 +39,86 @@ function NetworkHeader() {
   );
 }
 
+function SiteHeader() {
+    return <div className="site-header">
+        <style jsx>{`
+            .site-header {
+                border-bottom: 0.5px solid #666666;
+
+                padding-top: 27px;
+                padding-left: 80px;
+                padding-right: 80px;
+
+                display: flex;
+                flex-direction: column;
+            }
+            .upper {
+                display: flex;
+            }
+            .slogan {
+                font-family: Montserrat;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 20px;
+                line-height: 51px;
+
+                color: #999999;
+                border-left: 0.5px solid #000000;
+
+                padding-left: 19px;
+                margin-left: 30px;
+                align-self: center;
+
+                white-space: nowrap;
+            }
+            @media(max-width: 700px) {
+                .site-header {
+                    padding-top: 10.5px;
+                    padding-left: 20px;
+                    padding-right: 20px;
+                }
+                .slogan {
+                    display: none;
+                }
+            }
+            .sections {
+                display: flex;
+                justify-content: space-around;
+                margin-top: 22px;
+            }
+            .sections a {
+                font-family: Montserrat;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 20px;
+                align-items: center;
+                text-align: center;
+                text-decoration: none;
+                display: block;
+
+                color: #666666;
+            }
+        `}</style>
+        <div className="upper">
+        <Logo />
+
+        <div className="slogan">
+            Connecting Learners to Leaders
+        </div>
+        </div>
+        <div className="sections">
+            <a href="/">INFLUENTIAL SCHOOLS</a>
+            <a href="/">INFLUENTIAL PEOPLE</a>
+            <a href="/">BY DISCIPLINE</a>
+            <a href="/">FEATURES</a>
+            <a href="/">ABOUT</a>
+        </div>
+
+    </div>
+
+}
+
 function Logo() {
   return (
     <div className="logo">
@@ -291,10 +371,14 @@ class AIApp extends App {
                 .root {
                     display: flex,
                     flex-direction: column;
+                    background-color: #F9FBFA;
                 }
             `}</style>
         <NetworkHeader />
-        <Component {...pageProps} />
+        <div className="body">
+            <SiteHeader />
+            <Component {...pageProps} />
+        </div>
         <Footer />
       </div>
     );
