@@ -5,14 +5,19 @@
   "main": "index.js",
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "rimraf .next && next build",
     "start": "next start"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@emotion/babel-preset-css-prop": "^10.0.23",
+    "@emotion/core": "^10.0.22",
+    "@emotion/styled": "^10.0.23",
+    "glamor": "^2.20.40",
     "isomorphic-unfetch": "^3.0.0",
+    "nano-css": "^5.2.1",
     "next": "^9.1.2",
     "prettier": "^1.18.2",
     "react": "^16.11.0",
@@ -21,6 +26,7 @@
   "devDependencies": {
     "@types/node": "^12.12.3",
     "@types/react": "^16.9.11",
+    "rimraf": "^3.0.0",
     "typescript": "^3.6.4"
   }
 }
