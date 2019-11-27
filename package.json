@@ -15,13 +15,18 @@
     "@emotion/babel-preset-css-prop": "^10.0.23",
     "@emotion/core": "^10.0.22",
     "@emotion/styled": "^10.0.23",
+    "@zeit/next-css": "^1.0.1",
+    "dotenv": "^8.2.0",
     "glamor": "^2.20.40",
     "isomorphic-unfetch": "^3.0.0",
     "nano-css": "^5.2.1",
     "next": "^9.1.2",
+    "pg": "^7.14.0",
     "prettier": "^1.18.2",
     "react": "^16.11.0",
-    "react-dom": "^16.11.0"
+    "react-circular-progressbar": "^2.0.3",
+    "react-dom": "^16.11.0",
+    "squel": "^5.13.0"
   },
   "devDependencies": {
     "@types/node": "^12.12.3",
