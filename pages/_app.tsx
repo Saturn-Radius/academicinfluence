@@ -2,6 +2,7 @@ import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import App from "next/app";
 import { UI_FONT } from "../styles";
+import "typeface-montserrat/index.css"
 
 const NetworkSiteLink = styled.a({
   color: "white",
