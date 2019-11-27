@@ -1,5 +1,5 @@
 import { ReactChild } from "react"
-import { SECONDARY_FONT, PRIMARY_DARK } from "./styles"
+import { PRIMARY_DARK } from "./styles"
 
 type Props = {
     tool: string,
@@ -20,7 +20,6 @@ export default function ToolPage(props: Props) {
             paddingTop: '7px',
             paddingBottom: '5px',
             marginBottom: '10px',
-            fontFamily: SECONDARY_FONT,
             fontWeight: "bold",
             fontSize: "16px",
             lineHeight: "20px"

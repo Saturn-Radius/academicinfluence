@@ -1,7 +1,4 @@
 import React from "react"
-export const UI_FONT = 'SF UI Display';
-export const SECONDARY_FONT = 'Montserrat'
-
 export const PRIMARY_DARK = '#1E988A'
 
 export const GRAY_DARK = '#999999'

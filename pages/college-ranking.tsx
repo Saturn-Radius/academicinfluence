@@ -1,7 +1,7 @@
 import fetch from "isomorphic-unfetch";
 import ToolPage from "../ToolPage";
 import { ReactElementLike } from "prop-types";
-import { GRAY_DARK, UI_FONT, GRAY_MID, PRIMARY_DARK, GRAY_LIGHT, TERTIARY_DARK, SECONDARY_DARK, SECONDARY_FONT } from "../styles";
+import { GRAY_DARK, GRAY_MID, PRIMARY_DARK, GRAY_LIGHT, TERTIARY_DARK, SECONDARY_DARK} from "../styles";
 import {CircularProgressbar, buildStyles} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css';
 
@@ -38,7 +38,6 @@ const COLUMNS: COLUMN[] = [
   {
     label: "Rank",
     value: (_, index) => <div css={{
-      fontFamily: UI_FONT,
       fontSize: '32px',
       lineHeight: '80px',
       textAlign: 'center',
@@ -51,14 +50,12 @@ const COLUMNS: COLUMN[] = [
     sort: "name",
     value: school => <div>
       <div css={{
-        fontFamily: UI_FONT,
         fontSize: '16px',
         lineHeight: '20px',
         fontWeight: 'bold',
         color: PRIMARY_DARK
       }}>{school.name}</div>
       <div css={{
-        fontFamily: UI_FONT,
         fontSize: '12px',
         lineHeight: '14px',
         color: GRAY_MID
@@ -69,7 +66,6 @@ const COLUMNS: COLUMN[] = [
     label: "Median SAT/ACT",
     sort: "median_sat",
     value: school => <div css={{
-      fontFamily: UI_FONT,
       fontSize: '20px',
       lineHeight: '24px',
       color: GRAY_LIGHT
@@ -79,7 +75,6 @@ const COLUMNS: COLUMN[] = [
     label: "Stated Tuition",
     sort: "undergrad_tuition_in_state",
     value: school => <div css={{
-      fontFamily: UI_FONT,
       fontSize: '20px',
       lineHeight: '24px',
       color: TERTIARY_DARK,
@@ -90,7 +85,6 @@ const COLUMNS: COLUMN[] = [
     label: "Average Earnings",
     sort: "average_earnings",
     value: school => <div css={{
-      fontFamily: UI_FONT,
       fontSize: '20px',
       lineHeight: '24px',
       color: SECONDARY_DARK,
@@ -114,7 +108,6 @@ const COLUMNS: COLUMN[] = [
           stroke: '#EB5857'
         },
         '.CircularProgressbar-text': {
-          fontFamily: SECONDARY_FONT,
           fill: 'black',
           fontSize: '28px',
           fontWeight: 'bold'
@@ -131,7 +124,6 @@ const COLUMNS: COLUMN[] = [
       <div css={{
           fontSize: '20px',
           lineHeight: '24px',
-          fontFamily: UI_FONT
       }}>{(school.influence_score*100).toFixed(2)}</div>
   }
 ]
@@ -148,7 +140,6 @@ const CollegeRanking = (props: CollegeRankingProps) => (
           {COLUMNS.map((column, index) => 
             <th key={index} css={{
               color: GRAY_DARK,
-              font: UI_FONT,
               fontSize: '12px',
               lineHeight: '14px',
               textTransform: 'uppercase',
