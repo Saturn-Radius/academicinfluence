@@ -34,6 +34,21 @@ type COLUMN = {
   value: (school: CollegeData, index: number) => ReactElementLike
 }
 
+type BasicCellProps = {
+  children: React.ReactNode,
+  color: string,
+  bold?: boolean
+}
+function BasicCell(props: BasicCellProps) {
+  return <div css={{fontSize: '20px',
+      lineHeight: '24px',
+      color: props.color,
+      fontWeight: props.bold ? "bold" : "normal"
+  }}>
+    {props.children}
+  </div>
+}
+
 const COLUMNS: COLUMN[] = [
   {
     label: "Rank",
@@ -65,31 +80,17 @@ const COLUMNS: COLUMN[] = [
   {
     label: "Median SAT/ACT",
     sort: "median_sat",
-    value: school => <div css={{
-      fontSize: '20px',
-      lineHeight: '24px',
-      color: GRAY_LIGHT
-    }}>{school.median_sat}/{school.median_act}</div>
+    value: school => <BasicCell color={GRAY_LIGHT}>{school.median_sat}/{school.median_act}</BasicCell>
   },
   {
     label: "Stated Tuition",
     sort: "undergrad_tuition_in_state",
-    value: school => <div css={{
-      fontSize: '20px',
-      lineHeight: '24px',
-      color: TERTIARY_DARK,
-      fontWeight:  'bold'
-    }}>${school.undergrad_tuition_in_state.toLocaleString()}</div>
+    value: school => <BasicCell color={TERTIARY_DARK} bold>${school.undergrad_tuition_in_state.toLocaleString()}</BasicCell> 
   },
   {
     label: "Average Earnings",
     sort: "average_earnings",
-    value: school => <div css={{
-      fontSize: '20px',
-      lineHeight: '24px',
-      color: SECONDARY_DARK,
-      fontWeight:  'bold'
-    }}>${school.average_earnings.toLocaleString()}</div>
+    value: school => <BasicCell color={SECONDARY_DARK} bold>${school.average_earnings.toLocaleString()}</BasicCell>
   },
 {
     label: "Acceptance Rate",
@@ -121,10 +122,7 @@ const COLUMNS: COLUMN[] = [
     label: "Influence Ranking",
     sort: "influence_score",
     value: school => 
-      <div css={{
-          fontSize: '20px',
-          lineHeight: '24px',
-      }}>{(school.influence_score*100).toFixed(2)}</div>
+      <BasicCell color="black">{(school.influence_score*100).toFixed(2)}</BasicCell>
   }
 ]
 
