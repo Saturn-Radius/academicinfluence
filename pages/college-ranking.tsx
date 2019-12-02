@@ -1,6 +1,8 @@
+import { NextPage, NextPageContext } from "next";
+import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 import ToolPage from "../ToolPage";
-import { ReactElementLike } from "prop-types";
+import { ReactElementLike, resetWarningCache } from "prop-types";
 import {
   GRAY_DARK,
   GRAY_MID,
@@ -32,6 +34,7 @@ export type CollegeRankingData = {
 
 type CollegeRankingProps = {
   data: CollegeRankingData;
+  sort: keyof CollegeData;
 };
 
 type COLUMN = {
@@ -52,11 +55,34 @@ function BasicCell(props: BasicCellProps) {
         fontSize: "20px",
         lineHeight: "24px",
         color: props.color,
-        fontWeight: props.bold ? "bold" : "normal"
+        fontWeight: props.bold ? "bold" : "normal",
+        "@media(max-width: 1024px)": {
+          fontSize: "14px",
+          lineHeight: "17px"
+        }
       }}
     >
       {props.children}
     </div>
+  );
+}
+
+export function ArrowDown() {
+  return (
+    <svg
+      width="10"
+      height="5"
+      viewBox="0 0 10 5"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M10 0.631818L9.297 0L4.9935 3.755L4.5345 3.35455L4.537 3.35682L0.7135 0.0204545L0 0.642727C1.0565 1.565 4.007 4.13955 4.9935 5C5.7265 4.36091 5.012 4.98409 10 0.631818Z"
+        fill="#999999"
+      />
+    </svg>
   );
 }
 
@@ -118,7 +144,8 @@ const COLUMNS: COLUMN[] = [
     sort: "undergrad_tuition_in_state",
     value: school => (
       <BasicCell color={TERTIARY_DARK} bold>
-        ${school.undergrad_tuition_in_state.toLocaleString()}
+        {school.undergrad_tuition_in_state &&
+          "$" + school.undergrad_tuition_in_state.toLocaleString()}
       </BasicCell>
     )
   },
@@ -127,7 +154,8 @@ const COLUMNS: COLUMN[] = [
     sort: "average_earnings",
     value: school => (
       <BasicCell color={SECONDARY_DARK} bold>
-        ${school.average_earnings.toLocaleString()}
+        {school.average_earnings &&
+          "$" + school.average_earnings.toLocaleString()}
       </BasicCell>
     )
   },
@@ -135,6 +163,9 @@ const COLUMNS: COLUMN[] = [
     label: "Acceptance Rate",
     sort: "acceptance_rate",
     value: school => {
+      if (!school.acceptance_rate) {
+        return <div />;
+      }
       let percentage = school.acceptance_rate * 100;
 
       return (
@@ -169,68 +200,92 @@ const COLUMNS: COLUMN[] = [
     sort: "influence_score",
     value: school => (
       <BasicCell color="black">
-        {(school.influence_score * 100).toFixed(2)}
+        {school.influence_score && (school.influence_score * 100).toFixed(2)}
       </BasicCell>
     )
   }
 ];
 
-const CollegeRanking = (props: CollegeRankingProps) => (
-  <ToolPage tool="COLLEGE RANKINGS">
-    <table
-      css={{
-        borderCollapse: "collapse",
-        borderSpacing: "0px",
-        width: "100%"
-      }}
-    >
-      <thead>
-        <tr>
-          {COLUMNS.map((column, index) => (
-            <th
-              key={index}
-              css={{
-                color: GRAY_DARK,
-                fontSize: "12px",
-                lineHeight: "14px",
-                textTransform: "uppercase",
-                textAlign: "left"
-              }}
-            >
-              {column.label}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {props.data.schools.map((school, schoolIndex) => (
-          <tr
-            key={school.id}
-            css={{
-              background: "white",
-              borderWidth: "0.5px",
-              borderStyle: "solid",
-              borderColor: GRAY_DARK,
-              boxSizing: "border-box"
-            }}
-          >
+const CollegeRanking: NextPage<CollegeRankingProps> = props => {
+  return (
+    <ToolPage tool="COLLEGE RANKINGS">
+      <table
+        css={{
+          borderCollapse: "collapse",
+          borderSpacing: "0px",
+          width: "100%",
+          overflowY: "auto"
+        }}
+      >
+        <thead>
+          <tr>
             {COLUMNS.map((column, index) => (
-              <td key={index}>{column.value(school, schoolIndex)}</td>
+              <th
+                key={index}
+                css={{
+                  color: GRAY_DARK,
+                  fontSize: "12px",
+                  lineHeight: "14px",
+                  textTransform: "uppercase",
+                  textAlign: "left"
+                }}
+              >
+                <Link
+                  href={{
+                    pathname: "/college-ranking",
+                    query: {
+                      sort: column.sort
+                    }
+                  }}
+                >
+                  <a css={{ textDecoration: "none" }}>{column.label}</a>
+                </Link>
+
+                {column.sort === props.sort && (
+                  <>
+                    {" "}
+                    <ArrowDown />
+                  </>
+                )}
+              </th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
-  </ToolPage>
-);
+        </thead>
+        <tbody>
+          {props.data.schools.map((school, schoolIndex) => (
+            <tr
+              key={school.id}
+              css={{
+                background: "white",
+                borderWidth: "0.5px",
+                borderStyle: "solid",
+                borderColor: GRAY_DARK,
+                boxSizing: "border-box"
+              }}
+            >
+              {COLUMNS.map((column, index) => (
+                <td key={index}>{column.value(school, schoolIndex)}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </ToolPage>
+  );
+};
 
-CollegeRanking.getInitialProps = async function({ req }) {
+CollegeRanking.getInitialProps = async function(context: NextPageContext) {
+  const sort = (context.query.sort || "influence_score") as keyof CollegeData;
+
   const url =
-    (req ? "http://" + req.headers.host : "") + "/api/college-ranking";
+    (context.req ? "http://" + context.req.headers.host : "") +
+    "/api/college-ranking?sort=" +
+    sort;
   const response = await fetch(url);
   const data = await response.json();
   return {
-    data: data
+    data: data,
+    sort: sort
   };
 };
 

@@ -30,32 +30,52 @@ function calculateScore(start_year: number, stop_year: number) {
         .field(adapted)
 }
 
+const SORTS = new Set([
+    "name",
+    "median_sat",
+    "undergrad_tuition_in_state",
+    "average_earnings",
+    "acceptance_rate",
+    "total_students",
+    "influence_score"
+])
+
 export default async (req: NextApiRequest, response: NextApiResponse) => {
 
-    const pool = await databasePool;
-    const query = squel.select()
-        .from(squel.rstr("ai_data.schools"))
-        .field("id")
-        .field("name")
-        .field("city")
-        .field("state")
-        .field("median_sat")
-        .field("median_act")
-        .field("undergrad_tuition_in_state")
-        .field("average_earnings")
-        .field(squel.rstr("admissions::float / applications::float"), "acceptance_rate")
-        .field(squel.rstr("undergraduate_students + graduate_students"), "total_students")
-        .field(calculateScore(-4000, 3000).where("scores.id = schools.id"), "influence_score")
-        .where("usa")
-        .where("?", squel.rstr("? is not null", calculateScore(1900, 2020).where("scores.id = schools.id")))
-        .order("influence_score", false)
-        .limit(25)
-        console.log(query.toString())
-    const queryResult = await pool.query(query.toParam()
-        )
-        console.log("resolved")
+    const sort = req.query.sort as string;
+    if (!SORTS.has(sort)) {
+        response.send(400)
+    } else {
 
-    response.status(200).json({
-        schools: queryResult.rows
-    })
+        const pool = await databasePool;
+        const query = squel.select()
+            .from(squel.select()
+            .from(squel.rstr("ai_data.schools"))
+            .field("id")
+            .field("name")
+            .field("city")
+            .field("state")
+            .field("median_sat")
+            .field("median_act")
+            .field("undergrad_tuition_in_state")
+            .field("average_earnings")
+            .field(squel.rstr("admissions::float / applications::float"), "acceptance_rate")
+            .field(squel.rstr("undergraduate_students + graduate_students"), "total_students")
+            .field(calculateScore(-4000, 3000).where("scores.id = schools.id"), "influence_score")
+            .where("usa"), "data")
+            .order(sort, false)
+            .where(sort + ' is not null')
+            .limit(25)
+            console.log(query.toString())
+        const queryResult = await pool.query(query.toParam()
+            )
+
+        const result = {
+            schools: queryResult.rows
+        }
+
+        console.log(result)
+
+        response.status(200).json(result)
+    }
 }
