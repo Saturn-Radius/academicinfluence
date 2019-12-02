@@ -28,7 +28,7 @@ export type API = {
   collegeRankings: {
     request: {
       sort: keyof typeof COLLEGE_RANKING_SORTS;
-      reversed: boolean
+      reversed: boolean;
     };
     response: {
       schools: CollegeData[];
