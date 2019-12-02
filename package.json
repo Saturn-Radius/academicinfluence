@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next",
     "build": "rimraf .next && next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "prettier --write pages/** *.tsx *.ts"
   },
   "keywords": [],
   "author": "",
@@ -23,7 +24,6 @@
     "next": "^9.1.2",
     "next-fonts": "^0.19.0",
     "pg": "^7.14.0",
-    "prettier": "^1.18.2",
     "react": "^16.11.0",
     "react-circular-progressbar": "^2.0.3",
     "react-dom": "^16.11.0",
@@ -33,6 +33,7 @@
   "devDependencies": {
     "@types/node": "^12.12.3",
     "@types/react": "^16.9.11",
+    "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
     "typescript": "^3.6.4"
   }

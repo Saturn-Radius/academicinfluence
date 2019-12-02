@@ -1,13 +1,13 @@
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import App from "next/app";
-import "typeface-montserrat/index.css"
+import "typeface-montserrat/index.css";
 
 const NetworkSiteLink = styled.a({
   color: "white",
   textDecoration: "none",
   fontSize: "16px",
-  lineHeight: "19px",
+  lineHeight: "19px"
 });
 
 function NetworkHeader() {
@@ -356,7 +356,7 @@ class AIApp extends App {
           display: "flex",
           flexDirection: "column",
           backgroundColor: "#F9FBFA",
-          fontFamily: 'Montserrat'
+          fontFamily: "Montserrat"
         }}
       >
         <NetworkHeader />
