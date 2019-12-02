@@ -1,10 +1,11 @@
 import fetch from "isomorphic-unfetch";
+import { NextPage } from "next";
 
 type IndexProps = {
   data: any;
 };
 
-const Index = (props: IndexProps) => (
+const Index: NextPage<IndexProps> = (props: IndexProps) => (
   <div>
     <h1>Hello World!</h1>
     {JSON.stringify(props.data)}

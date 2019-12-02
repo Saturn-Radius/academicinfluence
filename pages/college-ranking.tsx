@@ -13,33 +13,18 @@ import {
 } from "../styles";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { api, COLLEGE_RANKING_SORTS, API, CollegeData } from "../api";
 
-type CollegeData = {
-  id: string;
-  name: string;
-  city: string;
-  state: string;
-  median_sat: number | null;
-  median_act: number | null;
-  undergrad_tuition_in_state: number | null;
-  average_earnings: number | null;
-  acceptance_rate: number | null;
-  total_students: number | null;
-  influence_score: number | null;
-};
-
-export type CollegeRankingData = {
-  schools: CollegeData[];
-};
+type CollegeRankingData = API["collegeRankings"]["response"];
 
 type CollegeRankingProps = {
   data: CollegeRankingData;
-  sort: keyof CollegeData;
+  request: API["collegeRankings"]["request"];
 };
 
 type COLUMN = {
   label: string;
-  sort?: keyof CollegeData;
+  sort?: keyof typeof COLLEGE_RANKING_SORTS;
   value: (school: CollegeData, index: number) => ReactElementLike;
 };
 
@@ -67,6 +52,23 @@ function BasicCell(props: BasicCellProps) {
   );
 }
 
+type RankingLinkProps = {
+  request: API["collegeRankings"]["request"];
+  children: React.ReactNode;
+};
+function RankingLink(props: RankingLinkProps) {
+  return (
+    <Link
+      href={{
+        pathname: "/college-ranking",
+        query: props.request
+      }}
+    >
+      {props.children}
+    </Link>
+  );
+}
+
 export function ArrowDown() {
   return (
     <svg
@@ -85,6 +87,13 @@ export function ArrowDown() {
     </svg>
   );
 }
+
+function ArrowUp() {
+return <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fillRule="evenodd" clipRule="evenodd" d="M0 4.36834L0.702684 5L5.00656 1.24483L5.4656 1.64539L5.46308 1.64319L9.28672 4.97975L10 4.35734C8.9432 3.43516 5.99274 0.860551 5.00656 0C4.27361 0.639141 4.98789 0.0158466 0 4.36834Z" fill="#999999"/>
+</svg>
+}
+
 
 const COLUMNS: COLUMN[] = [
   {
@@ -230,23 +239,26 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
                   textAlign: "left"
                 }}
               >
-                <Link
-                  href={{
-                    pathname: "/college-ranking",
-                    query: {
-                      sort: column.sort
-                    }
-                  }}
-                >
-                  <a css={{ textDecoration: "none" }}>{column.label}</a>
-                </Link>
-
-                {column.sort === props.sort && (
+                {column.sort ? (
+                  <RankingLink
+                    request={{
+                      ...props.request,
+                      sort: column.sort,
+                      reversed: column.sort === props.request.sort && !props.request.reversed
+                    }}
+                  >
+                    <a css={{ textDecoration: "none" }}>{column.label}</a>
+                  </RankingLink>
+                ) : (
+                  column.label
+                )}
+                {column.sort === props.request.sort && (
                   <>
                     {" "}
-                    <ArrowDown />
+                    {props.request.reversed ? <ArrowUp/> : <ArrowDown />}
                   </>
                 )}
+                
               </th>
             ))}
           </tr>
@@ -275,18 +287,15 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
 };
 
 CollegeRanking.getInitialProps = async function(context: NextPageContext) {
-  const sort = (context.query.sort || "influence_score") as keyof CollegeData;
-
-  const url =
-    (context.req ? "http://" + context.req.headers.host : "") +
-    "/api/college-ranking?sort=" +
-    sort;
-  const response = await fetch(url);
-  const data = await response.json();
-  return {
-    data: data,
-    sort: sort
+  const request = {
+    sort: (context.query.sort ||
+      "influence_score") as keyof typeof COLLEGE_RANKING_SORTS,
+    reversed: context.query.reversed === "true"
   };
+
+  const data = await api("collegeRankings", request);
+
+  return { data, request };
 };
 
 export default CollegeRanking;
