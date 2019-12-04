@@ -1,4 +1,5 @@
 import { NextPage, NextPageContext } from "next";
+import Router from "next/router";
 import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 import ToolPage from "../ToolPage";
@@ -9,11 +10,17 @@ import {
   PRIMARY_DARK,
   GRAY_LIGHT,
   TERTIARY_DARK,
-  SECONDARY_DARK
+  SECONDARY_DARK,
+  BACKGROUND_1
 } from "../styles";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import "rc-slider/assets/index.css";
+import "rc-tooltip/assets/bootstrap.css";
 import { api, COLLEGE_RANKING_SORTS, API, CollegeData } from "../api";
+import React from "react";
+import { Range, HandleProps, Handle } from "rc-slider";
+import Tooltip from "rc-tooltip";
 
 type CollegeRankingData = API["collegeRankings"]["response"];
 
@@ -227,9 +234,92 @@ const COLUMNS: COLUMN[] = [
   }
 ];
 
+function FilterIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      fill="none"
+      viewBox="0 0 20 20"
+    >
+      <path
+        fill="#1E988A"
+        fillRule="evenodd"
+        d="M11.009 10L11 14H9v-4L3.461 2H16.54l-5.531 8zM9 18h2v-2H9v2zM0 0l7 10.857V20h6v-9.143L20 0H0z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      fill="none"
+      viewBox="0 0 15 15"
+    >
+      <path
+        fill="#666"
+        fillRule="evenodd"
+        d="M8.585 7.5L15 13.915 13.915 15 7.5 8.585 1.085 15 0 13.915 6.415 7.5 0 1.085 1.085 0 7.5 6.415 13.915 0 15 1.085 8.585 7.5z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+function RangeHandle(props: any) {
+  const { value, dragging, index, ...restProps } = props;
+
+  return (
+    <Tooltip
+      prefixCls="rc-slider-tooltip"
+      overlay={value.toLocaleString()}
+      visible={true}
+      placement="top"
+      key={index}
+    >
+      <Handle value={value} {...restProps} />
+    </Tooltip>
+  );
+}
+
+type FilterProps = {
+  request: API["collegeRankings"]["request"];
+};
+const Filter = function(props: FilterProps) {
+  return (
+    <>
+      Tuition
+      <Range
+        defaultValue={[props.request.minTuition, props.request.maxTuition]}
+        min={0}
+        max={100000}
+        handle={RangeHandle}
+        onChange={n => {
+          Router.replace({
+            pathname: "/college-ranking",
+            query: {
+              ...props.request,
+              minTuition: n[0],
+              maxTuition: n[1]
+            }
+          });
+        }}
+      />
+    </>
+  );
+};
+
 const CollegeRanking: NextPage<CollegeRankingProps> = props => {
   return (
     <ToolPage tool="COLLEGE RANKINGS">
+      <Filter request={props.request} />
+
       <table
         css={{
           borderCollapse: "collapse",
@@ -299,7 +389,9 @@ CollegeRanking.getInitialProps = async function(context: NextPageContext) {
   const request = {
     sort: (context.query.sort ||
       "influence_score") as keyof typeof COLLEGE_RANKING_SORTS,
-    reversed: context.query.reversed === "true"
+    reversed: context.query.reversed === "true",
+    minTuition: parseInt((context.query.minTuition as string) || "0", 10),
+    maxTuition: parseInt((context.query.maxTuition as string) || "100000", 10)
   };
 
   const data = await api("collegeRankings", request);

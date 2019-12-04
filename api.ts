@@ -29,6 +29,8 @@ export type API = {
     request: {
       sort: keyof typeof COLLEGE_RANKING_SORTS;
       reversed: boolean;
+      minTuition: number;
+      maxTuition: number;
     };
     response: {
       schools: CollegeData[];

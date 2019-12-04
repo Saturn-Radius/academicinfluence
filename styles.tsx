@@ -7,4 +7,6 @@ export const GRAY_LIGHT = "#333333";
 
 export const TERTIARY_DARK = "#08526D";
 
-export const SECONDARY_DARK = "#1E988A;";
+export const SECONDARY_DARK = "#1E988A";
+
+export const BACKGROUND_1 = "#f9fbfa";

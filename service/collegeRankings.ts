@@ -52,6 +52,7 @@ export async function serveCollegeRankings(request: API['collegeRankings']['requ
         .where("usa"), "data")
         .order(request.sort, request.reversed)
         .where(request.sort + ' is not null')
+        .where('undergrad_tuition_in_state >= ? and undergrad_tuition_in_state <= ?', request.minTuition, request.maxTuition)
         .limit(25)
 
     const queryResult = await pool.query(query.toParam())
