@@ -17,21 +17,20 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
-import { api, COLLEGE_RANKING_SORTS, API, CollegeData } from "../api";
 import React from "react";
 import { Range, HandleProps, Handle } from "rc-slider";
 import Tooltip from "rc-tooltip";
+import { CollegeRankingsResponse, CollegeRankingsRequest, CollegeRankingSort, CollegeData, apiCollegeRankings } from "../api";
 
-type CollegeRankingData = API["collegeRankings"]["response"];
 
 type CollegeRankingProps = {
-  data: CollegeRankingData;
-  request: API["collegeRankings"]["request"];
+  data: CollegeRankingsResponse;
+  request: CollegeRankingsRequest;
 };
 
 type COLUMN = {
   label: string;
-  sort?: keyof typeof COLLEGE_RANKING_SORTS;
+  sort?: CollegeRankingSort;
   value: (school: CollegeData, index: number) => ReactElementLike;
 };
 
@@ -59,17 +58,26 @@ function BasicCell(props: BasicCellProps) {
   );
 }
 
+function asHref(request: CollegeRankingsRequest) {
+  return {
+    pathname: "/college-ranking",
+    query: {
+      sort: request.sort,
+      reversed: request.reversed,
+      minTuition: request.tuition.min,
+      maxTuition: request.tuition.max
+    }
+  }
+}
+
 type RankingLinkProps = {
-  request: API["collegeRankings"]["request"];
+  request: CollegeRankingsRequest,
   children: React.ReactNode;
 };
 function RankingLink(props: RankingLinkProps) {
   return (
     <Link
-      href={{
-        pathname: "/college-ranking",
-        query: props.request
-      }}
+      href={asHref(props.request)}
     >
       {props.children}
     </Link>
@@ -294,15 +302,15 @@ function RangeHandle(props: any) {
 }
 
 type FilterProps = {
-  request: API["collegeRankings"]["request"];
-  limits: API["collegeRankings"]["response"]["limits"];
+  request: CollegeRankingsRequest,
+  limits: CollegeRankingsResponse["limits"];
 };
 const Filter = function(props: FilterProps) {
   return (
     <>
       Tuition
       <Range
-        defaultValue={[props.request.minTuition, props.request.maxTuition]}
+        defaultValue={[props.request.tuition.min, props.request.tuition.max]}
         min={props.limits.tuition.min}
         max={props.limits.tuition.max}
         handle={RangeHandle}
@@ -394,13 +402,15 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
 CollegeRanking.getInitialProps = async function(context: NextPageContext) {
   const request = {
     sort: (context.query.sort ||
-      "influence_score") as keyof typeof COLLEGE_RANKING_SORTS,
+      "influence_score") as CollegeRankingSort,
     reversed: context.query.reversed === "true",
-    minTuition: parseInt((context.query.minTuition as string) || "0", 10),
-    maxTuition: parseInt((context.query.maxTuition as string) || "100000", 10)
+    tuition: {
+      min: parseInt((context.query.minTuition as string) || "0", 10),
+      max: parseInt((context.query.maxTuition as string) || "100000", 10)
+    }
   };
 
-  const data = await api("collegeRankings", request);
+  const data = await apiCollegeRankings(request);
 
   return { data, request };
 };

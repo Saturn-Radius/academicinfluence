@@ -1,9 +1,7 @@
-import {API, COLLEGE_RANKING_SORTS} from "../api"
-
 import { config } from "dotenv";
 import { Pool } from "pg";
 import * as squel from "../squel"
-import { PostgresSelect } from "squel";
+import { CollegeRankingsRequest, CollegeRankingsResponse } from "../api";
 
 async function createDatabasePool() {
     config();
@@ -30,17 +28,14 @@ function calculateScore(start_year: number, stop_year: number) {
         .field(adapted)
 }
 
-export async function serveCollegeRankings(request: API['collegeRankings']['request']): Promise<API['collegeRankings']['response']> {
-    if (!COLLEGE_RANKING_SORTS[request.sort]) {
-        throw new Error("Invalid sort")
-    }
+export default async function serveCollegeRankings(request: CollegeRankingsRequest): Promise<CollegeRankingsResponse> {
 
     const pool = await databasePool;
 
     const baseQuery = 
         squel.select()
         .from(squel.rstr("ai_data.schools"))
-        .where('undergrad_tuition_in_state >= ? and undergrad_tuition_in_state <= ?', request.minTuition * 1000, request.maxTuition * 1000)
+        .where('undergrad_tuition_in_state >= ? and undergrad_tuition_in_state <= ?', request.tuition.min * 1000, request.tuition.max * 1000)
 
  
 
