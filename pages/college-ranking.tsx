@@ -278,18 +278,24 @@ function RangeHandle(props: any) {
   return (
     <Tooltip
       prefixCls="rc-slider-tooltip"
-      overlay={value.toLocaleString()}
+      overlay={value + "K"}
       visible={true}
       placement="top"
       key={index}
     >
-      <Handle value={value} {...restProps} />
+      <Handle
+        value={value}
+        {...restProps}
+        aria-label={index == 0 ? "Minimum Tuition" : "Maximum Tuition"}
+        aria-valuetext={value + "000"}
+      />
     </Tooltip>
   );
 }
 
 type FilterProps = {
   request: API["collegeRankings"]["request"];
+  limits: API["collegeRankings"]["response"]["limits"];
 };
 const Filter = function(props: FilterProps) {
   return (
@@ -297,8 +303,8 @@ const Filter = function(props: FilterProps) {
       Tuition
       <Range
         defaultValue={[props.request.minTuition, props.request.maxTuition]}
-        min={0}
-        max={100000}
+        min={props.limits.tuition.min}
+        max={props.limits.tuition.max}
         handle={RangeHandle}
         onChange={n => {
           Router.replace({
@@ -318,7 +324,7 @@ const Filter = function(props: FilterProps) {
 const CollegeRanking: NextPage<CollegeRankingProps> = props => {
   return (
     <ToolPage tool="COLLEGE RANKINGS">
-      <Filter request={props.request} />
+      <Filter request={props.request} limits={props.data.limits} />
 
       <table
         css={{

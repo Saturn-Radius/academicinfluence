@@ -3,6 +3,7 @@ import {API, COLLEGE_RANKING_SORTS} from "../api"
 import { config } from "dotenv";
 import { Pool } from "pg";
 import * as squel from "../squel"
+import { PostgresSelect } from "squel";
 
 async function createDatabasePool() {
     config();
@@ -35,9 +36,16 @@ export async function serveCollegeRankings(request: API['collegeRankings']['requ
     }
 
     const pool = await databasePool;
-    const query = squel.select()
-        .from(squel.select()
+
+    const baseQuery = 
+        squel.select()
         .from(squel.rstr("ai_data.schools"))
+        .where('undergrad_tuition_in_state >= ? and undergrad_tuition_in_state <= ?', request.minTuition * 1000, request.maxTuition * 1000)
+
+ 
+
+    const query = pool.query(squel.select()
+        .from(baseQuery.clone()
         .field("id")
         .field("name")
         .field("city")
@@ -49,15 +57,32 @@ export async function serveCollegeRankings(request: API['collegeRankings']['requ
         .field(squel.rstr("admissions::float / applications::float"), "acceptance_rate")
         .field(squel.rstr("undergraduate_students + graduate_students"), "total_students")
         .field(calculateScore(-4000, 3000).where("scores.id = schools.id"), "influence_score")
-        .where("usa"), "data")
+        , "data")
         .order(request.sort, request.reversed)
         .where(request.sort + ' is not null')
-        .where('undergrad_tuition_in_state >= ? and undergrad_tuition_in_state <= ?', request.minTuition, request.maxTuition)
         .limit(25)
+        .toParam())
 
-    const queryResult = await pool.query(query.toParam())
+    const limitQuery = pool.query(
+        squel.select()
+        .from(squel.rstr("ai_data.schools"))
+        .field(squel.rstr("max(undergrad_tuition_in_state)"), "max_tuition")
+        .field(squel.rstr("min(undergrad_tuition_in_state)"), "min_tuition")
+        .toParam())
+
+
+    const queryResult = await query;
+    const limitResult = await limitQuery;
+
+    console.log(limitResult.rows)
 
     return {
-        schools: queryResult.rows
+        schools: queryResult.rows,
+        limits: {
+            tuition: {
+                min: Math.floor((limitResult.rows[0].min_tuition || 0) / 1000),
+                max: Math.ceil((limitResult.rows[0].max_tuition || 100000) / 1000)
+            }
+        }
     }
 }

@@ -34,6 +34,12 @@ export type API = {
     };
     response: {
       schools: CollegeData[];
+      limits: {
+        tuition: {
+          max: number;
+          min: number;
+        };
+      };
     };
   };
 };
