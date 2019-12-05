@@ -36,7 +36,9 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
         squel.select()
         .from(squel.rstr("ai_data.schools"))
         .where('undergrad_tuition_in_state >= ? and undergrad_tuition_in_state <= ?', request.tuition.min * 1000, request.tuition.max * 1000)
+        .where('median_sat >= ? and median_sat  <= ?', request.median_sat.min * 10, request.median_sat.max * 10)
 
+    console.log(baseQuery.toString())
  
 
     const query = pool.query(squel.select()
@@ -63,13 +65,15 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
         .from(squel.rstr("ai_data.schools"))
         .field(squel.rstr("max(undergrad_tuition_in_state)"), "max_tuition")
         .field(squel.rstr("min(undergrad_tuition_in_state)"), "min_tuition")
+        .field(squel.rstr("max(median_sat)"), "max_sat")
+        .field(squel.rstr("min(median_sat)"), "min_sat")
+ 
         .toParam())
 
 
     const queryResult = await query;
     const limitResult = await limitQuery;
 
-    console.log(limitResult.rows)
 
     return {
         schools: queryResult.rows,
@@ -77,6 +81,10 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
             tuition: {
                 min: Math.floor((limitResult.rows[0].min_tuition || 0) / 1000),
                 max: Math.ceil((limitResult.rows[0].max_tuition || 100000) / 1000)
+            },
+            median_sat: {
+                min: Math.floor((limitResult.rows[0].min_sat || 0) / 10),
+                max: Math.ceil((limitResult.rows[0].max_sat || 1600) / 10)
             }
         }
     }

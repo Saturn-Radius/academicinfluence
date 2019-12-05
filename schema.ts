@@ -22,6 +22,13 @@ function nullable(schema: JSONSchema4): JSONSchema4 {
   };
 }
 
+const LIMIT = object(
+    {
+        min: {type: "number"},
+        max: {type: "number"}
+    }
+)
+
 export const SCHEMAS: Dictionary<SchemaDef> = {
   CollegeRankings: {
     request: object({
@@ -41,14 +48,8 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
       reversed: {
         type: "boolean"
       },
-      tuition: object({
-        min: {
-          type: "number"
-        },
-        max: {
-          type: "number"
-        }
-      })
+      tuition: LIMIT,
+      median_sat: LIMIT
     }),
     response: object({
       schools: {
@@ -76,10 +77,8 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
         }, 'CollegeData')
       },
       limits: object({
-        tuition: object({
-          min: { type: "number" },
-          max: { type: "number" }
-        })
+        tuition: LIMIT,
+        median_sat: LIMIT
       })
     })
   }

@@ -21,6 +21,10 @@ export interface CollegeRankingsRequest {
     min: number;
     max: number;
   };
+  median_sat: {
+    min: number;
+    max: number;
+  };
 }
 /* tslint:disable */
 /**
@@ -33,6 +37,10 @@ export interface CollegeRankingsResponse {
   schools: CollegeData[];
   limits: {
     tuition: {
+      min: number;
+      max: number;
+    };
+    median_sat: {
       min: number;
       max: number;
     };
