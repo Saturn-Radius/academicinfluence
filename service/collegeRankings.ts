@@ -44,6 +44,7 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
         .field(squel.rstr("admissions::float / applications::float"), "acceptance_rate")
         .field(squel.rstr("undergraduate_students + graduate_students"), "total_students")
         .field(calculateScore(-4000, 3000).where("scores.id = schools.id"), "influence_score")
+        .field("logo_url")
 
 
     const query = pool.query(squel.select()
@@ -76,7 +77,10 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
 
 
     return {
-        schools: queryResult.rows,
+        schools: queryResult.rows.map(row => ({
+            ...row,
+            image_url: row.ipeds_id && 'https://academicinfluence.com/images/schools/logos/' + row.ipeds_id
+        })),
         limits: {
             tuition: {
                 min: Math.floor((limitResult.rows[0].min_tuition || 0) / 1000),

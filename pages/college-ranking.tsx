@@ -27,6 +27,7 @@ import {
   CollegeData,
   apiCollegeRankings
 } from "../api";
+import { InterpolationWithTheme } from "@emotion/core";
 
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
@@ -37,12 +38,13 @@ type COLUMN = {
   label: string;
   sort?: CollegeRankingSort;
   value: (school: CollegeData, index: number) => ReactElementLike;
+  row?: number;
+  column?: number;
 };
 
 type BasicCellProps = {
   children: React.ReactNode;
   color: string;
-  bold?: boolean;
 };
 function BasicCell(props: BasicCellProps) {
   return (
@@ -51,9 +53,9 @@ function BasicCell(props: BasicCellProps) {
         fontSize: "20px",
         lineHeight: "24px",
         color: props.color,
-        fontWeight: props.bold ? "bold" : "normal",
+        fontWeight: "bold",
         "@media(max-width: 1024px)": {
-          fontSize: "14px",
+          fontSize: "16px",
           lineHeight: "17px"
         }
       }}
@@ -149,7 +151,17 @@ const COLUMNS: COLUMN[] = [
     label: "School",
     sort: "name",
     value: school => (
-      <div>
+        <div css={{display: "flex"}}>
+
+        <div css={{width: '64px', height: '64px'}}>
+
+        {school.logo_url && 
+        <img src={school.logo_url} css={{maxWidth: '64px', maxHeight: '64px'}}/>}
+        </div>
+        <div css={{
+          paddingLeft: "16px"
+        }}>
+
         <div
           css={{
             fontSize: "16px",
@@ -158,7 +170,8 @@ const COLUMNS: COLUMN[] = [
             color: PRIMARY_DARK
           }}
         >
-          {school.name}
+         {school.name}
+
         </div>
         <div
           css={{
@@ -169,12 +182,15 @@ const COLUMNS: COLUMN[] = [
         >
           {school.city}, {school.state}
         </div>
-      </div>
+        </div>
+        </div>
     )
   },
   {
     label: "Median SAT/ACT",
     sort: "median_sat",
+    row: 2,
+    column: 1,
     value: school => (
       <BasicCell color={GRAY_LIGHT}>
         {school.median_sat}/{school.median_act}
@@ -184,8 +200,10 @@ const COLUMNS: COLUMN[] = [
   {
     label: "Stated Tuition",
     sort: "undergrad_tuition_in_state",
+    row: 2,
+    column: 2,
     value: school => (
-      <BasicCell color={TERTIARY_DARK} bold>
+      <BasicCell color={TERTIARY_DARK}>
         {school.undergrad_tuition_in_state &&
           "$" + school.undergrad_tuition_in_state.toLocaleString()}
       </BasicCell>
@@ -194,8 +212,10 @@ const COLUMNS: COLUMN[] = [
   {
     label: "Average Earnings",
     sort: "average_earnings",
+    row: 2,
+    column: 3,
     value: school => (
-      <BasicCell color={SECONDARY_DARK} bold>
+      <BasicCell color={SECONDARY_DARK}>
         {school.average_earnings &&
           "$" + school.average_earnings.toLocaleString()}
       </BasicCell>
@@ -204,6 +224,8 @@ const COLUMNS: COLUMN[] = [
   {
     label: "Acceptance Rate",
     sort: "acceptance_rate",
+    row: 3,
+    column: 3,
     value: school => {
       if (!school.acceptance_rate) {
         return <div />;
@@ -239,7 +261,10 @@ const COLUMNS: COLUMN[] = [
   },
   {
     label: "Influence Ranking",
-    sort: "influence_score",
+    sort: "influence_score", 
+    row: 3,
+    column: 1,
+
     value: school => (
       <BasicCell color="black">
         {school.influence_score && (school.influence_score * 100).toFixed(2)}
@@ -320,7 +345,6 @@ type SliderFilterProps = {
   id: keyof CollegeRankingsResponse["limits"];
 };
 function SliderFilter(props: SliderFilterProps) {
-  console.log(props);
   return (
     <label
       css={{
@@ -518,6 +542,29 @@ const Filter = function(props: FilterProps) {
   );
 };
 
+const STYLES: InterpolationWithTheme<any> = {}
+for (let index = 2; index < COLUMNS.length; index++) {
+  let column = COLUMNS[index]
+    STYLES[`td:nth-of-type(${index+1})::before`] = {
+            content: '"' + column.label + '"',
+            color: GRAY_MID,
+            fontSize: '12px',
+            lineHeight: '20px'
+
+    };
+    STYLES[`td:nth-of-type(${index+1})`] = {
+              gridRowStart: column.row,
+              gridRowEnd: column.row,
+              gridColumnStart: column.column,
+              gridColumnEnd: column.column,
+              padding: '10px'
+            };
+    STYLES[`td:nth-of-type(${index+1}) div`] = {
+          padding: '10px'
+          }
+}
+
+
 const CollegeRanking: NextPage<CollegeRankingProps> = props => {
   return (
     <ToolPage tool="COLLEGE RANKINGS">
@@ -527,7 +574,44 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
         css={{
           borderCollapse: "collapse",
           borderSpacing: "0px",
-          width: "100%"
+          width: "100%",
+          "@media(max-width: 1024px)": {
+            table: {
+              display: 'block',
+            },
+            thead: {
+              display: 'none'
+            },
+            tbody: {
+              display: 'block'
+            },
+            tr: {
+              display: 'grid',
+              marginBottom: '13px',
+              boxShadow: '0 6px 5px 0 rgba(0, 0, 0, 0.25)'
+            },
+            td: {
+              display: 'block'
+            },
+            'td:nth-of-type(1)': {
+              gridRowStart: 1,
+              gridRowEnd: 1,
+              gridColumnStart: 1,
+              gridColumnEnd: 4
+            },
+            'td:nth-of-type(2)': {
+              paddingLeft: '50px',
+              paddingTop: '10px',
+              gridRowStart: 1,
+              gridRowEnd: 1,
+              gridColumnStart: 1,
+              gridColumnEnd: 4,
+              borderBottomStyle: 'solid',
+              borderBottomColor: GRAY_DARK,
+              borderBottomWidth: '.5px'
+            },
+            ...STYLES
+         }
         }}
       >
         <thead>

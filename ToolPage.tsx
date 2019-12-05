@@ -11,7 +11,11 @@ export default function ToolPage(props: Props) {
     <div
       css={{
         paddingLeft: "80px",
-        paddingRight: "80px"
+        paddingRight: "80px",
+        "@media (max-width: 1024px)": {
+          paddingLeft: "20px",
+          paddingRight: "20px"
+        }
       }}
     >
       <div

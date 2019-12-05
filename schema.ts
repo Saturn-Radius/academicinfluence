@@ -81,7 +81,8 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
             average_earnings: nullable({ type: "number" }),
             total_students: nullable({ type: "number" }),
             influence_score: nullable({ type: "number" }),
-            acceptance_rate: nullable({ type: "number" })
+            acceptance_rate: nullable({ type: "number" }),
+            logo_url: nullable({type: "string"})
           },
           "CollegeData"
         )

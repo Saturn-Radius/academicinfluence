@@ -74,19 +74,14 @@ export interface CollegeData {
   total_students: number | null;
   influence_score: number | null;
   acceptance_rate: number | null;
+  logo_url: string | null;
 }
-export const apiCollegeRankings = process.browser
-  ? async function(
-      request: CollegeRankingsRequest
-    ): Promise<CollegeRankingsResponse> {
-      const response = await fetch(
-        "/api/CollegeRankings/" + encodeURIComponent(JSON.stringify(request))
-      );
-      return response.json();
-    }
-  : async function(
-      request: CollegeRankingsRequest
-    ): Promise<CollegeRankingsResponse> {
-      const module = await import("./service/collegeRankings");
-      return module.default(request);
-    };
+export const apiCollegeRankings = process.browser ? 
+        async function(request: CollegeRankingsRequest): Promise<CollegeRankingsResponse> {
+            const response = await fetch("/api/CollegeRankings/" + encodeURIComponent(JSON.stringify(request)));
+            return response.json()
+        } : async function(request: CollegeRankingsRequest): Promise<CollegeRankingsResponse> {
+            const module = await import("./service/collegeRankings");
+            return module.default(request)
+        }
+        
