@@ -25,6 +25,14 @@ export interface CollegeRankingsRequest {
     min: number;
     max: number;
   };
+  acceptance_rate: {
+    min: number;
+    max: number;
+  };
+  total_students: {
+    min: number;
+    max: number;
+  };
 }
 /* tslint:disable */
 /**
@@ -44,6 +52,14 @@ export interface CollegeRankingsResponse {
       min: number;
       max: number;
     };
+    acceptance_rate: {
+      min: number;
+      max: number;
+    };
+    total_students: {
+      min: number;
+      max: number;
+    };
   };
 }
 export interface CollegeData {
@@ -59,12 +75,18 @@ export interface CollegeData {
   influence_score: number | null;
   acceptance_rate: number | null;
 }
-export const apiCollegeRankings = process.browser ? 
-        async function(request: CollegeRankingsRequest): Promise<CollegeRankingsResponse> {
-            const response = await fetch("/api/CollegeRankings/" + encodeURIComponent(JSON.stringify(request)));
-            return response.json()
-        } : async function(request: CollegeRankingsRequest): Promise<CollegeRankingsResponse> {
-            const module = await import("./service/collegeRankings");
-            return module.default(request)
-        }
-        
+export const apiCollegeRankings = process.browser
+  ? async function(
+      request: CollegeRankingsRequest
+    ): Promise<CollegeRankingsResponse> {
+      const response = await fetch(
+        "/api/CollegeRankings/" + encodeURIComponent(JSON.stringify(request))
+      );
+      return response.json();
+    }
+  : async function(
+      request: CollegeRankingsRequest
+    ): Promise<CollegeRankingsResponse> {
+      const module = await import("./service/collegeRankings");
+      return module.default(request);
+    };

@@ -1,4 +1,4 @@
-import {camelCase} from "change-case"
+import { camelCase } from "change-case";
 import { compileFromFile, compile } from "json-schema-to-typescript";
 import { writeFileSync, readFileSync, mkdirSync, writeFile } from "fs";
 const SCHEMAS = require("./schema");
@@ -7,8 +7,8 @@ async function main() {
   let content = "";
   for (const [key, item] of Object.entries(SCHEMAS.SCHEMAS)) {
     const def = item as any;
-    content += await compile(def.request, key + "Request")
-    content += await compile(def.response, key + "Response")
+    content += await compile(def.request, key + "Request");
+    content += await compile(def.response, key + "Response");
 
     content += `export const api${key} = process.browser ? 
         async function(request: ${key}Request): Promise<${key}Response> {
@@ -18,9 +18,11 @@ async function main() {
             const module = await import("./service/${camelCase(key)}");
             return module.default(request)
         }
-        `
-    mkdirSync("./pages/api/" + key, {recursive: true})
-    writeFileSync("./pages/api/" + key + "/[request].ts", `
+        `;
+    mkdirSync("./pages/api/" + key, { recursive: true });
+    writeFileSync(
+      "./pages/api/" + key + "/[request].ts",
+      `
     // GENERATED FILE DO NOT EDIT
 
 import { NextApiRequest, NextApiResponse } from "next";
@@ -46,7 +48,8 @@ export default async (req: NextApiRequest, response: NextApiResponse) => {
         response.status(500)
     }
 }
-    `);
+    `
+    );
   }
   writeFileSync("api.ts", content);
 }

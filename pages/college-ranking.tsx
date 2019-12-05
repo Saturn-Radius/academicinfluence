@@ -20,8 +20,13 @@ import "rc-tooltip/assets/bootstrap.css";
 import React from "react";
 import Slider, { Range, HandleProps, Handle } from "rc-slider";
 import Tooltip from "rc-tooltip";
-import { CollegeRankingsResponse, CollegeRankingsRequest, CollegeRankingSort, CollegeData, apiCollegeRankings } from "../api";
-
+import {
+  CollegeRankingsResponse,
+  CollegeRankingsRequest,
+  CollegeRankingSort,
+  CollegeData,
+  apiCollegeRankings
+} from "../api";
 
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
@@ -59,7 +64,7 @@ function BasicCell(props: BasicCellProps) {
 }
 
 function asHref(request: CollegeRankingsRequest) {
-  console.log("R", request)
+  console.log("R", request);
   return {
     pathname: "/college-ranking",
     query: {
@@ -68,23 +73,21 @@ function asHref(request: CollegeRankingsRequest) {
       minTuition: request.tuition.min,
       maxTuition: request.tuition.max,
       minSat: request.median_sat.min,
-      maxSat: request.median_sat.max
+      maxSat: request.median_sat.max,
+      minStudents: request.total_students.min,
+      maxStudents: request.total_students.max,
+      minAccept: request.acceptance_rate.min,
+      maxAccept: request.acceptance_rate.max
     }
-  }
+  };
 }
 
 type RankingLinkProps = {
-  request: CollegeRankingsRequest,
+  request: CollegeRankingsRequest;
   children: React.ReactNode;
 };
 function RankingLink(props: RankingLinkProps) {
-  return (
-    <Link
-      href={asHref(props.request)}
-    >
-      {props.children}
-    </Link>
-  );
+  return <Link href={asHref(props.request)}>{props.children}</Link>;
 }
 
 export function ArrowDown() {
@@ -286,19 +289,23 @@ function CloseIcon() {
 function RangeHandle(sliderProps: SliderFilterProps, props: any) {
   const { value, dragging, index, ...restProps } = props;
 
-  let formatted = sliderProps.format(value)
+  let formatted = sliderProps.format(value);
   return (
     <Tooltip
       prefixCls="rc-slider-tooltip"
       overlay={formatted}
-      visible={true}
+      visible={dragging}
       placement="top"
       key={index}
     >
       <Handle
         value={value}
         {...restProps}
-        aria-label={index == 0 ? "Minimum " + sliderProps.label : "Maximum " + sliderProps.label}
+        aria-label={
+          index == 0
+            ? "Minimum " + sliderProps.label
+            : "Maximum " + sliderProps.label
+        }
         aria-valuetext={formatted}
       />
     </Tooltip>
@@ -306,175 +313,208 @@ function RangeHandle(sliderProps: SliderFilterProps, props: any) {
 }
 
 type SliderFilterProps = {
-  request: CollegeRankingsRequest,
+  request: CollegeRankingsRequest;
   limits: CollegeRankingsResponse["limits"];
-  label: string,
-  format: (value: number) => string,
-  id: keyof CollegeRankingsResponse["limits"]
-}
+  label: string;
+  format: (value: number) => string;
+  id: keyof CollegeRankingsResponse["limits"];
+};
 function SliderFilter(props: SliderFilterProps) {
-  console.log(props)
-    return <label css={{
-      display: "block",
-      flexGrow: 1,
-      paddingRight: '23px'
-    }}>
-      <div css={{
-        fontSize: '12px',
-        lineHeight: '28px',
-        color: GRAY_MID
-      }}>
-      {props.label}
+  console.log(props);
+  return (
+    <label
+      css={{
+        display: "block",
+        flexGrow: 1,
+        paddingRight: "23px",
+        marginTop: "10px"
+      }}
+    >
+      <div
+        css={{
+          fontSize: "12px",
+          lineHeight: "28px",
+          color: GRAY_MID
+        }}
+      >
+        {props.label}
       </div>
       <Range
-        defaultValue={[props.request[props.id].min, props.request[props.id].max]}
+        defaultValue={[
+          props.request[props.id].min,
+          props.request[props.id].max
+        ]}
         min={props.limits[props.id].min}
         max={props.limits[props.id].max}
         handle={RangeHandle.bind(null, props)}
         onChange={n => {
-          Router.replace(asHref(
-            {
+          Router.replace(
+            asHref({
               ...props.request,
               [props.id]: {
                 min: n[0],
                 max: n[1]
               }
-            }
-          ));
+            })
+          );
         }}
       />
     </label>
- 
+  );
 }
 
 const SAT_TO_ACT = [
-36,
-35,
-35,
-35,
-35,
-34,
-34,
-34,
-34,
-33,
-33,
-33,
-32,
-32,
-32,
-32,
-31,
-31,
-31,
-30,
-30,
-30,
-29,
-29,
-29,
-29,
-28,
-28,
-28,
-28,
-27,
-27,
-27,
-26,
-26,
-26,
-26,
-25,
-25,
-25,
-25,
-24,
-24,
-24,
-24,
-23,
-23,
-23,
-22,
-22,
-22,
-21,
-21,
-21,
-21,
-20,
-20,
-20,
-20,
-19,
-19,
-19,
-19,
-18,
-18,
-18,
-18,
-17,
-17,
-17,
-17,
-16,
-16,
-16,
-16,
-15,
-15,
-15,
-15,
-15,
-14,
-14,
-14,
-14,
-14,
-13,
-13,
-13,
-13,
-12,
-12,
-12,
-12,
-12,
-12,
-12,
-12,
-12,
-11,
-11,
-11,
-11,
-11,
-11,
-11,
-]
+  36,
+  35,
+  35,
+  35,
+  35,
+  34,
+  34,
+  34,
+  34,
+  33,
+  33,
+  33,
+  32,
+  32,
+  32,
+  32,
+  31,
+  31,
+  31,
+  30,
+  30,
+  30,
+  29,
+  29,
+  29,
+  29,
+  28,
+  28,
+  28,
+  28,
+  27,
+  27,
+  27,
+  26,
+  26,
+  26,
+  26,
+  25,
+  25,
+  25,
+  25,
+  24,
+  24,
+  24,
+  24,
+  23,
+  23,
+  23,
+  22,
+  22,
+  22,
+  21,
+  21,
+  21,
+  21,
+  20,
+  20,
+  20,
+  20,
+  19,
+  19,
+  19,
+  19,
+  18,
+  18,
+  18,
+  18,
+  17,
+  17,
+  17,
+  17,
+  16,
+  16,
+  16,
+  16,
+  15,
+  15,
+  15,
+  15,
+  15,
+  14,
+  14,
+  14,
+  14,
+  14,
+  13,
+  13,
+  13,
+  13,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  12,
+  11,
+  11,
+  11,
+  11,
+  11,
+  11,
+  11
+];
 
 type FilterProps = {
-  request: CollegeRankingsRequest,
+  request: CollegeRankingsRequest;
   limits: CollegeRankingsResponse["limits"];
 };
 const Filter = function(props: FilterProps) {
   return (
-    <div css={{
-      display: "flex"
-    }}>
-      <SliderFilter
-        label="Tuition"
-        id="tuition"
-        format={value => value + "K"}
-        {...props}/>
-      <SliderFilter
-        format={value => value + "0/" + SAT_TO_ACT[160 - value]}
-        label="SAT/ACT"
-        id="median_sat"
-        {...props}/>
-    </div>
+    <>
+      <div
+        css={{
+          display: "flex"
+        }}
+      >
+        <SliderFilter
+          label="Tuition"
+          id="tuition"
+          format={value => value + "K"}
+          {...props}
+        />
+        <SliderFilter
+          format={value => value + "0/" + SAT_TO_ACT[160 - value]}
+          label="SAT/ACT"
+          id="median_sat"
+          {...props}
+        />
+      </div>
+      <div
+        css={{
+          display: "flex"
+        }}
+      >
+        <SliderFilter
+          label="Acceptance Rate"
+          id="acceptance_rate"
+          format={value => value.toFixed(0) + "%"}
+          {...props}
+        />
+        <SliderFilter
+          format={value => value + "K"}
+          label="Student Population"
+          id="total_students"
+          {...props}
+        />
+      </div>
+    </>
   );
 };
 
@@ -550,8 +590,7 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
 
 CollegeRanking.getInitialProps = async function(context: NextPageContext) {
   const request = {
-    sort: (context.query.sort ||
-      "influence_score") as CollegeRankingSort,
+    sort: (context.query.sort || "influence_score") as CollegeRankingSort,
     reversed: context.query.reversed === "true",
     tuition: {
       min: parseInt((context.query.minTuition as string) || "0", 10),
@@ -561,6 +600,14 @@ CollegeRanking.getInitialProps = async function(context: NextPageContext) {
       min: parseInt((context.query.minSat as string) || "0", 10),
       max: parseInt((context.query.maxSat as string) || "160", 10)
     },
+    acceptance_rate: {
+      min: parseInt((context.query.minAccept as string) || "0", 10),
+      max: parseInt((context.query.maxAccept as string) || "100", 10)
+    },
+    total_students: {
+      min: parseInt((context.query.minStudents as string) || "0", 10),
+      max: parseInt((context.query.maxStudents as string) || "80", 10)
+    }
   };
 
   const data = await apiCollegeRankings(request);

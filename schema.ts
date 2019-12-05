@@ -6,7 +6,10 @@ type SchemaDef = {
   response: JSONSchema4;
 };
 
-function object(properties: Dictionary<JSONSchema4>, title?: string): JSONSchema4 {
+function object(
+  properties: Dictionary<JSONSchema4>,
+  title?: string
+): JSONSchema4 {
   return {
     type: "object",
     required: Object.keys(properties),
@@ -22,12 +25,17 @@ function nullable(schema: JSONSchema4): JSONSchema4 {
   };
 }
 
-const LIMIT = object(
-    {
-        min: {type: "number"},
-        max: {type: "number"}
-    }
-)
+const LIMIT = object({
+  min: { type: "number" },
+  max: { type: "number" }
+});
+
+const RANKING_LIMITS = {
+  tuition: LIMIT,
+  median_sat: LIMIT,
+  acceptance_rate: LIMIT,
+  total_students: LIMIT
+};
 
 export const SCHEMAS: Dictionary<SchemaDef> = {
   CollegeRankings: {
@@ -48,38 +56,37 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
       reversed: {
         type: "boolean"
       },
-      tuition: LIMIT,
-      median_sat: LIMIT
+      ...RANKING_LIMITS
     }),
     response: object({
       schools: {
         type: "array",
-        items: object({
-          id: {
-            type: "string"
+        items: object(
+          {
+            id: {
+              type: "string"
+            },
+            name: {
+              type: "string"
+            },
+            city: {
+              type: "string"
+            },
+            state: {
+              type: "string"
+            },
+            median_act: nullable({ type: "number" }),
+            median_sat: nullable({ type: "number" }),
+            undergrad_tuition_in_state: nullable({ type: "number" }),
+            average_earnings: nullable({ type: "number" }),
+            total_students: nullable({ type: "number" }),
+            influence_score: nullable({ type: "number" }),
+            acceptance_rate: nullable({ type: "number" })
           },
-          name: {
-            type: "string"
-          },
-          city: {
-            type: "string"
-          },
-          state: {
-            type: "string"
-          },
-          median_act: nullable({ type: "number" }),
-          median_sat: nullable({ type: "number" }),
-          undergrad_tuition_in_state: nullable({ type: "number" }),
-          average_earnings: nullable({ type: "number" }),
-          total_students: nullable({ type: "number" }),
-          influence_score: nullable({ type: "number" }),
-          acceptance_rate: nullable({ type: "number" })
-        }, 'CollegeData')
+          "CollegeData"
+        )
       },
-      limits: object({
-        tuition: LIMIT,
-        median_sat: LIMIT
-      })
+      limits: object(RANKING_LIMITS)
     })
   }
 };
