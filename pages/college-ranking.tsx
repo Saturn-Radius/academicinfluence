@@ -151,39 +151,41 @@ const COLUMNS: COLUMN[] = [
     label: "School",
     sort: "name",
     value: school => (
-        <div css={{display: "flex"}}>
-
-        <div css={{width: '64px', height: '64px'}}>
-
-        {school.logo_url && 
-        <img src={school.logo_url} css={{maxWidth: '64px', maxHeight: '64px'}}/>}
-        </div>
-        <div css={{
-          paddingLeft: "16px"
-        }}>
-
-        <div
-          css={{
-            fontSize: "16px",
-            lineHeight: "20px",
-            fontWeight: "bold",
-            color: PRIMARY_DARK
-          }}
-        >
-         {school.name}
-
+      <div css={{ display: "flex" }}>
+        <div css={{ width: "64px", height: "64px" }}>
+          {school.logo_url && (
+            <img
+              src={school.logo_url}
+              css={{ maxWidth: "64px", maxHeight: "64px" }}
+            />
+          )}
         </div>
         <div
           css={{
-            fontSize: "12px",
-            lineHeight: "14px",
-            color: GRAY_MID
+            paddingLeft: "16px"
           }}
         >
-          {school.city}, {school.state}
+          <div
+            css={{
+              fontSize: "16px",
+              lineHeight: "20px",
+              fontWeight: "bold",
+              color: PRIMARY_DARK
+            }}
+          >
+            {school.name}
+          </div>
+          <div
+            css={{
+              fontSize: "12px",
+              lineHeight: "14px",
+              color: GRAY_MID
+            }}
+          >
+            {school.city}, {school.state}
+          </div>
         </div>
-        </div>
-        </div>
+      </div>
     )
   },
   {
@@ -261,7 +263,7 @@ const COLUMNS: COLUMN[] = [
   },
   {
     label: "Influence Ranking",
-    sort: "influence_score", 
+    sort: "influence_score",
     row: 3,
     column: 1,
 
@@ -542,28 +544,26 @@ const Filter = function(props: FilterProps) {
   );
 };
 
-const STYLES: InterpolationWithTheme<any> = {}
+const STYLES: InterpolationWithTheme<any> = {};
 for (let index = 2; index < COLUMNS.length; index++) {
-  let column = COLUMNS[index]
-    STYLES[`td:nth-of-type(${index+1})::before`] = {
-            content: '"' + column.label + '"',
-            color: GRAY_MID,
-            fontSize: '12px',
-            lineHeight: '20px'
-
-    };
-    STYLES[`td:nth-of-type(${index+1})`] = {
-              gridRowStart: column.row,
-              gridRowEnd: column.row,
-              gridColumnStart: column.column,
-              gridColumnEnd: column.column,
-              padding: '10px'
-            };
-    STYLES[`td:nth-of-type(${index+1}) div`] = {
-          padding: '10px'
-          }
+  let column = COLUMNS[index];
+  STYLES[`td:nth-of-type(${index + 1})::before`] = {
+    content: '"' + column.label + '"',
+    color: GRAY_MID,
+    fontSize: "12px",
+    lineHeight: "20px"
+  };
+  STYLES[`td:nth-of-type(${index + 1})`] = {
+    gridRowStart: column.row,
+    gridRowEnd: column.row,
+    gridColumnStart: column.column,
+    gridColumnEnd: column.column,
+    padding: "10px"
+  };
+  STYLES[`td:nth-of-type(${index + 1}) div`] = {
+    padding: "10px"
+  };
 }
-
 
 const CollegeRanking: NextPage<CollegeRankingProps> = props => {
   return (
@@ -577,41 +577,41 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
           width: "100%",
           "@media(max-width: 1024px)": {
             table: {
-              display: 'block',
+              display: "block"
             },
             thead: {
-              display: 'none'
+              display: "none"
             },
             tbody: {
-              display: 'block'
+              display: "block"
             },
             tr: {
-              display: 'grid',
-              marginBottom: '13px',
-              boxShadow: '0 6px 5px 0 rgba(0, 0, 0, 0.25)'
+              display: "grid",
+              marginBottom: "13px",
+              boxShadow: "0 6px 5px 0 rgba(0, 0, 0, 0.25)"
             },
             td: {
-              display: 'block'
+              display: "block"
             },
-            'td:nth-of-type(1)': {
+            "td:nth-of-type(1)": {
               gridRowStart: 1,
               gridRowEnd: 1,
               gridColumnStart: 1,
               gridColumnEnd: 4
             },
-            'td:nth-of-type(2)': {
-              paddingLeft: '50px',
-              paddingTop: '10px',
+            "td:nth-of-type(2)": {
+              paddingLeft: "50px",
+              paddingTop: "10px",
               gridRowStart: 1,
               gridRowEnd: 1,
               gridColumnStart: 1,
               gridColumnEnd: 4,
-              borderBottomStyle: 'solid',
+              borderBottomStyle: "solid",
               borderBottomColor: GRAY_DARK,
-              borderBottomWidth: '.5px'
+              borderBottomWidth: ".5px"
             },
             ...STYLES
-         }
+          }
         }}
       >
         <thead>

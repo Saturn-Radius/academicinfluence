@@ -1,5 +1,5 @@
 import { ReactChild } from "react";
-import { PRIMARY_DARK } from "./styles";
+import { PRIMARY_DARK, PAGE_WIDTH_STYLE } from "./styles";
 
 type Props = {
   tool: string;
@@ -8,16 +8,7 @@ type Props = {
 
 export default function ToolPage(props: Props) {
   return (
-    <div
-      css={{
-        paddingLeft: "80px",
-        paddingRight: "80px",
-        "@media (max-width: 1024px)": {
-          paddingLeft: "20px",
-          paddingRight: "20px"
-        }
-      }}
-    >
+    <div css={PAGE_WIDTH_STYLE}>
       <div
         css={{
           display: "inline-block",

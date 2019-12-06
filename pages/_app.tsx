@@ -1,74 +1,113 @@
-import { jsx } from "@emotion/core";
+import { jsx, css } from "@emotion/core";
 import App from "next/app";
 import "typeface-montserrat/index.css";
+import { PAGE_WIDTH_STYLE } from "../styles";
+
+function HamburgerIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="15"
+      fill="none"
+      viewBox="0 0 20 15"
+    >
+      <path
+        fill="#1E988A"
+        fillRule="evenodd"
+        d="M0 15h20v-1H0v1zM0 1h20V0H0v1zm0 7h20V7H0v1z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
 
 function SiteHeader() {
   return (
     <div
-      css={{
-        borderBottom: "0.5px solid #666666",
+      css={[
+        PAGE_WIDTH_STYLE,
+        {
+          borderBottom: "0.5px solid #666666",
 
-        paddingTop: "27px",
-        paddingLeft: "80px",
-        paddingRight: "80px",
-
-        display: "flex",
-        flexDirection: "column",
-
-        ".upper": {
-          display: "flex"
-        },
-        ".slogan": {
-          fontFamily: "Montserrat",
-          fontStyle: "normal",
-          fontWeight: "normal",
-          fontSize: "20px",
-          lineHeight: "51px",
-
-          color: "#999999",
-          borderLeft: "0.5px solid #000000",
-
-          paddingLeft: "19px",
-          marginLeft: "30px",
-          alignSelf: "center",
-
-          whiteSpace: "nowrap"
-        },
-        ".sections": {
+          paddingTop: "27px",
           display: "flex",
-          justifyContent: "space-around",
-          marginTop: "22px"
-        },
-        ".sections a": {
-          fontStyle: "normal",
-          fontWeight: 500,
-          fontSize: "16px",
-          lineHeight: "20px",
-          alignItems: "center",
-          textAlign: "center",
-          textDecoration: "none",
-          display: "block",
+          flexDirection: "column",
 
-          color: "#666666"
-        },
-        "@media(max-width: 700px)": {
-          ".site-header": {
-            paddingTop: "10.5px",
-            paddingLeft: "20px",
-            paddingRight: "20px"
-          },
-          ".slogan": {
-            display: "none"
+          "@media(max-width: 700px)": {
+            paddingTop: "10.5px"
           }
         }
-      }}
+      ]}
     >
-      <div className="upper">
+      <div
+        css={{
+          display: "flex"
+        }}
+      >
         <Logo />
 
-        <div className="slogan">Connecting Learners to Leaders</div>
+        <div
+          css={{
+            fontStyle: "normal",
+            fontWeight: "normal",
+            fontSize: "20px",
+            lineHeight: "51px",
+
+            color: "#999999",
+            borderLeft: "0.5px solid #000000",
+
+            paddingLeft: "19px",
+            marginLeft: "30px",
+            alignSelf: "center",
+
+            whiteSpace: "nowrap",
+
+            display: 'none',
+            '@media(min-width: 800px)': {
+              display: 'block'
+            }
+          }}
+        >
+          Connecting Learners to Leaders
+        </div>
+        <div
+          css={{
+            flexGrow: 1
+          }}
+        />
+        <div
+          css={{
+            alignSelf: "center",
+            "@media(min-width: 800px)": {
+              display: "none"
+            }
+          }}
+        >
+          <HamburgerIcon />
+        </div>
       </div>
-      <div className="sections">
+      <div
+        css={{
+          display: "none",
+          justifyContent: "space-around",
+          marginTop: "22px",
+          "& a": {
+            fontStyle: "normal",
+            fontWeight: 500,
+            fontSize: "16px",
+            lineHeight: "20px",
+            alignItems: "center",
+            textAlign: "center",
+            textDecoration: "none",
+            display: "block",
+            color: "#666666"
+          },
+          '@media(min-width: 800px)': {
+            display: 'flex'
+          }
+        }}
+      >
         <a href="/">INFLUENTIAL SCHOOLS</a>
         <a href="/">INFLUENTIAL PEOPLE</a>
         <a href="/">BY DISCIPLINE</a>
