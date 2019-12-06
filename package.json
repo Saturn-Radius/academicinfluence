@@ -19,6 +19,7 @@
     "@types/lodash": "^4.14.149",
     "@types/pg": "^7.11.2",
     "@types/rc-slider": "^8.6.5",
+    "@types/react-select": "^3.0.8",
     "@zeit/next-css": "^1.0.1",
     "ajv": "^6.10.2",
     "change-case": "^4.0.1",
@@ -36,9 +37,11 @@
     "react": "^16.11.0",
     "react-circular-progressbar": "^2.0.3",
     "react-dom": "^16.11.0",
+    "react-select": "^3.0.8",
     "squel": "^5.13.0",
     "ts-node": "^8.5.4",
-    "typeface-montserrat": "0.0.75"
+    "typeface-montserrat": "0.0.75",
+    "usa-states": "0.0.5"
   },
   "devDependencies": {
     "@types/node": "^12.12.3",

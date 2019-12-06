@@ -28,6 +28,8 @@ import {
   apiCollegeRankings
 } from "../api";
 import { InterpolationWithTheme } from "@emotion/core";
+import Select from "react-select";
+import USAStates from "usa-states";
 
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
@@ -66,7 +68,6 @@ function BasicCell(props: BasicCellProps) {
 }
 
 function asHref(request: CollegeRankingsRequest) {
-  console.log("R", request);
   return {
     pathname: "/college-ranking",
     query: {
@@ -79,7 +80,8 @@ function asHref(request: CollegeRankingsRequest) {
       minStudents: request.total_students.min,
       maxStudents: request.total_students.max,
       minAccept: request.acceptance_rate.min,
-      maxAccept: request.acceptance_rate.max
+      maxAccept: request.acceptance_rate.max,
+      states: request.states === null ? undefined : request.states.join(",")
     }
   };
 }
@@ -226,8 +228,8 @@ const COLUMNS: COLUMN[] = [
   {
     label: "Acceptance Rate",
     sort: "acceptance_rate",
-    row: 3,
-    column: 3,
+    row: 2,
+    column: 4,
     value: school => {
       if (!school.acceptance_rate) {
         return <div />;
@@ -262,6 +264,18 @@ const COLUMNS: COLUMN[] = [
     }
   },
   {
+    label: "Desirability Index",
+    sort: "desirability",
+    row: 3,
+    column: 2,
+
+    value: school => (
+      <BasicCell color="black">
+        {school.desirability && school.desirability.toFixed(2)}
+      </BasicCell>
+    )
+  },
+  {
     label: "Influence Ranking",
     sort: "influence_score",
     row: 3,
@@ -273,7 +287,7 @@ const COLUMNS: COLUMN[] = [
       </BasicCell>
     )
   },
- {
+  {
     label: "Total Students",
     sort: "total_students",
     row: 3,
@@ -281,19 +295,7 @@ const COLUMNS: COLUMN[] = [
 
     value: school => (
       <BasicCell color="black">
-        {school.total_students && (school.total_students.toLocaleString())}
-      </BasicCell>
-    )
-  },
-{
-    label: "Desirability Index",
-    sort: "desirability",
-    row: 3,
-    column: 2,
-
-    value: school => (
-      <BasicCell color="black">
-        {school.desirability && (school.desirability).toFixed(2)}
+        {school.total_students && school.total_students.toLocaleString()}
       </BasicCell>
     )
   }
@@ -336,6 +338,13 @@ function CloseIcon() {
     </svg>
   );
 }
+
+const STATE_OPTIONS = new (USAStates as any).UsaStates().states.map(
+  (state: any) => ({
+    value: state.abbreviation,
+    label: state.name
+  })
+);
 
 function RangeHandle(sliderProps: SliderFilterProps, props: any) {
   const { value, dragging, index, ...restProps } = props;
@@ -408,6 +417,59 @@ function SliderFilter(props: SliderFilterProps) {
             })
           );
         }}
+      />
+    </label>
+  );
+}
+
+type StateFilterProps = {
+  request: CollegeRankingsRequest;
+  limits: CollegeRankingsResponse["limits"];
+};
+function StateFilter(props: StateFilterProps) {
+  const [states, setStates] = React.useState(() => {
+    return STATE_OPTIONS.filter(
+      (state: any) =>
+        props.request.states && props.request.states.indexOf(state.value) !== -1
+    );
+  });
+
+  const onChangeStates = React.useCallback(
+    states => {
+      setStates(states);
+      Router.replace(
+        asHref({
+          ...props.request,
+          states: states && states.map((state: any) => state.value)
+        })
+      );
+    },
+    [setStates]
+  );
+
+  return (
+    <label
+      css={{
+        display: "block",
+        flexGrow: 1,
+        paddingRight: "23px",
+        marginTop: "10px"
+      }}
+    >
+      <div
+        css={{
+          fontSize: "12px",
+          lineHeight: "28px",
+          color: GRAY_MID
+        }}
+      >
+        State
+      </div>
+      <Select
+        value={states}
+        isMulti
+        options={STATE_OPTIONS}
+        onChange={onChangeStates}
       />
     </label>
   );
@@ -564,6 +626,7 @@ const Filter = function(props: FilterProps) {
           {...props}
         />
       </div>
+      <StateFilter {...props} />
     </>
   );
 };
@@ -621,7 +684,7 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
               gridRowStart: 1,
               gridRowEnd: 1,
               gridColumnStart: 1,
-              gridColumnEnd: 4
+              gridColumnEnd: 5
             },
             "td:nth-of-type(2)": {
               paddingLeft: "50px",
@@ -629,7 +692,7 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
               gridRowStart: 1,
               gridRowEnd: 1,
               gridColumnStart: 1,
-              gridColumnEnd: 4,
+              gridColumnEnd: 5,
               borderBottomStyle: "solid",
               borderBottomColor: GRAY_DARK,
               borderBottomWidth: ".5px"
@@ -715,7 +778,10 @@ CollegeRanking.getInitialProps = async function(context: NextPageContext) {
     total_students: {
       min: parseInt((context.query.minStudents as string) || "0", 10),
       max: parseInt((context.query.maxStudents as string) || "80", 10)
-    }
+    },
+    states: context.query.states
+      ? (context.query.states as string).split(",")
+      : null
   };
 
   const data = await apiCollegeRankings(request);

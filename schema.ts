@@ -57,6 +57,12 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
       reversed: {
         type: "boolean"
       },
+      states: nullable({
+        type: "array",
+        items: {
+          type: "string"
+        }
+      }),
       ...RANKING_LIMITS
     }),
     response: object({

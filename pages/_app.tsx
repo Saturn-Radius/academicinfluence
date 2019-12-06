@@ -63,9 +63,9 @@ function SiteHeader() {
 
             whiteSpace: "nowrap",
 
-            display: 'none',
-            '@media(min-width: 800px)': {
-              display: 'block'
+            display: "none",
+            "@media(min-width: 800px)": {
+              display: "block"
             }
           }}
         >
@@ -103,8 +103,8 @@ function SiteHeader() {
             display: "block",
             color: "#666666"
           },
-          '@media(min-width: 800px)': {
-            display: 'flex'
+          "@media(min-width: 800px)": {
+            display: "flex"
           }
         }}
       >

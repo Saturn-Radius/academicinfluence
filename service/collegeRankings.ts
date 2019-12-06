@@ -47,8 +47,7 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
         .field(calculateScore(-4000, 3000).where("scores.id = schools.id"), "influence_score")
         .field("logo_url")
 
-
-    const query = pool.query(squel.select()
+    const query = squel.select()
         .from(innerQuery, "data")
         .where('undergrad_tuition_in_state >= ? and undergrad_tuition_in_state <= ?', request.tuition.min * 1000, request.tuition.max * 1000)
         .where('median_sat >= ? and median_sat  <= ?', request.median_sat.min * 10, request.median_sat.max * 10)
@@ -57,6 +56,11 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
         .order(request.sort, request.reversed)
         .where(request.sort + ' is not null')
         .limit(25)
+    if (request.states !== null) {
+        query.where('state in ?', request.states)
+    }
+
+    const sentQuery = pool.query(query
         .toParam())
 
     const limitQuery = pool.query(
@@ -73,7 +77,7 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
         .toParam())
 
 
-    const queryResult = await query;
+    const queryResult = await sentQuery;
     const limitResult = await limitQuery;
 
 
