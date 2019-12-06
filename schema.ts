@@ -50,7 +50,8 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           "average_earnings",
           "acceptance_rate",
           "total_students",
-          "influence_score"
+          "influence_score",
+          "desirability"
         ]
       },
       reversed: {
@@ -82,6 +83,7 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
             total_students: nullable({ type: "number" }),
             influence_score: nullable({ type: "number" }),
             acceptance_rate: nullable({ type: "number" }),
+            desirability: nullable({ type: "number" }),
             logo_url: nullable({ type: "string" })
           },
           "CollegeData"

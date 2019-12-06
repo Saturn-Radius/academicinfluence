@@ -272,6 +272,30 @@ const COLUMNS: COLUMN[] = [
         {school.influence_score && (school.influence_score * 100).toFixed(2)}
       </BasicCell>
     )
+  },
+ {
+    label: "Total Students",
+    sort: "total_students",
+    row: 3,
+    column: 3,
+
+    value: school => (
+      <BasicCell color="black">
+        {school.total_students && (school.total_students.toLocaleString())}
+      </BasicCell>
+    )
+  },
+{
+    label: "Desirability Index",
+    sort: "desirability",
+    row: 3,
+    column: 2,
+
+    value: school => (
+      <BasicCell color="black">
+        {school.desirability && (school.desirability).toFixed(2)}
+      </BasicCell>
+    )
   }
 ];
 
