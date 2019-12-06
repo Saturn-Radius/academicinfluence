@@ -1,43 +1,6 @@
 import { jsx } from "@emotion/core";
-import styled from "@emotion/styled";
 import App from "next/app";
 import "typeface-montserrat/index.css";
-
-const NetworkSiteLink = styled.a({
-  color: "white",
-  textDecoration: "none",
-  fontSize: "16px",
-  lineHeight: "19px"
-});
-
-function NetworkHeader() {
-  return (
-    <div
-      css={{
-        backgroundColor: "#1e222a",
-        paddingLeft: "80px",
-        paddingTop: "12px",
-        paddingBottom: "9px",
-        borderBottom: "5px solid #1E988A",
-        "@media(max-width: 700px)": {
-          display: "none"
-        },
-        ".home": {
-          borderRight: "0.5px solid #ffffff",
-          paddingRight: "19px",
-          marginRight: "28px"
-        }
-      }}
-    >
-      <NetworkSiteLink href="/" className="home">
-        ACADEMIC INFLUENCE
-      </NetworkSiteLink>
-      <NetworkSiteLink href="https://intelligenteducation.com">
-        INTELLIGENT EDUCATION
-      </NetworkSiteLink>
-    </div>
-  );
-}
 
 function SiteHeader() {
   return (
@@ -359,7 +322,6 @@ class AIApp extends App {
           fontFamily: "Montserrat"
         }}
       >
-        <NetworkHeader />
         <div className="body">
           <SiteHeader />
           <Component {...pageProps} />
