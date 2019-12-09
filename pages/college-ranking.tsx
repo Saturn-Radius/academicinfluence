@@ -35,6 +35,7 @@ import Autocomplete from "react-autocomplete";
 import DropdownTreeSelect from "react-dropdown-tree-select";
 import TOPICS from "../topics.json";
 import { find } from "lodash";
+import { defaultProps } from "react-select/src/Select";
 
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
@@ -92,7 +93,9 @@ function asHref(request: CollegeRankingsRequest) {
       minDistance: request.location && request.location.distance.min,
       maxDistance: request.location && request.location.distance.max,
       locationName: request.location && request.location.name,
-      discipline: request.discipline
+      discipline: request.discipline,
+      minYear: request.years.min,
+      maxYear: request.years.max
     }
   };
 }
@@ -856,6 +859,21 @@ function Discipline(props: DisciplineProps) {
   );
 }
 
+function FilterRow(props: { children: React.ReactNode }) {
+  return (
+    <div
+      css={{
+        display: "flex",
+        "@media(max-width: 800px)": {
+          flexDirection: "column"
+        }
+      }}
+    >
+      {props.children}
+    </div>
+  );
+}
+
 type FilterProps = {
   request: CollegeRankingsRequest;
   limits: CollegeRankingsResponse["limits"];
@@ -863,11 +881,7 @@ type FilterProps = {
 const Filter = function(props: FilterProps) {
   return (
     <>
-      <div
-        css={{
-          display: "flex"
-        }}
-      >
+      <FilterRow>
         <SliderFilter
           label="Tuition"
           id="tuition"
@@ -880,12 +894,8 @@ const Filter = function(props: FilterProps) {
           id="median_sat"
           {...props}
         />
-      </div>
-      <div
-        css={{
-          display: "flex"
-        }}
-      >
+      </FilterRow>
+      <FilterRow>
         <SliderFilter
           label="Acceptance Rate"
           id="acceptance_rate"
@@ -898,22 +908,26 @@ const Filter = function(props: FilterProps) {
           id="total_students"
           {...props}
         />
-      </div>
-      <div
-        css={{
-          display: "flex"
-        }}
-      >
+      </FilterRow>
+      <FilterRow>
         <StateFilter {...props} />
         <LocationFilter {...props} />
-      </div>
-      <div
+      </FilterRow>
+      <FilterRow>
+        <Discipline {...props} />
+      </FilterRow>
+      <FilterRow
         css={{
           display: "flex"
         }}
       >
-        <Discipline {...props} />
-      </div>
+        <SliderFilter
+          label="Years"
+          id="years"
+          format={value => (value < 0 ? -value + " BC" : value + " AD")}
+          {...props}
+        />
+      </FilterRow>
     </>
   );
 };
@@ -1065,6 +1079,10 @@ CollegeRanking.getInitialProps = async function(context: NextPageContext) {
     total_students: {
       min: parseInt((context.query.minStudents as string) || "0", 10),
       max: parseInt((context.query.maxStudents as string) || "80", 10)
+    },
+    years: {
+      min: parseInt((context.query.minYear as string) || "-3000", 10),
+      max: parseInt((context.query.maxYear as string) || "2020", 10)
     },
     states: context.query.states
       ? (context.query.states as string).split(",")

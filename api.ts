@@ -28,7 +28,7 @@ export interface CollegeRankingsRequest {
       max: number;
     };
   } | null;
-  discipline: string;
+  discipline: string | null;
   tuition: {
     min: number;
     max: number;
@@ -42,6 +42,10 @@ export interface CollegeRankingsRequest {
     max: number;
   };
   total_students: {
+    min: number;
+    max: number;
+  };
+  years: {
     min: number;
     max: number;
   };
@@ -69,6 +73,10 @@ export interface CollegeRankingsResponse {
       max: number;
     };
     total_students: {
+      min: number;
+      max: number;
+    };
+    years: {
       min: number;
       max: number;
     };

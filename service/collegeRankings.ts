@@ -44,7 +44,7 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
         .field("location")
         .field(squel.rstr("admissions::float / applications::float"), "acceptance_rate")
         .field(squel.rstr("undergraduate_students + graduate_students"), "total_students")
-        .field(calculateScore(-4000, 3000, request.discipline || null).where("scores.id = schools.id"), "influence_score")
+        .field(calculateScore(request.years.min, request.years.max, request.discipline || null).where("scores.id = schools.id"), "influence_score")
         .field("logo_url")
 
     const query = squel.select()
@@ -109,6 +109,10 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
             total_students: {
                 min: Math.floor((limitResult.rows[0].min_total_students || 0) / 1000),
                 max: Math.ceil((limitResult.rows[0].max_total_students || 1600) / 1000)
+            },
+            years: {
+                min: 1800,
+                max: 2020
             }
         }
     }

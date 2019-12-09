@@ -35,7 +35,8 @@ const RANKING_LIMITS = {
   tuition: LIMIT,
   median_sat: LIMIT,
   acceptance_rate: LIMIT,
-  total_students: LIMIT
+  total_students: LIMIT,
+  years: LIMIT
 };
 
 export const SCHEMAS: Dictionary<SchemaDef> = {
