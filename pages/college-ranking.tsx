@@ -32,7 +32,9 @@ import { InterpolationWithTheme, css } from "@emotion/core";
 import Select from "react-select";
 import USAStates from "usa-states";
 import Autocomplete from "react-autocomplete";
-import { lookup } from "dns";
+import DropdownTreeSelect from "react-dropdown-tree-select";
+import TOPICS from "../topics.json";
+import { find } from "lodash";
 
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
@@ -89,7 +91,8 @@ function asHref(request: CollegeRankingsRequest) {
       long: request.location && request.location.long,
       minDistance: request.location && request.location.distance.min,
       maxDistance: request.location && request.location.distance.max,
-      locationName: request.location && request.location.name
+      locationName: request.location && request.location.name,
+      discipline: request.discipline
     }
   };
 }
@@ -385,14 +388,11 @@ function RangeHandle(sliderProps: RangeHandleProps, props: any) {
   );
 }
 
-type SliderFilterProps = {
-  request: CollegeRankingsRequest;
-  limits: CollegeRankingsResponse["limits"];
+type FilterLabelProps = {
   label: string;
-  format: (value: number) => string;
-  id: keyof CollegeRankingsResponse["limits"];
+  children: React.ReactNode;
 };
-function SliderFilter(props: SliderFilterProps) {
+function FilterLabel(props: FilterLabelProps) {
   return (
     <label
       css={{
@@ -411,6 +411,21 @@ function SliderFilter(props: SliderFilterProps) {
       >
         {props.label}
       </div>
+      {props.children}
+    </label>
+  );
+}
+
+type SliderFilterProps = {
+  request: CollegeRankingsRequest;
+  limits: CollegeRankingsResponse["limits"];
+  label: string;
+  format: (value: number) => string;
+  id: keyof CollegeRankingsResponse["limits"];
+};
+function SliderFilter(props: SliderFilterProps) {
+  return (
+    <FilterLabel label={props.label}>
       <Range
         defaultValue={[
           props.request[props.id].min,
@@ -431,7 +446,7 @@ function SliderFilter(props: SliderFilterProps) {
           );
         }}
       />
-    </label>
+    </FilterLabel>
   );
 }
 
@@ -461,30 +476,14 @@ function StateFilter(props: StateFilterProps) {
   );
 
   return (
-    <label
-      css={{
-        display: "block",
-        flexGrow: 1,
-        paddingRight: "23px",
-        marginTop: "10px"
-      }}
-    >
-      <div
-        css={{
-          fontSize: "12px",
-          lineHeight: "28px",
-          color: GRAY_MID
-        }}
-      >
-        State
-      </div>
+    <FilterLabel label="State">
       <Select
         value={states}
         isMulti
         options={STATE_OPTIONS}
         onChange={onChangeStates}
       />
-    </label>
+    </FilterLabel>
   );
 }
 
@@ -690,39 +689,23 @@ function LocationFilter(props: LocationFilterProps) {
 
   const geolocate = React.useCallback(() => {
     navigator.geolocation.getCurrentPosition(position => {
-      setText("My Location")
+      setText("My Location");
       Router.replace(
         asHref({
           ...props.request,
           location: {
             ...location,
-            name: 'My Location',
-            lat: position.coords.latitude +'',
-            long: position.coords.longitude+''
+            name: "My Location",
+            lat: position.coords.latitude + "",
+            long: position.coords.longitude + ""
           }
         })
       );
-    })
-  }, [location])
+    });
+  }, [location]);
 
   return (
-    <label
-      css={{
-        display: "block",
-        flexGrow: 1,
-        paddingRight: "23px",
-        marginTop: "10px"
-      }}
-    >
-      <div
-        css={{
-          fontSize: "12px",
-          lineHeight: "28px",
-          color: GRAY_MID
-        }}
-      >
-        Location
-      </div>
+    <FilterLabel label="Location">
       <div
         css={{
           display: "flex",
@@ -758,10 +741,13 @@ function LocationFilter(props: LocationFilterProps) {
           )}
           onSelect={onSelect}
         />
-        <button css={{
-          height: "20px",
-          width: "20px"
-        }} onClick={geolocate}></button>
+        <button
+          css={{
+            height: "20px",
+            width: "20px"
+          }}
+          onClick={geolocate}
+        ></button>
         <Range
           disabled={props.request.location === null}
           defaultValue={[location.distance.min, location.distance.max]}
@@ -787,7 +773,86 @@ function LocationFilter(props: LocationFilterProps) {
           }}
         />
       </div>
-    </label>
+    </FilterLabel>
+  );
+}
+
+type DisciplineProps = {
+  request: CollegeRankingsRequest;
+};
+
+function Discipline(props: DisciplineProps) {
+  const [discipline, setDiscipline] = React.useState(props.request.discipline);
+
+  const onChange = React.useCallback(event => {
+    setDiscipline(event.value);
+    Router.replace(
+      asHref({
+        ...props.request,
+        discipline: event.value
+      })
+    );
+  }, []);
+
+  let supertopic: string | null;
+  let subtopic: string | null;
+  if (
+    discipline === null ||
+    TOPICS[discipline as keyof typeof TOPICS] === null
+  ) {
+    supertopic = discipline;
+    subtopic = null;
+  } else {
+    supertopic = TOPICS[discipline as keyof typeof TOPICS] as string;
+    subtopic = discipline;
+  }
+
+  const options = [
+    {
+      value: null,
+      label: "Overall"
+    },
+    ...Object.entries(TOPICS)
+      .filter(item => item[1] === null)
+      .map(item => ({
+        value: item[0],
+        label: item[0]
+      }))
+  ];
+
+  const selected =
+    find(options, option => option.value === supertopic) || options[0];
+
+  const suboptions = [
+    {
+      value: null,
+      label: "Overall"
+    },
+    ...Object.entries(TOPICS)
+      .filter(item => item[1] === supertopic)
+      .map(item => ({
+        value: item[0],
+        label: item[0]
+      }))
+  ];
+
+  const sub_selected =
+    find(suboptions, option => option.value === subtopic) || suboptions[0];
+
+  return (
+    <>
+      <FilterLabel label="Discipline">
+        <Select value={selected} options={options} onChange={onChange} />
+      </FilterLabel>
+      <FilterLabel label="Subdiscipline">
+        <Select
+          value={sub_selected}
+          options={suboptions}
+          onChange={onChange}
+          isDisabled={supertopic === null}
+        />
+      </FilterLabel>
+    </>
   );
 }
 
@@ -841,6 +906,13 @@ const Filter = function(props: FilterProps) {
       >
         <StateFilter {...props} />
         <LocationFilter {...props} />
+      </div>
+      <div
+        css={{
+          display: "flex"
+        }}
+      >
+        <Discipline {...props} />
       </div>
     </>
   );
@@ -1011,7 +1083,8 @@ CollegeRanking.getInitialProps = async function(context: NextPageContext) {
               max: parseInt(context.query.maxDistance as string, 10)
             }
           }
-        : null
+        : null,
+    discipline: (context.query.discipline as string) || ""
   };
 
   const data = await apiCollegeRankings(request);

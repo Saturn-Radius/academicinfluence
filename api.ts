@@ -28,6 +28,7 @@ export interface CollegeRankingsRequest {
       max: number;
     };
   } | null;
+  discipline: string;
   tuition: {
     min: number;
     max: number;

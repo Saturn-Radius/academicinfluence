@@ -2,7 +2,7 @@ import * as squel from "../squel"
 import { CollegeRankingsRequest, CollegeRankingsResponse } from "../api";
 import databasePool from "../databasePool"
 
-function calculateScore(start_year: number, stop_year: number) {
+function calculateScore(start_year: number, stop_year: number, discipline: string | null) {
     const start = squel.str("GREATEST(ai_data.scores.year_start,?)::float - ai_data.scores.year_start", start_year);
     const end = squel.str("LEAST(scores.year_end + 1,?)::float - ai_data.scores.year_start", stop_year); 
 
@@ -14,10 +14,17 @@ function calculateScore(start_year: number, stop_year: number) {
 
     const adapted = squel.str("ln(? + exp(1.0)) / 15.0", expression)
 
-    return squel.select()
+    const query = squel.select()
         .from(squel.rstr("ai_data.scores"))
-        .where("keyword is null")
         .field(adapted)
+
+    if (discipline) {
+        query.where("keyword = ?", discipline)
+    } else {
+        query.where("keyword is null")
+    }
+
+    return query
 }
 
 export default async function serveCollegeRankings(request: CollegeRankingsRequest): Promise<CollegeRankingsResponse> {
@@ -37,7 +44,7 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
         .field("location")
         .field(squel.rstr("admissions::float / applications::float"), "acceptance_rate")
         .field(squel.rstr("undergraduate_students + graduate_students"), "total_students")
-        .field(calculateScore(-4000, 3000).where("scores.id = schools.id"), "influence_score")
+        .field(calculateScore(-4000, 3000, request.discipline || null).where("scores.id = schools.id"), "influence_score")
         .field("logo_url")
 
     const query = squel.select()

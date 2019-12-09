@@ -1,5 +1,6 @@
 import { JSONSchema4 } from "json-schema";
 import { Dictionary } from "lodash";
+import { string } from "prop-types";
 
 type SchemaDef = {
   request: JSONSchema4;
@@ -71,6 +72,9 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           distance: LIMIT
         })
       ),
+      discipline: nullable({
+        type: "string"
+      }),
       ...RANKING_LIMITS
     }),
     response: object({
