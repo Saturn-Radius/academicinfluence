@@ -688,6 +688,23 @@ function LocationFilter(props: LocationFilterProps) {
     [onSelect]
   );
 
+  const geolocate = React.useCallback(() => {
+    navigator.geolocation.getCurrentPosition(position => {
+      setText("My Location")
+      Router.replace(
+        asHref({
+          ...props.request,
+          location: {
+            ...location,
+            name: 'My Location',
+            lat: position.coords.latitude +'',
+            long: position.coords.longitude+''
+          }
+        })
+      );
+    })
+  }, [location])
+
   return (
     <label
       css={{
@@ -741,6 +758,10 @@ function LocationFilter(props: LocationFilterProps) {
           )}
           onSelect={onSelect}
         />
+        <button css={{
+          height: "20px",
+          width: "20px"
+        }} onClick={geolocate}></button>
         <Range
           disabled={props.request.location === null}
           defaultValue={[location.distance.min, location.distance.max]}
