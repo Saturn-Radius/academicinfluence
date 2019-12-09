@@ -7,7 +7,8 @@
     "dev": "next",
     "build": "rimraf .next && next build",
     "start": "next start",
-    "format": "prettier --write pages/** *.tsx *.ts"
+    "format": "prettier --write pages/** *.tsx *.ts",
+    "build-api": "ts-node -r esm build-api.ts"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
     "@types/lodash": "^4.14.149",
     "@types/pg": "^7.11.2",
     "@types/rc-slider": "^8.6.5",
+    "@types/react-autocomplete": "^1.8.5",
     "@types/react-select": "^3.0.8",
     "@zeit/next-css": "^1.0.1",
     "ajv": "^6.10.2",
@@ -35,6 +37,7 @@
     "pg": "^7.14.0",
     "rc-slider": "^8.7.1",
     "react": "^16.11.0",
+    "react-autocomplete": "^1.8.1",
     "react-circular-progressbar": "^2.0.3",
     "react-dom": "^16.11.0",
     "react-select": "^3.0.8",

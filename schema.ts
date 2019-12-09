@@ -63,6 +63,14 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           type: "string"
         }
       }),
+      location: nullable(
+        object({
+          name: { type: "string" },
+          lat: { type: "string" },
+          long: { type: "string" },
+          distance: LIMIT
+        })
+      ),
       ...RANKING_LIMITS
     }),
     response: object({
@@ -96,6 +104,21 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
         )
       },
       limits: object(RANKING_LIMITS)
+    })
+  },
+  LocationAutocomplete: {
+    request: {
+      type: "string"
+    },
+    response: object({
+      cities: {
+        type: "array",
+        items: object({
+          name: { type: "string" },
+          long: { type: "string" },
+          lat: { type: "string" }
+        })
+      }
     })
   }
 };

@@ -25,11 +25,14 @@ import {
   CollegeRankingsRequest,
   CollegeRankingSort,
   CollegeData,
-  apiCollegeRankings
+  apiCollegeRankings,
+  apiLocationAutocomplete
 } from "../api";
-import { InterpolationWithTheme } from "@emotion/core";
+import { InterpolationWithTheme, css } from "@emotion/core";
 import Select from "react-select";
 import USAStates from "usa-states";
+import Autocomplete from "react-autocomplete";
+import { lookup } from "dns";
 
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
@@ -81,7 +84,12 @@ function asHref(request: CollegeRankingsRequest) {
       maxStudents: request.total_students.max,
       minAccept: request.acceptance_rate.min,
       maxAccept: request.acceptance_rate.max,
-      states: request.states === null ? undefined : request.states.join(",")
+      states: request.states === null ? undefined : request.states.join(","),
+      lat: request.location && request.location.lat,
+      long: request.location && request.location.long,
+      minDistance: request.location && request.location.distance.min,
+      maxDistance: request.location && request.location.distance.max,
+      locationName: request.location && request.location.name
     }
   };
 }
@@ -346,7 +354,12 @@ const STATE_OPTIONS = new (USAStates as any).UsaStates().states.map(
   })
 );
 
-function RangeHandle(sliderProps: SliderFilterProps, props: any) {
+type RangeHandleProps = {
+  label: string;
+  format: (value: number) => string;
+};
+
+function RangeHandle(sliderProps: RangeHandleProps, props: any) {
   const { value, dragging, index, ...restProps } = props;
 
   let formatted = sliderProps.format(value);
@@ -582,6 +595,180 @@ const SAT_TO_ACT = [
   11,
   11
 ];
+type LocationFilterProps = {
+  request: CollegeRankingsRequest;
+};
+function LocationFilter(props: LocationFilterProps) {
+  const [text, setText] = React.useState(
+    props.request.location ? props.request.location.name : ""
+  );
+  const [lookups, updateLookups] = React.useReducer(
+    (lookups, [text, lookup]) => ({
+      ...lookups,
+      [text]: lookup
+    }),
+    {}
+  );
+
+  const location = props.request.location || {
+    lat: "0",
+    long: "0",
+    name: "",
+    distance: {
+      min: 0,
+      max: 3000
+    }
+  };
+
+  const lookupLocation = React.useCallback(
+    async function lookupLocation(text: string) {
+      if (text === "") {
+        Router.replace(
+          asHref({
+            ...props.request,
+            location: null
+          })
+        );
+      } else {
+        let response = lookups[text];
+        if (!response) {
+          response = await apiLocationAutocomplete(text);
+          updateLookups([text, response]);
+        }
+
+        if (response.cities.length > 0) {
+          const location = props.request.location || {
+            lat: 0,
+            long: 0,
+            distance: {
+              min: 0,
+              max: 3000
+            }
+          };
+
+          Router.replace(
+            asHref({
+              ...props.request,
+              location: {
+                ...location,
+                name: text,
+                lat: response.cities[0].lat,
+                long: response.cities[0].long
+              }
+            })
+          );
+        }
+      }
+    },
+    [location, updateLookups, lookups]
+  );
+
+  const onSelect = React.useCallback(
+    text => {
+      setText(text);
+      Router.replace(
+        asHref({
+          ...props.request,
+          location: {
+            ...location,
+            name: text
+          }
+        })
+      );
+
+      lookupLocation(text);
+    },
+    [lookupLocation, location]
+  );
+
+  const onChange = React.useCallback(
+    event => {
+      onSelect(event.target.value);
+    },
+    [onSelect]
+  );
+
+  return (
+    <label
+      css={{
+        display: "block",
+        flexGrow: 1,
+        paddingRight: "23px",
+        marginTop: "10px"
+      }}
+    >
+      <div
+        css={{
+          fontSize: "12px",
+          lineHeight: "28px",
+          color: GRAY_MID
+        }}
+      >
+        Location
+      </div>
+      <div
+        css={{
+          display: "flex",
+          alignItems: "center",
+          "& .rc-slider": {
+            marginLeft: "20px"
+          }
+        }}
+      >
+        <Autocomplete
+          inputProps={{
+            style: {
+              borderRadius: "4px",
+              borderStyle: "solid",
+              borderWidth: "1px",
+              borderColor: "hsl(0,0%,80%)",
+              minHeight: "34px",
+              fontSize: "16px",
+              fontWeight: 500
+            }
+          }}
+          value={text}
+          onChange={onChange}
+          items={lookups[text] ? lookups[text].cities : []}
+          getItemValue={item => item.name}
+          renderItem={(item, isHighlighted) => (
+            <div
+              key={item.name}
+              style={{ background: isHighlighted ? "lightgray" : "white" }}
+            >
+              {item.name}
+            </div>
+          )}
+          onSelect={onSelect}
+        />
+        <Range
+          disabled={props.request.location === null}
+          defaultValue={[location.distance.min, location.distance.max]}
+          min={0}
+          max={3000}
+          handle={RangeHandle.bind(null, {
+            label: "Distance",
+            format: value => value + " Miles"
+          })}
+          onChange={n => {
+            Router.replace(
+              asHref({
+                ...props.request,
+                location: {
+                  ...location,
+                  distance: {
+                    min: n[0],
+                    max: n[1]
+                  }
+                }
+              })
+            );
+          }}
+        />
+      </div>
+    </label>
+  );
+}
 
 type FilterProps = {
   request: CollegeRankingsRequest;
@@ -626,7 +813,14 @@ const Filter = function(props: FilterProps) {
           {...props}
         />
       </div>
-      <StateFilter {...props} />
+      <div
+        css={{
+          display: "flex"
+        }}
+      >
+        <StateFilter {...props} />
+        <LocationFilter {...props} />
+      </div>
     </>
   );
 };
@@ -781,7 +975,22 @@ CollegeRanking.getInitialProps = async function(context: NextPageContext) {
     },
     states: context.query.states
       ? (context.query.states as string).split(",")
-      : null
+      : null,
+    location:
+      context.query.lat &&
+      context.query.long &&
+      context.query.minDistance &&
+      context.query.maxDistance
+        ? {
+            lat: context.query.lat as string,
+            long: context.query.long as string,
+            name: context.query.locationName as string,
+            distance: {
+              min: parseInt(context.query.minDistance as string, 10),
+              max: parseInt(context.query.maxDistance as string, 10)
+            }
+          }
+        : null
   };
 
   const data = await apiCollegeRankings(request);

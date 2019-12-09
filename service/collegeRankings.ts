@@ -1,14 +1,6 @@
-import { config } from "dotenv";
-import { Pool } from "pg";
 import * as squel from "../squel"
 import { CollegeRankingsRequest, CollegeRankingsResponse } from "../api";
-
-async function createDatabasePool() {
-    config();
-    const pool = new Pool();
-    return pool
-}
-export const databasePool = createDatabasePool();
+import databasePool from "../databasePool"
 
 function calculateScore(start_year: number, stop_year: number) {
     const start = squel.str("GREATEST(ai_data.scores.year_start,?)::float - ai_data.scores.year_start", start_year);
@@ -42,6 +34,7 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
         .field("undergrad_tuition_in_state")
         .field("average_earnings")
         .field("desirability")
+        .field("location")
         .field(squel.rstr("admissions::float / applications::float"), "acceptance_rate")
         .field(squel.rstr("undergraduate_students + graduate_students"), "total_students")
         .field(calculateScore(-4000, 3000).where("scores.id = schools.id"), "influence_score")
@@ -59,6 +52,13 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
     if (request.states !== null) {
         query.where('state in ?', request.states)
     }
+    if (request.location !== null) {
+        const encoded = `SRID=4326;POINT(${request.location.long} ${request.location.lat})`
+        query.where('location <-> ? >= ?', encoded, request.location.distance.min * 1609.34)
+        query.where('location <-> ? <= ?', encoded, request.location.distance.max * 1609.34)
+    }
+
+    console.log(query.toString())
 
     const sentQuery = pool.query(query
         .toParam())
