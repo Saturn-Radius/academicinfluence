@@ -108,7 +108,10 @@ function RankingLink(props: RankingLinkProps) {
   return <Link href={asHref(props.request)}>{props.children}</Link>;
 }
 
-export function ArrowDown() {
+type ArrowProps = {
+  show: boolean
+}
+export function ArrowDown(props: ArrowProps) {
   return (
     <svg
       width="10"
@@ -116,6 +119,9 @@ export function ArrowDown() {
       viewBox="0 0 10 5"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      css={{
+        visibility: props.show ? "visible" : "hidden"
+      }}
     >
       <path
         fillRule="evenodd"
@@ -127,7 +133,7 @@ export function ArrowDown() {
   );
 }
 
-function ArrowUp() {
+function ArrowUp(props: ArrowProps) {
   return (
     <svg
       width="10"
@@ -135,6 +141,9 @@ function ArrowUp() {
       viewBox="0 0 10 5"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      css={{
+        visibility: props.show ? "visible" : "hidden"
+      }}
     >
       <path
         fillRule="evenodd"
@@ -144,6 +153,18 @@ function ArrowUp() {
       />
     </svg>
   );
+}
+
+type ArrowsProps = {
+  active: boolean,
+  reversed: boolean
+}
+function Arrows(props: ArrowsProps) {
+  return <div css={{display: 'flex', flexDirection: 'column', marginRight: '5px'}}>
+  <ArrowUp show={!props.active || !props.reversed}/>
+  <div css={{height: "2px"}}/>
+  <ArrowDown show={!props.active || props.reversed}/>
+  </div>
 }
 
 const COLUMNS: COLUMN[] = [
@@ -995,7 +1016,10 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
                   textAlign: "left"
                 }}
               >
+                <div css={{display: 'flex', '& a': {flexGrow: 1}}}>
+
                 {column.sort ? (
+                  <>
                   <RankingLink
                     request={{
                       ...props.request,
@@ -1007,12 +1031,13 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
                   >
                     <a css={{ textDecoration: "none" }}>{column.label}</a>
                   </RankingLink>
+                  <Arrows active={column.sort === props.request.sort} reversed={props.request.reversed}/>
+                  </>
                 ) : (
                   column.label
                 )}
-                {column.sort === props.request.sort && (
-                  <> {props.request.reversed ? <ArrowUp /> : <ArrowDown />}</>
-                )}
+
+                </div>
               </th>
             ))}
           </tr>
