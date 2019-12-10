@@ -1013,7 +1013,7 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
                   fontSize: "12px",
                   lineHeight: "14px",
                   textTransform: "uppercase",
-                  textAlign: "left"
+                  textAlign: "left",
                 }}
               >
                 <div css={{display: 'flex', '& a': {flexGrow: 1}}}>
@@ -1029,7 +1029,7 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
                         !props.request.reversed
                     }}
                   >
-                    <a css={{ textDecoration: "none" }}>{column.label}</a>
+                    <a css={{ textDecoration: "none" }}>{column.label.split(' ').map(word => <>{word}<br/></>)}</a>
                   </RankingLink>
                   <Arrows active={column.sort === props.request.sort} reversed={props.request.reversed}/>
                   </>
