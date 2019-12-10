@@ -378,7 +378,7 @@ function FilterLabel(props: FilterLabelProps) {
     >
       <div
         css={{
-          fontSize: "12px",
+          fontSize: "20px",
           lineHeight: "28px",
           color: GRAY_MID
         }}
