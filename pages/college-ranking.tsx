@@ -315,44 +315,6 @@ const COLUMNS: COLUMN[] = [
   }
 ];
 
-function FilterIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      fill="none"
-      viewBox="0 0 20 20"
-    >
-      <path
-        fill="#1E988A"
-        fillRule="evenodd"
-        d="M11.009 10L11 14H9v-4L3.461 2H16.54l-5.531 8zM9 18h2v-2H9v2zM0 0l7 10.857V20h6v-9.143L20 0H0z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="15"
-      height="15"
-      fill="none"
-      viewBox="0 0 15 15"
-    >
-      <path
-        fill="#666"
-        fillRule="evenodd"
-        d="M8.585 7.5L15 13.915 13.915 15 7.5 8.585 1.085 15 0 13.915 6.415 7.5 0 1.085 1.085 0 7.5 6.415 13.915 0 15 1.085 8.585 7.5z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
-
 const STATE_OPTIONS = new (USAStates as any).UsaStates().states.map(
   (state: any) => ({
     value: state.abbreviation,
@@ -391,6 +353,12 @@ function RangeHandle(sliderProps: RangeHandleProps, props: any) {
   );
 }
 
+function FilterSep() {
+  return <div css={{
+    width: '25px'
+  }}/>
+}
+
 type FilterLabelProps = {
   label: string;
   children: React.ReactNode;
@@ -401,7 +369,6 @@ function FilterLabel(props: FilterLabelProps) {
       css={{
         display: "block",
         flexGrow: 1,
-        paddingRight: "23px",
         marginTop: "10px"
       }}
     >
@@ -847,6 +814,7 @@ function Discipline(props: DisciplineProps) {
       <FilterLabel label="Discipline">
         <Select value={selected} options={options} onChange={onChange} />
       </FilterLabel>
+        <FilterSep />
       <FilterLabel label="Subdiscipline">
         <Select
           value={sub_selected}
@@ -888,6 +856,7 @@ const Filter = function(props: FilterProps) {
           format={value => value + "K"}
           {...props}
         />
+        <FilterSep />
         <SliderFilter
           format={value => value + "0/" + SAT_TO_ACT[160 - value]}
           label="SAT/ACT"
@@ -902,6 +871,7 @@ const Filter = function(props: FilterProps) {
           format={value => value.toFixed(0) + "%"}
           {...props}
         />
+        <FilterSep />
         <SliderFilter
           format={value => value + "K"}
           label="Student Population"
@@ -911,6 +881,11 @@ const Filter = function(props: FilterProps) {
       </FilterRow>
       <FilterRow>
         <StateFilter {...props} />
+        <div css={{
+          fontWeight: "bold",
+          alignSelf: "center",
+          padding: '10px'
+        }}>Or</div>
         <LocationFilter {...props} />
       </FilterRow>
       <FilterRow>
