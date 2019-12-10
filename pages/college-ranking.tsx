@@ -354,9 +354,13 @@ function RangeHandle(sliderProps: RangeHandleProps, props: any) {
 }
 
 function FilterSep() {
-  return <div css={{
-    width: '25px'
-  }}/>
+  return (
+    <div
+      css={{
+        width: "25px"
+      }}
+    />
+  );
 }
 
 type FilterLabelProps = {
@@ -387,68 +391,63 @@ function FilterLabel(props: FilterLabelProps) {
 }
 
 type SliderFilterProps = {
-  request: CollegeRankingsRequest;
-  limits: CollegeRankingsResponse["limits"];
   label: string;
   format: (value: number) => string;
   id: keyof CollegeRankingsResponse["limits"];
-};
+} & FilterProps;
+
 function SliderFilter(props: SliderFilterProps) {
+  const onChange = React.useCallback(
+    n =>
+      props.updateRequest({
+        ...props.request,
+        [props.id]: {
+          min: n[0],
+          max: n[1]
+        }
+      }),
+    [props.id, props.request, props.updateRequest]
+  );
+
+
   return (
     <FilterLabel label={props.label}>
       <Range
-        defaultValue={[
-          props.request[props.id].min,
-          props.request[props.id].max
-        ]}
+        value={[props.request[props.id].min, props.request[props.id].max]}
         min={props.limits[props.id].min}
         max={props.limits[props.id].max}
         handle={RangeHandle.bind(null, props)}
-        onChange={n => {
-          Router.replace(
-            asHref({
-              ...props.request,
-              [props.id]: {
-                min: n[0],
-                max: n[1]
-              }
-            })
-          );
-        }}
+        onChange={onChange}
       />
     </FilterLabel>
   );
 }
 
-type StateFilterProps = {
-  request: CollegeRankingsRequest;
-  limits: CollegeRankingsResponse["limits"];
-};
-function StateFilter(props: StateFilterProps) {
-  const [states, setStates] = React.useState(() => {
-    return STATE_OPTIONS.filter(
-      (state: any) =>
-        props.request.states && props.request.states.indexOf(state.value) !== -1
-    );
-  });
+function StateFilter(props: FilterProps) {
 
   const onChangeStates = React.useCallback(
     states => {
-      setStates(states);
-      Router.replace(
-        asHref({
+      props.updateRequest({
           ...props.request,
-          states: states && states.map((state: any) => state.value)
-        })
-      );
+          states: states && states.map((state: any) => state.value),
+          location: null
+      });
     },
-    [setStates]
+    [props.request, props.updateRequest]
   );
+
+  const states = props.request.states || []
+
+
+  const selected = STATE_OPTIONS.filter((state: any) => 
+    states.indexOf(state.value) !== -1)
+
+  console.log(selected)
 
   return (
     <FilterLabel label="State">
       <Select
-        value={states}
+        value={selected}
         isMulti
         options={STATE_OPTIONS}
         onChange={onChangeStates}
@@ -564,14 +563,9 @@ const SAT_TO_ACT = [
   11,
   11
 ];
-type LocationFilterProps = {
-  request: CollegeRankingsRequest;
-};
-function LocationFilter(props: LocationFilterProps) {
-  const [text, setText] = React.useState(
-    props.request.location ? props.request.location.name : ""
-  );
-  const [lookups, updateLookups] = React.useReducer(
+
+function LocationFilter(props: FilterProps) {
+ const [lookups, updateLookups] = React.useReducer(
     (lookups, [text, lookup]) => ({
       ...lookups,
       [text]: lookup
@@ -589,15 +583,29 @@ function LocationFilter(props: LocationFilterProps) {
     }
   };
 
+  const onDistanceChange = React.useCallback(
+    n =>
+      props.updateRequest({
+        ...props.request,
+        states: null,
+        location: {
+          ...location,
+          distance: {
+            min: n[0],
+            max: n[1]
+          }
+        }
+      }),
+    [location, props.request, props.updateRequest]
+  );
+
   const lookupLocation = React.useCallback(
     async function lookupLocation(text: string) {
       if (text === "") {
-        Router.replace(
-          asHref({
-            ...props.request,
-            location: null
-          })
-        );
+        props.updateRequest({
+          ...props.request,
+          location: null
+        })
       } else {
         let response = lookups[text];
         if (!response) {
@@ -615,17 +623,16 @@ function LocationFilter(props: LocationFilterProps) {
             }
           };
 
-          Router.replace(
-            asHref({
+          props.updateRequest({
               ...props.request,
+              states: null,
               location: {
                 ...location,
                 name: text,
                 lat: response.cities[0].lat,
                 long: response.cities[0].long
               }
-            })
-          );
+            });
         }
       }
     },
@@ -634,20 +641,18 @@ function LocationFilter(props: LocationFilterProps) {
 
   const onSelect = React.useCallback(
     text => {
-      setText(text);
-      Router.replace(
-        asHref({
+      props.updateRequest({
           ...props.request,
+          states: null,
           location: {
             ...location,
             name: text
           }
-        })
-      );
+        });
 
       lookupLocation(text);
     },
-    [lookupLocation, location]
+    [lookupLocation, props.request, props.updateRequest]
   );
 
   const onChange = React.useCallback(
@@ -659,23 +664,23 @@ function LocationFilter(props: LocationFilterProps) {
 
   const geolocate = React.useCallback(() => {
     navigator.geolocation.getCurrentPosition(position => {
-      setText("My Location");
-      Router.replace(
-        asHref({
+      props.updateRequest({
           ...props.request,
+          states: [],
           location: {
             ...location,
             name: "My Location",
             lat: position.coords.latitude + "",
             long: position.coords.longitude + ""
           }
-        })
-      );
+        });
     });
   }, [location]);
 
+
+  const text = props.request.location ? props.request.location.name : ""
   return (
-    <FilterLabel label="Location">
+    <FilterLabel label="Distance From">
       <div
         css={{
           display: "flex",
@@ -727,42 +732,23 @@ function LocationFilter(props: LocationFilterProps) {
             label: "Distance",
             format: value => value + " Miles"
           })}
-          onChange={n => {
-            Router.replace(
-              asHref({
-                ...props.request,
-                location: {
-                  ...location,
-                  distance: {
-                    min: n[0],
-                    max: n[1]
-                  }
-                }
-              })
-            );
-          }}
-        />
+          onChange={onDistanceChange}
+                 />
       </div>
     </FilterLabel>
   );
 }
 
-type DisciplineProps = {
-  request: CollegeRankingsRequest;
-};
-
-function Discipline(props: DisciplineProps) {
-  const [discipline, setDiscipline] = React.useState(props.request.discipline);
+function Discipline(props: FilterProps) {
 
   const onChange = React.useCallback(event => {
-    setDiscipline(event.value);
-    Router.replace(
-      asHref({
+    props.updateRequest({
         ...props.request,
         discipline: event.value
-      })
-    );
-  }, []);
+      });
+  }, [props.updateRequest, props.request]);
+
+  let discipline = props.request.discipline;
 
   let supertopic: string | null;
   let subtopic: string | null;
@@ -814,7 +800,7 @@ function Discipline(props: DisciplineProps) {
       <FilterLabel label="Discipline">
         <Select value={selected} options={options} onChange={onChange} />
       </FilterLabel>
-        <FilterSep />
+      <FilterSep />
       <FilterLabel label="Subdiscipline">
         <Select
           value={sub_selected}
@@ -844,6 +830,7 @@ function FilterRow(props: { children: React.ReactNode }) {
 
 type FilterProps = {
   request: CollegeRankingsRequest;
+  updateRequest: (request: CollegeRankingsRequest) => void;
   limits: CollegeRankingsResponse["limits"];
 };
 const Filter = function(props: FilterProps) {
@@ -881,11 +868,15 @@ const Filter = function(props: FilterProps) {
       </FilterRow>
       <FilterRow>
         <StateFilter {...props} />
-        <div css={{
-          fontWeight: "bold",
-          alignSelf: "center",
-          padding: '10px'
-        }}>Or</div>
+        <div
+          css={{
+            fontWeight: "bold",
+            alignSelf: "center",
+            padding: "10px"
+          }}
+        >
+          Or
+        </div>
         <LocationFilter {...props} />
       </FilterRow>
       <FilterRow>
@@ -929,9 +920,23 @@ for (let index = 2; index < COLUMNS.length; index++) {
 }
 
 const CollegeRanking: NextPage<CollegeRankingProps> = props => {
+  const [request, setRequest] = React.useState(props.request);
+
+  const updateRequest = React.useCallback(
+    request => {
+      setRequest(request);
+      Router.replace(asHref(request));
+    },
+    [setRequest]
+  );
+
   return (
     <ToolPage tool="COLLEGE RANKINGS">
-      <Filter request={props.request} limits={props.data.limits} />
+      <Filter
+        request={request}
+        updateRequest={updateRequest}
+        limits={props.data.limits}
+      />
 
       <table
         css={{
