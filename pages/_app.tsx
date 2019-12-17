@@ -1,7 +1,8 @@
 import { jsx, css } from "@emotion/core";
 import App from "next/app";
 import "typeface-montserrat/index.css";
-import { PAGE_WIDTH_STYLE } from "../styles";
+import { PAGE_WIDTH_STYLE, GRAY_MID } from "../styles";
+import Link from "next/link";
 
 function HamburgerIcon() {
   return (
@@ -22,7 +23,27 @@ function HamburgerIcon() {
   );
 }
 
-function SiteHeader() {
+function SectionLink(props: {id: string, href: string, currentSection?: string, label: string}) {
+  const active = props.id === props.currentSection;
+  return   <Link href={props.href}>
+
+  <a css={{
+              fontStyle: "normal",
+            fontWeight: 500,
+            fontSize: "16px",
+            lineHeight: "20px",
+            alignItems: "center",
+            textAlign: "center",
+            textDecoration: "none",
+            display: "block",
+            color: active ? "white" : GRAY_MID,
+            padding: '5px',
+            backgroundColor: active ? '#eb5857': undefined
+  }} >{props.label}</a>
+  </Link>
+}
+
+function SiteHeader(props: {currentSection?: string}) {
   return (
     <div
       css={[
@@ -92,27 +113,16 @@ function SiteHeader() {
           display: "none",
           justifyContent: "space-around",
           marginTop: "22px",
-          "& a": {
-            fontStyle: "normal",
-            fontWeight: 500,
-            fontSize: "16px",
-            lineHeight: "20px",
-            alignItems: "center",
-            textAlign: "center",
-            textDecoration: "none",
-            display: "block",
-            color: "#666666"
-          },
           "@media(min-width: 800px)": {
             display: "flex"
           }
         }}
       >
-        <a href="/">INFLUENTIAL SCHOOLS</a>
-        <a href="/">INFLUENTIAL PEOPLE</a>
-        <a href="/">BY DISCIPLINE</a>
-        <a href="/">FEATURES</a>
-        <a href="/">ABOUT</a>
+        <SectionLink href="/" id="influential-schools" label="INFLUENTIAL SCHOOLS" currentSection={props.currentSection}/>
+        <SectionLink href="/" id="influential-people" label="INFLUENTIAL PEOPLE" currentSection={props.currentSection}/>
+        <SectionLink href="/" id="by-discipline" label="BY DISCIPLINE" currentSection={props.currentSection}/>
+        <SectionLink href="/features" id="features" label="FEATURES" currentSection={props.currentSection}/>
+        <SectionLink href="/" id="about" label="ABOUT" currentSection={props.currentSection}/>
       </div>
     </div>
   );
@@ -352,6 +362,8 @@ function Footer() {
 class AIApp extends App {
   render() {
     const { Component, pageProps } = this.props;
+
+    const currentSection: string | undefined = (Component as any).currentSection
     return (
       <div
         css={{
@@ -362,7 +374,7 @@ class AIApp extends App {
         }}
       >
         <div className="body">
-          <SiteHeader />
+          <SiteHeader currentSection={currentSection}/>
           <Component {...pageProps} />
         </div>
         <Footer />

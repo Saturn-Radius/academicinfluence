@@ -4,5 +4,7 @@ const withFonts = require('next-fonts')
 module.exports = withFonts(withCSS({
   webpack(config, options) {
     return config
-  }
+  },
+  exportTrailingSlash: true
 }))
+console.log(module.exports)
