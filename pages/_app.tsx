@@ -23,27 +23,37 @@ function HamburgerIcon() {
   );
 }
 
-function SectionLink(props: {id: string, href: string, currentSection?: string, label: string}) {
+function SectionLink(props: {
+  id: string;
+  href: string;
+  currentSection?: string;
+  label: string;
+}) {
   const active = props.id === props.currentSection;
-  return   <Link href={props.href}>
-
-  <a css={{
-              fontStyle: "normal",
-            fontWeight: 500,
-            fontSize: "16px",
-            lineHeight: "20px",
-            alignItems: "center",
-            textAlign: "center",
-            textDecoration: "none",
-            display: "block",
-            color: active ? "white" : GRAY_MID,
-            padding: '5px',
-            backgroundColor: active ? '#eb5857': undefined
-  }} >{props.label}</a>
-  </Link>
+  return (
+    <Link href={props.href}>
+      <a
+        css={{
+          fontStyle: "normal",
+          fontWeight: 500,
+          fontSize: "16px",
+          lineHeight: "20px",
+          alignItems: "center",
+          textAlign: "center",
+          textDecoration: "none",
+          display: "block",
+          color: active ? "white" : GRAY_MID,
+          padding: "5px",
+          backgroundColor: active ? "#eb5857" : undefined
+        }}
+      >
+        {props.label}
+      </a>
+    </Link>
+  );
 }
 
-function SiteHeader(props: {currentSection?: string}) {
+function SiteHeader(props: { currentSection?: string }) {
   return (
     <div
       css={[
@@ -118,11 +128,36 @@ function SiteHeader(props: {currentSection?: string}) {
           }
         }}
       >
-        <SectionLink href="/" id="influential-schools" label="INFLUENTIAL SCHOOLS" currentSection={props.currentSection}/>
-        <SectionLink href="/" id="influential-people" label="INFLUENTIAL PEOPLE" currentSection={props.currentSection}/>
-        <SectionLink href="/" id="by-discipline" label="BY DISCIPLINE" currentSection={props.currentSection}/>
-        <SectionLink href="/features" id="features" label="FEATURES" currentSection={props.currentSection}/>
-        <SectionLink href="/" id="about" label="ABOUT" currentSection={props.currentSection}/>
+        <SectionLink
+          href="/"
+          id="influential-schools"
+          label="INFLUENTIAL SCHOOLS"
+          currentSection={props.currentSection}
+        />
+        <SectionLink
+          href="/"
+          id="influential-people"
+          label="INFLUENTIAL PEOPLE"
+          currentSection={props.currentSection}
+        />
+        <SectionLink
+          href="/"
+          id="by-discipline"
+          label="BY DISCIPLINE"
+          currentSection={props.currentSection}
+        />
+        <SectionLink
+          href="/features"
+          id="features"
+          label="FEATURES"
+          currentSection={props.currentSection}
+        />
+        <SectionLink
+          href="/"
+          id="about"
+          label="ABOUT"
+          currentSection={props.currentSection}
+        />
       </div>
     </div>
   );
@@ -363,7 +398,8 @@ class AIApp extends App {
   render() {
     const { Component, pageProps } = this.props;
 
-    const currentSection: string | undefined = (Component as any).currentSection
+    const currentSection: string | undefined = (Component as any)
+      .currentSection;
     return (
       <div
         css={{
@@ -374,7 +410,7 @@ class AIApp extends App {
         }}
       >
         <div className="body">
-          <SiteHeader currentSection={currentSection}/>
+          <SiteHeader currentSection={currentSection} />
           <Component {...pageProps} />
         </div>
         <Footer />

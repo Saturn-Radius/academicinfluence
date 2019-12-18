@@ -62,18 +62,72 @@ function CategoryBar(props: {categories: FeaturesPageCategory[]}) {
     </div>
 }
 
-function PrimaryArticle(props: {article: FeaturesPageArticle}) {
+const VARIANTS = {
+    primary: css({
+        display: "flex",
+        width: 0,
+        flexGrow: 1,
+        flexDirection: "column",
+        "& h1": {
+            fontSize: '24px'
+        },
+        "@media(min-width: 800px)": {
+            flexDirection: "row",
+            "& h1": {
+                fontSize: '48px'
+            },
+            ">*": {
+                flexGrow: 1,
+                width: 0
+            }
+        },
+    }),
+    secondary: css({
+        flexGrow: 1,
+        display: "flex",
+        width: 0,
+        flexDirection: "column-reverse",
+        "@media(min-width: 800px)": {
+            "& h1": {
+                fontSize: '48px'
+            },
+ 
+        },
+        "& h1": {
+            fontSize: '16px'
+        },
+ 
+    }),
+    tertiary: css({
+        display: "flex",
+        flexGrow: 1,
+        width: 0,
+        flexDirection: "column-reverse",
+        ":nth-child(3)": {
+            display: 'none',
+        },
+       "@media(min-width: 800px)": {
+            "& h1": {
+                fontSize: '48px'
+            },
+ 
+        },
+        "& h1": {
+            fontSize: '16px'
+        },
+        '@media(min-width: 1248px)': {
+            ":nth-child(3)": {
+                display: "flex"
+            },
+        }
+    })
+}
+
+function Article(props: {article: FeaturesPageArticle, variant: 'primary' | 'secondary' | 'tertiary'}) {
     if (!props.article) {
         return <></>
     }
-    return <div css={{
-        display: "flex",
-        borderBottomStyle: "solid",
-        borderBottomColor: "black",
-        borderBottomWidth: "0.5px",
-        paddingBottom: "16px",
-        marginBottom: "32px"
-    }}>
+    return <div css={VARIANTS[props.variant]}>
         <div>
 
         <h1 css={{
@@ -94,78 +148,75 @@ function PrimaryArticle(props: {article: FeaturesPageArticle}) {
             marginBottom: '16px'
         }}>{props.article.date}</div>
         <p css={{
-            fontSize: '20px',
+            '@media(min-width: 800px)': {
+                fontSize: '20px',
+            },
+            fontSize: '12px',
             color: GRAY_MID
         }}>{props.article.excerpt}</p>
         </div>
-        <img css={{
-            maxWidth: '577px',
-            maxHeight: '354px',
-            marginLeft: '26px'
-        }} src={"/api/image/" + props.article.featuredImage}/>
+        <div>
+
+        <img css={{                width: "100%",
+                height: "auto",
+                display: "block"}}
+ src={"/api/image/" + props.article.featuredImage}/>
+        </div>
     </div>
 }
 
-function SecondayArticle(props: {article: FeaturesPageArticle, first?: boolean}) {
-    if (!props.article) {
-        return <></>
-    }
+function FeatureGridRow(props: {children: React.ReactNode}) {
     return <div css={{
-        display: "flex",
-        flexDirection: "column-reverse",
-        flexGrow: 1,
-        borderRight: props.first ? "solid .5px black" : undefined,
-        paddingRight: props.first ? "24px" : undefined,
-        marginRight: props.first ? "24px" : undefined,
-        width: 0
-   }}>
-        <div>
+        display: 'flex',
+        '>div': {
+            borderLeftStyle: "solid",
+            borderLeftColor: "black",
+            borderLeftWidth: "0.5px",
+            paddingLeft: "16px",
+            marginLeft: "32px"
+        },
+        '>div:nth-child(1)': {
+            borderLeft: 'none'
+        }
+    }}>
+        {props.children}
+    </div>
+}
 
-        <h1 css={{
-            color: SECONDARY_DARK,
-            fontSize: '48px',
-            fontWeight: 'bold',
-            margin: 0
-        }}>{props.article.title}</h1>
-        <div css={{
-            color: GRAY_MID,
-            fontSize: '12px',
-            fontWeight: 250
-        }}>{props.article.author}</div>
-        <div css={{
-            color: GRAY_DARK,
-            fontSize: '12px',
-            fontWeight: 250,
-            marginBottom: '16px'
-        }}>{props.article.date}</div>
-        <p css={{
-            fontSize: '20px',
-            color: GRAY_MID
-        }}>{props.article.excerpt}</p>
-        </div>
-        <img css={{
-            maxWidth: '450px',
-            maxHeight: '250px',
-            marginLeft: '26px'
-        }} src={"/api/image/" + props.article.featuredImage}/>
+function FeatureGrid(props: {articles: FeaturesPageArticle[]}) {
+    return <div css={{
+        '>div': {
+            borderTopStyle: "solid",
+            borderTopColor: "black",
+            borderTopWidth: "0.5px",
+            paddingTop: "16px",
+            marginTop: "32px"
+        },
+        '>div:nth-child(1)': {
+            borderTop: 'none'
+        }
+    }}>
+        <FeatureGridRow>
+            <Article article={props.articles[0]} variant="primary" />
+        </FeatureGridRow>
+        <FeatureGridRow>
+            <Article article={props.articles[1]} variant="secondary" />
+            <Article article={props.articles[2]} variant="secondary" />
+        </FeatureGridRow>
+        <FeatureGridRow>
+            <Article article={props.articles[3]} variant="tertiary" />
+            <Article article={props.articles[4]} variant="tertiary" />
+            <Article article={props.articles[5]} variant="tertiary" />
+        </FeatureGridRow>
     </div>
 }
 
 const Features: NextPage<FeaturesProps> = props => {
-
   return (
     <div css={PAGE_WIDTH_STYLE}>
     <CategoryBar categories={props.data.categories}/>
-    <PrimaryArticle article={props.data.articles[0]}/>
-    <div css={{display: "flex",
-    alignItems: "start",
-        
- 
-}}>
-        <SecondayArticle article={props.data.articles[1]} first/>
-        <SecondayArticle article={props.data.articles[2]}/>
-    </div>
-    </div>
+    <FeatureGrid articles={props.data.articles}/>
+   </div>
   );
 };
 

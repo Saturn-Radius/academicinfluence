@@ -109,8 +109,8 @@ function RankingLink(props: RankingLinkProps) {
 }
 
 type ArrowProps = {
-  show: boolean
-}
+  show: boolean;
+};
 export function ArrowDown(props: ArrowProps) {
   return (
     <svg
@@ -156,15 +156,17 @@ function ArrowUp(props: ArrowProps) {
 }
 
 type ArrowsProps = {
-  active: boolean,
-  reversed: boolean
-}
+  active: boolean;
+  reversed: boolean;
+};
 function Arrows(props: ArrowsProps) {
-  return <div css={{display: 'flex', flexDirection: 'column', marginRight: '5px'}}>
-  <ArrowUp show={!props.active || !props.reversed}/>
-  <div css={{height: "2px"}}/>
-  <ArrowDown show={!props.active || props.reversed}/>
-  </div>
+  return (
+    <div css={{ display: "flex", flexDirection: "column", marginRight: "5px" }}>
+      <ArrowUp show={!props.active || !props.reversed} />
+      <div css={{ height: "2px" }} />
+      <ArrowDown show={!props.active || props.reversed} />
+    </div>
+  );
 }
 
 const COLUMNS: COLUMN[] = [
@@ -430,7 +432,6 @@ function SliderFilter(props: SliderFilterProps) {
     [props.id, props.request, props.updateRequest]
   );
 
-
   return (
     <FilterLabel label={props.label}>
       <Range
@@ -445,25 +446,24 @@ function SliderFilter(props: SliderFilterProps) {
 }
 
 function StateFilter(props: FilterProps) {
-
   const onChangeStates = React.useCallback(
     states => {
       props.updateRequest({
-          ...props.request,
-          states: states && states.map((state: any) => state.value),
-          location: null
+        ...props.request,
+        states: states && states.map((state: any) => state.value),
+        location: null
       });
     },
     [props.request, props.updateRequest]
   );
 
-  const states = props.request.states || []
+  const states = props.request.states || [];
 
+  const selected = STATE_OPTIONS.filter(
+    (state: any) => states.indexOf(state.value) !== -1
+  );
 
-  const selected = STATE_OPTIONS.filter((state: any) => 
-    states.indexOf(state.value) !== -1)
-
-  console.log(selected)
+  console.log(selected);
 
   return (
     <FilterLabel label="State">
@@ -586,7 +586,7 @@ const SAT_TO_ACT = [
 ];
 
 function LocationFilter(props: FilterProps) {
- const [lookups, updateLookups] = React.useReducer(
+  const [lookups, updateLookups] = React.useReducer(
     (lookups, [text, lookup]) => ({
       ...lookups,
       [text]: lookup
@@ -626,7 +626,7 @@ function LocationFilter(props: FilterProps) {
         props.updateRequest({
           ...props.request,
           location: null
-        })
+        });
       } else {
         let response = lookups[text];
         if (!response) {
@@ -645,15 +645,15 @@ function LocationFilter(props: FilterProps) {
           };
 
           props.updateRequest({
-              ...props.request,
-              states: null,
-              location: {
-                ...location,
-                name: text,
-                lat: response.cities[0].lat,
-                long: response.cities[0].long
-              }
-            });
+            ...props.request,
+            states: null,
+            location: {
+              ...location,
+              name: text,
+              lat: response.cities[0].lat,
+              long: response.cities[0].long
+            }
+          });
         }
       }
     },
@@ -663,13 +663,13 @@ function LocationFilter(props: FilterProps) {
   const onSelect = React.useCallback(
     text => {
       props.updateRequest({
-          ...props.request,
-          states: null,
-          location: {
-            ...location,
-            name: text
-          }
-        });
+        ...props.request,
+        states: null,
+        location: {
+          ...location,
+          name: text
+        }
+      });
 
       lookupLocation(text);
     },
@@ -686,20 +686,19 @@ function LocationFilter(props: FilterProps) {
   const geolocate = React.useCallback(() => {
     navigator.geolocation.getCurrentPosition(position => {
       props.updateRequest({
-          ...props.request,
-          states: [],
-          location: {
-            ...location,
-            name: "My Location",
-            lat: position.coords.latitude + "",
-            long: position.coords.longitude + ""
-          }
-        });
+        ...props.request,
+        states: [],
+        location: {
+          ...location,
+          name: "My Location",
+          lat: position.coords.latitude + "",
+          long: position.coords.longitude + ""
+        }
+      });
     });
   }, [location]);
 
-
-  const text = props.request.location ? props.request.location.name : ""
+  const text = props.request.location ? props.request.location.name : "";
   return (
     <FilterLabel label="Distance From">
       <div
@@ -754,20 +753,22 @@ function LocationFilter(props: FilterProps) {
             format: value => value + " Miles"
           })}
           onChange={onDistanceChange}
-                 />
+        />
       </div>
     </FilterLabel>
   );
 }
 
 function Discipline(props: FilterProps) {
-
-  const onChange = React.useCallback(event => {
-    props.updateRequest({
+  const onChange = React.useCallback(
+    event => {
+      props.updateRequest({
         ...props.request,
         discipline: event.value
       });
-  }, [props.updateRequest, props.request]);
+    },
+    [props.updateRequest, props.request]
+  );
 
   let discipline = props.request.discipline;
 
@@ -1013,30 +1014,38 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
                   fontSize: "12px",
                   lineHeight: "14px",
                   textTransform: "uppercase",
-                  textAlign: "left",
+                  textAlign: "left"
                 }}
               >
-                <div css={{display: 'flex', '& a': {flexGrow: 1}}}>
-
-                {column.sort ? (
-                  <>
-                  <RankingLink
-                    request={{
-                      ...props.request,
-                      sort: column.sort,
-                      reversed:
-                        column.sort === props.request.sort &&
-                        !props.request.reversed
-                    }}
-                  >
-                    <a css={{ textDecoration: "none" }}>{column.label.split(' ').map(word => <>{word}<br/></>)}</a>
-                  </RankingLink>
-                  <Arrows active={column.sort === props.request.sort} reversed={props.request.reversed}/>
-                  </>
-                ) : (
-                  column.label
-                )}
-
+                <div css={{ display: "flex", "& a": { flexGrow: 1 } }}>
+                  {column.sort ? (
+                    <>
+                      <RankingLink
+                        request={{
+                          ...props.request,
+                          sort: column.sort,
+                          reversed:
+                            column.sort === props.request.sort &&
+                            !props.request.reversed
+                        }}
+                      >
+                        <a css={{ textDecoration: "none" }}>
+                          {column.label.split(" ").map(word => (
+                            <>
+                              {word}
+                              <br />
+                            </>
+                          ))}
+                        </a>
+                      </RankingLink>
+                      <Arrows
+                        active={column.sort === props.request.sort}
+                        reversed={props.request.reversed}
+                      />
+                    </>
+                  ) : (
+                    column.label
+                  )}
                 </div>
               </th>
             ))}

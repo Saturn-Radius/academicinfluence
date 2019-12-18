@@ -133,23 +133,27 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
     response: object({
       categories: {
         type: "array",
-        items: object({
-          name: {
-            type: "string"
-          }
-        },
-        "FeaturesPageCategory")
+        items: object(
+          {
+            name: {
+              type: "string"
+            }
+          },
+          "FeaturesPageCategory"
+        )
       },
       articles: {
         type: "array",
-        items: object({
-          title: {type: "string"},
-          excerpt: {type: "string"},
-          author: {type: "string"},
-          date: {type: "string"},
-          featuredImage: {type: "string"}
-        },
-        "FeaturesPageArticle")
+        items: object(
+          {
+            title: { type: "string" },
+            excerpt: { type: "string" },
+            author: { type: "string" },
+            date: { type: "string" },
+            featuredImage: { type: "string" }
+          },
+          "FeaturesPageArticle"
+        )
       }
     })
   }
