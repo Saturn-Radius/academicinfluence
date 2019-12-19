@@ -2,6 +2,7 @@ import * as squel from "../squel"
 import { CollegeRankingsRequest, CollegeRankingsResponse, FeaturesPageRequest, FeaturesPageResponse } from "../api";
 import databasePool from "../databasePool"
 import dateFormat from "date-fns/format"
+import smartQuotes from "smart-quotes"
 
 export default async function serveFeaturesPage(request: FeaturesPageRequest): Promise<FeaturesPageResponse> {
 
@@ -28,6 +29,7 @@ export default async function serveFeaturesPage(request: FeaturesPageRequest): P
             .order("added_date_time", true)
             .join("editor.users", undefined, "users.id = ai_features.added_by")
             .where("status = ?", "PUBLISHED")
+            .limit(6)
             .toParam())
 
     
@@ -35,7 +37,7 @@ export default async function serveFeaturesPage(request: FeaturesPageRequest): P
         categories: (await categoryQuery).rows,
         articles: (await articleQuery).rows.map(article => ({
             title: article.title,
-            excerpt: article.excerpt,
+            excerpt: smartQuotes(article.excerpt),
             featuredImage: article.featured_image,
             date: dateFormat(article.modified_date_time, "MMM. d"),
             author: article.username

@@ -235,14 +235,7 @@ function FeatureGrid(props: {articles: FeaturesPageArticle[]}) {
 }
 
 const Features: NextPage<FeaturesProps> = props => {
-    const articles = [
-        props.data.articles[0],
-        props.data.articles[0],
-        props.data.articles[0],
-        props.data.articles[0],
-        props.data.articles[0],
-        props.data.articles[0],
-    ]
+    const articles = props.data.articles
   return (
     <div css={PAGE_WIDTH_STYLE}>
     <CategoryBar categories={props.data.categories}/>
