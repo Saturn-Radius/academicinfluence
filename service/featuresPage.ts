@@ -8,14 +8,22 @@ export default async function serveFeaturesPage(request: FeaturesPageRequest): P
 
     const pool = await databasePool;
 
-    const categoryQuery = pool.query(squel.select().from("editor.ai_categories")
+    const categoriesQuery = pool.query(squel.select().from("editor.ai_categories")
         .field("name")
+        .field("slug")
         .order("name")
         .where("exists ?", squel.select().from("editor.ai_features")
         .where("ai_features.category = ai_categories.id")
         .where("ai_features.status = ?", "PUBLISHED")
         )
 
+        .toParam())
+
+    const categoryQuery = request.category === null ? null : pool.query(squel.select().from("editor.ai_categories")
+        .field("name")
+        .field("slug")
+        .field("description")
+        .where("slug = ?", request.category)
         .toParam())
         
 
@@ -31,10 +39,16 @@ export default async function serveFeaturesPage(request: FeaturesPageRequest): P
             .where("status = ?", "PUBLISHED")
             .limit(6)
             .toParam())
-
-    
+        console.log(request)
+        console.log(await categoryQuery)
     return {
-        categories: (await categoryQuery).rows,
+        category: categoryQuery && (await categoryQuery).rows.map(
+            row => ({
+                name: row.name,
+                slug: row.slug,
+                description: smartQuotes(row.description)
+            }))[0],
+        categories: (await categoriesQuery).rows,
         articles: (await articleQuery).rows.map(article => ({
             title: article.title,
             excerpt: smartQuotes(article.excerpt),

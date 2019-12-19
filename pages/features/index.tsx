@@ -11,7 +11,8 @@ import {
   TERTIARY_DARK,
   SECONDARY_DARK,
   BACKGROUND_1,
-  PAGE_WIDTH_STYLE
+  PAGE_WIDTH_STYLE,
+  Header1
 } from "../../styles";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
@@ -36,33 +37,11 @@ import DropdownTreeSelect from "react-dropdown-tree-select";
 import { find } from "lodash";
 import { defaultProps } from "react-select/src/Select";
 import { getEnabledCategories } from "trace_events";
+import FeaturePage from "../../components/FeaturePage"
 
 type FeaturesProps = {
     data: FeaturesPageResponse
 }
-
-function CategoryBar(props: {categories: FeaturesPageCategory[]}) {
-    return <div css={{
-        display: 'flex',
-        justifyContent: 'center'
-    }}>
-        {props.categories.map(category => (
-            <Link  href={"/features/" + category.name} key={category.name}>
-                <a css={{
-                    marginLeft: '13px',
-                    marginRight: '13px',
-                    marginTop: '5px',
-                    marginBottom: '5px',
-                color: GRAY_DARK,
-                fontSize: '20px',
-                fontWeight: 500,
-            }}>{category.name}</a>
-            </Link>
-        ))}
-    </div>
-}
-
-
 
 function Article(props: {article: FeaturesPageArticle}) {
     if (!props.article) {
@@ -78,12 +57,7 @@ function Article(props: {article: FeaturesPageArticle}) {
 
         <div>
 
-        <h1 css={{
-            color: SECONDARY_DARK,
-            fontSize: '48px',
-            fontWeight: 'bold',
-            margin: 0
-        }}>{props.article.title}</h1>
+        <Header1>{props.article.title}</Header1>
         <div css={{
             color: GRAY_MID,
             fontSize: '12px',
@@ -126,11 +100,6 @@ function FeatureGrid(props: {articles: FeaturesPageArticle[]}) {
             ".article": {
                 flexDirection: "column",
             },
-
-            "& h1": {
-                fontSize: "24px"
-            },
-
             borderBottomStyle: "solid",
             borderBottomColor: "black",
             borderBottomWidth: "0.5px",
@@ -182,9 +151,6 @@ function FeatureGrid(props: {articles: FeaturesPageArticle[]}) {
         },
         '@media(min-width: 1248px)': {
             ">div:nth-of-type(1)": {
-                "& h1": {
-                    fontSize: "48px"
-                },
                 ".article": {
                     flexDirection: "row"
                 },
@@ -237,17 +203,18 @@ function FeatureGrid(props: {articles: FeaturesPageArticle[]}) {
 const Features: NextPage<FeaturesProps> = props => {
     const articles = props.data.articles
   return (
-    <div css={PAGE_WIDTH_STYLE}>
-    <CategoryBar categories={props.data.categories}/>
-    <FeatureGrid articles={articles}/>
-   </div>
+      <FeaturePage data={props.data}>
+        <FeatureGrid articles={articles}/>
+      </FeaturePage>
   );
 };
 
 Features.getInitialProps = async function(context: NextPageContext) {
 
 
-  const data = await apiFeaturesPage(null);
+  const data = await apiFeaturesPage({
+      category: null
+  })
 
   return { data };
 };

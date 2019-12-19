@@ -22,3 +22,13 @@ export const PAGE_WIDTH_STYLE = css({
     paddingRight: "80px"
   }
 });
+
+export const Header1 = styled.h1({
+  color: SECONDARY_DARK,
+  fontSize: '24px',
+  '@media(min-width: 1248px)': {
+    fontSize: '48px',
+    fontWeight: 'bold',
+    margin: 0
+  }
+})
