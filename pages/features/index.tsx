@@ -62,72 +62,20 @@ function CategoryBar(props: {categories: FeaturesPageCategory[]}) {
     </div>
 }
 
-const VARIANTS = {
-    primary: css({
-        display: "flex",
-        width: 0,
-        flexGrow: 1,
-        flexDirection: "column",
-        "& h1": {
-            fontSize: '24px'
-        },
-        "@media(min-width: 800px)": {
-            flexDirection: "row",
-            "& h1": {
-                fontSize: '48px'
-            },
-            ">*": {
-                flexGrow: 1,
-                width: 0
-            }
-        },
-    }),
-    secondary: css({
-        flexGrow: 1,
-        display: "flex",
-        width: 0,
-        flexDirection: "column-reverse",
-        "@media(min-width: 800px)": {
-            "& h1": {
-                fontSize: '48px'
-            },
- 
-        },
-        "& h1": {
-            fontSize: '16px'
-        },
- 
-    }),
-    tertiary: css({
-        display: "flex",
-        flexGrow: 1,
-        width: 0,
-        flexDirection: "column-reverse",
-        ":nth-child(3)": {
-            display: 'none',
-        },
-       "@media(min-width: 800px)": {
-            "& h1": {
-                fontSize: '48px'
-            },
- 
-        },
-        "& h1": {
-            fontSize: '16px'
-        },
-        '@media(min-width: 1248px)': {
-            ":nth-child(3)": {
-                display: "flex"
-            },
-        }
-    })
-}
 
-function Article(props: {article: FeaturesPageArticle, variant: 'primary' | 'secondary' | 'tertiary'}) {
+
+function Article(props: {article: FeaturesPageArticle}) {
     if (!props.article) {
         return <></>
     }
-    return <div css={VARIANTS[props.variant]}>
+    return <div css={{display: "flex", alignItems: "top"}}>
+        <div className="article" css={{
+            display: "flex",
+            paddingLeft: "16px",
+            paddingRight: "16px",
+            alignItems: "top"
+        }}>
+
         <div>
 
         <h1 css={{
@@ -162,60 +110,143 @@ function Article(props: {article: FeaturesPageArticle, variant: 'primary' | 'sec
                 display: "block"}}
  src={"/api/image/" + props.article.featuredImage}/>
         </div>
-    </div>
-}
-
-function FeatureGridRow(props: {children: React.ReactNode}) {
-    return <div css={{
-        display: 'flex',
-        '>div': {
-            borderLeftStyle: "solid",
-            borderLeftColor: "black",
-            borderLeftWidth: "0.5px",
-            paddingLeft: "16px",
-            marginLeft: "32px"
-        },
-        '>div:nth-child(1)': {
-            borderLeft: 'none'
-        }
-    }}>
-        {props.children}
+        </div>
     </div>
 }
 
 function FeatureGrid(props: {articles: FeaturesPageArticle[]}) {
     return <div css={{
-        '>div': {
-            borderTopStyle: "solid",
-            borderTopColor: "black",
-            borderTopWidth: "0.5px",
-            paddingTop: "16px",
-            marginTop: "32px"
+        display: "grid",
+        alignItems: "top",
+        gridTemplateColumns: "repeat(6, 1fr)",
+        ">div:nth-of-type(1)": {
+            gridRow: 1,
+            gridColumnStart: 1,
+            gridColumnEnd: 7,
+            ".article": {
+                flexDirection: "column",
+            },
+
+            "& h1": {
+                fontSize: "24px"
+            },
+
+            borderBottomStyle: "solid",
+            borderBottomColor: "black",
+            borderBottomWidth: "0.5px",
+            paddingBottom: "32px",
+            marginBottom: "16px"
+
         },
-        '>div:nth-child(1)': {
-            borderTop: 'none'
-        }
+        ">div:nth-of-type(2)": {
+            gridRow: 2,
+            gridColumnStart: 1,
+            gridColumnEnd: 4
+        },
+        ">div:nth-of-type(3)": {
+            gridRow: 2,
+            gridColumnStart: 4,
+            gridColumnEnd: 7
+        },
+        ">div:nth-of-type(4)": {
+            gridRow: 3,
+            gridColumnStart: 1,
+            gridColumnEnd: 4
+        },
+        ">div:nth-of-type(5)": {
+            gridRow: 3,
+            gridColumnStart: 4,
+            gridColumnEnd: 7
+        },
+
+        '>div:nth-of-type(2),>div:nth-of-type(3),>div:nth-of-type(4),>div:nth-of-type(5),>div:nth-of-type(6)': {
+            display: 'flex',
+            paddingTop: '19px',
+            '.article': {
+                flexDirection: 'column-reverse',
+            },
+            "& h1": {
+                fontSize: '16px'
+            },
+
+        },
+        '>div:nth-of-type(6)': {
+            display: 'none'
+        },
+        '>div:nth-of-type(2),>div:nth-of-type(4)': {
+        },
+        '>div:nth-of-type(3) .article,>div:nth-of-type(5) .article ,>div:nth-of-type(6) .article': {
+            borderLeftStyle: "solid",
+            borderLeftColor: "black",
+            borderLeftWidth: "0.5px",
+        },
+        '@media(min-width: 1248px)': {
+            ">div:nth-of-type(1)": {
+                "& h1": {
+                    fontSize: "48px"
+                },
+                ".article": {
+                    flexDirection: "row"
+                },
+                ".article>*": {
+                    flexGrow: 1,
+                    flexBasis: 0
+                },
+                ".article>div:nth-of-type(2)": {
+                    paddingLeft: "26px"
+                },
+
+                borderBottomStyle: "solid",
+                borderBottomColor: "black",
+                borderBottomWidth: "0.5px",
+                paddingBottom: "32px",
+                marginBottom: "16px"
+
+            },
+            ">div:nth-of-type(4)": {
+                gridColumnStart: 1,
+                gridColumnEnd: 3
+            },
+            ">div:nth-of-type(5)": {
+                gridColumnStart: 3,
+                gridColumnEnd: 5,
+            },
+            '>div:nth-of-type(6)': {
+                display: 'flex',
+                flexDirection: "column-reverse",
+                gridRow: 3,
+                gridColumnStart: 5,
+                gridColumnEnd: 7
+            },           
+            '>div:nth-of-type(4),>div:nth-of-type(5),>div:nth-of-type(6)': {
+                borderTopStyle: "solid",
+                borderTopColor: "black",
+                borderTopWidth: "0.5px",
+                paddingTop: "32px",
+                marginTop: "16px"
+            },
+            }
+
     }}>
-        <FeatureGridRow>
-            <Article article={props.articles[0]} variant="primary" />
-        </FeatureGridRow>
-        <FeatureGridRow>
-            <Article article={props.articles[1]} variant="secondary" />
-            <Article article={props.articles[2]} variant="secondary" />
-        </FeatureGridRow>
-        <FeatureGridRow>
-            <Article article={props.articles[3]} variant="tertiary" />
-            <Article article={props.articles[4]} variant="tertiary" />
-            <Article article={props.articles[5]} variant="tertiary" />
-        </FeatureGridRow>
+            {props.articles.map((article, index) => 
+                <Article article={article} key={index}/>
+            )}
     </div>
 }
 
 const Features: NextPage<FeaturesProps> = props => {
+    const articles = [
+        props.data.articles[0],
+        props.data.articles[0],
+        props.data.articles[0],
+        props.data.articles[0],
+        props.data.articles[0],
+        props.data.articles[0],
+    ]
   return (
     <div css={PAGE_WIDTH_STYLE}>
     <CategoryBar categories={props.data.categories}/>
-    <FeatureGrid articles={props.data.articles}/>
+    <FeatureGrid articles={articles}/>
    </div>
   );
 };
