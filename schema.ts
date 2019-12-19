@@ -128,7 +128,7 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
   },
   FeaturesPage: {
     request: object({
-      category: nullable({type: "string"})
+      category: nullable({ type: "string" })
     }),
     response: object({
       categories: {
@@ -145,11 +145,13 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           "FeaturesPageCategory"
         )
       },
-      category: nullable(object({
-        name: {type: "string"},
-        slug: {type: "string"},
-        description: {type: "string"}
-      })),
+      category: nullable(
+        object({
+          name: { type: "string" },
+          slug: { type: "string" },
+          description: { type: "string" }
+        })
+      ),
       articles: {
         type: "array",
         items: object(

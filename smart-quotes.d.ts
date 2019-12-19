@@ -1,3 +1,3 @@
 declare module "smart-quotes" {
-    export default function (input: string): string
+  export default function(input: string): string;
 }
