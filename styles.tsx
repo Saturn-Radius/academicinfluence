@@ -26,9 +26,19 @@ export const PAGE_WIDTH_STYLE = css({
 export const Header1 = styled.h1({
   color: SECONDARY_DARK,
   fontSize: "24px",
+  lineHeight: "30px",
   "@media(min-width: 1248px)": {
     fontSize: "48px",
+    lineHeight: "100px",
     fontWeight: "bold",
     margin: 0
   }
 });
+
+
+export const DescriptionText = styled.p({
+  color: GRAY_MID,
+              fontSize: "24px",
+              fontWeight: "bold",
+              lineHeight: "30px",
+})

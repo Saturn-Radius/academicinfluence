@@ -27,7 +27,7 @@ import {
   apiLocationAutocomplete,
   FeaturesPageResponse,
   FeaturesPageCategory,
-  FeaturesPageArticle
+  FeaturesPageArticleSummary
 } from "../../api";
 import { InterpolationWithTheme, css } from "@emotion/core";
 import Select from "react-select";
@@ -37,58 +37,15 @@ import DropdownTreeSelect from "react-dropdown-tree-select";
 import { find } from "lodash";
 import { defaultProps } from "react-select/src/Select";
 import { getEnabledCategories } from "trace_events";
-import FeaturePage from "../../components/FeaturePage"
+import FeaturePage, { Article } from "../../components/FeaturePage"
 
 type FeaturesProps = {
     data: FeaturesPageResponse
 }
 
-function Article(props: {article: FeaturesPageArticle}) {
-    if (!props.article) {
-        return <></>
-    }
-    return <div css={{display: "flex", alignItems: "top"}}>
-        <div className="article" css={{
-            display: "flex",
-            paddingLeft: "16px",
-            paddingRight: "16px",
-            alignItems: "top"
-        }}>
 
-        <div>
 
-        <Header1>{props.article.title}</Header1>
-        <div css={{
-            color: GRAY_MID,
-            fontSize: '12px',
-            fontWeight: 250
-        }}>{props.article.author}</div>
-        <div css={{
-            color: GRAY_DARK,
-            fontSize: '12px',
-            fontWeight: 250,
-            marginBottom: '16px'
-        }}>{props.article.date}</div>
-        <p css={{
-            '@media(min-width: 800px)': {
-                fontSize: '20px',
-            },
-            fontSize: '12px',
-            color: GRAY_MID
-        }}>{props.article.excerpt}</p>
-        </div>
-        <div>
-
-        <img css={{                width: "100%",
-                height: "auto",
-                display: "block"}}
- src={"/api/image/" + props.article.featuredImage}/>
-        </div>
-        </div>
-    </div>
-}
-
-function FeatureGrid(props: {articles: FeaturesPageArticle[]}) {
+function FeatureGrid(props: {articles: FeaturesPageArticleSummary[]}) {
     return <div css={{
         display: "grid",
         alignItems: "top",
@@ -97,6 +54,9 @@ function FeatureGrid(props: {articles: FeaturesPageArticle[]}) {
             gridRow: 1,
             gridColumnStart: 1,
             gridColumnEnd: 7,
+            "& h2": {
+                fontSize: "24px"
+            },
             ".article": {
                 flexDirection: "column",
             },
@@ -161,6 +121,9 @@ function FeatureGrid(props: {articles: FeaturesPageArticle[]}) {
                 ".article>div:nth-of-type(2)": {
                     paddingLeft: "26px"
                 },
+                "& h2": {
+                    fontSize: "48px"
+                },
 
                 borderBottomStyle: "solid",
                 borderBottomColor: "black",
@@ -213,7 +176,8 @@ Features.getInitialProps = async function(context: NextPageContext) {
 
 
   const data = await apiFeaturesPage({
-      category: null
+      category: null,
+      article: null
   })
 
   return { data };

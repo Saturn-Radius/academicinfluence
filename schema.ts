@@ -128,7 +128,8 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
   },
   FeaturesPage: {
     request: object({
-      category: nullable({ type: "string" })
+      category: nullable({ type: "string" }),
+      article: nullable({ type: "string" })
     }),
     response: object({
       categories: {
@@ -152,17 +153,34 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           description: { type: "string" }
         })
       ),
+      article: nullable(
+        object({
+            title: { type: "string" },
+            content: { type: "string" },
+            excerpt: { type: "string" },
+            author: { type: "string" },
+            date: { type: "string" },
+            featuredImage: { type: "string" }
+
+        },
+        "FeaturePageArticle")
+      ),
       articles: {
         type: "array",
         items: object(
           {
             title: { type: "string" },
+            slug: { type: "string"},
+            category: object({
+              slug: { type: "string"},
+              name: {type: "string"}
+            }),
             excerpt: { type: "string" },
             author: { type: "string" },
             date: { type: "string" },
             featuredImage: { type: "string" }
           },
-          "FeaturesPageArticle"
+          "FeaturesPageArticleSummary"
         )
       }
     })

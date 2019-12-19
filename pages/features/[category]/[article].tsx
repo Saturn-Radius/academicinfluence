@@ -1,3 +1,4 @@
+
 import { NextPage, NextPageContext } from "next";
 import Router from "next/router";
 import Link from "next/link";
@@ -41,15 +42,21 @@ type FeaturesProps = {
 
 function FeatureGrid(props: {articles: FeaturesPageArticleSummary[]}) {
     return <div css={{
-        display: "grid",
+        display: "none",
         alignItems: "top",
-        gridTemplateColumns: "repeat(2, 1fr)",
+            borderTopStyle: "solid",
+            borderTopColor: "black",
+            borderTopWidth: "0.5px",
+            marginTop: "1.5in",
+            paddingTop: "25px",
+    
         '>div:nth-of-type(2) .article, >div:nth-of-type(3) .article,>div:nth-of-type(5) .article ,>div:nth-of-type(6) .article': {
             borderLeftStyle: "solid",
             borderLeftColor: "black",
             borderLeftWidth: "0.5px",
         },
         '@media(min-width: 1248px)': {
+            display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
         } 
 
@@ -70,7 +77,7 @@ return <svg xmlns="http://www.w3.org/2000/svg" width="11" height="20" fill="none
 
 const Features: NextPage<FeaturesProps> = props => {
     const articles = props.data.articles
-    if (!props.data.category) {
+    if (!props.data.article) {
         throw new Error();
     }
   return (
@@ -93,10 +100,20 @@ const Features: NextPage<FeaturesProps> = props => {
         </a>
     </Link>
  
-          <Header1>{props.data.category.name}</Header1>
-          <DescriptionText>{props.data.category.description}
-              </DescriptionText>
-          <FeatureGrid articles={articles}/>
+          <Header1>{props.data.article.title}</Header1>
+          <DescriptionText>
+              {props.data.article.excerpt}
+          </DescriptionText>
+          <img css={{
+              width: "100%",
+              height: "auto",
+              display: "block"
+          }} src={"/api/image/" + props.data.article.featuredImage}/>
+          <div css={{
+              fontSize: "20px",
+              lineHeight: "26px"
+          }} dangerouslySetInnerHTML={{__html: props.data.article.content}}/>
+          <FeatureGrid articles={articles.slice(0, 3)}/>
       </FeaturePage>
   );
 };
@@ -106,7 +123,7 @@ Features.getInitialProps = async function(context: NextPageContext) {
 
   const data = await apiFeaturesPage({
       category: context.query.category as string,
-      article: null
+      article: context.query.article as string
   });
 
   return { data };
