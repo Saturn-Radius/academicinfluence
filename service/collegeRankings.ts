@@ -19,7 +19,8 @@ function calculateScore(start_year: number, stop_year: number, discipline: strin
         .field(adapted)
 
     if (discipline) {
-        query.where("keyword = ?", discipline)
+        query.join("editor.ai_disciplines", undefined, "editor.ai_disciplines.id = ai_data.scores.keyword")
+        query.where("editor.ai_disciplines.name = ?", discipline)
     } else {
         query.where("keyword is null")
     }

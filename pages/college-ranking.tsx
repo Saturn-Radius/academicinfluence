@@ -26,20 +26,22 @@ import {
   CollegeRankingSort,
   CollegeData,
   apiCollegeRankings,
-  apiLocationAutocomplete
+  apiLocationAutocomplete,
+  apiDisciplines,
+  DisciplinesResponse
 } from "../api";
 import { InterpolationWithTheme, css } from "@emotion/core";
 import Select from "react-select";
 import USAStates from "usa-states";
 import Autocomplete from "react-autocomplete";
 import DropdownTreeSelect from "react-dropdown-tree-select";
-import TOPICS from "../topics.json";
 import { find } from "lodash";
 import { defaultProps } from "react-select/src/Select";
 
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
   request: CollegeRankingsRequest;
+  disciplines: DisciplinesResponse;
 };
 
 type COLUMN = {
@@ -774,14 +776,15 @@ function Discipline(props: FilterProps) {
 
   let supertopic: string | null;
   let subtopic: string | null;
+  console.log("HEY", JSON.stringify(discipline))
   if (
     discipline === null ||
-    TOPICS[discipline as keyof typeof TOPICS] === null
+    props.disciplines[discipline].parent === null
   ) {
     supertopic = discipline;
     subtopic = null;
   } else {
-    supertopic = TOPICS[discipline as keyof typeof TOPICS] as string;
+    supertopic = props.disciplines[discipline].parent;
     subtopic = discipline;
   }
 
@@ -790,8 +793,8 @@ function Discipline(props: FilterProps) {
       value: null,
       label: "Overall"
     },
-    ...Object.entries(TOPICS)
-      .filter(item => item[1] === null)
+    ...Object.entries(props.disciplines)
+      .filter(item => item[1].parent === null)
       .map(item => ({
         value: item[0],
         label: item[0]
@@ -806,8 +809,8 @@ function Discipline(props: FilterProps) {
       value: null,
       label: "Overall"
     },
-    ...Object.entries(TOPICS)
-      .filter(item => item[1] === supertopic)
+    ...Object.entries(props.disciplines)
+      .filter(item => item[1].parent === supertopic)
       .map(item => ({
         value: item[0],
         label: item[0]
@@ -852,6 +855,7 @@ function FilterRow(props: { children: React.ReactNode }) {
 
 type FilterProps = {
   request: CollegeRankingsRequest;
+  disciplines: DisciplinesResponse;
   updateRequest: (request: CollegeRankingsRequest) => void;
   limits: CollegeRankingsResponse["limits"];
 };
@@ -956,6 +960,7 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
     <ToolPage tool="COLLEGE RANKINGS">
       <Filter
         request={request}
+        disciplines={props.disciplines}
         updateRequest={updateRequest}
         limits={props.data.limits}
       />
@@ -1116,12 +1121,14 @@ CollegeRanking.getInitialProps = async function(context: NextPageContext) {
             }
           }
         : null,
-    discipline: (context.query.discipline as string) || ""
+    discipline: (context.query.discipline as string) || null
   };
 
+  const disciplinesPromise = apiDisciplines({});
   const data = await apiCollegeRankings(request);
+  const disciplines = await disciplinesPromise
 
-  return { data, request };
+  return { data, disciplines, request };
 };
 
 export default CollegeRanking;

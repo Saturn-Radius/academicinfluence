@@ -126,6 +126,21 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
       }
     })
   },
+  Disciplines: {
+    request: object({
+
+    }),
+    response: {
+      type: "object",
+      patternProperties: {
+        "^[A-Za-z ]+$": object({
+          parent: nullable({
+            type: "string"
+          })
+        })
+      }
+    }
+  },
   FeaturesPage: {
     request: object({
       category: nullable({ type: "string" }),
