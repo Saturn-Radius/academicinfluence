@@ -1,4 +1,3 @@
-
 import { NextPage, NextPageContext } from "next";
 import Router from "next/router";
 import Link from "next/link";
@@ -35,6 +34,7 @@ import { find } from "lodash";
 import { defaultProps } from "react-select/src/Select";
 import { getEnabledCategories } from "trace_events";
 import FeaturePage, { Article } from "../../../components/FeaturePage";
+import '../../../styles/features.css'
 
 type FeaturesProps = {
     data: FeaturesPageResponse
@@ -109,10 +109,7 @@ const Features: NextPage<FeaturesProps> = props => {
               height: "auto",
               display: "block"
           }} src={"/api/image/" + props.data.article.featuredImage}/>
-          <div css={{
-              fontSize: "20px",
-              lineHeight: "26px"
-          }} dangerouslySetInnerHTML={{__html: props.data.article.content}}/>
+          <article dangerouslySetInnerHTML={{__html: props.data.article.content}}/>
           <FeatureGrid articles={articles.slice(0, 3)}/>
       </FeaturePage>
   );

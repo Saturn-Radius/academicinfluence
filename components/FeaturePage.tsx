@@ -90,8 +90,8 @@ export default function FeaturePage(props: {
     data: FeaturesPageResponse,
     children: React.ReactNode
 }) {
-    return    <div css={PAGE_WIDTH_STYLE}>
+    return    <main css={PAGE_WIDTH_STYLE}>
     <CategoryBar categories={props.data.categories}/>
    {props.children}
-   </div>
+   </main>
 }

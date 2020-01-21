@@ -55,7 +55,7 @@ function SectionLink(props: {
 
 function SiteHeader(props: { currentSection?: string }) {
   return (
-    <div
+    <nav
       css={[
         PAGE_WIDTH_STYLE,
         {
@@ -159,7 +159,7 @@ function SiteHeader(props: { currentSection?: string }) {
           currentSection={props.currentSection}
         />
       </div>
-    </div>
+    </nav>
   );
 }
 
@@ -215,7 +215,7 @@ function Logo() {
 
 function Footer() {
   return (
-    <div
+    <footer
       css={{
         display: "flex",
         flexDirection: "column",
@@ -390,7 +390,7 @@ function Footer() {
       <div className="copyright">
         Copyright © 2019 Academic Influence. All Rights Reserved
       </div>
-    </div>
+    </footer>
   );
 }
 
