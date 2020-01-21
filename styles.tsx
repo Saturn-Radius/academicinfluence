@@ -35,10 +35,9 @@ export const Header1 = styled.h1({
   }
 });
 
-
 export const DescriptionText = styled.p({
   color: GRAY_MID,
-              fontSize: "24px",
-              fontWeight: "bold",
-              lineHeight: "30px",
-})
+  fontSize: "24px",
+  fontWeight: "bold",
+  lineHeight: "30px"
+});

@@ -127,9 +127,7 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
     })
   },
   Disciplines: {
-    request: object({
-
-    }),
+    request: object({}),
     response: {
       type: "object",
       patternProperties: {
@@ -169,26 +167,27 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
         })
       ),
       article: nullable(
-        object({
+        object(
+          {
             title: { type: "string" },
             content: { type: "string" },
             excerpt: { type: "string" },
             author: { type: "string" },
             date: { type: "string" },
             featuredImage: { type: "string" }
-
-        },
-        "FeaturePageArticle")
+          },
+          "FeaturePageArticle"
+        )
       ),
       articles: {
         type: "array",
         items: object(
           {
             title: { type: "string" },
-            slug: { type: "string"},
+            slug: { type: "string" },
             category: object({
-              slug: { type: "string"},
-              name: {type: "string"}
+              slug: { type: "string" },
+              name: { type: "string" }
             }),
             excerpt: { type: "string" },
             author: { type: "string" },

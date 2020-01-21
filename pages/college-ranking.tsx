@@ -776,11 +776,8 @@ function Discipline(props: FilterProps) {
 
   let supertopic: string | null;
   let subtopic: string | null;
-  console.log("HEY", JSON.stringify(discipline))
-  if (
-    discipline === null ||
-    props.disciplines[discipline].parent === null
-  ) {
+  console.log("HEY", JSON.stringify(discipline));
+  if (discipline === null || props.disciplines[discipline].parent === null) {
     supertopic = discipline;
     subtopic = null;
   } else {
@@ -1126,7 +1123,7 @@ CollegeRanking.getInitialProps = async function(context: NextPageContext) {
 
   const disciplinesPromise = apiDisciplines({});
   const data = await apiCollegeRankings(request);
-  const disciplines = await disciplinesPromise
+  const disciplines = await disciplinesPromise;
 
   return { data, disciplines, request };
 };
