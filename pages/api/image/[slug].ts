@@ -1,6 +1,6 @@
-import { NextApiResponse, NextApiRequest } from "next";
-import databasePool from "../../../databasePool"
-import * as squel from "../../../squel"
+import { NextApiRequest, NextApiResponse } from "next";
+import databasePool from "../../../databasePool";
+import * as squel from "../../../squel";
 
 export default async (req: NextApiRequest, response: NextApiResponse) => {
    try {

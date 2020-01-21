@@ -1,5 +1,4 @@
-import { ReactChild } from "react";
-import { PRIMARY_DARK, PAGE_WIDTH_STYLE } from "./styles";
+import { PAGE_WIDTH_STYLE, PRIMARY_DARK } from "./styles";
 
 type Props = {
   tool: string;

@@ -1,6 +1,6 @@
-import * as squel from "../squel"
 import { CollegeRankingsRequest, CollegeRankingsResponse } from "../api";
-import databasePool from "../databasePool"
+import databasePool from "../databasePool";
+import * as squel from "../squel";
 
 function calculateScore(start_year: number, stop_year: number, discipline: string | null) {
     const start = squel.str("GREATEST(ai_data.scores.year_start,?)::float - ai_data.scores.year_start", start_year);

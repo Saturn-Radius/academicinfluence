@@ -7,7 +7,7 @@
     "dev": "next",
     "build": "rimraf .next && next build",
     "start": "next start",
-    "format": "prettier --write pages/** *.tsx *.ts",
+    "format": "organize-imports-cli tsconfig.json && prettier --write pages/** *.tsx *.ts",
     "build-api": "ts-node -r esm build-api.ts"
   },
   "keywords": [],
@@ -38,6 +38,7 @@
     "next": "^9.1.2",
     "next-fonts": "^0.19.0",
     "node-html-parser": "^1.1.16",
+    "organize-imports-cli": "^0.7.0",
     "pg": "^7.14.0",
     "rc-slider": "^8.7.1",
     "react": "^16.11.0",

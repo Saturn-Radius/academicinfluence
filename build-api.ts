@@ -1,6 +1,6 @@
 import { camelCase } from "change-case";
-import { compileFromFile, compile } from "json-schema-to-typescript";
-import { writeFileSync, readFileSync, mkdirSync, writeFile } from "fs";
+import { mkdirSync, writeFileSync } from "fs";
+import { compile } from "json-schema-to-typescript";
 const SCHEMAS = require("./schema");
 
 async function main() {

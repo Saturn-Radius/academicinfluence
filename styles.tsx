@@ -1,7 +1,6 @@
+import css from "@emotion/css";
 import styled from "@emotion/styled";
 
-import React from "react";
-import css from "@emotion/css";
 export const PRIMARY_DARK = "#1E988A";
 
 export const GRAY_DARK = "#999999";

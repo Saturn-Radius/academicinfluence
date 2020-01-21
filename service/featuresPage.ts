@@ -1,9 +1,9 @@
-import * as squel from "../squel"
-import { CollegeRankingsRequest, CollegeRankingsResponse, FeaturesPageRequest, FeaturesPageResponse } from "../api";
-import databasePool from "../databasePool"
-import dateFormat from "date-fns/format"
-import smartQuotes from "smart-quotes"
-import {parse, Node, NodeType} from "node-html-parser"
+import dateFormat from "date-fns/format";
+import { Node, NodeType, parse } from "node-html-parser";
+import smartQuotes from "smart-quotes";
+import { FeaturesPageRequest, FeaturesPageResponse } from "../api";
+import databasePool from "../databasePool";
+import * as squel from "../squel";
 
 function processHtml(html: string): string {
     console.log(html)

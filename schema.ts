@@ -1,6 +1,5 @@
 import { JSONSchema4 } from "json-schema";
 import { Dictionary } from "lodash";
-import { string } from "prop-types";
 
 type SchemaDef = {
   request: JSONSchema4;

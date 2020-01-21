@@ -1,8 +1,8 @@
-import { jsx, css } from "@emotion/core";
+import { jsx } from "@emotion/core";
 import App from "next/app";
-import "typeface-montserrat/index.css";
-import { PAGE_WIDTH_STYLE, GRAY_MID } from "../styles";
 import Link from "next/link";
+import "typeface-montserrat/index.css";
+import { GRAY_MID, PAGE_WIDTH_STYLE } from "../styles";
 
 function HamburgerIcon() {
   return (

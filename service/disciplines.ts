@@ -1,7 +1,7 @@
-import * as squel from "../squel"
+import { Dictionary } from "lodash";
 import { DisciplinesRequest, DisciplinesResponse } from "../api";
-import databasePool from "../databasePool"
-import { fromPairs, Dictionary } from "lodash";
+import databasePool from "../databasePool";
+import * as squel from "../squel";
 
 export default async function serveDisciplines(request: DisciplinesRequest): Promise<DisciplinesResponse> {
 

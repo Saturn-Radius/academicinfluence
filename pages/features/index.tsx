@@ -1,43 +1,9 @@
 import { NextPage, NextPageContext } from "next";
-import Router from "next/router";
-import Link from "next/link";
-import fetch from "isomorphic-unfetch";
-import { ReactElementLike, resetWarningCache } from "prop-types";
-import {
-  GRAY_DARK,
-  GRAY_MID,
-  PRIMARY_DARK,
-  GRAY_LIGHT,
-  TERTIARY_DARK,
-  SECONDARY_DARK,
-  BACKGROUND_1,
-  PAGE_WIDTH_STYLE,
-  Header1
-} from "../../styles";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
-import React from "react";
-import Slider, { Range, HandleProps, Handle } from "rc-slider";
-import Tooltip from "rc-tooltip";
-import {
- CollegeData,
-  apiFeaturesPage,
-  apiLocationAutocomplete,
-  FeaturesPageResponse,
-  FeaturesPageCategory,
-  FeaturesPageArticleSummary
-} from "../../api";
-import { InterpolationWithTheme, css } from "@emotion/core";
-import Select from "react-select";
-import USAStates from "usa-states";
-import Autocomplete from "react-autocomplete";
-import DropdownTreeSelect from "react-dropdown-tree-select";
-import { find } from "lodash";
-import { defaultProps } from "react-select/src/Select";
-import { getEnabledCategories } from "trace_events";
-import FeaturePage, { Article } from "../../components/FeaturePage"
+import "react-circular-progressbar/dist/styles.css";
+import { apiFeaturesPage, FeaturesPageArticleSummary, FeaturesPageResponse } from "../../api";
+import FeaturePage, { Article } from "../../components/FeaturePage";
 
 type FeaturesProps = {
     data: FeaturesPageResponse

@@ -1,6 +1,6 @@
-import * as squel from "../squel"
-import { CollegeRankingsRequest, CollegeRankingsResponse, LocationAutocompleteRequest, LocationAutocompleteResponse } from "../api";
-import databasePool from "../databasePool"
+import { LocationAutocompleteRequest, LocationAutocompleteResponse } from "../api";
+import databasePool from "../databasePool";
+import * as squel from "../squel";
 
 
 export default async function serveAutocomplete(request: LocationAutocompleteRequest): Promise<LocationAutocompleteResponse> {

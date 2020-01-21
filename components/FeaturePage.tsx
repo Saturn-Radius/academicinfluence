@@ -1,8 +1,8 @@
-import { FeaturesPageCategory, FeaturesPageResponse, FeaturesPageArticleSummary} from "../api";
-
 import Link from "next/link";
+import { FeaturesPageArticleSummary, FeaturesPageCategory, FeaturesPageResponse } from "../api";
+import { GRAY_DARK, GRAY_MID, PAGE_WIDTH_STYLE, SECONDARY_DARK } from "../styles";
 
-import { GRAY_DARK, PAGE_WIDTH_STYLE, SECONDARY_DARK, GRAY_MID } from "../styles";
+
 
 export function Article(props: {article: FeaturesPageArticleSummary}) {
     if (!props.article) {
