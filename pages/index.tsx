@@ -1,12 +1,65 @@
 import fetch from "isomorphic-unfetch";
 import { NextPage } from "next";
-import { apiHomePage, HomePageResponse } from "../api";
-import { ACTION_COLOR } from "../styles";
+import { apiHomePage, HomePageResponse, apiFeaturesPage, FeaturesPageResponse, FeaturesPageArticleSummary } from "../api";
+import { ACTION_COLOR, SECONDARY_DARK } from "../styles";
 import Link from "next/link";
+import { Article } from "../components/FeaturePage";
 
 type IndexProps = {
-  homePage: HomePageResponse
+  homePage: HomePageResponse,
+  features: FeaturesPageResponse
 };
+
+type SectionProps = {
+  label: string,
+  children: React.ReactNode
+}
+function Section(props: SectionProps) {
+  return <section>
+    <h1 css={{
+      color: SECONDARY_DARK,
+      fontSize: "15px",
+      fontWeight: "bold",
+      textAlign: "center",
+      marginTop: "32px",
+      marginBottom: "23px",
+    }}>{props.label}</h1>
+    {props.children}
+  </section>
+}
+
+function FeatureGrid(props: {articles: FeaturesPageArticleSummary[]}) {
+    return <div css={{
+        display: "grid",
+        alignItems: "top",
+   
+        '>div:nth-of-type(1)': {
+          gridRow: 1,
+          gridColumnStart: 1,
+          gridColumnEnd: 3,
+          ".article": {
+            marginBottom: "20px",
+            borderBottomStyle: "solid",
+            borderBottomColor: "black",
+            borderBottomWidth: "0.5px"
+          }
+        },
+        '>div:nth-of-type(2)': {
+          gridRow: 2,
+          gridColumn: 1,
+        },
+        '>div:nth-of-type(3)': {
+          gridRow: 2,
+          gridColumn: 2,
+        }
+    }}>
+            {props.articles.map((article, index) => 
+                <Article article={article} key={index}/>
+            )}
+    </div>
+}
+
+
 
 const Index: NextPage<IndexProps> = (props: IndexProps) => (
   <div>
@@ -14,15 +67,18 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => (
       backgroundImage: `url(/api/image/${props.homePage.currentFeature.image})`,
       width: "100%",
       height: "394px",
+      display: "flex",
+      flexDirection: "column"
     }}>
+      <div css={{flexGrow: 1}}/>
       <div css={{
         fontSize: "16px",
         lineHeight: "18px",
         color: "white",
         paddingLeft: "20px",
         paddingRight: "75%",
-        paddingTop: "251px",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        justifyContent: "end"
       }}>
         {props.homePage.currentFeature.title}
       </div>
@@ -40,22 +96,28 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => (
         marginTop: "20px",
         fontSize: "20px",
         color: "white",
-        borderWidth: "0px"
+        borderWidth: "0px",
+        width: "189px",
+        margin: "20px"
       }}>Explore</button>
       </Link>
     </div>
-    <h1>Hello World!</h1>
-    {JSON.stringify(props.homePage)}
+    <Section label="FEATURE ARTICLES">
+      <FeatureGrid articles={props.features.articles.slice(0, 3)}/>
+    </Section>
   </div>
 );
 
 Index.getInitialProps = async function({ req }) {
   const homePageQuery = apiHomePage({})
-
-  const homePage = await homePageQuery
+  const featuresQuery = apiFeaturesPage({
+    category: null,
+    article: null
+  })
 
   return {
-    homePage
+    homePage: await homePageQuery,
+    features: await featuresQuery
   };
 };
 
