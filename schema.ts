@@ -197,6 +197,17 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
         )
       }
     })
+  },
+  HomePage: {
+    request: object({}),
+    response: object({
+      currentFeature: object({
+        title: {type: "string"},
+        category: {type: "string"},
+        slug: {type: "string"},
+        image: {type: "string"}
+      })
+    })
   }
 };
 

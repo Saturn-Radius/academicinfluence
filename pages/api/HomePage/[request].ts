@@ -4,10 +4,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import SCHEMAS from "../../../schema"
 import Ajv from "ajv"
-import serve from "../../../service/featuresPage"
+import serve from "../../../service/homePage"
 
 const validator = new Ajv();
-const validate = validator.compile(SCHEMAS.FeaturesPage.request)
+const validate = validator.compile(SCHEMAS.HomePage.request)
 
 
 export default async (req: NextApiRequest, response: NextApiResponse) => {

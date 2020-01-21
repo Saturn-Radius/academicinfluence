@@ -76,7 +76,9 @@ function SiteHeader(props: { currentSection?: string }) {
           display: "flex"
         }}
       >
-        <Logo />
+          <Link href="/">
+            <a><Logo /></a>
+          </Link>
 
         <div
           css={{
@@ -315,7 +317,7 @@ function Footer() {
     >
       <div className="upper">
         <div className="logo">
-          <Logo />
+            <Logo />
         </div>
         <div className="sections">
           <div className="section">
