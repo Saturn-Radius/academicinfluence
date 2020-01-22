@@ -7,4 +7,3 @@ module.exports = withFonts(withCSS({
   },
   exportTrailingSlash: true
 }))
-console.log(module.exports)
