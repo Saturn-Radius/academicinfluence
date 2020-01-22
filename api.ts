@@ -205,7 +205,8 @@ export interface FeaturePageArticle {
   excerpt: string;
   author: string;
   date: string;
-  featuredImage: string;
+  bannerUrl: string;
+  thumbnailUrl: string;
 }
 export interface FeaturesPageArticleSummary {
   title: string;
@@ -217,7 +218,8 @@ export interface FeaturesPageArticleSummary {
   excerpt: string;
   author: string;
   date: string;
-  featuredImage: string;
+  bannerUrl: string;
+  thumbnailUrl: string;
 }
 export const apiFeaturesPage = process.browser ? 
         async function(request: FeaturesPageRequest): Promise<FeaturesPageResponse> {
@@ -247,7 +249,8 @@ export interface HomePageResponse {
     title: string;
     category: string;
     slug: string;
-    image: string;
+    bannerUrl: string;
+    thumbnailUrl: string;
   };
 }
 export const apiHomePage = process.browser ? 

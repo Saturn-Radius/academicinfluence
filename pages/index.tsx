@@ -64,7 +64,9 @@ function FeatureGrid(props: {articles: FeaturesPageArticleSummary[]}) {
 const Index: NextPage<IndexProps> = (props: IndexProps) => (
   <div>
     <div css={{
-      backgroundImage: `url(/api/image/${props.homePage.currentFeature.image})`,
+      backgroundImage: `url(${props.homePage.currentFeature.bannerUrl})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'contain',
       width: "100%",
       height: "394px",
       display: "flex",

@@ -80,7 +80,7 @@ const Features: NextPage<FeaturesProps> = props => {
               width: "100%",
               height: "auto",
               display: "block"
-          }} src={"/api/image/" + props.data.article.featuredImage}/>
+          }} src={props.data.article.bannerUrl}/>
           <article dangerouslySetInnerHTML={{__html: props.data.article.content}}/>
           <FeatureGrid articles={articles.slice(0, 3)}/>
       </FeaturePage>

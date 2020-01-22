@@ -173,7 +173,9 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
             excerpt: { type: "string" },
             author: { type: "string" },
             date: { type: "string" },
-            featuredImage: { type: "string" }
+            bannerUrl: {type: "string"},
+            thumbnailUrl: {type: "string"}
+ 
           },
           "FeaturePageArticle"
         )
@@ -191,7 +193,8 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
             excerpt: { type: "string" },
             author: { type: "string" },
             date: { type: "string" },
-            featuredImage: { type: "string" }
+            bannerUrl: {type: "string"},
+            thumbnailUrl: {type: "string"}
           },
           "FeaturesPageArticleSummary"
         )
@@ -205,7 +208,8 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
         title: {type: "string"},
         category: {type: "string"},
         slug: {type: "string"},
-        image: {type: "string"}
+        bannerUrl: {type: "string"},
+        thumbnailUrl: {type: "string"}
       })
     })
   }

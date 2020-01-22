@@ -53,15 +53,15 @@ export default async function serveFeaturesPage(request: FeaturesPageRequest): P
             .field("title")
             .field("excerpt")
             .field("ai_features.slug", "slug")
-            .field("featured_image.slug", "featured_image")
             .field("modified_date_time")
             .field("users.name", "username")
             .field("ai_categories.slug", "category_slug")
             .field("ai_categories.name", "category_name")
+            .field("hero_image_banner_url")
+            .field("hero_image_thumbnail_url")
             .order("added_date_time", true)
             .join("editor.users", undefined, "users.id = ai_features.added_by")
             .join("editor.ai_categories", undefined, "editor.ai_categories.id = ai_features.category")
-            .join("editor.images", "featured_image", "featured_image.id = ai_features.featured_image_main")
             .where("status = ?", "PUBLISHED")
             .limit(6)
 
@@ -78,11 +78,11 @@ export default async function serveFeaturesPage(request: FeaturesPageRequest): P
             .field("title")
             .field("content")
             .field("excerpt")
-            .field("featured_image.slug", "featured_image")
+            .field("hero_image_banner_url")
+            .field("hero_image_thumbnail_url")
             .field("modified_date_time")
             .field("users.name", "username")
             .join("editor.users", undefined, "users.id = ai_features.added_by")
-            .join("editor.images", "featured_image", "featured_image.id = ai_features.featured_image_main")
             .where("ai_features.slug = ?", request.article)
             .limit(1)
             .toParam())
@@ -90,7 +90,8 @@ export default async function serveFeaturesPage(request: FeaturesPageRequest): P
     const articles = (await articlesQuery).rows.map(article => ({
             title: article.title,
             excerpt: smartQuotes(article.excerpt),
-            featuredImage: article.featured_image,
+            bannerUrl: article.hero_image_banner_url,
+            thumbnailUrl: article.hero_image_thumbnail_url,
             date: dateFormat(article.modified_date_time, "MMM. d"),
             author: article.username,
             slug: article.slug,
@@ -122,7 +123,8 @@ export default async function serveFeaturesPage(request: FeaturesPageRequest): P
                 content: processHtml(row.content),
                 excerpt: smartQuotes(row.excerpt),
                 author: row.username,
-                featuredImage: row.featured_image,
+                bannerUrl: row.hero_image_banner_url,
+                thumbnailUrl: row.hero_image_thumbnail_url,
                 date: dateFormat(row.modified_date_time, "MMM. d"),
             }))[0],
     }

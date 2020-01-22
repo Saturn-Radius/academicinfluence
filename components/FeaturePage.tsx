@@ -8,6 +8,7 @@ export function Article(props: {article: FeaturesPageArticleSummary}) {
     if (!props.article) {
         return <></>
     }
+    console.log(props.article)
     return <div css={{display: "flex", alignItems: "top"}}>
         <div className="article" css={{
             display: "flex",
@@ -57,7 +58,7 @@ export function Article(props: {article: FeaturesPageArticleSummary}) {
         <img css={{                width: "100%",
                 height: "auto",
                 display: "block"}}
- src={"/api/image/" + props.article.featuredImage}/>
+ src={props.article.thumbnailUrl}/>
         </div>
         </div>
     </div>
