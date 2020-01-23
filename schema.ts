@@ -212,6 +212,33 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
         thumbnailUrl: {type: "string"}
       })
     })
+  },
+  SchoolPage: {
+    request: object({
+      slug: {type: "string"}
+    }),
+    response: object({
+      school: object({
+        name: {type: "string"},
+        description: {type: "string"},
+        city: {
+              type: "string"
+            },
+            state: {
+              type: "string"
+            },
+            median_act: nullable({ type: "number" }),
+            median_sat: nullable({ type: "number" }),
+            undergrad_tuition_in_state: nullable({ type: "number" }),
+            average_earnings: nullable({ type: "number" }),
+            total_students: nullable({ type: "number" }),
+            influence_score: nullable({ type: "number" }),
+            acceptance_rate: nullable({ type: "number" }),
+            desirability: nullable({ type: "number" }),
+            logo_url: nullable({ type: "string" })
+
+      }, "SchoolData")
+    })
   }
 };
 
