@@ -235,7 +235,8 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
             influence_score: nullable({ type: "number" }),
             acceptance_rate: nullable({ type: "number" }),
             desirability: nullable({ type: "number" }),
-            logo_url: nullable({ type: "string" })
+            logo_url: nullable({ type: "string" }),
+            graduation_rate: nullable({type: "string"})
 
       }, "SchoolData")
     })

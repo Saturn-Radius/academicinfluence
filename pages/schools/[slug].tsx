@@ -12,7 +12,25 @@ type SchoolProps = {
 
 const School: NextPage<SchoolProps> = (props: SchoolProps) => (
   <div>
-      Why?
+      <img src={props.school.logo_url || ""}/>
+      <div>
+          Name: {props.school.name}
+      </div>
+      <div>
+          Description: {props.school.description}
+      </div>
+      <div>
+          City: {props.school.city}, {props.school.state}
+      </div>
+      <div>
+          Influence Score: {props.school.influence_score}
+      </div>
+      <div>
+          Acceptance Rate: {props.school.acceptance_rate}
+      </div>
+      <div>
+          Graduation Rate: {props.school.graduation_rate}
+      </div>
   </div>
 );
 

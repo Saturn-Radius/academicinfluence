@@ -295,6 +295,7 @@ export interface SchoolData {
   acceptance_rate: number | null;
   desirability: number | null;
   logo_url: string | null;
+  graduation_rate: string | null;
 }
 export const apiSchoolPage = process.browser ? 
         async function(request: SchoolPageRequest): Promise<SchoolPageResponse> {

@@ -2,7 +2,7 @@ import { CollegeRankingsRequest, CollegeRankingsResponse } from "../api";
 import databasePool from "../databasePool";
 import * as squel from "../squel";
 
-function calculateScore(start_year: number, stop_year: number, discipline: string | null) {
+export function calculateScore(start_year: number, stop_year: number, discipline: string | null) {
     const start = squel.str("GREATEST(ai_data.scores.year_start,?)::float - ai_data.scores.year_start", start_year);
     const end = squel.str("LEAST(scores.year_end + 1,?)::float - ai_data.scores.year_start", stop_year); 
 
