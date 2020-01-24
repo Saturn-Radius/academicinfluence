@@ -1,16 +1,14 @@
-import dateFormat from "date-fns/format";
-import { Node, NodeType, parse } from "node-html-parser";
-import smartQuotes from "smart-quotes";
-import { SchoolPageRequest, SchoolPageResponse } from "../api";
+import { Dictionary } from "lodash";
+import { DisciplineInfluenceData, SchoolPageRequest, SchoolPageResponse } from "../api";
 import databasePool from "../databasePool";
+import { influenceScoreQuery } from "../influenceScore";
 import * as squel from "../squel";
-import { calculateScore } from "./collegeRankings";
 
 export default async function serveSchoolPage(request: SchoolPageRequest): Promise<SchoolPageResponse> {
 
     const pool = await databasePool;
 
-    const schoolQuery = squel.select().from("editor.ai_schools")
+    const schoolQuery = pool.query(squel.select().from("editor.ai_schools")
         .join("ai_data.schools", undefined, "ai_data.schools.id = editor.ai_schools.id")
         .where("ai_schools.slug = ?", request.slug)
         .field("schools.name")
@@ -27,15 +25,35 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .field(squel.rstr("admissions::float / applications::float"), "acceptance_rate")
         .field(squel.rstr("undergraduate_students + graduate_students"), "total_students")
         .field("logo_url")
-        .field(calculateScore(1900, 2020, null).where("scores.id = schools.id"), "influence_score")
-        .toString()
+        .toString())
 
-    console.log(schoolQuery)
+    const influenceQuery = pool.query(influenceScoreQuery(1900, 2020)
+        .join("editor.ai_schools", undefined, "editor.ai_schools.id = scores.id")
+        .where("editor.ai_schools.slug = ?", request.slug)
+        .left_join("editor.ai_disciplines", undefined, "ai_disciplines.id = scores.keyword")
+        .field("ai_disciplines.name")
+        .field("scores.keyword")
+        .field("world_rank")
+        .field("usa_rank")
+        .order("influence", false)
+        .where("scores.keyword is null or ai_disciplines.name is not null")
+        .toParam())
 
-    const school = (await pool.query(schoolQuery)).rows[0]
+    const school = (await schoolQuery).rows[0]
+
+    const influences: Dictionary<DisciplineInfluenceData> = {}
+    for (const row of (await influenceQuery).rows) {
+        influences[row.name || ""] = {
+            influence: row.influence,
+            world_rank: row.world_rank,
+            usa_rank: row.usa_rank
+        }
+    }
     return {
         school: {
-            ...school
+            ...school,
+            disciplines: influences
+            
         }
    }
 }

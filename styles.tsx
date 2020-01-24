@@ -13,7 +13,7 @@ export const SECONDARY_DARK = "#1E988A";
 
 export const BACKGROUND_1 = "#f9fbfa";
 
-export const ACTION_COLOR = '#eb5857';
+export const ACTION_COLOR = "#eb5857";
 
 export const PAGE_WIDTH_STYLE = css({
   paddingLeft: "20px",

@@ -173,9 +173,8 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
             excerpt: { type: "string" },
             author: { type: "string" },
             date: { type: "string" },
-            bannerUrl: {type: "string"},
-            thumbnailUrl: {type: "string"}
- 
+            bannerUrl: { type: "string" },
+            thumbnailUrl: { type: "string" }
           },
           "FeaturePageArticle"
         )
@@ -193,8 +192,8 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
             excerpt: { type: "string" },
             author: { type: "string" },
             date: { type: "string" },
-            bannerUrl: {type: "string"},
-            thumbnailUrl: {type: "string"}
+            bannerUrl: { type: "string" },
+            thumbnailUrl: { type: "string" }
           },
           "FeaturesPageArticleSummary"
         )
@@ -205,40 +204,52 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
     request: object({}),
     response: object({
       currentFeature: object({
-        title: {type: "string"},
-        category: {type: "string"},
-        slug: {type: "string"},
-        bannerUrl: {type: "string"},
-        thumbnailUrl: {type: "string"}
+        title: { type: "string" },
+        category: { type: "string" },
+        slug: { type: "string" },
+        bannerUrl: { type: "string" },
+        thumbnailUrl: { type: "string" }
       })
     })
   },
   SchoolPage: {
     request: object({
-      slug: {type: "string"}
+      slug: { type: "string" }
     }),
     response: object({
-      school: object({
-        name: {type: "string"},
-        description: {type: "string"},
-        city: {
-              type: "string"
-            },
-            state: {
-              type: "string"
-            },
-            median_act: nullable({ type: "number" }),
-            median_sat: nullable({ type: "number" }),
-            undergrad_tuition_in_state: nullable({ type: "number" }),
-            average_earnings: nullable({ type: "number" }),
-            total_students: nullable({ type: "number" }),
-            influence_score: nullable({ type: "number" }),
-            acceptance_rate: nullable({ type: "number" }),
-            desirability: nullable({ type: "number" }),
-            logo_url: nullable({ type: "string" }),
-            graduation_rate: nullable({type: "string"})
-
-      }, "SchoolData")
+      school: object(
+        {
+          name: { type: "string" },
+          description: { type: "string" },
+          city: {
+            type: "string"
+          },
+          state: {
+            type: "string"
+          },
+          median_act: nullable({ type: "number" }),
+          median_sat: nullable({ type: "number" }),
+          undergrad_tuition_in_state: nullable({ type: "number" }),
+          average_earnings: nullable({ type: "number" }),
+          total_students: nullable({ type: "number" }),
+          acceptance_rate: nullable({ type: "number" }),
+          desirability: nullable({ type: "number" }),
+          logo_url: nullable({ type: "string" }),
+          graduation_rate: nullable({ type: "string" }),
+          disciplines: {
+            type: "object",
+            title: "DisciplineInfluenceData",
+            patternProperties: {
+              "^[A-Za-z ]+$": object({
+                world_rank: { type: "number" },
+                usa_rank: { type: "number" },
+                influence: { type: "number" }
+              })
+            }
+          }
+        },
+        "SchoolData"
+      )
     })
   }
 };
