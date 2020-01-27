@@ -212,6 +212,31 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
       })
     })
   },
+  InfluencerPage: {
+    request: object({
+      slug: { type: "string" }
+    }),
+    response: object({
+      influencer: object(
+        {
+          name: { type: "string" },
+          description: { type: "string" },
+          disciplines: {
+            type: "object",
+            title: "InfluencerDisciplineInfluenceData",
+            patternProperties: {
+              "^[A-Za-z ]+$": object({
+                world_rank: { type: "number" },
+                usa_rank: { type: "number" },
+                influence: { type: "number" }
+              })
+            }
+          }
+        },
+        "InfluencerData"
+      )
+    })
+  },
   SchoolPage: {
     request: object({
       slug: { type: "string" }
@@ -238,7 +263,7 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           graduation_rate: nullable({ type: "string" }),
           disciplines: {
             type: "object",
-            title: "DisciplineInfluenceData",
+            title: "SchoolDisciplineInfluenceData",
             patternProperties: {
               "^[A-Za-z ]+$": object({
                 world_rank: { type: "number" },
