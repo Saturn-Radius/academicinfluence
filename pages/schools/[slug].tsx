@@ -27,6 +27,9 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => (
       <div>
           Graduation Rate: {props.school.graduation_rate}
       </div>
+      <div>
+          Desirability: {props.school.desirability} #{props.school.desirability_rank}
+      </div>
         <ol>
 
       {Object.entries(props.school.disciplines).map(([discipline, data]) => (<li>

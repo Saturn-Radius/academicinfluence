@@ -1,5 +1,5 @@
 import { Dictionary } from "lodash";
-import { DisciplineInfluenceData, SchoolPageRequest, SchoolPageResponse } from "../api";
+import { SchoolDisciplineInfluenceData, SchoolPageRequest, SchoolPageResponse } from "../api";
 import databasePool from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
 import * as squel from "../squel";
@@ -20,6 +20,7 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .field("undergrad_tuition_in_state")
         .field("average_earnings")
         .field("desirability")
+        .field("desirability_rank")
         .field("location")
         .field("graduation_rate")
         .field(squel.rstr("admissions::float / applications::float"), "acceptance_rate")
@@ -41,7 +42,7 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
 
     const school = (await schoolQuery).rows[0]
 
-    const influences: Dictionary<DisciplineInfluenceData> = {}
+    const influences: Dictionary<SchoolDisciplineInfluenceData> = {}
     for (const row of (await influenceQuery).rows) {
         influences[row.name || ""] = {
             influence: row.influence,

@@ -337,6 +337,7 @@ export interface SchoolData {
   total_students: number | null;
   acceptance_rate: number | null;
   desirability: number | null;
+  desirability_rank: number | null;
   logo_url: string | null;
   graduation_rate: string | null;
   disciplines: SchoolDisciplineInfluenceData;

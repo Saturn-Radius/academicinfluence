@@ -259,6 +259,7 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           total_students: nullable({ type: "number" }),
           acceptance_rate: nullable({ type: "number" }),
           desirability: nullable({ type: "number" }),
+          desirability_rank: nullable({ type: "number" }),
           logo_url: nullable({ type: "string" }),
           graduation_rate: nullable({ type: "string" }),
           disciplines: {
