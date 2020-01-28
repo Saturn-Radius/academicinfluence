@@ -1,14 +1,37 @@
 import { camelCase } from "change-case";
 import { mkdirSync, writeFileSync } from "fs";
-import { compile } from "json-schema-to-typescript";
+import { compile, JSONSchema } from "json-schema-to-typescript";
+import { mapValues } from "lodash-es";
 const SCHEMAS = require("./schema");
 
 async function main() {
   let content = "";
+
+  content += await compile({
+    type: "object",
+    additionalProperties: false,
+    properties: mapValues(SCHEMAS.SCHEMAS, (value, key) => ({
+        type: "object",
+        additionalProperties: false,
+        properties: {
+            request: {
+                ...value.request,
+                title: key + 'Request'
+            },
+            response: {
+                ...value.response,
+                title: key + "Response"
+            }
+        }
+    })) as any
+}
+      , 'ApiRoot', {
+  });
+
   for (const [key, item] of Object.entries(SCHEMAS.SCHEMAS)) {
     const def = item as any;
-    content += await compile(def.request, key + "Request");
-    content += await compile(def.response, key + "Response");
+    //content += await compile(def.request, key + "Request");
+    //content += await compile(def.response, key + "Response");
 
     content += `export const api${key} = process.browser ? 
         async function(request: ${key}Request): Promise<${key}Response> {
