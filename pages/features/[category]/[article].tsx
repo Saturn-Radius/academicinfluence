@@ -52,6 +52,7 @@ const Features: NextPage<FeaturesProps> = props => {
     if (!props.data.article) {
         throw new Error();
     }
+    console.log(props)
   return (
       <FeaturePage data={props.data}>
     <Link href="/features">
@@ -71,7 +72,9 @@ const Features: NextPage<FeaturesProps> = props => {
             </span>
         </a>
     </Link>
- 
+            <article role="main">
+            <header>
+
           <Header1>{props.data.article.title}</Header1>
           <DescriptionText>
               {props.data.article.excerpt}
@@ -81,8 +84,10 @@ const Features: NextPage<FeaturesProps> = props => {
               height: "auto",
               display: "block"
           }} src={props.data.article.bannerUrl}/>
-          <article dangerouslySetInnerHTML={{__html: props.data.article.content}}/>
+            </header>
+          <p className="content" dangerouslySetInnerHTML={{__html: props.data.article.content}}/>
           <FeatureGrid articles={articles.slice(0, 3)}/>
+            </article>
       </FeaturePage>
   );
 };

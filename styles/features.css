@@ -1,4 +1,4 @@
-main article {
+main article[role=main] p.content {
     font-size: 20px;
     line-height: 26px;
 }
