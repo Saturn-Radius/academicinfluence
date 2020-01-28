@@ -1,5 +1,5 @@
 import { Dictionary } from "lodash";
-import { SchoolDisciplineInfluenceData, SchoolPageRequest, SchoolPageResponse } from "../api";
+import { DisciplineInfluenceData, SchoolPageRequest, SchoolPageResponse } from "../api";
 import databasePool from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
 import * as squel from "../squel";
@@ -42,7 +42,7 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
 
     const school = (await schoolQuery).rows[0]
 
-    const influences: Dictionary<SchoolDisciplineInfluenceData> = {}
+    const influences: Dictionary<DisciplineInfluenceData> = {}
     for (const row of (await influenceQuery).rows) {
         influences[row.name || ""] = {
             influence: row.influence,

@@ -1,5 +1,5 @@
 import { Dictionary } from "lodash";
-import { InfluencerDisciplineInfluenceData, InfluencerPageRequest, InfluencerPageResponse } from "../api";
+import { DisciplineInfluenceData, InfluencerPageRequest, InfluencerPageResponse } from "../api";
 import databasePool from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
 import * as squel from "../squel";
@@ -29,7 +29,7 @@ export default async function serveInfluencerPage(request: InfluencerPageRequest
 
     const influencer = (await influencerQuery).rows[0]
 
-    const influences: Dictionary<InfluencerDisciplineInfluenceData> = {}
+    const influences: Dictionary<DisciplineInfluenceData> = {}
     for (const row of (await influenceQuery).rows) {
         influences[row.name || ""] = {
             influence: row.influence,

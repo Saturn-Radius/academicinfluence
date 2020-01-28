@@ -1,32 +1,35 @@
 import { camelCase } from "change-case";
 import { mkdirSync, writeFileSync } from "fs";
-import { compile, JSONSchema } from "json-schema-to-typescript";
+import { compile } from "json-schema-to-typescript";
 import { mapValues } from "lodash-es";
-const SCHEMAS = require("./schema");
+import * as SCHEMAS from "./schema";
 
 async function main() {
   let content = "";
 
-  content += await compile({
-    type: "object",
-    additionalProperties: false,
-    properties: mapValues(SCHEMAS.SCHEMAS, (value, key) => ({
+  content += await compile(
+    {
+      definitions: SCHEMAS.DEFINITIONS as any,
+      type: "object",
+      additionalProperties: false,
+      properties: mapValues(SCHEMAS.SCHEMAS, (value, key) => ({
         type: "object",
         additionalProperties: false,
         properties: {
-            request: {
-                ...value.request,
-                title: key + 'Request'
-            },
-            response: {
-                ...value.response,
-                title: key + "Response"
-            }
+          request: {
+            ...value.request,
+            title: key + "Request"
+          },
+          response: {
+            ...value.response,
+            title: key + "Response"
+          }
         }
-    })) as any
-}
-      , 'ApiRoot', {
-  });
+      })) as any
+    },
+    "ApiRoot",
+    {}
+  );
 
   for (const [key, item] of Object.entries(SCHEMAS.SCHEMAS)) {
     const def = item as any;

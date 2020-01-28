@@ -38,6 +38,20 @@ const RANKING_LIMITS = {
   years: LIMIT
 };
 
+export const DEFINITIONS = {
+  disciplineInfluenceData: {
+    type: "object",
+    title: "DisciplineInfluenceData",
+    patternProperties: {
+      "^[A-Za-z ]+$": object({
+        world_rank: { type: "number" },
+        usa_rank: { type: "number" },
+        influence: { type: "number" }
+      })
+    }
+  }
+};
+
 export const SCHEMAS: Dictionary<SchemaDef> = {
   CollegeRankings: {
     request: object({
@@ -221,17 +235,7 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
         {
           name: { type: "string" },
           description: { type: "string" },
-          disciplines: {
-            type: "object",
-            title: "InfluencerDisciplineInfluenceData",
-            patternProperties: {
-              "^[A-Za-z ]+$": object({
-                world_rank: { type: "number" },
-                usa_rank: { type: "number" },
-                influence: { type: "number" }
-              })
-            }
-          }
+          disciplines: { $ref: "#/definitions/disciplineInfluenceData" }
         },
         "InfluencerData"
       )
@@ -262,17 +266,7 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           desirability_rank: nullable({ type: "number" }),
           logo_url: nullable({ type: "string" }),
           graduation_rate: nullable({ type: "string" }),
-          disciplines: {
-            type: "object",
-            title: "SchoolDisciplineInfluenceData",
-            patternProperties: {
-              "^[A-Za-z ]+$": object({
-                world_rank: { type: "number" },
-                usa_rank: { type: "number" },
-                influence: { type: "number" }
-              })
-            }
-          }
+          disciplines: { $ref: "#/definitions/disciplineInfluenceData" }
         },
         "SchoolData"
       )
