@@ -38,8 +38,8 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => (
        </ol>
        <ol>
 
-      {props.school.influencers.map((influencer) => (<li>
-            <a href={"/influencers/" + influencer.slug}>{influencer.name}</a> {influencer.influence} {influencer.description}
+      {props.school.people.map((person) => (<li>
+            <a href={"/people/" + person.slug}>{person.name}</a> {person.influence} {person.description}
        </li>))}
 
         </ol>

@@ -37,9 +37,9 @@ export interface ApiRoot {
     request?: HomePageRequest;
     response?: HomePageResponse;
   };
-  InfluencerPage?: {
-    request?: InfluencerPageRequest;
-    response?: InfluencerPageResponse;
+  PersonPage?: {
+    request?: PersonPageRequest;
+    response?: PersonPageResponse;
   };
   SchoolPage?: {
     request?: SchoolPageRequest;
@@ -188,13 +188,13 @@ export interface HomePageResponse {
     thumbnailUrl: string;
   };
 }
-export interface InfluencerPageRequest {
+export interface PersonPageRequest {
   slug: string;
 }
-export interface InfluencerPageResponse {
-  influencer: InfluencerData;
+export interface PersonPageResponse {
+  person: PersonData;
 }
-export interface InfluencerData {
+export interface PersonData {
   name: string;
   description: string;
   disciplines: DisciplineInfluenceData;
@@ -232,7 +232,7 @@ export interface SchoolData {
   logo_url: string | null;
   graduation_rate: string | null;
   disciplines: DisciplineInfluenceData;
-  influencers: {
+  people: {
     slug: string;
     name: string;
     description: string;
@@ -279,12 +279,12 @@ export const apiCollegeRankings = process.browser ?
             const module = await import("./service/homePage");
             return module.default(request)
         }
-        export const apiInfluencerPage = process.browser ? 
-        async function(request: InfluencerPageRequest): Promise<InfluencerPageResponse> {
-            const response = await fetch("/api/InfluencerPage/" + encodeURIComponent(JSON.stringify(request)));
+        export const apiPersonPage = process.browser ? 
+        async function(request: PersonPageRequest): Promise<PersonPageResponse> {
+            const response = await fetch("/api/PersonPage/" + encodeURIComponent(JSON.stringify(request)));
             return response.json()
-        } : async function(request: InfluencerPageRequest): Promise<InfluencerPageResponse> {
-            const module = await import("./service/influencerPage");
+        } : async function(request: PersonPageRequest): Promise<PersonPageResponse> {
+            const module = await import("./service/personPage");
             return module.default(request)
         }
         export const apiSchoolPage = process.browser ? 

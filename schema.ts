@@ -226,18 +226,18 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
       })
     })
   },
-  InfluencerPage: {
+  PersonPage: {
     request: object({
       slug: { type: "string" }
     }),
     response: object({
-      influencer: object(
+      person: object(
         {
           name: { type: "string" },
           description: { type: "string" },
           disciplines: { $ref: "#/definitions/disciplineInfluenceData" }
         },
-        "InfluencerData"
+        "PersonData"
       )
     })
   },
@@ -267,7 +267,7 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           logo_url: nullable({ type: "string" }),
           graduation_rate: nullable({ type: "string" }),
           disciplines: { $ref: "#/definitions/disciplineInfluenceData" },
-          influencers: {
+          people: {
             type: "array",
             items: object({
               slug: {type: "string"},
