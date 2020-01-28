@@ -1,10 +1,10 @@
 
     // GENERATED FILE DO NOT EDIT
 
-import Ajv from "ajv";
 import { NextApiRequest, NextApiResponse } from "next";
-import SCHEMAS from "../../../schema";
-import serve from "../../../service/influencerPage";
+import SCHEMAS from "../../../schema"
+import Ajv from "ajv"
+import serve from "../../../service/influencerPage"
 
 const validator = new Ajv();
 const validate = validator.compile(SCHEMAS.InfluencerPage.request)

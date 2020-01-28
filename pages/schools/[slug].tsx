@@ -35,6 +35,12 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => (
       {Object.entries(props.school.disciplines).map(([discipline, data]) => (<li>
             {discipline} {data.influence} #{data.world_rank} #{data.usa_rank} (USA)
        </li>))}
+       </ol>
+       <ol>
+
+      {props.school.influencers.map((influencer) => (<li>
+            <a href={"/influencers/" + influencer.slug}>{influencer.name}</a> {influencer.influence} {influencer.description}
+       </li>))}
 
         </ol>
   </div>

@@ -40,6 +40,22 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .where("scores.keyword is null or ai_disciplines.name is not null")
         .toParam())
 
+    const influencerQuery = pool.query(
+        influenceScoreQuery(1900, 2020)
+        .where("keyword is null")
+        .join("ai_data.influencer_schools", undefined, "influencer_schools.influencer_id = scores.id")
+        .join("editor.ai_schools", undefined, "editor.ai_schools.id = influencer_schools.school_id")
+        .where("ai_schools.slug = ?", request.slug)
+        .join("editor.ai_influencers", undefined, "editor.ai_influencers.id = scores.id")
+        .join("ai_data.influencers", undefined, "ai_influencers.id = influencers.id")
+        .field("ai_influencers.slug")
+        .field("influencers.name")
+        .field("coalesce(nullif(ai_influencers.description, ''), influencers.description)", "description")
+        .order("influence", false)
+        .limit(3)
+        .toParam()
+    )
+
     const school = (await schoolQuery).rows[0]
 
     const influences: Dictionary<DisciplineInfluenceData> = {}
@@ -53,8 +69,8 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
     return {
         school: {
             ...school,
-            disciplines: influences
-            
+            disciplines: influences,
+            influencers: (await influencerQuery).rows
         }
    }
 }

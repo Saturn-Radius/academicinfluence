@@ -24,7 +24,7 @@ export function influenceScoreQuery(start_year: number, stop_year: number) {
 
   const expression = squel.str("? + ? + ?", a_term, b_term, c_term);
 
-  const adapted = squel.str("ln(? + exp(1.0)) / 15.0", expression);
+  const adapted = squel.str("ln(greatest(?,0.0) + exp(1.0)) / 15.0", expression);
 
   const query = squel
     .select()
