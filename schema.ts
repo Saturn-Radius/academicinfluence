@@ -266,6 +266,18 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           desirability_rank: nullable({ type: "number" }),
           logo_url: nullable({ type: "string" }),
           graduation_rate: nullable({ type: "string" }),
+          overall: object({
+            world_rank: { type: "number" },
+            usa_rank: { type: "number" },
+            influence: { type: "number" },
+            over_time: {
+              type: "array",
+              items: object({
+                year: {type: "number"},
+                value: {type: "number"}
+              })
+            }
+          }),
           disciplines: { $ref: "#/definitions/disciplineInfluenceData" },
           people: {
             type: "array",

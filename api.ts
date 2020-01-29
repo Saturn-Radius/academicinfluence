@@ -231,6 +231,15 @@ export interface SchoolData {
   desirability_rank: number | null;
   logo_url: string | null;
   graduation_rate: string | null;
+  overall: {
+    world_rank: number;
+    usa_rank: number;
+    influence: number;
+    over_time: {
+      year: number;
+      value: number;
+    }[];
+  };
   disciplines: DisciplineInfluenceData;
   people: {
     slug: string;

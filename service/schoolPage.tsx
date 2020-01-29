@@ -3,6 +3,7 @@ import { DisciplineInfluenceData, SchoolPageRequest, SchoolPageResponse } from "
 import databasePool from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
 import * as squel from "../squel";
+import { range } from "lodash";
 
 export default async function serveSchoolPage(request: SchoolPageRequest): Promise<SchoolPageResponse> {
 
@@ -36,21 +37,23 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .field("scores.keyword")
         .field("world_rank")
         .field("usa_rank")
+        .field("year_start")
+        .field("by_year")
         .order("influence", false)
         .where("scores.keyword is null or ai_disciplines.name is not null")
         .toParam())
 
-    const influencerQuery = pool.query(
+    const personQuery = pool.query(
         influenceScoreQuery(1900, 2020)
         .where("keyword is null")
-        .join("ai_data.influencer_schools", undefined, "influencer_schools.influencer_id = scores.id")
-        .join("editor.ai_schools", undefined, "editor.ai_schools.id = influencer_schools.school_id")
+        .join("ai_data.person_schools", undefined, "person_schools.person_id = scores.id")
+        .join("editor.ai_schools", undefined, "editor.ai_schools.id = person_schools.school_id")
         .where("ai_schools.slug = ?", request.slug)
-        .join("editor.ai_influencers", undefined, "editor.ai_influencers.id = scores.id")
-        .join("ai_data.influencers", undefined, "ai_influencers.id = influencers.id")
-        .field("ai_influencers.slug")
-        .field("influencers.name")
-        .field("coalesce(nullif(ai_influencers.description, ''), influencers.description)", "description")
+        .join("editor.ai_people", undefined, "editor.ai_people.id = scores.id")
+        .join("ai_data.people", undefined, "ai_people.id = people.id")
+        .field("ai_people.slug")
+        .field("people.name")
+        .field("coalesce(nullif(ai_people.description, ''), people.description)", "description")
         .order("influence", false)
         .limit(3)
         .toParam()
@@ -58,19 +61,36 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
 
     const school = (await schoolQuery).rows[0]
 
+    let overall = null;
+
     const influences: Dictionary<DisciplineInfluenceData> = {}
     for (const row of (await influenceQuery).rows) {
-        influences[row.name || ""] = {
-            influence: row.influence,
-            world_rank: row.world_rank,
-            usa_rank: row.usa_rank
+        if (row.name === null) {
+            overall = {
+                influence: row.influence,
+                world_rank: row.world_rank,
+                usa_rank: row.usa_rank,
+                over_time: row.by_year.map((value: number, index: number) => ({
+                        year: index + row.year_start,
+                        value
+                    }))
+            }
+        } else {
+            influences[row.name] = {
+                influence: row.influence,
+                world_rank: row.world_rank,
+                usa_rank: row.usa_rank
+            }
         }
+        
     }
+
     return {
-        school: {
-            ...school,
-            disciplines: influences,
-            influencers: (await influencerQuery).rows
+            school: {
+                ...school,
+                overall,
+                disciplines: influences,
+                people: (await personQuery).rows
+            }
         }
-   }
 }

@@ -1,6 +1,6 @@
 import { NextPage, NextPageContext } from "next";
 import { apiSchoolPage, SchoolData } from "../../api";
-
+import { VictoryChart, VictoryLine } from "victory"
 type SchoolProps = {
     school: SchoolData
     
@@ -19,7 +19,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => (
           City: {props.school.city}, {props.school.state}
       </div>
       <div>
-          Influence Score: {props.school.disciplines[''].influence}
+          Influence Score: {props.school.overall.influence}
       </div>
       <div>
           Acceptance Rate: {props.school.acceptance_rate}
@@ -38,11 +38,15 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => (
        </ol>
        <ol>
 
-      {props.school.people.map((person) => (<li>
+      {props.school.people.map((person) => (<li key={person.slug}>
             <a href={"/people/" + person.slug}>{person.name}</a> {person.influence} {person.description}
        </li>))}
 
         </ol>
+
+        <VictoryChart>
+            <VictoryLine data={props.school.overall.over_time} x="year" y="value"/>
+        </VictoryChart>
   </div>
 );
 
