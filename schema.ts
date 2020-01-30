@@ -66,7 +66,8 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           "acceptance_rate",
           "total_students",
           "influence_score",
-          "desirability"
+          "desirability",
+          "graduation_rate"
         ]
       },
       reversed: {
@@ -112,6 +113,7 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
             median_sat: nullable({ type: "number" }),
             undergrad_tuition_in_state: nullable({ type: "number" }),
             average_earnings: nullable({ type: "number" }),
+            graduation_rate: nullable({ type: "number" }),
             total_students: nullable({ type: "number" }),
             influence_score: nullable({ type: "number" }),
             acceptance_rate: nullable({ type: "number" }),
@@ -275,7 +277,7 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
 
           average_net_price: nullable({ type: "number" }),
           logo_url: nullable({ type: "string" }),
-          graduation_rate: nullable({ type: "string" }),
+          graduation_rate: nullable({ type: "number" }),
           overall: object({
             world_rank: { type: "number" },
             usa_rank: { type: "number" },

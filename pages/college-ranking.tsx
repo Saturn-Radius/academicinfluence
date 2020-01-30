@@ -299,6 +299,44 @@ const COLUMNS: COLUMN[] = [
     }
   },
   {
+    label: "Graduation Rate",
+    sort: "graduation_rate",
+    row: 2,
+    column: 5,
+    value: school => {
+      if (!school.graduation_rate) {
+        return <div />;
+      }
+      let percentage = school.graduation_rate * 100;
+
+      return (
+        <div
+          css={{
+            width: "50px",
+            height: "50px",
+            ".CircularProgressbar-trail": {
+              strokeWidth: "4px"
+            },
+            ".CircularProgressbar-path": {
+              strokeWidth: "10px",
+              stroke: "#EB5857"
+            },
+            ".CircularProgressbar-text": {
+              fill: "black",
+              fontSize: "28px",
+              fontWeight: "bold"
+            }
+          }}
+        >
+          <CircularProgressbar
+            value={percentage}
+            text={percentage.toFixed() + "%"}
+          />
+        </div>
+      );
+    }
+  },
+  {
     label: "Desirability Index",
     sort: "desirability",
     row: 3,

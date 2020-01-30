@@ -30,6 +30,7 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
         .field("median_act")
         .field("undergrad_tuition_in_state")
         .field("average_earnings")
+        .field("graduation_rate")
         .field("desirability")
         .field("location")
         .field(squel.rstr("admissions::float / applications::float"), "acceptance_rate")

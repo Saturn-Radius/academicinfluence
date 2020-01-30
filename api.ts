@@ -13,7 +13,8 @@ export type CollegeRankingSort =
   | "acceptance_rate"
   | "total_students"
   | "influence_score"
-  | "desirability";
+  | "desirability"
+  | "graduation_rate";
 export type LocationAutocompleteRequest = string;
 
 export interface ApiRoot {
@@ -115,6 +116,7 @@ export interface CollegeData {
   median_sat: number | null;
   undergrad_tuition_in_state: number | null;
   average_earnings: number | null;
+  graduation_rate: number | null;
   total_students: number | null;
   influence_score: number | null;
   acceptance_rate: number | null;
@@ -238,7 +240,7 @@ export interface SchoolData {
   grad_fees_out_of_state: number | null;
   average_net_price: number | null;
   logo_url: string | null;
-  graduation_rate: string | null;
+  graduation_rate: number | null;
   overall: {
     world_rank: number;
     usa_rank: number;
