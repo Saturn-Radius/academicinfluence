@@ -262,6 +262,7 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           median_sat: nullable({ type: "number" }),
           undergrad_tuition_in_state: nullable({ type: "number" }),
           average_earnings: nullable({ type: "number" }),
+          employed_10_years: nullable({ type: "number" }),
           total_students: nullable({ type: "number" }),
           acceptance_rate: nullable({ type: "number" }),
           desirability: nullable({ type: "number" }),

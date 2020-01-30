@@ -60,6 +60,12 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => (
         <div>
             Test Competitiveness: {props.school.test_competitiveness}
         </div>
+        <div>
+            Average earning 10 years: {props.school.average_earnings}
+        </div>
+        <div>
+            Employed 10 years: {props.school.employed_10_years}
+        </div>
   </div>
 );
 

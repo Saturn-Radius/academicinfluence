@@ -227,6 +227,7 @@ export interface SchoolData {
   median_sat: number | null;
   undergrad_tuition_in_state: number | null;
   average_earnings: number | null;
+  employed_10_years: number | null;
   total_students: number | null;
   acceptance_rate: number | null;
   desirability: number | null;

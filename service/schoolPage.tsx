@@ -158,6 +158,7 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .field("grad_fees_out_of_state")
         .field("average_net_price")
         .field("average_earnings")
+        .field("employed_10_years")
         .field("desirability")
         .field("desirability_rank")
         .field("location")
