@@ -229,6 +229,14 @@ export interface SchoolData {
   acceptance_rate: number | null;
   desirability: number | null;
   desirability_rank: number | null;
+  undergrad_tuition_out_of_state: number | null;
+  grad_tuition_in_state: number | null;
+  grad_tuition_out_of_state: number | null;
+  undergrad_fees_in_state: number | null;
+  undergrad_fees_out_of_state: number | null;
+  grad_fees_in_state: number | null;
+  grad_fees_out_of_state: number | null;
+  average_net_price: number | null;
   logo_url: string | null;
   graduation_rate: string | null;
   overall: {
@@ -248,60 +256,93 @@ export interface SchoolData {
     influence: number;
   }[];
 }
-export const apiCollegeRankings = process.browser ? 
-        async function(request: CollegeRankingsRequest): Promise<CollegeRankingsResponse> {
-            const response = await fetch("/api/CollegeRankings/" + encodeURIComponent(JSON.stringify(request)));
-            return response.json()
-        } : async function(request: CollegeRankingsRequest): Promise<CollegeRankingsResponse> {
-            const module = await import("./service/collegeRankings");
-            return module.default(request)
-        }
-        export const apiLocationAutocomplete = process.browser ? 
-        async function(request: LocationAutocompleteRequest): Promise<LocationAutocompleteResponse> {
-            const response = await fetch("/api/LocationAutocomplete/" + encodeURIComponent(JSON.stringify(request)));
-            return response.json()
-        } : async function(request: LocationAutocompleteRequest): Promise<LocationAutocompleteResponse> {
-            const module = await import("./service/locationAutocomplete");
-            return module.default(request)
-        }
-        export const apiDisciplines = process.browser ? 
-        async function(request: DisciplinesRequest): Promise<DisciplinesResponse> {
-            const response = await fetch("/api/Disciplines/" + encodeURIComponent(JSON.stringify(request)));
-            return response.json()
-        } : async function(request: DisciplinesRequest): Promise<DisciplinesResponse> {
-            const module = await import("./service/disciplines");
-            return module.default(request)
-        }
-        export const apiFeaturesPage = process.browser ? 
-        async function(request: FeaturesPageRequest): Promise<FeaturesPageResponse> {
-            const response = await fetch("/api/FeaturesPage/" + encodeURIComponent(JSON.stringify(request)));
-            return response.json()
-        } : async function(request: FeaturesPageRequest): Promise<FeaturesPageResponse> {
-            const module = await import("./service/featuresPage");
-            return module.default(request)
-        }
-        export const apiHomePage = process.browser ? 
-        async function(request: HomePageRequest): Promise<HomePageResponse> {
-            const response = await fetch("/api/HomePage/" + encodeURIComponent(JSON.stringify(request)));
-            return response.json()
-        } : async function(request: HomePageRequest): Promise<HomePageResponse> {
-            const module = await import("./service/homePage");
-            return module.default(request)
-        }
-        export const apiPersonPage = process.browser ? 
-        async function(request: PersonPageRequest): Promise<PersonPageResponse> {
-            const response = await fetch("/api/PersonPage/" + encodeURIComponent(JSON.stringify(request)));
-            return response.json()
-        } : async function(request: PersonPageRequest): Promise<PersonPageResponse> {
-            const module = await import("./service/personPage");
-            return module.default(request)
-        }
-        export const apiSchoolPage = process.browser ? 
-        async function(request: SchoolPageRequest): Promise<SchoolPageResponse> {
-            const response = await fetch("/api/SchoolPage/" + encodeURIComponent(JSON.stringify(request)));
-            return response.json()
-        } : async function(request: SchoolPageRequest): Promise<SchoolPageResponse> {
-            const module = await import("./service/schoolPage");
-            return module.default(request)
-        }
-        
+export const apiCollegeRankings = process.browser
+  ? async function(
+      request: CollegeRankingsRequest
+    ): Promise<CollegeRankingsResponse> {
+      const response = await fetch(
+        "/api/CollegeRankings/" + encodeURIComponent(JSON.stringify(request))
+      );
+      return response.json();
+    }
+  : async function(
+      request: CollegeRankingsRequest
+    ): Promise<CollegeRankingsResponse> {
+      const module = await import("./service/collegeRankings");
+      return module.default(request);
+    };
+export const apiLocationAutocomplete = process.browser
+  ? async function(
+      request: LocationAutocompleteRequest
+    ): Promise<LocationAutocompleteResponse> {
+      const response = await fetch(
+        "/api/LocationAutocomplete/" +
+          encodeURIComponent(JSON.stringify(request))
+      );
+      return response.json();
+    }
+  : async function(
+      request: LocationAutocompleteRequest
+    ): Promise<LocationAutocompleteResponse> {
+      const module = await import("./service/locationAutocomplete");
+      return module.default(request);
+    };
+export const apiDisciplines = process.browser
+  ? async function(request: DisciplinesRequest): Promise<DisciplinesResponse> {
+      const response = await fetch(
+        "/api/Disciplines/" + encodeURIComponent(JSON.stringify(request))
+      );
+      return response.json();
+    }
+  : async function(request: DisciplinesRequest): Promise<DisciplinesResponse> {
+      const module = await import("./service/disciplines");
+      return module.default(request);
+    };
+export const apiFeaturesPage = process.browser
+  ? async function(
+      request: FeaturesPageRequest
+    ): Promise<FeaturesPageResponse> {
+      const response = await fetch(
+        "/api/FeaturesPage/" + encodeURIComponent(JSON.stringify(request))
+      );
+      return response.json();
+    }
+  : async function(
+      request: FeaturesPageRequest
+    ): Promise<FeaturesPageResponse> {
+      const module = await import("./service/featuresPage");
+      return module.default(request);
+    };
+export const apiHomePage = process.browser
+  ? async function(request: HomePageRequest): Promise<HomePageResponse> {
+      const response = await fetch(
+        "/api/HomePage/" + encodeURIComponent(JSON.stringify(request))
+      );
+      return response.json();
+    }
+  : async function(request: HomePageRequest): Promise<HomePageResponse> {
+      const module = await import("./service/homePage");
+      return module.default(request);
+    };
+export const apiPersonPage = process.browser
+  ? async function(request: PersonPageRequest): Promise<PersonPageResponse> {
+      const response = await fetch(
+        "/api/PersonPage/" + encodeURIComponent(JSON.stringify(request))
+      );
+      return response.json();
+    }
+  : async function(request: PersonPageRequest): Promise<PersonPageResponse> {
+      const module = await import("./service/personPage");
+      return module.default(request);
+    };
+export const apiSchoolPage = process.browser
+  ? async function(request: SchoolPageRequest): Promise<SchoolPageResponse> {
+      const response = await fetch(
+        "/api/SchoolPage/" + encodeURIComponent(JSON.stringify(request))
+      );
+      return response.json();
+    }
+  : async function(request: SchoolPageRequest): Promise<SchoolPageResponse> {
+      const module = await import("./service/schoolPage");
+      return module.default(request);
+    };

@@ -1,6 +1,6 @@
 import { NextPage, NextPageContext } from "next";
+import { VictoryChart, VictoryLine } from "victory";
 import { apiSchoolPage, SchoolData } from "../../api";
-import { VictoryChart, VictoryLine } from "victory"
 type SchoolProps = {
     school: SchoolData
     
@@ -47,6 +47,16 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => (
         <VictoryChart>
             <VictoryLine data={props.school.overall.over_time} x="year" y="value"/>
         </VictoryChart>
+
+        <div>
+            Tuition: {props.school.undergrad_tuition_in_state} (in-state) {props.school.undergrad_tuition_out_of_state} (out-of-state)
+        </div>
+        <div>
+            Fees: {props.school.undergrad_fees_in_state} (in-state) {props.school.undergrad_fees_out_of_state} (out-of-state)
+        </div>
+        <div>
+            Average net price: {props.school.average_net_price} (60k income)
+        </div>
   </div>
 );
 

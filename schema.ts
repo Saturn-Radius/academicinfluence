@@ -264,6 +264,16 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           acceptance_rate: nullable({ type: "number" }),
           desirability: nullable({ type: "number" }),
           desirability_rank: nullable({ type: "number" }),
+          undergrad_tuition_out_of_state: nullable({ type: "number" }),
+          grad_tuition_in_state: nullable({ type: "number" }),
+          grad_tuition_out_of_state: nullable({ type: "number" }),
+
+          undergrad_fees_in_state: nullable({ type: "number" }),
+          undergrad_fees_out_of_state: nullable({ type: "number" }),
+          grad_fees_in_state: nullable({ type: "number" }),
+          grad_fees_out_of_state: nullable({ type: "number" }),
+
+          average_net_price: nullable({ type: "number" }),
           logo_url: nullable({ type: "string" }),
           graduation_rate: nullable({ type: "string" }),
           overall: object({
@@ -273,8 +283,8 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
             over_time: {
               type: "array",
               items: object({
-                year: {type: "number"},
-                value: {type: "number"}
+                year: { type: "number" },
+                value: { type: "number" }
               })
             }
           }),
@@ -282,10 +292,10 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           people: {
             type: "array",
             items: object({
-              slug: {type: "string"},
-              name: {type: "string"},
-              description: {type: "string"},
-              influence: {type: "number"}
+              slug: { type: "string" },
+              name: { type: "string" },
+              description: { type: "string" },
+              influence: { type: "number" }
             })
           }
         },

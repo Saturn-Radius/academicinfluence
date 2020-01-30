@@ -3,7 +3,6 @@ import { DisciplineInfluenceData, SchoolPageRequest, SchoolPageResponse } from "
 import databasePool from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
 import * as squel from "../squel";
-import { range } from "lodash";
 
 export default async function serveSchoolPage(request: SchoolPageRequest): Promise<SchoolPageResponse> {
 
@@ -19,6 +18,14 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .field("median_sat")
         .field("median_act")
         .field("undergrad_tuition_in_state")
+        .field("undergrad_tuition_out_of_state")
+        .field("grad_tuition_in_state")
+        .field("grad_tuition_out_of_state")
+        .field("undergrad_fees_in_state")
+        .field("undergrad_fees_out_of_state")
+        .field("grad_fees_in_state")
+        .field("grad_fees_out_of_state")
+        .field("average_net_price")
         .field("average_earnings")
         .field("desirability")
         .field("desirability_rank")
