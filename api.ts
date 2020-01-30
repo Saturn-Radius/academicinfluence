@@ -241,6 +241,7 @@ export interface SchoolData {
   average_net_price: number | null;
   logo_url: string | null;
   graduation_rate: number | null;
+  test_competitiveness: number | null;
   overall: {
     world_rank: number;
     usa_rank: number;

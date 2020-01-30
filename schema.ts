@@ -278,6 +278,7 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           average_net_price: nullable({ type: "number" }),
           logo_url: nullable({ type: "string" }),
           graduation_rate: nullable({ type: "number" }),
+          test_competitiveness: nullable({ type: "number" }),
           overall: object({
             world_rank: { type: "number" },
             usa_rank: { type: "number" },
