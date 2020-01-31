@@ -95,6 +95,14 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => (
                 </tbody>
             </table>
         </div>
+
+       <ol>
+
+      {props.school.alumni.map((person) => (<li key={person.slug}>
+            <a href={"/people/" + person.slug}>{person.name}</a> {person.influence} {person.description}
+       </li>))}
+
+        </ol>
   </div>
 );
 

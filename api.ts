@@ -263,6 +263,12 @@ export interface SchoolData {
     description: string;
     influence: number;
   }[];
+  alumni: {
+    slug: string;
+    name: string;
+    description: string;
+    influence: number;
+  }[];
   weather: {
     winter: {
       high: number;

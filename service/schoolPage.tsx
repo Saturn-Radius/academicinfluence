@@ -232,6 +232,23 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .toParam()
     )
 
+    const alumniQuery = pool.query(
+        influenceScoreQuery(1900, 2020)
+        .where("keyword is null")
+        .join("ai_data.person_schools", undefined, "person_schools.person_id = scores.id")
+        .where("person_schools.relationship = ?", 'Student')
+        .join("editor.ai_schools", undefined, "editor.ai_schools.id = person_schools.school_id")
+        .where("ai_schools.slug = ?", request.slug)
+        .join("editor.ai_people", undefined, "editor.ai_people.id = scores.id")
+        .join("ai_data.people", undefined, "ai_people.id = people.id")
+        .field("ai_people.slug")
+        .field("people.name")
+        .field("coalesce(nullif(ai_people.description, ''), people.description)", "description")
+        .order("influence", false)
+        .limit(3)
+        .toParam()
+    )
+
     const school = (await schoolQuery).rows[0]
 
     let overall = null;
@@ -266,6 +283,7 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
                 overall,
                 disciplines: influences,
                 people: (await personQuery).rows,
+                alumni: (await alumniQuery).rows,
                 weather: calcWeather(school.weather_maximums, school.weather_minimums)
             }
         }

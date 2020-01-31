@@ -306,6 +306,15 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
               influence: { type: "number" }
             })
           },
+          alumni: {
+            type: "array",
+            items: object({
+              slug: { type: "string" },
+              name: { type: "string" },
+              description: { type: "string" },
+              influence: { type: "number" }
+            })
+          },
           weather: nullable(
             object({
               winter: object({
