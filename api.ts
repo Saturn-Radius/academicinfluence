@@ -42,6 +42,10 @@ export interface ApiRoot {
     request?: PersonPageRequest;
     response?: PersonPageResponse;
   };
+  SchoolSubjectPage?: {
+    request?: SchoolSubjectPageRequest;
+    response?: SchoolSubjectPageResponse;
+  };
   SchoolPage?: {
     request?: SchoolPageRequest;
     response?: SchoolPageResponse;
@@ -212,6 +216,24 @@ export interface DisciplineInfluenceData {
     influence: number;
   };
 }
+export interface SchoolSubjectPageRequest {
+  slug: string;
+  discipline: string;
+}
+export interface SchoolSubjectPageResponse {
+  alumni: {
+    name: string;
+    description: string;
+    slug: string;
+    influence: number;
+  }[];
+  staff: {
+    name: string;
+    description: string;
+    slug: string;
+    influence: number;
+  }[];
+}
 export interface SchoolPageRequest {
   slug: string;
 }
@@ -365,6 +387,21 @@ export const apiPersonPage = process.browser
     }
   : async function(request: PersonPageRequest): Promise<PersonPageResponse> {
       const module = await import("./service/personPage");
+      return module.default(request);
+    };
+export const apiSchoolSubjectPage = process.browser
+  ? async function(
+      request: SchoolSubjectPageRequest
+    ): Promise<SchoolSubjectPageResponse> {
+      const response = await fetch(
+        "/api/SchoolSubjectPage/" + encodeURIComponent(JSON.stringify(request))
+      );
+      return response.json();
+    }
+  : async function(
+      request: SchoolSubjectPageRequest
+    ): Promise<SchoolSubjectPageResponse> {
+      const module = await import("./service/schoolSubjectPage");
       return module.default(request);
     };
 export const apiSchoolPage = process.browser

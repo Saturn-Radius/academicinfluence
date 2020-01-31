@@ -243,6 +243,32 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
       )
     })
   },
+  SchoolSubjectPage: {
+    request: object({
+      slug: { type: "string" },
+      discipline: { type: "string" }
+    }),
+    response: object({
+      alumni: {
+        type: "array",
+        items: object({
+          name: { type: "string" },
+          description: { type: "string" },
+          slug: { type: "string" },
+          influence: { type: "number" }
+        })
+      },
+      staff: {
+        type: "array",
+        items: object({
+          name: { type: "string" },
+          description: { type: "string" },
+          slug: { type: "string" },
+          influence: { type: "number" }
+        })
+      }
+    })
+  },
   SchoolPage: {
     request: object({
       slug: { type: "string" }

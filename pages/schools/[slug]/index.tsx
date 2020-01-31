@@ -1,6 +1,6 @@
 import { NextPage, NextPageContext } from "next";
 import { VictoryChart, VictoryLine } from "victory";
-import { apiSchoolPage, SchoolData } from "../../api";
+import { apiSchoolPage, SchoolData } from "../../../api";
 type SchoolProps = {
     school: SchoolData
     
