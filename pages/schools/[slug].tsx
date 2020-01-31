@@ -66,6 +66,12 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => (
         <div>
             Employed 10 years: {props.school.employed_10_years}
         </div>
+        <div>
+        <VictoryChart>
+            <VictoryLine data={props.school.weather} x="month" y="maximum"/>
+            <VictoryLine data={props.school.weather} x="month" y="minimum"/>
+        </VictoryChart>
+        </div>
   </div>
 );
 

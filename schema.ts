@@ -301,6 +301,14 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
               description: { type: "string" },
               influence: { type: "number" }
             })
+          },
+          weather: {
+            type: "array",
+            items: object({
+              month: { type: "string" },
+              maximum: { type: "number" },
+              minimum: { type: "number" }
+            })
           }
         },
         "SchoolData"

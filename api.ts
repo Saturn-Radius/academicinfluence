@@ -259,6 +259,11 @@ export interface SchoolData {
     description: string;
     influence: number;
   }[];
+  weather: {
+    month: string;
+    maximum: number;
+    minimum: number;
+  }[];
 }
 export const apiCollegeRankings = process.browser
   ? async function(

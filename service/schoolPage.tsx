@@ -1,8 +1,9 @@
-import { Dictionary } from "lodash";
+import { Dictionary, zip } from "lodash";
 import { DisciplineInfluenceData, SchoolPageRequest, SchoolPageResponse } from "../api";
 import databasePool from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
 import * as squel from "../squel";
+const months = require('months')
 
 // 800-200
 const SAT_SCORES = [
@@ -163,6 +164,8 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .field("desirability_rank")
         .field("location")
         .field("graduation_rate")
+        .field("weather_maximums")
+        .field("weather_minimums")
         .field(squel.rstr("admissions::float / applications::float"), "acceptance_rate")
         .field(squel.rstr("undergraduate_students + graduate_students"), "total_students")
         .field("logo_url")
@@ -231,7 +234,15 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
                     lookupSatMath(school.median_sat / 2) / 100,
                 overall,
                 disciplines: influences,
-                people: (await personQuery).rows
+                people: (await personQuery).rows,
+                weather: zip(
+                    months.abbr,
+                    school.weather_maximums,
+                    school.weather_minimums).map(([month, maximum, minimum]) => ({
+                        month,maximum,minimum
+                    }))
+
+
             }
         }
 }
