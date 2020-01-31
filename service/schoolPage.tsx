@@ -196,6 +196,10 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .field(squel.rstr("admissions::float / applications::float"), "acceptance_rate")
         .field(squel.rstr("undergraduate_students + graduate_students"), "total_students")
         .field("logo_url")
+        .field("campus_property_crime_rate")
+        .field("campus_violent_crime_rate")
+        .field("city_property_crime_rate")
+        .field("city_violent_crime_rate")
         .toString())
 
     const influenceQuery = pool.query(influenceScoreQuery(1900, 2020)

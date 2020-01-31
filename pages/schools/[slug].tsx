@@ -69,6 +69,29 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => (
         <div>
             {JSON.stringify(props.school.weather)}
         </div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th/>
+                        <th>Violent</th>
+                        <th>Property</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Campus</td>
+                        <td>{props.school.campus_violent_crime_rate}</td>
+                        <td>{props.school.campus_violent_crime_rate}</td>
+                    </tr>
+                    <tr>
+                        <td>City</td>
+                        <td>{props.school.city_violent_crime_rate}</td>
+                        <td>{props.school.city_violent_crime_rate}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
   </div>
 );
 

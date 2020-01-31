@@ -280,6 +280,10 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           logo_url: nullable({ type: "string" }),
           graduation_rate: nullable({ type: "number" }),
           test_competitiveness: nullable({ type: "number" }),
+          campus_property_crime_rate: nullable({ type: "number" }),
+          campus_violent_crime_rate: nullable({ type: "number" }),
+          city_property_crime_rate: nullable({ type: "number" }),
+          city_violent_crime_rate: nullable({ type: "number" }),
           overall: object({
             world_rank: { type: "number" },
             usa_rank: { type: "number" },

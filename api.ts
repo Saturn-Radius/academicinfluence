@@ -243,6 +243,10 @@ export interface SchoolData {
   logo_url: string | null;
   graduation_rate: number | null;
   test_competitiveness: number | null;
+  campus_property_crime_rate: number | null;
+  campus_violent_crime_rate: number | null;
+  city_property_crime_rate: number | null;
+  city_violent_crime_rate: number | null;
   overall: {
     world_rank: number;
     usa_rank: number;
