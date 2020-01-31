@@ -302,14 +302,26 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
               influence: { type: "number" }
             })
           },
-          weather: {
-            type: "array",
-            items: object({
-              month: { type: "string" },
-              maximum: { type: "number" },
-              minimum: { type: "number" }
+          weather: nullable(
+            object({
+              winter: object({
+                high: { type: "number" },
+                low: { type: "number" }
+              }),
+              spring: object({
+                high: { type: "number" },
+                low: { type: "number" }
+              }),
+              summer: object({
+                high: { type: "number" },
+                low: { type: "number" }
+              }),
+              fall: object({
+                high: { type: "number" },
+                low: { type: "number" }
+              })
             })
-          }
+          )
         },
         "SchoolData"
       )

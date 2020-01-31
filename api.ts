@@ -260,10 +260,23 @@ export interface SchoolData {
     influence: number;
   }[];
   weather: {
-    month: string;
-    maximum: number;
-    minimum: number;
-  }[];
+    winter: {
+      high: number;
+      low: number;
+    };
+    spring: {
+      high: number;
+      low: number;
+    };
+    summer: {
+      high: number;
+      low: number;
+    };
+    fall: {
+      high: number;
+      low: number;
+    };
+  } | null;
 }
 export const apiCollegeRankings = process.browser
   ? async function(

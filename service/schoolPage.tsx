@@ -1,4 +1,4 @@
-import { Dictionary, zip } from "lodash";
+import { Dictionary } from "lodash";
 import { DisciplineInfluenceData, SchoolPageRequest, SchoolPageResponse } from "../api";
 import databasePool from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
@@ -136,6 +136,33 @@ function lookupSatVerbal(score: number) {
   return SAT_SCORES[Math.round((80 - score / 10) * 2)];
 }
 
+function calcTemp(temps: number[], start: number, end: number) {
+    let total = 0;
+    for (let index = start; index < end; index++) {
+        total += temps[index]
+    }
+    return total / (end - start)
+}
+
+function calcSeason(maximums: number[], minimums: number[], start: number, end: number) {
+    return {
+        high: calcTemp(maximums, start, end),
+        low: calcTemp(minimums, start, end)
+    }
+}
+
+function calcWeather(maximums: number[], minimums: number[]) {
+    if (maximums.length == 0 || minimums.length == 0) {
+        return null
+    }
+    return {
+        winter: calcSeason(maximums, minimums, 0, 3),
+        spring: calcSeason(maximums, minimums, 3, 6),
+        summer: calcSeason(maximums, minimums, 6, 9),
+        fall: calcSeason(maximums, minimums, 9, 12),
+    }
+}
+
 export default async function serveSchoolPage(request: SchoolPageRequest): Promise<SchoolPageResponse> {
 
     const pool = await databasePool;
@@ -235,14 +262,7 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
                 overall,
                 disciplines: influences,
                 people: (await personQuery).rows,
-                weather: zip(
-                    months.abbr,
-                    school.weather_maximums,
-                    school.weather_minimums).map(([month, maximum, minimum]) => ({
-                        month,maximum,minimum
-                    }))
-
-
+                weather: calcWeather(school.weather_maximums, school.weather_minimums)
             }
         }
 }

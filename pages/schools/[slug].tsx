@@ -67,10 +67,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => (
             Employed 10 years: {props.school.employed_10_years}
         </div>
         <div>
-        <VictoryChart>
-            <VictoryLine data={props.school.weather} x="month" y="maximum"/>
-            <VictoryLine data={props.school.weather} x="month" y="minimum"/>
-        </VictoryChart>
+            {JSON.stringify(props.school.weather)}
         </div>
   </div>
 );
