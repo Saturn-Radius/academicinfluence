@@ -165,7 +165,7 @@ export default async function serveSchoolSubjectPage(request: SchoolSubjectPageR
 
     const pool = await databasePool;
 
-    const baseQuery = influenceScoreQuery(1900, 2020)
+    const baseQuery = influenceScoreQuery("person", 1900, 2020)
         .join("editor.ai_disciplines", undefined, "ai_disciplines.id = scores.keyword")
         .where("ai_disciplines.name = ?", request.discipline)
         .join("ai_data.person_schools", undefined, "person_schools.person_id = scores.id")

@@ -202,7 +202,7 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .field("city_violent_crime_rate")
         .toString())
 
-    const influenceQuery = pool.query(influenceScoreQuery(1900, 2020)
+    const influenceQuery = pool.query(influenceScoreQuery("school", 1900, 2020)
         .join("editor.ai_schools", undefined, "editor.ai_schools.id = scores.id")
         .where("editor.ai_schools.slug = ?", request.slug)
         .left_join("editor.ai_disciplines", undefined, "ai_disciplines.id = scores.keyword")
@@ -217,7 +217,7 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .toParam())
 
     const personQuery = pool.query(
-        influenceScoreQuery(1900, 2020)
+        influenceScoreQuery("person", 1900, 2020)
         .where("keyword is null")
         .join("ai_data.person_schools", undefined, "person_schools.person_id = scores.id")
         .join("editor.ai_schools", undefined, "editor.ai_schools.id = person_schools.school_id")
@@ -229,11 +229,11 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .field("coalesce(nullif(ai_people.description, ''), people.description)", "description")
         .order("influence", false)
         .limit(3)
-        .toParam()
+        .toString()
     )
 
     const alumniQuery = pool.query(
-        influenceScoreQuery(1900, 2020)
+        influenceScoreQuery("person", 1900, 2020)
         .where("keyword is null")
         .join("ai_data.person_schools", undefined, "person_schools.person_id = scores.id")
         .where("person_schools.relationship = ?", 'Student')
