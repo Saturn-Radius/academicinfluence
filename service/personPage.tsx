@@ -42,14 +42,13 @@ export default async function servePersonPage(request: PersonPageRequest): Promi
         .field("schools.name")
         .toParam())
 
-    console.log(squel.select().from("editor.ai_people")
-        .join("ai_data.person_schools", undefined, "ai_data.person_schools.person_id = editor.ai_people.id")
+
+    const workQuery = pool.query(squel.select().from("editor.ai_people")
+        .join("ai_data.person_works", undefined, "ai_data.person_works.author_id = editor.ai_people.id")
         .where("ai_people.slug = ?", request.slug)
-        .join("editor.ai_schools", undefined, "ai_schools.id = ai_data.person_schools.school_id")
-        .join("ai_data.schools", undefined, "schools.id = ai_data.person_schools.school_id")
-        .field("ai_schools.slug")
-        .field("schools.name")
-        .toString())
+        .field("person_works.label")
+        .order("person_works.influence", false)
+        .toParam())
 
     const person = (await personQuery).rows[0]
 
@@ -83,7 +82,8 @@ export default async function servePersonPage(request: PersonPageRequest): Promi
             disciplines,
             overall,
             links,
-            schools: (await schoolQuery).rows
+            schools: (await schoolQuery).rows,
+            works: (await workQuery).rows
         }
    }
 }

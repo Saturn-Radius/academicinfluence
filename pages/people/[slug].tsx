@@ -44,7 +44,13 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => (
        </li>))}
 
         </ol>
+        <ol>
 
+      {props.person.works.map(work=> (<li key={work.label}>
+        {work.label}
+       </li>))}
+
+        </ol>
 
 
         <pre>

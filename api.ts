@@ -214,6 +214,9 @@ export interface PersonData {
   image_url: string | null;
   image_source_url: string | null;
   disciplines: DisciplineInfluenceData;
+  works: {
+    label: string;
+  }[];
   schools: {
     slug: string;
     name: string;

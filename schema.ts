@@ -251,6 +251,12 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           image_url: nullable({ type: "string" }),
           image_source_url: nullable({ type: "string" }),
           disciplines: { $ref: "#/definitions/disciplineInfluenceData" },
+          works: {
+            type: "array",
+            items: object({
+              label: { type: "string" }
+            })
+          },
           schools: {
             type: "array",
             items: object({
