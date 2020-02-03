@@ -15,6 +15,8 @@ export default async function servePersonPage(request: PersonPageRequest): Promi
         .field("coalesce(nullif(ai_people.description, ''), people.description)", "description")
         .field("birth_year")
         .field("death_year")
+        .field(squel.str("? || image", "/api/wmcimage/"), "image_url")
+        .field(squel.str("? || image", "https://commons.wikimedia.org/wiki/File:"), "image_source_url")
         .toParam())
 
     const influenceQuery = pool.query(influenceScoreQuery('person', 1900, 2020)

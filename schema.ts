@@ -244,6 +244,8 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
           }),
           birth_year: nullable({ type: "number" }),
           death_year: nullable({ type: "number" }),
+          image_url: nullable({ type: "string" }),
+          image_source_url: nullable({ type: "string" }),
           disciplines: { $ref: "#/definitions/disciplineInfluenceData" },
           schools: {
             type: "array",

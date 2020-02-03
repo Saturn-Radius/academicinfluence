@@ -9,6 +9,8 @@ type PersonProps = {
 
 const Person: NextPage<PersonProps> = (props: PersonProps) => (
   <div>
+      {props.person.image_url && <img src={props.person.image_url}/>}
+      {props.person.image_source_url && <a href={props.person.image_source_url}>Source</a>}
       <div>
           Name: {props.person.name} ({props.person.birth_year} - {props.person.death_year})
       </div>

@@ -210,6 +210,8 @@ export interface PersonData {
   };
   birth_year: number | null;
   death_year: number | null;
+  image_url: string | null;
+  image_source_url: string | null;
   disciplines: DisciplineInfluenceData;
   schools: {
     slug: string;
