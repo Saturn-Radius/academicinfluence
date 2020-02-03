@@ -5,7 +5,7 @@ import * as squel from "../squel";
 
 export function calculateScore(start_year: number, stop_year: number, discipline: string | null) {
 
-    const query = influenceScoreQuery(start_year, stop_year)
+    const query = influenceScoreQuery('school', start_year, stop_year)
 
     if (discipline) {
         query.join("editor.ai_disciplines", undefined, "editor.ai_disciplines.id = ai_data.scores.keyword")

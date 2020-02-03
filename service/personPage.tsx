@@ -15,7 +15,7 @@ export default async function servePersonPage(request: PersonPageRequest): Promi
         .field("coalesce(nullif(ai_people.description, ''), people.description)", "description")
         .toString())
 
-    const influenceQuery = pool.query(influenceScoreQuery(1900, 2020)
+    const influenceQuery = pool.query(influenceScoreQuery('person', 1900, 2020)
         .join("editor.ai_people", undefined, "editor.ai_people.id = scores.id")
         .where("editor.ai_people.slug = ?", request.slug)
         .left_join("editor.ai_disciplines", undefined, "ai_disciplines.id = scores.keyword")
