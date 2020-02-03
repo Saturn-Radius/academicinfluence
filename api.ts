@@ -50,6 +50,10 @@ export interface ApiRoot {
     request?: SchoolPageRequest;
     response?: SchoolPageResponse;
   };
+  InfluentialSchoolsPage?: {
+    request?: InfluentialSchoolsPageRequest;
+    response?: InfluentialSchoolsPageResponse;
+  };
 }
 export interface CollegeRankingsRequest {
   sort: CollegeRankingSort;
@@ -327,6 +331,23 @@ export interface SchoolData {
     };
   } | null;
 }
+export interface InfluentialSchoolsPageRequest {}
+export interface InfluentialSchoolsPageResponse {
+  schools: {
+    slug: string;
+    name: string;
+    city: string;
+    state: string;
+    undergrad_tuition_in_state: number | null;
+    average_earnings: number | null;
+    influence_score: number | null;
+    world_rank: number;
+    usa_rank: number | null;
+    acceptance_rate: number | null;
+    logo_url: string | null;
+    top_discipline: string | null;
+  }[];
+}
 export const apiCollegeRankings = process.browser
   ? async function(
       request: CollegeRankingsRequest
@@ -430,5 +451,21 @@ export const apiSchoolPage = process.browser
     }
   : async function(request: SchoolPageRequest): Promise<SchoolPageResponse> {
       const module = await import("./service/schoolPage");
+      return module.default(request);
+    };
+export const apiInfluentialSchoolsPage = process.browser
+  ? async function(
+      request: InfluentialSchoolsPageRequest
+    ): Promise<InfluentialSchoolsPageResponse> {
+      const response = await fetch(
+        "/api/InfluentialSchoolsPage/" +
+          encodeURIComponent(JSON.stringify(request))
+      );
+      return response.json();
+    }
+  : async function(
+      request: InfluentialSchoolsPageRequest
+    ): Promise<InfluentialSchoolsPageResponse> {
+      const module = await import("./service/influentialSchoolsPage");
       return module.default(request);
     };

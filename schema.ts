@@ -391,6 +391,39 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
         "SchoolData"
       )
     })
+  },
+  InfluentialSchoolsPage: {
+    request: object({}),
+    response: object({
+      schools: {
+        type: "array",
+        items: object({
+          slug: {
+            type: "string"
+          },
+          name: {
+            type: "string"
+          },
+          description: {
+            type: "string"
+          },
+          city: {
+            type: "string"
+          },
+          state: {
+            type: "string"
+          },
+          undergrad_tuition_in_state: nullable({ type: "number" }),
+          average_earnings: nullable({ type: "number" }),
+          influence_score: nullable({ type: "number" }),
+          world_rank: { type: "number" },
+          usa_rank: nullable({ type: "number" }),
+          acceptance_rate: nullable({ type: "number" }),
+          logo_url: nullable({ type: "string" }),
+          top_discipline: nullable({ type: "string" })
+        })
+      }
+    })
   }
 };
 

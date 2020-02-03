@@ -33,10 +33,14 @@ export function influenceScoreQuery(
     expression
   );
 
+  const conditioned = squel.str(
+    "case when ? > ? then ? else 0.0 end", end, start, adapted
+  )
+
   const query = squel
     .select()
     .from(squel.rstr("ai_data.scores"))
-    .field(adapted, "influence")
+    .field(conditioned, "influence")
     .where("scores.kind = ?", kind);
 
   return query;

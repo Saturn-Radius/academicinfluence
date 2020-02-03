@@ -80,10 +80,7 @@ export default async function serveCollegeRankings(request: CollegeRankingsReque
 
 
     return {
-        schools: queryResult.rows.map(row => ({
-            ...row,
-            image_url: row.ipeds_id && 'https://academicinfluence.com/images/schools/logos/' + row.ipeds_id
-        })),
+        schools: queryResult.rows,
         limits: {
             tuition: {
                 min: Math.floor((limitResult.rows[0].min_tuition || 0) / 1000),
