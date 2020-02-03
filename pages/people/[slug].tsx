@@ -10,7 +10,7 @@ type PersonProps = {
 const Person: NextPage<PersonProps> = (props: PersonProps) => (
   <div>
       <div>
-          Name: {props.person.name}
+          Name: {props.person.name} ({props.person.birth_year} - {props.person.death_year})
       </div>
       <div>
           Description: {props.person.description}

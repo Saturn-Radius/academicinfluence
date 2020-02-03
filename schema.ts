@@ -242,6 +242,8 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
             usa_rank: { type: "number" },
             influence: { type: "number" }
           }),
+          birth_year: nullable({ type: "number" }),
+          death_year: nullable({ type: "number" }),
           disciplines: { $ref: "#/definitions/disciplineInfluenceData" },
           schools: {
             type: "array",

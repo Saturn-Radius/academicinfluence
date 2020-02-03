@@ -208,6 +208,8 @@ export interface PersonData {
     usa_rank: number;
     influence: number;
   };
+  birth_year: number | null;
+  death_year: number | null;
   disciplines: DisciplineInfluenceData;
   schools: {
     slug: string;
