@@ -237,7 +237,19 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
         {
           name: { type: "string" },
           description: { type: "string" },
-          disciplines: { $ref: "#/definitions/disciplineInfluenceData" }
+          overall: object({
+            world_rank: { type: "number" },
+            usa_rank: { type: "number" },
+            influence: { type: "number" }
+          }),
+          disciplines: { $ref: "#/definitions/disciplineInfluenceData" },
+          schools: {
+            type: "array",
+            items: object({
+              slug: { type: "string" },
+              name: { type: "string" }
+            })
+          }
         },
         "PersonData"
       )

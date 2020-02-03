@@ -1,4 +1,5 @@
 import { NextPage, NextPageContext } from "next";
+import Link from "next/link";
 import { apiPersonPage, PersonData } from "../../api";
 
 type PersonProps = {
@@ -14,7 +15,9 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => (
       <div>
           Description: {props.person.description}
       </div>
-      
+      <div>
+        Influence: {props.person.overall.influence} #{props.person.overall.world_rank} #{props.person.overall.usa_rank} (USA)
+        </div> 
         <ol>
 
       {Object.entries(props.person.disciplines).map(([discipline, data]) => (<li key={discipline}>
@@ -22,6 +25,19 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => (
        </li>))}
 
         </ol>
+
+        <ol>
+
+      {props.person.schools.map(school => (<li key={school.slug}>
+          <Link href={`/schools/${school.slug}`}>
+            <a>{school.name}</a>
+          </Link>
+       </li>))}
+
+        </ol>
+        <pre>
+          {JSON.stringify(props.person, null, 4)}
+        </pre>
   </div>
 );
 

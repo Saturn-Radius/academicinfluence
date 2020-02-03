@@ -13,7 +13,7 @@ export default async function servePersonPage(request: PersonPageRequest): Promi
         .where("ai_people.slug = ?", request.slug)
         .field("people.name")
         .field("coalesce(nullif(ai_people.description, ''), people.description)", "description")
-        .toString())
+        .toParam())
 
     const influenceQuery = pool.query(influenceScoreQuery('person', 1900, 2020)
         .join("editor.ai_people", undefined, "editor.ai_people.id = scores.id")
@@ -27,20 +27,49 @@ export default async function servePersonPage(request: PersonPageRequest): Promi
         .where("scores.keyword is null or ai_disciplines.name is not null")
         .toParam())
 
+    const schoolQuery = pool.query(squel.select().from("editor.ai_people")
+        .join("ai_data.person_schools", undefined, "ai_data.person_schools.person_id = editor.ai_people.id")
+        .where("ai_people.slug = ?", request.slug)
+        .join("editor.ai_schools", undefined, "ai_schools.id = ai_data.person_schools.school_id")
+        .join("ai_data.schools", undefined, "schools.id = ai_data.person_schools.school_id")
+        .field("ai_schools.slug")
+        .field("schools.name")
+        .toParam())
+
+    console.log(squel.select().from("editor.ai_people")
+        .join("ai_data.person_schools", undefined, "ai_data.person_schools.person_id = editor.ai_people.id")
+        .where("ai_people.slug = ?", request.slug)
+        .join("editor.ai_schools", undefined, "ai_schools.id = ai_data.person_schools.school_id")
+        .join("ai_data.schools", undefined, "schools.id = ai_data.person_schools.school_id")
+        .field("ai_schools.slug")
+        .field("schools.name")
+        .toString())
+
     const person = (await personQuery).rows[0]
 
+    let overall = null;
     const disciplines: Dictionary<DisciplineInfluenceData> = {}
     for (const row of (await influenceQuery).rows) {
-        disciplines[row.name || ""] = {
-            influence: row.influence,
-            world_rank: row.world_rank,
-            usa_rank: row.usa_rank
+        if (row.name === null) {
+            overall = {
+                influence: row.influence,
+                world_rank: row.world_rank,
+                usa_rank: row.usa_rank
+            }
+        } else {
+            disciplines[row.name] = {
+                influence: row.influence,
+                world_rank: row.world_rank,
+                usa_rank: row.usa_rank
+            }
         }
     }
     return {
         person: {
             ...person,
-            disciplines
+            disciplines,
+            overall,
+            schools: (await schoolQuery).rows
         }
    }
 }

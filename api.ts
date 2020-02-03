@@ -203,7 +203,16 @@ export interface PersonPageResponse {
 export interface PersonData {
   name: string;
   description: string;
+  overall: {
+    world_rank: number;
+    usa_rank: number;
+    influence: number;
+  };
   disciplines: DisciplineInfluenceData;
+  schools: {
+    slug: string;
+    name: string;
+  }[];
 }
 export interface DisciplineInfluenceData {
   /**

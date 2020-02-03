@@ -1,6 +1,10 @@
 import * as squel from "./squel";
 
-export function influenceScoreQuery(kind: string, start_year: number, stop_year: number) {
+export function influenceScoreQuery(
+  kind: string,
+  start_year: number,
+  stop_year: number
+) {
   const start = squel.str(
     "GREATEST(ai_data.scores.year_start,?)::float - ai_data.scores.year_start",
     start_year
@@ -33,8 +37,7 @@ export function influenceScoreQuery(kind: string, start_year: number, stop_year:
     .select()
     .from(squel.rstr("ai_data.scores"))
     .field(adapted, "influence")
-    .where("scores.kind = ?", kind)
-
+    .where("scores.kind = ?", kind);
 
   return query;
 }
