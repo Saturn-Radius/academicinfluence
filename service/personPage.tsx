@@ -17,6 +17,8 @@ export default async function servePersonPage(request: PersonPageRequest): Promi
         .field("death_year")
         .field(squel.str("? || image", "/api/wmcimage/"), "image_url")
         .field(squel.str("? || image", "https://commons.wikimedia.org/wiki/File:"), "image_source_url")
+        .field("wikipedia_title")
+        .field("website")
         .toParam())
 
     const influenceQuery = pool.query(influenceScoreQuery('person', 1900, 2020)
@@ -68,11 +70,19 @@ export default async function servePersonPage(request: PersonPageRequest): Promi
             }
         }
     }
+    const links = []
+    if (person.wikipedia_title) {
+        links.push("https://en.wikipedia.org/wiki/" + person.wikipedia_title.replace(/ /g, '_'))
+    }
+    if (person.website) {
+        links.push(person.website)
+    }
     return {
         person: {
             ...person,
             disciplines,
             overall,
+            links,
             schools: (await schoolQuery).rows
         }
    }

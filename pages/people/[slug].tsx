@@ -37,6 +37,16 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => (
        </li>))}
 
         </ol>
+        <ol>
+
+      {props.person.links.map(link => (<li key={link}>
+        <a href={link}>{link}</a>
+       </li>))}
+
+        </ol>
+
+
+
         <pre>
           {JSON.stringify(props.person, null, 4)}
         </pre>

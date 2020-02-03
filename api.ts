@@ -208,6 +208,7 @@ export interface PersonData {
     usa_rank: number;
     influence: number;
   };
+  links: string[];
   birth_year: number | null;
   death_year: number | null;
   image_url: string | null;

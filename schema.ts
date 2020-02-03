@@ -242,6 +242,10 @@ export const SCHEMAS: Dictionary<SchemaDef> = {
             usa_rank: { type: "number" },
             influence: { type: "number" }
           }),
+          links: {
+            type: "array",
+            items: { type: "string" }
+          },
           birth_year: nullable({ type: "number" }),
           death_year: nullable({ type: "number" }),
           image_url: nullable({ type: "string" }),
