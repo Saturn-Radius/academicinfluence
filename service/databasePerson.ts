@@ -1,5 +1,6 @@
 import { PostgresSelect } from "squel";
 import { PersonPartialData } from "../schema";
+import { EntityType } from "./entityDatabase";
 
 export function addPartialPersonFields(
     select: PostgresSelect
@@ -22,4 +23,10 @@ export function extractPartialPerson(row: any): PersonPartialData {
             usa_rank: row.usa_rank
         }
     })
+}
+
+export const PERSON_ENTITY_TYPE: EntityType = {
+    kind: 'person',
+    data_table: 'ai_data.people',
+    editor_table: 'editor.ai_people'
 }

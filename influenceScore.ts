@@ -1,3 +1,7 @@
+import { Dictionary } from "lodash";
+import { QueryResult } from "pg";
+import { DisciplineInfluenceData } from "./schema";
+import { EntityType, lookupBySlug } from "./service/entityDatabase";
 import * as squel from "./squel";
 
 export function influenceScoreColumn(start_year: number, stop_year: number) {
@@ -30,7 +34,7 @@ export function influenceScoreColumn(start_year: number, stop_year: number) {
   );
 
   const conditioned = squel.str(
-    "case when ? > ? then ? else 0.0 end",
+    "coalesce(case when ? > ? then ? else 0.0 end, 0.0)",
     end,
     start,
     adapted
@@ -50,4 +54,54 @@ export function influenceScoreQuery(
     .where("scores.kind = ?", kind);
 
   return query;
+}
+
+export function disciplineBreakdownQuery(entityType: EntityType, slug: string) {
+  return lookupBySlug(entityType, slug)
+    .join(
+      "ai_data.scores",
+      undefined,
+      entityType.data_table +
+        ".id = scores.id and scores.kind = '" +
+        entityType.kind +
+        "'"
+    )
+    .left_join(
+      "editor.ai_disciplines",
+      undefined,
+      "ai_disciplines.id = scores.keyword"
+    )
+    .field("ai_disciplines.name")
+    .field("scores.keyword")
+    .field("world_rank")
+    .field("usa_rank")
+    .field(influenceScoreColumn(1900, 2020), "influence")
+    .order("influence", false)
+    .where(
+      "scores.keyword is null or (ai_disciplines.name is not null and ai_disciplines.active)"
+    );
+}
+
+export function extractDisciplineBreakdown(result: QueryResult<any>) {
+  let overall = null;
+  const disciplines: Dictionary<DisciplineInfluenceData> = {};
+  for (const row of result.rows) {
+    if (row.name === null) {
+      overall = {
+        influence: row.influence,
+        world_rank: row.world_rank,
+        usa_rank: row.usa_rank
+      };
+    } else {
+      disciplines[row.name] = {
+        influence: row.influence,
+        world_rank: row.world_rank,
+        usa_rank: row.usa_rank
+      };
+    }
+  }
+  return {
+    overall: overall as DisciplineInfluenceData,
+    disciplines
+  };
 }

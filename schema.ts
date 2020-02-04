@@ -9,8 +9,11 @@ export interface Identifiable {
   name: string;
 }
 
-export interface EntityPartialData extends Identifiable {
+export interface Describable extends Identifiable {
   description: string;
+}
+
+export interface EntityPartialData extends Describable {
   overall: {
     influence: number;
     world_rank: number;
