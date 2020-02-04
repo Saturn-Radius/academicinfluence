@@ -1,9 +1,9 @@
 import { NextPage, NextPageContext } from "next";
 import { VictoryChart, VictoryLine } from "victory";
-import { apiSchoolPage, SchoolData } from "../../../api";
+import { apiSchoolPage } from "../../../api";
+import { SchoolData } from "../../../schema";
 type SchoolProps = {
     school: SchoolData
-    
 };
 
 const School: NextPage<SchoolProps> = (props: SchoolProps) => (
@@ -39,13 +39,13 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => (
        <ol>
 
       {props.school.people.map((person) => (<li key={person.slug}>
-            <a href={"/people/" + person.slug}>{person.name}</a> {person.influence} {person.description}
+            <a href={"/people/" + person.slug}>{person.name}</a> {person.overall.influence} {person.description}
        </li>))}
 
         </ol>
 
         <VictoryChart>
-            <VictoryLine data={props.school.overall.over_time} x="year" y="value"/>
+            <VictoryLine data={props.school.influence_over_time} x="year" y="value"/>
         </VictoryChart>
 
         <div>
@@ -99,7 +99,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => (
        <ol>
 
       {props.school.alumni.map((person) => (<li key={person.slug}>
-            <a href={"/people/" + person.slug}>{person.name}</a> {person.influence} {person.description}
+            <a href={"/people/" + person.slug}>{person.name}</a> {person.overall.influence} {person.description}
        </li>))}
 
         </ol>

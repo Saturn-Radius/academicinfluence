@@ -1,12 +1,11 @@
 import dateFormat from "date-fns/format";
 import { Node, NodeType, parse } from "node-html-parser";
 import smartQuotes from "smart-quotes";
-import { FeaturesPageRequest, FeaturesPageResponse } from "../api";
 import databasePool from "../databasePool";
+import { FeaturesPageRequest, FeaturesPageResponse } from "../schema";
 import * as squel from "../squel";
 
 function processHtml(html: string): string {
-    console.log(html)
     const root = parse('<root>' + html + '</root>');
     const target = ""
     function traverse(node: Node) {
@@ -76,6 +75,7 @@ export default async function serveFeaturesPage(request: FeaturesPageRequest): P
     const articleQuery = request.article === null ? null : pool.query(
         squel.select().from("editor.ai_features")
             .field("title")
+            .field("ai_features.slug")
             .field("content")
             .field("excerpt")
             .field("hero_image_banner_url")
@@ -84,11 +84,14 @@ export default async function serveFeaturesPage(request: FeaturesPageRequest): P
             .field("users.name", "username")
             .join("editor.users", undefined, "users.id = ai_features.added_by")
             .where("ai_features.slug = ?", request.article)
+            .join("editor.ai_categories", undefined, "editor.ai_categories.id = ai_features.category")
+            .field("ai_categories.slug", "category_slug")
+            .field("ai_categories.name", "category_name")
             .limit(1)
             .toParam())
 
     const articles = (await articlesQuery).rows.map(article => ({
-            title: article.title,
+            name: article.title,
             excerpt: smartQuotes(article.excerpt),
             bannerUrl: article.hero_image_banner_url,
             thumbnailUrl: article.hero_image_thumbnail_url,
@@ -106,7 +109,7 @@ export default async function serveFeaturesPage(request: FeaturesPageRequest): P
         articles.push(articles[0])
     }
 
-
+    console.log(await articleQuery)
 
     return {
         category: categoryQuery && (await categoryQuery).rows.map(
@@ -119,13 +122,18 @@ export default async function serveFeaturesPage(request: FeaturesPageRequest): P
         articles,
         article: articleQuery && (await articleQuery).rows.map(
             row => ({
-                title: row.title,
+                name: row.title,
+                slug: row.slug,
                 content: processHtml(row.content),
                 excerpt: smartQuotes(row.excerpt),
                 author: row.username,
                 bannerUrl: row.hero_image_banner_url,
                 thumbnailUrl: row.hero_image_thumbnail_url,
                 date: dateFormat(row.modified_date_time, "MMM. d"),
+                category: {
+                    slug: row.category_slug,
+                    name: row.category_name
+                }
             }))[0],
     }
 }

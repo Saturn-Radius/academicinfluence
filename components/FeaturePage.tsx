@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { FeaturesPageArticleSummary, FeaturesPageCategory, FeaturesPageResponse } from "../api";
+import { ArticlePartialData, Category, FeaturesPageResponse } from "../schema";
 import { GRAY_DARK, GRAY_MID, PAGE_WIDTH_STYLE, SECONDARY_DARK } from "../styles";
 
 
 
-export function Article(props: {article: FeaturesPageArticleSummary}) {
+export function Article(props: {article: ArticlePartialData}) {
     if (!props.article) {
         return <></>
     }
@@ -30,7 +30,8 @@ export function Article(props: {article: FeaturesPageArticleSummary}) {
             "@media(min-width: 1248px)": {
                 fontSize: "28px",
             }
-        }}>{props.article.title}</h2>
+        }}>{props.article.name}</h2>
+        
 
             </a>
         </Link>
@@ -64,7 +65,7 @@ export function Article(props: {article: FeaturesPageArticleSummary}) {
     </div>
 }
 
-function CategoryBar(props: {categories: FeaturesPageCategory[]}) {
+function CategoryBar(props: {categories: Category[]}) {
     return <div css={{
         display: 'flex',
         justifyContent: 'center'

@@ -1,430 +1,246 @@
-import { JSONSchema4 } from "json-schema";
-import { Dictionary } from "lodash";
+export interface DisciplineInfluenceData {
+  influence: number;
+  world_rank: number;
+  usa_rank: number | null;
+}
 
-type SchemaDef = {
-  request: JSONSchema4;
-  response: JSONSchema4;
-};
+export interface Identifiable {
+  slug: string;
+  name: string;
+}
 
-function object(
-  properties: Dictionary<JSONSchema4>,
-  title?: string
-): JSONSchema4 {
-  return {
-    type: "object",
-    required: Object.keys(properties),
-    additionalProperties: false,
-    properties,
-    title
+export interface EntityPartialData extends Identifiable {
+  description: string;
+  overall: {
+    influence: number;
+    world_rank: number;
+    usa_rank: number | null;
   };
 }
 
-function nullable(schema: JSONSchema4): JSONSchema4 {
-  return {
-    anyOf: [schema, { type: "null" }]
+export interface PersonPartialData extends EntityPartialData {}
+
+export interface SchoolPartialData extends EntityPartialData {
+  city: string | null;
+  state: string | null;
+  median_act: number | null;
+  median_sat: number | null;
+  undergrad_tuition_in_state: number | null;
+  average_earnings: number | null;
+  graduation_rate: number | null;
+  total_students: number | null;
+  acceptance_rate: number | null;
+  desirability: number | null;
+  logo_url: string | null;
+  top_discipline: string | null;
+}
+
+export interface WeatherData {
+  high: number;
+  low: number;
+}
+
+export interface SchoolData extends SchoolPartialData {
+  employed_10_years: number | null;
+  desirability_rank: number | null;
+  undergrad_tuition_out_of_state: number | null;
+  grad_tuition_out_of_state: number | null;
+  grad_tuition_in_state: number | null;
+
+  undergrad_fees_in_state: number | null;
+  undergrad_fees_out_of_state: number | null;
+  grad_fees_in_state: number | null;
+  grad_fees_out_of_state: number | null;
+
+  average_net_price: number | null;
+  test_competitiveness: number | null;
+  campus_property_crime_rate: number | null;
+  campus_violent_crime_rate: number | null;
+  city_property_crime_rate: number | null;
+  city_violent_crime_rate: number | null;
+
+  influence_over_time: {
+    year: number;
+    value: number;
+  }[];
+
+  disciplines: {
+    [k: string]: DisciplineInfluenceData;
+  };
+
+  alumni: PersonPartialData[];
+  people: PersonPartialData[];
+  weather: {
+    winter: WeatherData;
+    spring: WeatherData;
+    summer: WeatherData;
+    fall: WeatherData;
+  } | null;
+}
+
+export interface PersonData extends PersonPartialData {
+  links: string[];
+  birth_year: number | null;
+  death_year: number | null;
+  image_url: string | null;
+  image_source_url: string | null;
+  disciplines: {
+    [k: string]: DisciplineInfluenceData;
+  };
+  works: {
+    label: string;
+  }[];
+  schools: Identifiable[];
+}
+
+export type CollegeRankingSort =
+  | "undergrad_tuition_in_state"
+  | "name"
+  | "median_sat"
+  | "average_earnings"
+  | "acceptance_rate"
+  | "total_students"
+  | "influence_score"
+  | "desirability"
+  | "graduation_rate";
+
+export interface CollegeRankingsRequest {
+  sort: CollegeRankingSort;
+  reversed: boolean;
+  states: string[] | null;
+  location: {
+    name: string;
+    lat: string;
+    long: string;
+    distance: {
+      min: number;
+      max: number;
+    };
+  } | null;
+  discipline: string | null;
+  tuition: {
+    min: number;
+    max: number;
+  };
+  median_sat: {
+    min: number;
+    max: number;
+  };
+  acceptance_rate: {
+    min: number;
+    max: number;
+  };
+  total_students: {
+    min: number;
+    max: number;
+  };
+  years: {
+    min: number;
+    max: number;
   };
 }
 
-const LIMIT = object({
-  min: { type: "number" },
-  max: { type: "number" }
-});
+export interface CollegeRankingsResponse {
+  schools: SchoolPartialData[];
+  limits: {
+    tuition: {
+      min: number;
+      max: number;
+    };
+    median_sat: {
+      min: number;
+      max: number;
+    };
+    acceptance_rate: {
+      min: number;
+      max: number;
+    };
+    total_students: {
+      min: number;
+      max: number;
+    };
+    years: {
+      min: number;
+      max: number;
+    };
+  };
+}
 
-const RANKING_LIMITS = {
-  tuition: LIMIT,
-  median_sat: LIMIT,
-  acceptance_rate: LIMIT,
-  total_students: LIMIT,
-  years: LIMIT
-};
+export interface DisciplinesRequest {}
 
-export const DEFINITIONS = {
-  disciplineInfluenceData: {
-    type: "object",
-    title: "DisciplineInfluenceData",
-    patternProperties: {
-      "^[A-Za-z ]+$": object({
-        world_rank: { type: "number" },
-        usa_rank: { type: "number" },
-        influence: { type: "number" }
-      })
-    }
-  }
-};
+export interface DisciplinesResponse {
+  [k: string]: {
+    parent: string | null;
+  };
+}
 
-export const SCHEMAS: Dictionary<SchemaDef> = {
-  CollegeRankings: {
-    request: object({
-      sort: {
-        title: "College Ranking Sort",
-        type: "string",
-        enum: [
-          "undergrad_tuition_in_state",
-          "name",
-          "median_sat",
-          "average_earnings",
-          "acceptance_rate",
-          "total_students",
-          "influence_score",
-          "desirability",
-          "graduation_rate"
-        ]
-      },
-      reversed: {
-        type: "boolean"
-      },
-      states: nullable({
-        type: "array",
-        items: {
-          type: "string"
-        }
-      }),
-      location: nullable(
-        object({
-          name: { type: "string" },
-          lat: { type: "string" },
-          long: { type: "string" },
-          distance: LIMIT
-        })
-      ),
-      discipline: nullable({
-        type: "string"
-      }),
-      ...RANKING_LIMITS
-    }),
-    response: object({
-      schools: {
-        type: "array",
-        items: object(
-          {
-            id: {
-              type: "string"
-            },
-            name: {
-              type: "string"
-            },
-            city: {
-              type: "string"
-            },
-            state: {
-              type: "string"
-            },
-            median_act: nullable({ type: "number" }),
-            median_sat: nullable({ type: "number" }),
-            undergrad_tuition_in_state: nullable({ type: "number" }),
-            average_earnings: nullable({ type: "number" }),
-            graduation_rate: nullable({ type: "number" }),
-            total_students: nullable({ type: "number" }),
-            influence_score: nullable({ type: "number" }),
-            acceptance_rate: nullable({ type: "number" }),
-            desirability: nullable({ type: "number" }),
-            logo_url: nullable({ type: "string" })
-          },
-          "CollegeData"
-        )
-      },
-      limits: object(RANKING_LIMITS)
-    })
-  },
-  LocationAutocomplete: {
-    request: {
-      type: "string"
-    },
-    response: object({
-      cities: {
-        type: "array",
-        items: object({
-          name: { type: "string" },
-          long: { type: "string" },
-          lat: { type: "string" }
-        })
-      }
-    })
-  },
-  Disciplines: {
-    request: object({}),
-    response: {
-      type: "object",
-      patternProperties: {
-        "^[A-Za-z ]+$": object({
-          parent: nullable({
-            type: "string"
-          })
-        })
-      }
-    }
-  },
-  FeaturesPage: {
-    request: object({
-      category: nullable({ type: "string" }),
-      article: nullable({ type: "string" })
-    }),
-    response: object({
-      categories: {
-        type: "array",
-        items: object(
-          {
-            name: {
-              type: "string"
-            },
-            slug: {
-              type: "string"
-            }
-          },
-          "FeaturesPageCategory"
-        )
-      },
-      category: nullable(
-        object({
-          name: { type: "string" },
-          slug: { type: "string" },
-          description: { type: "string" }
-        })
-      ),
-      article: nullable(
-        object(
-          {
-            title: { type: "string" },
-            content: { type: "string" },
-            excerpt: { type: "string" },
-            author: { type: "string" },
-            date: { type: "string" },
-            bannerUrl: { type: "string" },
-            thumbnailUrl: { type: "string" }
-          },
-          "FeaturePageArticle"
-        )
-      ),
-      articles: {
-        type: "array",
-        items: object(
-          {
-            title: { type: "string" },
-            slug: { type: "string" },
-            category: object({
-              slug: { type: "string" },
-              name: { type: "string" }
-            }),
-            excerpt: { type: "string" },
-            author: { type: "string" },
-            date: { type: "string" },
-            bannerUrl: { type: "string" },
-            thumbnailUrl: { type: "string" }
-          },
-          "FeaturesPageArticleSummary"
-        )
-      }
-    })
-  },
-  HomePage: {
-    request: object({}),
-    response: object({
-      currentFeature: object({
-        title: { type: "string" },
-        category: { type: "string" },
-        slug: { type: "string" },
-        bannerUrl: { type: "string" },
-        thumbnailUrl: { type: "string" }
-      })
-    })
-  },
-  PersonPage: {
-    request: object({
-      slug: { type: "string" }
-    }),
-    response: object({
-      person: object(
-        {
-          name: { type: "string" },
-          description: { type: "string" },
-          overall: object({
-            world_rank: { type: "number" },
-            usa_rank: { type: "number" },
-            influence: { type: "number" }
-          }),
-          links: {
-            type: "array",
-            items: { type: "string" }
-          },
-          birth_year: nullable({ type: "number" }),
-          death_year: nullable({ type: "number" }),
-          image_url: nullable({ type: "string" }),
-          image_source_url: nullable({ type: "string" }),
-          disciplines: { $ref: "#/definitions/disciplineInfluenceData" },
-          works: {
-            type: "array",
-            items: object({
-              label: { type: "string" }
-            })
-          },
-          schools: {
-            type: "array",
-            items: object({
-              slug: { type: "string" },
-              name: { type: "string" }
-            })
-          }
-        },
-        "PersonData"
-      )
-    })
-  },
-  SchoolSubjectPage: {
-    request: object({
-      slug: { type: "string" },
-      discipline: { type: "string" }
-    }),
-    response: object({
-      alumni: {
-        type: "array",
-        items: object({
-          name: { type: "string" },
-          description: { type: "string" },
-          slug: { type: "string" },
-          influence: { type: "number" }
-        })
-      },
-      staff: {
-        type: "array",
-        items: object({
-          name: { type: "string" },
-          description: { type: "string" },
-          slug: { type: "string" },
-          influence: { type: "number" }
-        })
-      }
-    })
-  },
-  SchoolPage: {
-    request: object({
-      slug: { type: "string" }
-    }),
-    response: object({
-      school: object(
-        {
-          name: { type: "string" },
-          description: { type: "string" },
-          city: {
-            type: "string"
-          },
-          state: {
-            type: "string"
-          },
-          median_act: nullable({ type: "number" }),
-          median_sat: nullable({ type: "number" }),
-          undergrad_tuition_in_state: nullable({ type: "number" }),
-          average_earnings: nullable({ type: "number" }),
-          employed_10_years: nullable({ type: "number" }),
-          total_students: nullable({ type: "number" }),
-          acceptance_rate: nullable({ type: "number" }),
-          desirability: nullable({ type: "number" }),
-          desirability_rank: nullable({ type: "number" }),
-          undergrad_tuition_out_of_state: nullable({ type: "number" }),
-          grad_tuition_in_state: nullable({ type: "number" }),
-          grad_tuition_out_of_state: nullable({ type: "number" }),
+export interface FeaturesPageRequest {
+  category: string | null;
+  article: string | null;
+}
+export interface FeaturesPageResponse {
+  categories: Category[];
+  category: {
+    name: string;
+    slug: string;
+    description: string;
+  } | null;
+  article: ArticleData | null;
+  articles: ArticlePartialData[];
+}
+export interface Category extends Identifiable {}
 
-          undergrad_fees_in_state: nullable({ type: "number" }),
-          undergrad_fees_out_of_state: nullable({ type: "number" }),
-          grad_fees_in_state: nullable({ type: "number" }),
-          grad_fees_out_of_state: nullable({ type: "number" }),
+export interface ArticlePartialData extends Identifiable {
+  excerpt: string;
+  author: string;
+  date: string;
+  bannerUrl: string;
+  thumbnailUrl: string;
+  category: Category;
+}
+export interface ArticleData extends ArticlePartialData {
+  content: string;
+}
 
-          average_net_price: nullable({ type: "number" }),
-          logo_url: nullable({ type: "string" }),
-          graduation_rate: nullable({ type: "number" }),
-          test_competitiveness: nullable({ type: "number" }),
-          campus_property_crime_rate: nullable({ type: "number" }),
-          campus_violent_crime_rate: nullable({ type: "number" }),
-          city_property_crime_rate: nullable({ type: "number" }),
-          city_violent_crime_rate: nullable({ type: "number" }),
-          overall: object({
-            world_rank: { type: "number" },
-            usa_rank: { type: "number" },
-            influence: { type: "number" },
-            over_time: {
-              type: "array",
-              items: object({
-                year: { type: "number" },
-                value: { type: "number" }
-              })
-            }
-          }),
-          disciplines: { $ref: "#/definitions/disciplineInfluenceData" },
-          people: {
-            type: "array",
-            items: object({
-              slug: { type: "string" },
-              name: { type: "string" },
-              description: { type: "string" },
-              influence: { type: "number" }
-            })
-          },
-          alumni: {
-            type: "array",
-            items: object({
-              slug: { type: "string" },
-              name: { type: "string" },
-              description: { type: "string" },
-              influence: { type: "number" }
-            })
-          },
-          weather: nullable(
-            object({
-              winter: object({
-                high: { type: "number" },
-                low: { type: "number" }
-              }),
-              spring: object({
-                high: { type: "number" },
-                low: { type: "number" }
-              }),
-              summer: object({
-                high: { type: "number" },
-                low: { type: "number" }
-              }),
-              fall: object({
-                high: { type: "number" },
-                low: { type: "number" }
-              })
-            })
-          )
-        },
-        "SchoolData"
-      )
-    })
-  },
-  InfluentialSchoolsPage: {
-    request: object({}),
-    response: object({
-      schools: {
-        type: "array",
-        items: object({
-          slug: {
-            type: "string"
-          },
-          name: {
-            type: "string"
-          },
-          description: {
-            type: "string"
-          },
-          city: {
-            type: "string"
-          },
-          state: {
-            type: "string"
-          },
-          undergrad_tuition_in_state: nullable({ type: "number" }),
-          average_earnings: nullable({ type: "number" }),
-          influence_score: nullable({ type: "number" }),
-          world_rank: { type: "number" },
-          usa_rank: nullable({ type: "number" }),
-          acceptance_rate: nullable({ type: "number" }),
-          logo_url: nullable({ type: "string" }),
-          top_discipline: nullable({ type: "string" })
-        })
-      }
-    })
-  }
-};
+export interface HomePageRequest {}
+export interface HomePageResponse {
+  currentFeature: ArticlePartialData;
+}
 
-export default SCHEMAS;
+export interface InfluentialSchoolsPageRequest {}
+export interface InfluentialSchoolsPageResponse {
+  schools: SchoolPartialData[];
+}
+
+export type LocationAutocompleteRequest = string;
+export interface LocationAutocompleteResponse {
+  cities: {
+    name: string;
+    long: string;
+    lat: string;
+  }[];
+}
+
+export interface PersonPageRequest {
+  slug: string;
+}
+export interface PersonPageResponse {
+  person: PersonData;
+}
+
+export interface SchoolPageRequest {
+  slug: string;
+}
+export interface SchoolPageResponse {
+  school: SchoolData;
+}
+
+export interface SchoolSubjectPageRequest {
+  slug: string;
+  discipline: string;
+}
+
+export interface SchoolSubjectPageResponse {
+  staff: PersonPartialData[];
+  alumni: PersonPartialData[];
+}

@@ -1,10 +1,6 @@
 import * as squel from "./squel";
 
-export function influenceScoreQuery(
-  kind: string,
-  start_year: number,
-  stop_year: number
-) {
+export function influenceScoreColumn(start_year: number, stop_year: number) {
   const start = squel.str(
     "GREATEST(ai_data.scores.year_start,?)::float - ai_data.scores.year_start",
     start_year
@@ -34,13 +30,23 @@ export function influenceScoreQuery(
   );
 
   const conditioned = squel.str(
-    "case when ? > ? then ? else 0.0 end", end, start, adapted
-  )
+    "case when ? > ? then ? else 0.0 end",
+    end,
+    start,
+    adapted
+  );
 
+  return conditioned;
+}
+export function influenceScoreQuery(
+  kind: string,
+  start_year: number,
+  stop_year: number
+) {
   const query = squel
     .select()
     .from(squel.rstr("ai_data.scores"))
-    .field(conditioned, "influence")
+    .field(influenceScoreColumn(start_year, stop_year), "influence")
     .where("scores.kind = ?", kind);
 
   return query;

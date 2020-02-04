@@ -2,7 +2,8 @@ import { NextPage, NextPageContext } from "next";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
-import { apiInfluentialSchoolsPage, InfluentialSchoolsPageResponse } from "../../api";
+import { apiInfluentialSchoolsPage } from "../../api";
+import { InfluentialSchoolsPageResponse } from "../../schema";
 
 type InfluentialSchoolsProps = InfluentialSchoolsPageResponse
 

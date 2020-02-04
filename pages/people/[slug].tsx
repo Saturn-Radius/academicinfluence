@@ -1,6 +1,7 @@
 import { NextPage, NextPageContext } from "next";
 import Link from "next/link";
-import { apiPersonPage, PersonData } from "../../api";
+import { apiPersonPage } from "../../api";
+import { PersonData } from "../../schema";
 
 type PersonProps = {
     person: PersonData

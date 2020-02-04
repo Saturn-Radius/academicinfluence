@@ -1,7 +1,7 @@
 import { Dictionary } from "lodash";
-import { DisciplineInfluenceData, PersonPageRequest, PersonPageResponse } from "../api";
 import databasePool from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
+import { DisciplineInfluenceData, PersonPageRequest, PersonPageResponse } from "../schema";
 import * as squel from "../squel";
 
 export default async function servePersonPage(request: PersonPageRequest): Promise<PersonPageResponse> {
@@ -12,6 +12,7 @@ export default async function servePersonPage(request: PersonPageRequest): Promi
         .join("ai_data.people", undefined, "ai_data.people.id = editor.ai_people.id")
         .where("ai_people.slug = ?", request.slug)
         .field("people.name")
+        .field("ai_people.slug")
         .field("coalesce(nullif(ai_people.description, ''), people.description)", "description")
         .field("birth_year")
         .field("death_year")
@@ -78,9 +79,15 @@ export default async function servePersonPage(request: PersonPageRequest): Promi
     }
     return {
         person: {
-            ...person,
+            birth_year: person.birth_year,
+            death_year: person.death_year,
+            image_url: person.image_url,
+            image_source_url: person.image_source_url,
+            name: person.name,
+            slug: person.slug,
+            description: person.description,
             disciplines,
-            overall,
+            overall: overall as DisciplineInfluenceData,
             links,
             schools: (await schoolQuery).rows,
             works: (await workQuery).rows

@@ -2,8 +2,9 @@ import { NextPage, NextPageContext } from "next";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
-import { apiFeaturesPage, FeaturesPageArticleSummary, FeaturesPageResponse } from "../../api";
+import { apiFeaturesPage } from "../../api";
 import FeaturePage, { Article } from "../../components/FeaturePage";
+import { ArticlePartialData, FeaturesPageResponse } from "../../schema";
 
 type FeaturesProps = {
     data: FeaturesPageResponse
@@ -11,7 +12,7 @@ type FeaturesProps = {
 
 
 
-function FeatureGrid(props: {articles: FeaturesPageArticleSummary[]}) {
+function FeatureGrid(props: {articles: ArticlePartialData[]}) {
     return <div css={{
         display: "grid",
         alignItems: "top",

@@ -1,8 +1,9 @@
 import { Dictionary } from "lodash";
-import { DisciplineInfluenceData, SchoolPageRequest, SchoolPageResponse } from "../api";
 import databasePool from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
+import { DisciplineInfluenceData, SchoolPageRequest, SchoolPageResponse } from "../schema";
 import * as squel from "../squel";
+import { extractPartialPerson } from "./databasePerson";
 const months = require('months')
 
 // 800-200
@@ -172,6 +173,7 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .where("ai_schools.slug = ?", request.slug)
         .field("schools.name")
         .field("coalesce(nullif(ai_schools.description, ''), schools.description)", "description")
+        .field("slug")
         .field("city")
         .field("state")
         .field("median_sat")
@@ -189,7 +191,6 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .field("employed_10_years")
         .field("desirability")
         .field("desirability_rank")
-        .field("location")
         .field("graduation_rate")
         .field("weather_maximums")
         .field("weather_minimums")
@@ -200,6 +201,7 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .field("campus_violent_crime_rate")
         .field("city_property_crime_rate")
         .field("city_violent_crime_rate")
+        .field("null", "top_discipline")
         .toString())
 
     const influenceQuery = pool.query(influenceScoreQuery("school", 1900, 2020)
@@ -226,6 +228,8 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .join("ai_data.people", undefined, "ai_people.id = people.id")
         .field("ai_people.slug")
         .field("people.name")
+        .field("world_rank")
+        .field("usa_rank")
         .field("coalesce(nullif(ai_people.description, ''), people.description)", "description")
         .order("influence", false)
         .limit(3)
@@ -243,6 +247,8 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
         .join("ai_data.people", undefined, "ai_people.id = people.id")
         .field("ai_people.slug")
         .field("people.name")
+        .field("world_rank")
+        .field("usa_rank")
         .field("coalesce(nullif(ai_people.description, ''), people.description)", "description")
         .order("influence", false)
         .limit(3)
@@ -252,6 +258,7 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
     const school = (await schoolQuery).rows[0]
 
     let overall = null;
+    let over_time = []
 
     const influences: Dictionary<DisciplineInfluenceData> = {}
     for (const row of (await influenceQuery).rows) {
@@ -260,11 +267,12 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
                 influence: row.influence,
                 world_rank: row.world_rank,
                 usa_rank: row.usa_rank,
-                over_time: row.by_year.map((value: number, index: number) => ({
+
+            }
+         over_time =  row.by_year.map((value: number, index: number) => ({
                         year: index + row.year_start,
                         value
                     }))
-            }
         } else {
             influences[row.name] = {
                 influence: row.influence,
@@ -277,14 +285,45 @@ export default async function serveSchoolPage(request: SchoolPageRequest): Promi
 
     return {
             school: {
-                ...school,
+                description: school.description,
+                name: school.name,
+                slug: school.slug,
+city: school.city,
+state: school.state,
+median_act: school.median_act,
+median_sat: school.median_sat,
+undergrad_tuition_in_state: school.undergrad_tuition_in_state,
+average_earnings: school.average_earnings,
+graduation_rate: school.graduation_rate,
+total_students: school.total_students,
+acceptance_rate: school.acceptance_rate,
+desirability: school.desirability,
+logo_url: school.logo_url,
+top_discipline: school.top_discipline,
+employed_10_years: school.employed_10_years,
+desirability_rank: school.desirability_rank,
+undergrad_tuition_out_of_state: school.undergrad_tuition_out_of_state,
+grad_tuition_out_of_state: school.grad_tuition_out_of_state,
+grad_tuition_in_state: school.grad_tuition_in_state,
+
+undergrad_fees_in_state: school.undergrad_fees_in_state,
+undergrad_fees_out_of_state: school.undergrad_fees_out_of_state,
+grad_fees_in_state: school.grad_fees_in_state,
+grad_fees_out_of_state: school.grad_fees_out_of_state,
+
+average_net_price: school.average_net_price,
+campus_property_crime_rate: school.campus_property_crime_rate,
+campus_violent_crime_rate: school.campus_violent_crime_rate,
+city_property_crime_rate: school.city_property_crime_rate,
+city_violent_crime_rate: school.city_violent_crime_rate,
                 test_competitiveness: 
                     lookupSatMath(school.median_sat / 2) / 100,
-                overall,
+                overall: overall as DisciplineInfluenceData,
                 disciplines: influences,
-                people: (await personQuery).rows,
-                alumni: (await alumniQuery).rows,
-                weather: calcWeather(school.weather_maximums, school.weather_minimums)
+                people: (await personQuery).rows.map(extractPartialPerson),
+                alumni: (await alumniQuery).rows.map(extractPartialPerson),
+                weather: calcWeather(school.weather_maximums, school.weather_minimums),
+                influence_over_time: over_time
             }
         }
 }

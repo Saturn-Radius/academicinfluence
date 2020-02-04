@@ -3,8 +3,9 @@ import Link from "next/link";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
-import { apiFeaturesPage, FeaturesPageArticleSummary, FeaturesPageResponse } from "../../../api";
+import { apiFeaturesPage } from "../../../api";
 import FeaturePage, { Article } from "../../../components/FeaturePage";
+import { ArticlePartialData, FeaturesPageResponse } from "../../../schema";
 import { DescriptionText, GRAY_MID, Header1 } from "../../../styles";
 import '../../../styles/features.css';
 
@@ -12,7 +13,7 @@ type FeaturesProps = {
     data: FeaturesPageResponse
 }
 
-function FeatureGrid(props: {articles: FeaturesPageArticleSummary[]}) {
+function FeatureGrid(props: {articles: ArticlePartialData[]}) {
     return <div css={{
         display: "none",
         alignItems: "top",
@@ -75,7 +76,7 @@ const Features: NextPage<FeaturesProps> = props => {
             <article role="main">
             <header>
 
-          <Header1>{props.data.article.title}</Header1>
+          <Header1>{props.data.article.name}</Header1>
           <DescriptionText>
               {props.data.article.excerpt}
           </DescriptionText>

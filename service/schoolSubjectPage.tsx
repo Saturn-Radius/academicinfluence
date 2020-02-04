@@ -1,6 +1,7 @@
-import { SchoolSubjectPageRequest, SchoolSubjectPageResponse } from "../api";
 import databasePool from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
+import { SchoolSubjectPageRequest, SchoolSubjectPageResponse } from "../schema";
+import { addPartialPersonFields, extractPartialPerson } from "./databasePerson";
 const months = require('months')
 
 // 800-200
@@ -165,7 +166,7 @@ export default async function serveSchoolSubjectPage(request: SchoolSubjectPageR
 
     const pool = await databasePool;
 
-    const baseQuery = influenceScoreQuery("person", 1900, 2020)
+    const baseQuery = addPartialPersonFields(influenceScoreQuery("person", 1900, 2020)
         .join("editor.ai_disciplines", undefined, "ai_disciplines.id = scores.keyword")
         .where("lower(ai_disciplines.name) = lower(?)", request.discipline.replace(/-/g, ' '))
         .join("ai_data.person_schools", undefined, "person_schools.person_id = scores.id")
@@ -173,11 +174,8 @@ export default async function serveSchoolSubjectPage(request: SchoolSubjectPageR
         .where("ai_schools.slug = ?", request.slug)
         .join("editor.ai_people", undefined, "editor.ai_people.id = scores.id")
         .join("ai_data.people", undefined, "ai_people.id = people.id")
-        .field("ai_people.slug")
-        .field("people.name")
-        .field("coalesce(nullif(ai_people.description, ''), people.description)", "description")
         .order("influence", false)
-        .limit(10)
+        .limit(10))
 
     const alumniQuery = pool.query(
         baseQuery.clone().where("person_schools.relationship = ?", 'Student').toParam()
@@ -188,7 +186,7 @@ export default async function serveSchoolSubjectPage(request: SchoolSubjectPageR
     )
 
     return {
-        alumni: (await alumniQuery).rows,
-        staff: (await staffQuery).rows
+        alumni: (await alumniQuery).rows.map(extractPartialPerson),
+        staff: (await staffQuery).rows.map(extractPartialPerson)
     }
 }

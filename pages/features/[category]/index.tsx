@@ -3,15 +3,16 @@ import Link from "next/link";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
-import { apiFeaturesPage, FeaturesPageArticleSummary, FeaturesPageResponse } from "../../../api";
+import { apiFeaturesPage } from "../../../api";
 import FeaturePage, { Article } from "../../../components/FeaturePage";
+import { ArticlePartialData, FeaturesPageResponse } from "../../../schema";
 import { DescriptionText, GRAY_MID, Header1 } from "../../../styles";
 
 type FeaturesProps = {
     data: FeaturesPageResponse
 }
 
-function FeatureGrid(props: {articles: FeaturesPageArticleSummary[]}) {
+function FeatureGrid(props: {articles: ArticlePartialData[]}) {
     return <div css={{
         display: "grid",
         alignItems: "top",

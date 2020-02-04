@@ -1,6 +1,6 @@
-import { CollegeRankingsRequest, CollegeRankingsResponse } from "../api";
 import databasePool from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
+import { CollegeRankingsRequest, CollegeRankingsResponse } from "../schema";
 import * as squel from "../squel";
 
 export function calculateScore(start_year: number, stop_year: number, discipline: string | null) {

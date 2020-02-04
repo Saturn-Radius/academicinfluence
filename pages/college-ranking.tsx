@@ -17,13 +17,15 @@ import USAStates from "usa-states";
 import {
   apiCollegeRankings,
   apiDisciplines,
-  apiLocationAutocomplete,
-  CollegeData,
+  apiLocationAutocomplete
+} from "../api";
+import {
   CollegeRankingSort,
   CollegeRankingsRequest,
   CollegeRankingsResponse,
-  DisciplinesResponse
-} from "../api";
+  DisciplinesResponse,
+  SchoolPartialData
+} from "../schema";
 import {
   GRAY_DARK,
   GRAY_LIGHT,
@@ -43,7 +45,7 @@ type CollegeRankingProps = {
 type COLUMN = {
   label: string;
   sort?: CollegeRankingSort;
-  value: (school: CollegeData, index: number) => ReactElementLike;
+  value: (school: SchoolPartialData, index: number) => ReactElementLike;
   row?: number;
   column?: number;
 };
@@ -355,9 +357,7 @@ const COLUMNS: COLUMN[] = [
     column: 1,
 
     value: school => (
-      <BasicCell color="black">
-        {school.influence_score && (school.influence_score * 100).toFixed(2)}
-      </BasicCell>
+      <BasicCell color="black">{school.overall.influence}</BasicCell>
     )
   },
   {
@@ -1090,7 +1090,7 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
         <tbody>
           {props.data.schools.map((school, schoolIndex) => (
             <tr
-              key={school.id}
+              key={school.slug}
               css={{
                 background: "white",
                 borderWidth: "0.5px",

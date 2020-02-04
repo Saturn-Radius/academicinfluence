@@ -1,6 +1,6 @@
-import { InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../api";
 import databasePool from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
+import { InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../schema";
 import * as squel from "../squel";
 
 export default async function serveInfluentialSchools(request: InfluentialSchoolsPageRequest): Promise<InfluentialSchoolsPageResponse> {

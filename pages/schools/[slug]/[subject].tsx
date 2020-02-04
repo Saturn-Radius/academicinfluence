@@ -1,18 +1,14 @@
 import { NextPage, NextPageContext } from "next";
-import { apiSchoolSubjectPage, SchoolSubjectPageResponse } from "../../../api";
+import { apiSchoolSubjectPage } from "../../../api";
+import { PersonPartialData, SchoolSubjectPageResponse } from "../../../schema";
 type SchoolProps = SchoolSubjectPageResponse
 
 type PeopleListProps = {
-    people: {
-        name: string,
-        description: string,
-        slug: string,
-        influence: number
-    }[]
+    people: PersonPartialData[]
 }
 function PeopleList(props:PeopleListProps) {
     return <ol>            {props.people.map(person => <li key={person.slug}>
-                <h2><a href={"/people/" + person.slug}>{person.name}</a> {person.influence}</h2>
+                <h2><a href={"/people/" + person.slug}>{person.name}</a> {person.overall.influence}</h2>
                 <p>{person.description}</p>
                 </li>)}
     </ol>
