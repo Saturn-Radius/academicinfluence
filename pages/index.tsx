@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import Link from "next/link";
 import { apiFeaturesPage, apiHomePage } from "../api";
 import { Article } from "../components/FeaturePage";
 import {
@@ -8,6 +7,7 @@ import {
   HomePageResponse
 } from "../schema";
 import { ACTION_COLOR, SECONDARY_DARK } from "../styles";
+import { ArticleLink } from "../links";
 
 type IndexProps = {
   homePage: HomePageResponse;
@@ -100,8 +100,8 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => (
       >
         {props.homePage.currentFeature.name}
       </div>
-      <Link
-        href={`/features/${props.homePage.currentFeature.category.slug}/${props.homePage.currentFeature.slug}`}
+      <ArticleLink
+        article={props.homePage.currentFeature}
       >
         <button
           css={{
@@ -123,7 +123,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => (
         >
           Explore
         </button>
-      </Link>
+      </ArticleLink>
     </div>
     <Section label="FEATURE ARTICLES">
       <FeatureGrid articles={props.features.articles.slice(0, 3)} />

@@ -2,6 +2,7 @@ import { NextPage, NextPageContext } from "next";
 import { VictoryChart, VictoryLine } from "victory";
 import { apiSchoolPage } from "../../../api";
 import { SchoolData } from "../../../schema";
+import { PersonLink } from "../../../links";
 type SchoolProps = {
     school: SchoolData
 };
@@ -39,7 +40,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => (
        <ol>
 
       {props.school.people.map((person) => (<li key={person.slug}>
-            <a href={"/people/" + person.slug}>{person.name}</a> {person.overall.influence} {person.description}
+            <PersonLink person={person}><a href={"/people/" + person.slug}>{person.name}</a></PersonLink> {person.overall.influence} {person.description}
        </li>))}
 
         </ol>

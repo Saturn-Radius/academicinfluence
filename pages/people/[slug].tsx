@@ -1,5 +1,4 @@
 import { NextPage, NextPageContext } from "next";
-import Link from "next/link";
 import { apiPersonPage } from "../../api";
 import { PersonData } from "../../schema";
 
@@ -32,9 +31,9 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => (
         <ol>
 
       {props.person.schools.map(school => (<li key={school.slug}>
-          <Link href={`/schools/${school.slug}`}>
+          <SchoolLink school={school}>
             <a>{school.name}</a>
-          </Link>
+          </SchoolLink>
        </li>))}
 
         </ol>
