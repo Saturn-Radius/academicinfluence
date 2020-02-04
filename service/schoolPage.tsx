@@ -1,13 +1,16 @@
-import { Dictionary } from "lodash";
 import databasePool from "../databasePool";
-import { influenceScoreQuery } from "../influenceScore";
 import {
-  DisciplineInfluenceData,
-  SchoolPageRequest,
-  SchoolPageResponse
-} from "../schema";
-import * as squel from "../squel";
-import { extractPartialPerson } from "./databasePerson";
+  disciplineBreakdownQuery,
+  extractDisciplineBreakdownWithYears
+} from "../influenceScore";
+import { SchoolPageRequest, SchoolPageResponse } from "../schema";
+import { extractPartialPerson, PERSON_ENTITY_TYPE } from "./databasePerson";
+import { lookupBySlug } from "./entityDatabase";
+import {
+  addPartialSchoolFields,
+  extractPartialSchoolFields,
+  SCHOOL_ENTITY_TYPE
+} from "./schoolDatabase";
 const months = require("months");
 
 // 800-200
@@ -178,181 +181,63 @@ export default async function serveSchoolPage(
 ): Promise<SchoolPageResponse> {
   const pool = await databasePool;
 
-  const schoolQuery = pool.query(
-    squel
-      .select()
-      .from("editor.ai_schools")
-      .join(
-        "ai_data.schools",
-        undefined,
-        "ai_data.schools.id = editor.ai_schools.id"
-      )
-      .where("ai_schools.slug = ?", request.slug)
-      .field("schools.name")
-      .field(
-        "coalesce(nullif(ai_schools.description, ''), schools.description)",
-        "description"
-      )
-      .field("slug")
-      .field("city")
-      .field("state")
-      .field("median_sat")
-      .field("median_act")
-      .field("undergrad_tuition_in_state")
-      .field("undergrad_tuition_out_of_state")
-      .field("grad_tuition_in_state")
-      .field("grad_tuition_out_of_state")
-      .field("undergrad_fees_in_state")
-      .field("undergrad_fees_out_of_state")
-      .field("grad_fees_in_state")
-      .field("grad_fees_out_of_state")
-      .field("average_net_price")
-      .field("average_earnings")
-      .field("employed_10_years")
-      .field("desirability")
-      .field("desirability_rank")
-      .field("graduation_rate")
-      .field("weather_maximums")
-      .field("weather_minimums")
-      .field(
-        squel.rstr("admissions::float / applications::float"),
-        "acceptance_rate"
-      )
-      .field(
-        squel.rstr("undergraduate_students + graduate_students"),
-        "total_students"
-      )
-      .field("logo_url")
-      .field("campus_property_crime_rate")
-      .field("campus_violent_crime_rate")
-      .field("city_property_crime_rate")
-      .field("city_violent_crime_rate")
-      .field("null", "top_discipline")
-      .toString()
+  const schoolQuery = lookupBySlug(SCHOOL_ENTITY_TYPE, request.slug)
+    .apply(addPartialSchoolFields)
+    .field("undergrad_tuition_out_of_state")
+    .field("grad_tuition_in_state")
+    .field("grad_tuition_out_of_state")
+    .field("undergrad_fees_in_state")
+    .field("undergrad_fees_out_of_state")
+    .field("grad_fees_in_state")
+    .field("grad_fees_out_of_state")
+    .field("average_net_price")
+    .field("average_earnings")
+    .field("employed_10_years")
+    .field("desirability_rank")
+    .field("weather_maximums")
+    .field("weather_minimums")
+    .field("campus_property_crime_rate")
+    .field("campus_violent_crime_rate")
+    .field("city_property_crime_rate")
+    .field("city_violent_crime_rate")
+    .execute();
+
+  const disciplineQuery = disciplineBreakdownQuery(
+    SCHOOL_ENTITY_TYPE,
+    request.slug,
+    true
   );
 
-  const influenceQuery = pool.query(
-    influenceScoreQuery("school", 1900, 2020)
-      .join("editor.ai_schools", undefined, "editor.ai_schools.id = scores.id")
-      .where("editor.ai_schools.slug = ?", request.slug)
-      .left_join(
-        "editor.ai_disciplines",
-        undefined,
-        "ai_disciplines.id = scores.keyword"
-      )
-      .field("ai_disciplines.name")
-      .field("scores.keyword")
-      .field("world_rank")
-      .field("usa_rank")
-      .field("year_start")
-      .field("by_year")
-      .order("influence", false)
-      .where("scores.keyword is null or ai_disciplines.name is not null")
-      .toParam()
-  );
+  const personQuery = lookupBySlug(SCHOOL_ENTITY_TYPE, request.slug)
+    .join(
+      "ai_data.person_schools",
+      undefined,
+      "person_schools.school_id = schools.id"
+    )
+    .followLink(PERSON_ENTITY_TYPE, "person_schools.person_id")
+    .addPartialFields(PERSON_ENTITY_TYPE)
+    .order("influence", false)
+    .limit(3)
+    .execute();
 
-  const personQuery = pool.query(
-    influenceScoreQuery("person", 1900, 2020)
-      .where("keyword is null")
-      .join(
-        "ai_data.person_schools",
-        undefined,
-        "person_schools.person_id = scores.id"
-      )
-      .join(
-        "editor.ai_schools",
-        undefined,
-        "editor.ai_schools.id = person_schools.school_id"
-      )
-      .where("ai_schools.slug = ?", request.slug)
-      .join("editor.ai_people", undefined, "editor.ai_people.id = scores.id")
-      .join("ai_data.people", undefined, "ai_people.id = people.id")
-      .field("ai_people.slug")
-      .field("people.name")
-      .field("world_rank")
-      .field("usa_rank")
-      .field(
-        "coalesce(nullif(ai_people.description, ''), people.description)",
-        "description"
-      )
-      .order("influence", false)
-      .limit(3)
-      .toString()
-  );
-
-  const alumniQuery = pool.query(
-    influenceScoreQuery("person", 1900, 2020)
-      .where("keyword is null")
-      .join(
-        "ai_data.person_schools",
-        undefined,
-        "person_schools.person_id = scores.id"
-      )
-      .where("person_schools.relationship = ?", "Student")
-      .join(
-        "editor.ai_schools",
-        undefined,
-        "editor.ai_schools.id = person_schools.school_id"
-      )
-      .where("ai_schools.slug = ?", request.slug)
-      .join("editor.ai_people", undefined, "editor.ai_people.id = scores.id")
-      .join("ai_data.people", undefined, "ai_people.id = people.id")
-      .field("ai_people.slug")
-      .field("people.name")
-      .field("world_rank")
-      .field("usa_rank")
-      .field(
-        "coalesce(nullif(ai_people.description, ''), people.description)",
-        "description"
-      )
-      .order("influence", false)
-      .limit(3)
-      .toParam()
-  );
+  const alumniQuery = lookupBySlug(SCHOOL_ENTITY_TYPE, request.slug)
+    .join(
+      "ai_data.person_schools",
+      undefined,
+      "person_schools.school_id = schools.id"
+    )
+    .where("person_schools.relationship = ?", "student")
+    .followLink(PERSON_ENTITY_TYPE, "person_schools.person_id")
+    .addPartialFields(PERSON_ENTITY_TYPE)
+    .order("influence", false)
+    .limit(3)
+    .execute();
 
   const school = (await schoolQuery).rows[0];
 
-  let overall = null;
-  let over_time = [];
-
-  const influences: Dictionary<DisciplineInfluenceData> = {};
-  for (const row of (await influenceQuery).rows) {
-    if (row.name === null) {
-      overall = {
-        influence: row.influence,
-        world_rank: row.world_rank,
-        usa_rank: row.usa_rank
-      };
-      over_time = row.by_year.map((value: number, index: number) => ({
-        year: index + row.year_start,
-        value
-      }));
-    } else {
-      influences[row.name] = {
-        influence: row.influence,
-        world_rank: row.world_rank,
-        usa_rank: row.usa_rank
-      };
-    }
-  }
-
   return {
     school: {
-      description: school.description,
-      name: school.name,
-      slug: school.slug,
-      city: school.city,
-      state: school.state,
-      median_act: school.median_act,
-      median_sat: school.median_sat,
-      undergrad_tuition_in_state: school.undergrad_tuition_in_state,
-      average_earnings: school.average_earnings,
-      graduation_rate: school.graduation_rate,
-      total_students: school.total_students,
-      acceptance_rate: school.acceptance_rate,
-      desirability: school.desirability,
-      logo_url: school.logo_url,
-      top_discipline: school.top_discipline,
+      ...extractPartialSchoolFields(school),
       employed_10_years: school.employed_10_years,
       desirability_rank: school.desirability_rank,
       undergrad_tuition_out_of_state: school.undergrad_tuition_out_of_state,
@@ -370,12 +255,10 @@ export default async function serveSchoolPage(
       city_property_crime_rate: school.city_property_crime_rate,
       city_violent_crime_rate: school.city_violent_crime_rate,
       test_competitiveness: lookupSatMath(school.median_sat / 2) / 100,
-      overall: overall as DisciplineInfluenceData,
-      disciplines: influences,
+      ...extractDisciplineBreakdownWithYears(await disciplineQuery),
       people: (await personQuery).rows.map(extractPartialPerson),
       alumni: (await alumniQuery).rows.map(extractPartialPerson),
-      weather: calcWeather(school.weather_maximums, school.weather_minimums),
-      influence_over_time: over_time
+      weather: calcWeather(school.weather_maximums, school.weather_minimums)
     }
   };
 }

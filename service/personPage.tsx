@@ -6,12 +6,7 @@ import {
 import { PersonPageRequest, PersonPageResponse } from "../schema";
 import * as squel from "../squel";
 import { PERSON_ENTITY_TYPE } from "./databasePerson";
-import {
-  addDescribableFields,
-  addIdentifiableFields,
-  extractDescribableFields,
-  lookupBySlug
-} from "./entityDatabase";
+import { extractDescribableFields, lookupBySlug } from "./entityDatabase";
 import { SCHOOL_ENTITY_TYPE } from "./schoolDatabase";
 
 export default async function servePersonPage(
@@ -19,60 +14,43 @@ export default async function servePersonPage(
 ): Promise<PersonPageResponse> {
   const pool = await databasePool;
 
-  const personQuery = pool.query(
-    addDescribableFields(
-      lookupBySlug(PERSON_ENTITY_TYPE, request.slug),
-      PERSON_ENTITY_TYPE
+  const personQuery = lookupBySlug(PERSON_ENTITY_TYPE, request.slug)
+    .addDescribableFields(PERSON_ENTITY_TYPE)
+    .field("birth_year")
+    .field("death_year")
+    .field(squel.str("? || image", "/api/wmcimage/"), "image_url")
+    .field(
+      squel.str("? || image", "https://commons.wikimedia.org/wiki/File:"),
+      "image_source_url"
     )
-      .field("birth_year")
-      .field("death_year")
-      .field(squel.str("? || image", "/api/wmcimage/"), "image_url")
-      .field(
-        squel.str("? || image", "https://commons.wikimedia.org/wiki/File:"),
-        "image_source_url"
-      )
-      .field("wikipedia_title")
-      .field("website")
-      .toParam()
+    .field("wikipedia_title")
+    .field("website")
+    .execute();
+
+  const disciplineQuery = disciplineBreakdownQuery(
+    PERSON_ENTITY_TYPE,
+    request.slug
   );
 
-  const disciplineQuery = pool.query(
-    disciplineBreakdownQuery(PERSON_ENTITY_TYPE, request.slug).toParam()
-  );
+  const schoolQuery = lookupBySlug(PERSON_ENTITY_TYPE, request.slug)
+    .join(
+      "ai_data.person_schools",
+      undefined,
+      "ai_data.person_schools.person_id = editor.ai_people.id"
+    )
+    .followLink(SCHOOL_ENTITY_TYPE, "person_schools.school_id")
+    .addIdentifiableFields(SCHOOL_ENTITY_TYPE)
+    .execute();
 
-  const schoolQuery = pool.query(
-    addIdentifiableFields(
-      lookupBySlug(PERSON_ENTITY_TYPE, request.slug)
-        .join(
-          "ai_data.person_schools",
-          undefined,
-          "ai_data.person_schools.person_id = editor.ai_people.id"
-        )
-        .join(
-          "editor.ai_schools",
-          undefined,
-          "ai_schools.id = ai_data.person_schools.school_id"
-        )
-        .join(
-          "ai_data.schools",
-          undefined,
-          "schools.id = ai_data.person_schools.school_id"
-        ),
-      SCHOOL_ENTITY_TYPE
-    ).toParam()
-  );
-
-  const workQuery = pool.query(
-    lookupBySlug(PERSON_ENTITY_TYPE, request.slug)
-      .join(
-        "ai_data.person_works",
-        undefined,
-        "ai_data.person_works.author_id = editor.ai_people.id"
-      )
-      .field("person_works.label")
-      .order("person_works.influence", false)
-      .toParam()
-  );
+  const workQuery = lookupBySlug(PERSON_ENTITY_TYPE, request.slug)
+    .join(
+      "ai_data.person_works",
+      undefined,
+      "ai_data.person_works.author_id = editor.ai_people.id"
+    )
+    .field("person_works.label")
+    .order("person_works.influence", false)
+    .execute();
 
   const person = (await personQuery).rows[0];
 

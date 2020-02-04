@@ -56,8 +56,12 @@ export function influenceScoreQuery(
   return query;
 }
 
-export function disciplineBreakdownQuery(entityType: EntityType, slug: string) {
-  return lookupBySlug(entityType, slug)
+export function disciplineBreakdownQuery(
+  entityType: EntityType,
+  slug: string,
+  over_time: boolean = false
+) {
+  const query = lookupBySlug(entityType, slug)
     .join(
       "ai_data.scores",
       undefined,
@@ -80,10 +84,17 @@ export function disciplineBreakdownQuery(entityType: EntityType, slug: string) {
     .where(
       "scores.keyword is null or (ai_disciplines.name is not null and ai_disciplines.active)"
     );
+
+  if (over_time) {
+    query.field("by_year").field("year_start");
+  }
+
+  return query.execute();
 }
 
-export function extractDisciplineBreakdown(result: QueryResult<any>) {
+export function extractDisciplineBreakdownWithYears(result: QueryResult<any>) {
   let overall = null;
+  let by_year = undefined;
   const disciplines: Dictionary<DisciplineInfluenceData> = {};
   for (const row of result.rows) {
     if (row.name === null) {
@@ -92,6 +103,12 @@ export function extractDisciplineBreakdown(result: QueryResult<any>) {
         world_rank: row.world_rank,
         usa_rank: row.usa_rank
       };
+      if (row.by_year) {
+        by_year = row.by_year.map((value: any, index: number) => ({
+          value,
+          year: row.year_start + index
+        }));
+      }
     } else {
       disciplines[row.name] = {
         influence: row.influence,
@@ -102,6 +119,15 @@ export function extractDisciplineBreakdown(result: QueryResult<any>) {
   }
   return {
     overall: overall as DisciplineInfluenceData,
-    disciplines
+    disciplines,
+    influence_over_time: by_year
+  };
+}
+
+export function extractDisciplineBreakdown(result: QueryResult<any>) {
+  const data = extractDisciplineBreakdownWithYears(result);
+  return {
+    overall: data.overall,
+    disciplines: data.disciplines
   };
 }
