@@ -2,7 +2,7 @@ import databasePool from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
 import { SchoolSubjectPageRequest, SchoolSubjectPageResponse } from "../schema";
 import { addPartialPersonFields, extractPartialPerson } from "./databasePerson";
-const months = require('months')
+const months = require("months");
 
 // 800-200
 const SAT_SCORES = [
@@ -136,57 +136,86 @@ function lookupSatVerbal(score: number) {
 }
 
 function calcTemp(temps: number[], start: number, end: number) {
-    let total = 0;
-    for (let index = start; index < end; index++) {
-        total += temps[index]
-    }
-    return total / (end - start)
+  let total = 0;
+  for (let index = start; index < end; index++) {
+    total += temps[index];
+  }
+  return total / (end - start);
 }
 
-function calcSeason(maximums: number[], minimums: number[], start: number, end: number) {
-    return {
-        high: calcTemp(maximums, start, end),
-        low: calcTemp(minimums, start, end)
-    }
+function calcSeason(
+  maximums: number[],
+  minimums: number[],
+  start: number,
+  end: number
+) {
+  return {
+    high: calcTemp(maximums, start, end),
+    low: calcTemp(minimums, start, end)
+  };
 }
 
 function calcWeather(maximums: number[], minimums: number[]) {
-    if (maximums.length == 0 || minimums.length == 0) {
-        return null
-    }
-    return {
-        winter: calcSeason(maximums, minimums, 0, 3),
-        spring: calcSeason(maximums, minimums, 3, 6),
-        summer: calcSeason(maximums, minimums, 6, 9),
-        fall: calcSeason(maximums, minimums, 9, 12),
-    }
+  if (maximums.length == 0 || minimums.length == 0) {
+    return null;
+  }
+  return {
+    winter: calcSeason(maximums, minimums, 0, 3),
+    spring: calcSeason(maximums, minimums, 3, 6),
+    summer: calcSeason(maximums, minimums, 6, 9),
+    fall: calcSeason(maximums, minimums, 9, 12)
+  };
 }
 
-export default async function serveSchoolSubjectPage(request: SchoolSubjectPageRequest): Promise<SchoolSubjectPageResponse> {
+export default async function serveSchoolSubjectPage(
+  request: SchoolSubjectPageRequest
+): Promise<SchoolSubjectPageResponse> {
+  const pool = await databasePool;
 
-    const pool = await databasePool;
+  const baseQuery = addPartialPersonFields(
+    influenceScoreQuery("person", 1900, 2020)
+      .join(
+        "editor.ai_disciplines",
+        undefined,
+        "ai_disciplines.id = scores.keyword"
+      )
+      .where(
+        "lower(ai_disciplines.name) = lower(?)",
+        request.discipline.replace(/-/g, " ")
+      )
+      .join(
+        "ai_data.person_schools",
+        undefined,
+        "person_schools.person_id = scores.id"
+      )
+      .join(
+        "editor.ai_schools",
+        undefined,
+        "editor.ai_schools.id = person_schools.school_id"
+      )
+      .where("ai_schools.slug = ?", request.slug)
+      .join("editor.ai_people", undefined, "editor.ai_people.id = scores.id")
+      .join("ai_data.people", undefined, "ai_people.id = people.id")
+      .order("influence", false)
+      .limit(10)
+  );
 
-    const baseQuery = addPartialPersonFields(influenceScoreQuery("person", 1900, 2020)
-        .join("editor.ai_disciplines", undefined, "ai_disciplines.id = scores.keyword")
-        .where("lower(ai_disciplines.name) = lower(?)", request.discipline.replace(/-/g, ' '))
-        .join("ai_data.person_schools", undefined, "person_schools.person_id = scores.id")
-        .join("editor.ai_schools", undefined, "editor.ai_schools.id = person_schools.school_id")
-        .where("ai_schools.slug = ?", request.slug)
-        .join("editor.ai_people", undefined, "editor.ai_people.id = scores.id")
-        .join("ai_data.people", undefined, "ai_people.id = people.id")
-        .order("influence", false)
-        .limit(10))
+  const alumniQuery = pool.query(
+    baseQuery
+      .clone()
+      .where("person_schools.relationship = ?", "Student")
+      .toParam()
+  );
 
-    const alumniQuery = pool.query(
-        baseQuery.clone().where("person_schools.relationship = ?", 'Student').toParam()
-    )
+  const staffQuery = pool.query(
+    baseQuery
+      .clone()
+      .where("person_schools.relationship = ?", "Staff")
+      .toParam()
+  );
 
-    const staffQuery = pool.query(
-        baseQuery.clone().where("person_schools.relationship = ?", 'Staff').toParam()
-    )
-
-    return {
-        alumni: (await alumniQuery).rows.map(extractPartialPerson),
-        staff: (await staffQuery).rows.map(extractPartialPerson)
-    }
+  return {
+    alumni: (await alumniQuery).rows.map(extractPartialPerson),
+    staff: (await staffQuery).rows.map(extractPartialPerson)
+  };
 }
