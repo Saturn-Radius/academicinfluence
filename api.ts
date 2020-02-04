@@ -17,6 +17,8 @@ import {
   PersonPageResponse,
   SchoolPageRequest,
   SchoolPageResponse,
+  SchoolSearchRequest,
+  SchoolSearchResponse,
   SchoolSubjectPageRequest,
   SchoolSubjectPageResponse
 } from "./schema";
@@ -148,6 +150,29 @@ export const apiLocationAutocomplete = process.browser
       const module = await import("./service/locationAutocomplete");
       const response = await module.default(request);
       if (!validate("LocationAutocompleteResponse", response)) {
+        throw new Error("validation failed");
+      }
+      return response;
+    };
+export const apiSchoolSearch = process.browser
+  ? async function(
+      request: SchoolSearchRequest
+    ): Promise<SchoolSearchResponse> {
+      const response = await fetch(
+        "/api/SchoolSearch/" + encodeURIComponent(JSON.stringify(request))
+      );
+      const data = await response.json();
+      if (!validate("SchoolSearchResponse", data)) {
+        throw new Error("validation failed");
+      }
+      return data;
+    }
+  : async function(
+      request: SchoolSearchRequest
+    ): Promise<SchoolSearchResponse> {
+      const module = await import("./service/schoolSearch");
+      const response = await module.default(request);
+      if (!validate("SchoolSearchResponse", response)) {
         throw new Error("validation failed");
       }
       return response;
@@ -818,6 +843,18 @@ validator.compile({
         }
       },
       required: ["cities"],
+      additionalProperties: false
+    },
+    SchoolSearchRequest: { type: "string" },
+    SchoolSearchResponse: {
+      type: "object",
+      properties: {
+        schools: {
+          type: "array",
+          items: { $ref: "#/definitions/Identifiable" }
+        }
+      },
+      required: ["schools"],
       additionalProperties: false
     },
     PersonPageRequest: {

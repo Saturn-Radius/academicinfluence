@@ -224,6 +224,11 @@ export interface LocationAutocompleteResponse {
   }[];
 }
 
+export type SchoolSearchRequest = string;
+export interface SchoolSearchResponse {
+  schools: Identifiable[];
+}
+
 export interface PersonPageRequest {
   slug: string;
 }
