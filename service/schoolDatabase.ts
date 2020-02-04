@@ -1,3 +1,4 @@
+import { influenceScoreQuery } from "../influenceScore";
 import * as squel from "../squel";
 import {
   EntityQuery,
@@ -31,7 +32,27 @@ export function addPartialSchoolFields(query: EntityQuery) {
     )
     .field("desirability")
     .field("logo_url")
-    .field("null", "top_discipline");
+    .field(
+      squel
+        .select()
+        .from(
+          influenceScoreQuery("school", 1900, 2020)
+            .where("scores.id = schools.id")
+            .where("keyword is not null")
+            .field("keyword"),
+          "data"
+        )
+        .join(
+          "editor.ai_disciplines",
+          undefined,
+          "ai_disciplines.id = data.keyword"
+        )
+        .where("ai_disciplines.active")
+        .order("influence", false)
+        .limit(1)
+        .field("ai_disciplines.name"),
+      "top_discipline"
+    );
 }
 
 export function extractPartialSchoolFields(row: any) {

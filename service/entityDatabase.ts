@@ -37,23 +37,12 @@ export function extractDescribableFields(row: any) {
   };
 }
 
-export function followLink(
-  query: PostgresSelect,
-  entityType: EntityType,
-  link: string
-) {
-  return query
-    .join(
-      entityType.data_table,
-      undefined,
-      entityType.data_table + ".id = " + link
-    )
-    .join(
-      entityType.editor_table,
-      undefined,
-      entityType.editor_table + ".id = " + entityType.data_table + ".id"
-    )
-    .where(entityType.editor_table + ".active");
+export function extractOverall(row: any) {
+  return {
+    influence: row.influence,
+    world_rank: row.world_rank,
+    usa_rank: row.usa_rank
+  };
 }
 
 export class EntityQuery {
@@ -79,8 +68,7 @@ export class EntityQuery {
     return this;
   }
 
-  addPartialFields(entityType: EntityType) {
-    this.addDescribableFields(entityType);
+  addInfluenceFields(entityType: EntityType) {
     this._query
       .join(
         "ai_data.scores",
@@ -90,6 +78,12 @@ export class EntityQuery {
       .field(influenceScoreColumn(1900, 2020), "influence")
       .field("world_rank")
       .field("usa_rank");
+    return this;
+  }
+
+  addPartialFields(entityType: EntityType) {
+    this.addDescribableFields(entityType);
+    this.addInfluenceFields(entityType);
     return this;
   }
 
@@ -152,23 +146,33 @@ export class EntityQuery {
     return this;
   }
 
+  inner() {
+    return this._query;
+  }
+
   async execute() {
     const pool = await databasePool;
     return pool.query(this._query.toParam());
   }
 }
 
-export function lookupBySlug(entityType: EntityType, slug: string) {
+export function lookupAll(entityType: EntityType) {
   return new EntityQuery(
     squel
       .select()
       .from(entityType.editor_table)
-      .where(entityType.editor_table + ".slug = ?", slug)
       .where(entityType.editor_table + ".active")
       .join(
         entityType.data_table,
         undefined,
         entityType.editor_table + ".id = " + entityType.data_table + ".id"
       )
+  );
+}
+
+export function lookupBySlug(entityType: EntityType, slug: string) {
+  return lookupAll(entityType).where(
+    entityType.editor_table + ".slug = ?",
+    slug
   );
 }

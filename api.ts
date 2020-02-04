@@ -233,6 +233,16 @@ validator.compile({
       required: ["slug", "name"],
       additionalProperties: false
     },
+    Describable: {
+      type: "object",
+      properties: {
+        slug: { type: "string" },
+        name: { type: "string" },
+        description: { type: "string" }
+      },
+      required: ["description", "name", "slug"],
+      additionalProperties: false
+    },
     EntityPartialData: {
       type: "object",
       properties: {
@@ -517,7 +527,7 @@ validator.compile({
         "average_earnings",
         "acceptance_rate",
         "total_students",
-        "influence_score",
+        "influence",
         "desirability",
         "graduation_rate"
       ]

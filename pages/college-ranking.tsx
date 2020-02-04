@@ -352,7 +352,7 @@ const COLUMNS: COLUMN[] = [
   },
   {
     label: "Influence Ranking",
-    sort: "influence_score",
+    sort: "influence",
     row: 3,
     column: 1,
 
@@ -1112,7 +1112,7 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
 
 CollegeRanking.getInitialProps = async function(context: NextPageContext) {
   const request = {
-    sort: (context.query.sort || "influence_score") as CollegeRankingSort,
+    sort: (context.query.sort || "influence") as CollegeRankingSort,
     reversed: context.query.reversed === "true",
     tuition: {
       min: parseInt((context.query.minTuition as string) || "0", 10),

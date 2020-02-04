@@ -2,6 +2,12 @@ import databasePool from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
 import { CollegeRankingsRequest, CollegeRankingsResponse } from "../schema";
 import * as squel from "../squel";
+import { extractOverall, lookupAll } from "./entityDatabase";
+import {
+  addPartialSchoolFields,
+  extractPartialSchoolFields,
+  SCHOOL_ENTITY_TYPE
+} from "./schoolDatabase";
 
 export function calculateScore(
   start_year: number,
@@ -29,41 +35,13 @@ export default async function serveCollegeRankings(
 ): Promise<CollegeRankingsResponse> {
   const pool = await databasePool;
 
-  const innerQuery = squel
-    .select()
-    .from("ai_data.schools")
-    .field("id")
-    .field("name")
-    .field("city")
-    .field("state")
-    .field("median_sat")
-    .field("median_act")
-    .field("undergrad_tuition_in_state")
-    .field("average_earnings")
-    .field("graduation_rate")
-    .field("desirability")
-    .field("location")
-    .field(
-      squel.rstr("admissions::float / applications::float"),
-      "acceptance_rate"
-    )
-    .field(
-      squel.rstr("undergraduate_students + graduate_students"),
-      "total_students"
-    )
-    .field(
-      calculateScore(
-        request.years.min,
-        request.years.max,
-        request.discipline || null
-      ).where("scores.id = schools.id"),
-      "influence_score"
-    )
-    .field("logo_url");
+  const innerQuery = lookupAll(SCHOOL_ENTITY_TYPE)
+    .apply(addPartialSchoolFields)
+    .addInfluenceFields(SCHOOL_ENTITY_TYPE);
 
   const query = squel
     .select()
-    .from(innerQuery, "data")
+    .from(innerQuery.inner(), "data")
     .where(
       "undergrad_tuition_in_state >= ? and undergrad_tuition_in_state <= ?",
       request.tuition.min * 1000,
@@ -104,14 +82,12 @@ export default async function serveCollegeRankings(
     );
   }
 
-  console.log(query.toString());
-
   const sentQuery = pool.query(query.toParam());
 
   const limitQuery = pool.query(
     squel
       .select()
-      .from(innerQuery, "data")
+      .from(innerQuery.inner(), "data")
       .field(squel.rstr("max(undergrad_tuition_in_state)"), "max_tuition")
       .field(squel.rstr("min(undergrad_tuition_in_state)"), "min_tuition")
       .field(squel.rstr("max(median_sat)"), "max_sat")
@@ -127,7 +103,10 @@ export default async function serveCollegeRankings(
   const limitResult = await limitQuery;
 
   return {
-    schools: queryResult.rows,
+    schools: queryResult.rows.map(row => ({
+      ...extractPartialSchoolFields(row),
+      overall: extractOverall(row)
+    })),
     limits: {
       tuition: {
         min: Math.floor((limitResult.rows[0].min_tuition || 0) / 1000),

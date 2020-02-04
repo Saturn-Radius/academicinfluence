@@ -103,7 +103,7 @@ export type CollegeRankingSort =
   | "average_earnings"
   | "acceptance_rate"
   | "total_students"
-  | "influence_score"
+  | "influence"
   | "desirability"
   | "graduation_rate";
 
