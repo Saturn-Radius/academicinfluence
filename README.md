@@ -35,12 +35,13 @@ called on the server, when run during client rendering, it will run there.
 
 ## API
 
-The API is defined in schema.ts. This defines a collection of JSON Schema objects which defined the input
-and output of each possible type of request. The implementation of each api can be found in the services/ folder.Each module in that folder exports a default async function which takes the input of the api and returns the output.
+The API is defined in schema.ts. This defines a number of typescript types which form the api. There are pairs ending in Request and Response which define the Request/Response pairs available from the api. 
 
 Run `npm run build-api` to build some boilerplate to support the api.
 
-Access to the api is throught the api.ts module. This module defines api* functions. When running on the server, these functions directly call into the service/ implementations. When running on the client, these function use fetch to invoke the api. 
+This will generate the api.ts module which is the primary access point to the api.
+The api* function take a request and return a response promise.
+ When running on the server, these functions directly call into the service/ implementations. When running on the client, these function use fetch to invoke the api. 
 
 There are pages/api/* functions modules automatically created for each of the apis. These take care of parsing the incoming request and verifying it against the schema.
 

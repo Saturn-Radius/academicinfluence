@@ -17,13 +17,15 @@ import USAStates from "usa-states";
 import {
   apiCollegeRankings,
   apiDisciplines,
-  apiLocationAutocomplete,
-  CollegeData,
+  apiLocationAutocomplete
+} from "../api";
+import {
   CollegeRankingSort,
   CollegeRankingsRequest,
   CollegeRankingsResponse,
-  DisciplinesResponse
-} from "../api";
+  DisciplinesResponse,
+  SchoolPartialData
+} from "../schema";
 import {
   GRAY_DARK,
   GRAY_LIGHT,
@@ -43,7 +45,7 @@ type CollegeRankingProps = {
 type COLUMN = {
   label: string;
   sort?: CollegeRankingSort;
-  value: (school: CollegeData, index: number) => ReactElementLike;
+  value: (school: SchoolPartialData, index: number) => ReactElementLike;
   row?: number;
   column?: number;
 };
@@ -299,6 +301,44 @@ const COLUMNS: COLUMN[] = [
     }
   },
   {
+    label: "Graduation Rate",
+    sort: "graduation_rate",
+    row: 2,
+    column: 5,
+    value: school => {
+      if (!school.graduation_rate) {
+        return <div />;
+      }
+      let percentage = school.graduation_rate * 100;
+
+      return (
+        <div
+          css={{
+            width: "50px",
+            height: "50px",
+            ".CircularProgressbar-trail": {
+              strokeWidth: "4px"
+            },
+            ".CircularProgressbar-path": {
+              strokeWidth: "10px",
+              stroke: "#EB5857"
+            },
+            ".CircularProgressbar-text": {
+              fill: "black",
+              fontSize: "28px",
+              fontWeight: "bold"
+            }
+          }}
+        >
+          <CircularProgressbar
+            value={percentage}
+            text={percentage.toFixed() + "%"}
+          />
+        </div>
+      );
+    }
+  },
+  {
     label: "Desirability Index",
     sort: "desirability",
     row: 3,
@@ -312,14 +352,12 @@ const COLUMNS: COLUMN[] = [
   },
   {
     label: "Influence Ranking",
-    sort: "influence_score",
+    sort: "influence",
     row: 3,
     column: 1,
 
     value: school => (
-      <BasicCell color="black">
-        {school.influence_score && (school.influence_score * 100).toFixed(2)}
-      </BasicCell>
+      <BasicCell color="black">{school.overall.influence}</BasicCell>
     )
   },
   {
@@ -1052,7 +1090,7 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
         <tbody>
           {props.data.schools.map((school, schoolIndex) => (
             <tr
-              key={school.id}
+              key={school.slug}
               css={{
                 background: "white",
                 borderWidth: "0.5px",
@@ -1074,7 +1112,7 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
 
 CollegeRanking.getInitialProps = async function(context: NextPageContext) {
   const request = {
-    sort: (context.query.sort || "influence_score") as CollegeRankingSort,
+    sort: (context.query.sort || "influence") as CollegeRankingSort,
     reversed: context.query.reversed === "true",
     tuition: {
       min: parseInt((context.query.minTuition as string) || "0", 10),

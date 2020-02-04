@@ -7,8 +7,8 @@
     "dev": "next",
     "build": "rimraf .next && next build",
     "start": "next start",
-    "format": "organize-imports-cli tsconfig.json && prettier --write pages/** *.tsx *.ts",
-    "build-api": "ts-node -r esm build-api.ts"
+    "format": "organize-imports-cli tsconfig.json && prettier --write service/** pages/** *.tsx *.ts",
+    "build-api": "ts-node -r esm build-api.ts && npm run format"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +23,7 @@
     "@types/rc-slider": "^8.6.5",
     "@types/react-autocomplete": "^1.8.5",
     "@types/react-select": "^3.0.8",
+    "@types/victory": "^33.1.4",
     "@zeit/next-css": "^1.0.1",
     "ajv": "^6.10.2",
     "change-case": "^4.0.1",
@@ -34,6 +35,7 @@
     "json-schema-to-typescript": "^8.0.0",
     "lodash": "^4.17.15",
     "lodash-es": "^4.17.15",
+    "months": "^2.1.0",
     "nano-css": "^5.2.1",
     "next": "^9.1.2",
     "next-fonts": "^0.19.0",
@@ -50,9 +52,11 @@
     "smart-quotes": "0.0.2",
     "smartquotes": "^2.3.1",
     "squel": "^5.13.0",
+    "ts-json-schema-generator": "^0.58.1",
     "ts-node": "^8.5.4",
     "typeface-montserrat": "0.0.75",
-    "usa-states": "0.0.5"
+    "usa-states": "0.0.5",
+    "victory": "^34.0.1"
   },
   "devDependencies": {
     "@types/node": "^12.12.3",

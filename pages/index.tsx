@@ -1,13 +1,12 @@
 import { NextPage } from "next";
 import Link from "next/link";
+import { apiFeaturesPage, apiHomePage } from "../api";
+import { Article } from "../components/FeaturePage";
 import {
-  apiFeaturesPage,
-  apiHomePage,
-  FeaturesPageArticleSummary,
+  ArticlePartialData,
   FeaturesPageResponse,
   HomePageResponse
-} from "../api";
-import { Article } from "../components/FeaturePage";
+} from "../schema";
 import { ACTION_COLOR, SECONDARY_DARK } from "../styles";
 
 type IndexProps = {
@@ -39,7 +38,7 @@ function Section(props: SectionProps) {
   );
 }
 
-function FeatureGrid(props: { articles: FeaturesPageArticleSummary[] }) {
+function FeatureGrid(props: { articles: ArticlePartialData[] }) {
   return (
     <div
       css={{
@@ -99,10 +98,10 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => (
           justifyContent: "end"
         }}
       >
-        {props.homePage.currentFeature.title}
+        {props.homePage.currentFeature.name}
       </div>
       <Link
-        href={`/features/${props.homePage.currentFeature.category}/${props.homePage.currentFeature.slug}`}
+        href={`/features/${props.homePage.currentFeature.category.slug}/${props.homePage.currentFeature.slug}`}
       >
         <button
           css={{

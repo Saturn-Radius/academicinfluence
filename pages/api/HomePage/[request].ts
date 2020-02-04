@@ -1,27 +1,25 @@
 
     // GENERATED FILE DO NOT EDIT
 
-import Ajv from "ajv";
 import { NextApiRequest, NextApiResponse } from "next";
-import SCHEMAS from "../../../schema";
+import { validate } from "../../../api";
 import serve from "../../../service/homePage";
-
-const validator = new Ajv();
-const validate = validator.compile(SCHEMAS.HomePage.request)
-
 
 export default async (req: NextApiRequest, response: NextApiResponse) => {
     try {
         const request = JSON.parse(req.query.request as string)
-        if (!validate(request)) {
+        if (!validate("HomePageRequest", request)) {
             response.status(400).send('')
         } else {
             const data = await serve(request);
-            response.status(200).json(data)
+            if (data === null) {
+              response.status(404)
+            } else {
+              response.status(200).json(data)
+            }
         }
     } catch (error) {
         console.error(error)
         response.status(500)
     }
 }
-    

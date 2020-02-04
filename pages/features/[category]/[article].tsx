@@ -3,8 +3,9 @@ import Link from "next/link";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
-import { apiFeaturesPage, FeaturesPageArticleSummary, FeaturesPageResponse } from "../../../api";
+import { apiFeaturesPage } from "../../../api";
 import FeaturePage, { Article } from "../../../components/FeaturePage";
+import { ArticlePartialData, FeaturesPageResponse } from "../../../schema";
 import { DescriptionText, GRAY_MID, Header1 } from "../../../styles";
 import '../../../styles/features.css';
 
@@ -12,7 +13,7 @@ type FeaturesProps = {
     data: FeaturesPageResponse
 }
 
-function FeatureGrid(props: {articles: FeaturesPageArticleSummary[]}) {
+function FeatureGrid(props: {articles: ArticlePartialData[]}) {
     return <div css={{
         display: "none",
         alignItems: "top",
@@ -52,6 +53,7 @@ const Features: NextPage<FeaturesProps> = props => {
     if (!props.data.article) {
         throw new Error();
     }
+    console.log(props)
   return (
       <FeaturePage data={props.data}>
     <Link href="/features">
@@ -71,8 +73,10 @@ const Features: NextPage<FeaturesProps> = props => {
             </span>
         </a>
     </Link>
- 
-          <Header1>{props.data.article.title}</Header1>
+            <article role="main">
+            <header>
+
+          <Header1>{props.data.article.name}</Header1>
           <DescriptionText>
               {props.data.article.excerpt}
           </DescriptionText>
@@ -81,8 +85,10 @@ const Features: NextPage<FeaturesProps> = props => {
               height: "auto",
               display: "block"
           }} src={props.data.article.bannerUrl}/>
-          <article dangerouslySetInnerHTML={{__html: props.data.article.content}}/>
+            </header>
+          <p className="content" dangerouslySetInnerHTML={{__html: props.data.article.content}}/>
           <FeatureGrid articles={articles.slice(0, 3)}/>
+            </article>
       </FeaturePage>
   );
 };

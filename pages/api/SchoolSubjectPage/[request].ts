@@ -3,12 +3,12 @@
 
 import { NextApiRequest, NextApiResponse } from "next";
 import { validate } from "../../../api";
-import serve from "../../../service/schoolPage";
+import serve from "../../../service/schoolSubjectPage";
 
 export default async (req: NextApiRequest, response: NextApiResponse) => {
     try {
         const request = JSON.parse(req.query.request as string)
-        if (!validate("SchoolPageRequest", request)) {
+        if (!validate("SchoolSubjectPageRequest", request)) {
             response.status(400).send('')
         } else {
             const data = await serve(request);
