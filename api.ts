@@ -809,8 +809,8 @@ validator.compile({
             type: "object",
             properties: {
               name: { type: "string" },
-              long: { type: "string" },
-              lat: { type: "string" }
+              long: { type: "number" },
+              lat: { type: "number" }
             },
             required: ["name", "long", "lat"],
             additionalProperties: false

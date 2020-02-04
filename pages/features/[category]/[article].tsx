@@ -53,7 +53,6 @@ const Features: NextPage<FeaturesProps> = props => {
     if (!props.data.article) {
         throw new Error();
     }
-    console.log(props)
   return (
       <FeaturePage data={props.data}>
     <Link href="/features">

@@ -499,8 +499,6 @@ function StateFilter(props: FilterProps) {
     (state: any) => states.indexOf(state.value) !== -1
   );
 
-  console.log(selected);
-
   return (
     <FilterLabel label="State">
       <Select
@@ -810,7 +808,6 @@ function Discipline(props: FilterProps) {
 
   let supertopic: string | null;
   let subtopic: string | null;
-  console.log("HEY", JSON.stringify(discipline));
   if (discipline === null || props.disciplines[discipline].parent === null) {
     supertopic = discipline;
     subtopic = null;

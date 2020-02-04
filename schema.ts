@@ -219,8 +219,8 @@ export type LocationAutocompleteRequest = string;
 export interface LocationAutocompleteResponse {
   cities: {
     name: string;
-    long: string;
-    lat: string;
+    long: number;
+    lat: number;
   }[];
 }
 
