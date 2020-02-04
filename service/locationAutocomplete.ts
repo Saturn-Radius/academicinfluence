@@ -1,7 +1,7 @@
 import {
   LocationAutocompleteRequest,
   LocationAutocompleteResponse
-} from "../api";
+} from "../schema";
 import databasePool from "../databasePool";
 import * as squel from "../squel";
 

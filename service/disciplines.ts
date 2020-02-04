@@ -1,5 +1,5 @@
 import { Dictionary } from "lodash";
-import { DisciplinesRequest, DisciplinesResponse } from "../api";
+import { DisciplinesRequest, DisciplinesResponse } from "../schema";
 import databasePool from "../databasePool";
 import * as squel from "../squel";
 
