@@ -1,6 +1,6 @@
 import { Dictionary } from "lodash";
-import { DisciplinesRequest, DisciplinesResponse } from "../schema";
 import databasePool from "../databasePool";
+import { DisciplinesRequest, DisciplinesResponse } from "../schema";
 import * as squel from "../squel";
 
 export default async function serveDisciplines(

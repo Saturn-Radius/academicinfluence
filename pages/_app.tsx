@@ -133,7 +133,7 @@ function SiteHeader(props: { currentSection?: string }) {
         }}
       >
         <SectionLink
-          href="/"
+          href="/schools"
           id="influential-schools"
           label="INFLUENTIAL SCHOOLS"
           currentSection={props.currentSection}

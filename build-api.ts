@@ -1,4 +1,4 @@
-import { writeFileSync } from "fs";
+import { mkdirSync, writeFileSync } from "fs";
 import { camelCase } from "lodash";
 import { createGenerator } from "ts-json-schema-generator";
 
@@ -20,6 +20,7 @@ async function main() {
   for (const typekey of exports) {
     if (typekey.endsWith("Request")) {
       const key = typekey.slice(0, typekey.length - 7);
+      console.log("API", key);
       content += `export const api${key} = process.browser ? 
         async function(request: ${key}Request): Promise<${key}Response> {
             const response = await fetch("/api/${key}/" + encodeURIComponent(JSON.stringify(request)));
@@ -38,6 +39,9 @@ async function main() {
         }
         `;
 
+      mkdirSync("./pages/api/" + key, {
+        recursive: true
+      });
       writeFileSync(
         "./pages/api/" + key + "/[request].ts",
         `

@@ -1,0 +1,9 @@
+/
+/schools
+/schools/harvard-university
+/schools/baylor-university
+/people/bill-gates-1
+/college-ranking
+/features
+/features/people
+/features/people/most-influential-philosophers-today

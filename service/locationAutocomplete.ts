@@ -1,8 +1,8 @@
+import databasePool from "../databasePool";
 import {
   LocationAutocompleteRequest,
   LocationAutocompleteResponse
 } from "../schema";
-import databasePool from "../databasePool";
 import * as squel from "../squel";
 
 export default async function serveAutocomplete(

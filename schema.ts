@@ -219,9 +219,14 @@ export type LocationAutocompleteRequest = string;
 export interface LocationAutocompleteResponse {
   cities: {
     name: string;
-    long: string;
-    lat: string;
+    long: number;
+    lat: number;
   }[];
+}
+
+export type SchoolSearchRequest = string;
+export interface SchoolSearchResponse {
+  schools: Identifiable[];
 }
 
 export interface PersonPageRequest {

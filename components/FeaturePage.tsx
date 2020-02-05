@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArticlePartialData, Category, FeaturesPageResponse } from "../schema";
 import { GRAY_DARK, GRAY_MID, PAGE_WIDTH_STYLE, SECONDARY_DARK } from "../styles";
+import { ArticleLink, CategoryLink } from "../links";
 
 
 
@@ -8,7 +9,6 @@ export function Article(props: {article: ArticlePartialData}) {
     if (!props.article) {
         return <></>
     }
-    console.log(props.article)
     return <div css={{display: "flex", alignItems: "top"}}>
         <div className="article" css={{
             display: "flex",
@@ -19,7 +19,7 @@ export function Article(props: {article: ArticlePartialData}) {
         }}>
 
         <div>
-        <Link href={"/features/" + props.article.category.slug + "/" + props.article.slug}>
+        <ArticleLink article={props.article}>
             <a css={{
                 textDecoration: "none"
             }}>
@@ -34,7 +34,7 @@ export function Article(props: {article: ArticlePartialData}) {
         
 
             </a>
-        </Link>
+        </ArticleLink>
         <div css={{
             color: GRAY_MID,
             fontSize: '12px',
@@ -71,7 +71,7 @@ function CategoryBar(props: {categories: Category[]}) {
         justifyContent: 'center'
     }}>
         {props.categories.map(category => (
-            <Link  href={"/features/" + category.slug} key={category.slug}>
+            <CategoryLink category={category} key={category.slug}>
                 <a css={{
                     marginLeft: '13px',
                     marginRight: '13px',
@@ -81,7 +81,7 @@ function CategoryBar(props: {categories: Category[]}) {
                 fontSize: '20px',
                 fontWeight: 500,
             }}>{category.name}</a>
-            </Link>
+            </CategoryLink>
         ))}
     </div>
 }

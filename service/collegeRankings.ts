@@ -37,7 +37,8 @@ export default async function serveCollegeRankings(
 
   const innerQuery = lookupAll(SCHOOL_ENTITY_TYPE)
     .apply(addPartialSchoolFields)
-    .addInfluenceFields(SCHOOL_ENTITY_TYPE);
+    .addInfluenceFields(SCHOOL_ENTITY_TYPE)
+    .field("location");
 
   const query = squel
     .select()

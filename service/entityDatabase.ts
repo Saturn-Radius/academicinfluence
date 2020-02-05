@@ -75,6 +75,7 @@ export class EntityQuery {
         undefined,
         entityType.data_table + ".id = scores.id and scores.keyword is null"
       )
+      .where("scores.kind = ?", entityType.kind)
       .field(influenceScoreColumn(1900, 2020), "influence")
       .field("world_rank")
       .field("usa_rank");

@@ -499,11 +499,10 @@ function StateFilter(props: FilterProps) {
     (state: any) => states.indexOf(state.value) !== -1
   );
 
-  console.log(selected);
-
   return (
     <FilterLabel label="State">
       <Select
+        instanceId="state-filter"
         value={selected}
         isMulti
         options={STATE_OPTIONS}
@@ -810,7 +809,6 @@ function Discipline(props: FilterProps) {
 
   let supertopic: string | null;
   let subtopic: string | null;
-  console.log("HEY", JSON.stringify(discipline));
   if (discipline === null || props.disciplines[discipline].parent === null) {
     supertopic = discipline;
     subtopic = null;
@@ -854,11 +852,12 @@ function Discipline(props: FilterProps) {
   return (
     <>
       <FilterLabel label="Discipline">
-        <Select value={selected} options={options} onChange={onChange} />
+        <Select instanceId="discipline-filter" value={selected} options={options} onChange={onChange} />
       </FilterLabel>
       <FilterSep />
       <FilterLabel label="Subdiscipline">
         <Select
+          instanceId="subdiscipline-filter"
           value={sub_selected}
           options={suboptions}
           onChange={onChange}
@@ -1066,11 +1065,11 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
                         }}
                       >
                         <a css={{ textDecoration: "none" }}>
-                          {column.label.split(" ").map(word => (
-                            <>
+                          {column.label.split(" ").map((word, index) => (
+                            <React.Fragment key={index}>
                               {word}
                               <br />
-                            </>
+                            </React.Fragment>
                           ))}
                         </a>
                       </RankingLink>
