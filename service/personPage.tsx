@@ -18,7 +18,7 @@ export default async function servePersonPage(
     .addDescribableFields(PERSON_ENTITY_TYPE)
     .field("birth_year")
     .field("death_year")
-    .field(squel.str("? || image", "/api/wmcimage/"), "image_url")
+    .field(squel.str("case when (image_url = '') then (? || image) else (image_url) END", "/api/wmcimage/"), "image_url")
     .field(
       squel.str("? || image", "https://commons.wikimedia.org/wiki/File:"),
       "image_source_url"

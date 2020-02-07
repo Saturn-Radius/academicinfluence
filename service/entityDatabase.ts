@@ -153,7 +153,12 @@ export class EntityQuery {
 
   async execute() {
     const pool = await databasePool;
-    return pool.query(this._query.toParam());
+    try {
+      return pool.query(this._query.toParam());
+    } catch (error) {
+      console.log(this._query.toString())
+      throw error
+    }
   }
 }
 
