@@ -1,7 +1,6 @@
-import Link from "next/link";
+import { ArticleLink, CategoryLink } from "../links";
 import { ArticlePartialData, Category, FeaturesPageResponse } from "../schema";
 import { GRAY_DARK, GRAY_MID, PAGE_WIDTH_STYLE, SECONDARY_DARK } from "../styles";
-import { ArticleLink, CategoryLink } from "../links";
 
 
 

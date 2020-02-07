@@ -1,12 +1,12 @@
 import { NextPage, NextPageContext } from "next";
+import { useRouter } from "next/router";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import React from "react";
 import Autocomplete from "react-autocomplete";
 import "react-circular-progressbar/dist/styles.css";
 import { apiInfluentialSchoolsPage, apiSchoolSearch } from "../../api";
-import { InfluentialSchoolsPageResponse, Identifiable } from "../../schema";
-import { Router, useRouter } from "next/router";
+import { Identifiable, InfluentialSchoolsPageResponse } from "../../schema";
 
 type InfluentialSchoolsProps = InfluentialSchoolsPageResponse
 

@@ -17,11 +17,25 @@ export default async function servePersonPage(
   const personQuery = lookupBySlug(PERSON_ENTITY_TYPE, request.slug)
     .addDescribableFields(PERSON_ENTITY_TYPE)
     .field("birth_year")
-    .overrideableField(PERSON_ENTITY_TYPE, "meta_description", undefined, "description")
+    .overrideableField(
+      PERSON_ENTITY_TYPE,
+      "meta_description",
+      undefined,
+      "description"
+    )
     .field("death_year")
-    .field(squel.str("case when (image_url = '') then (? || image) else (image_url) END", "/api/wmcimage/"), "image_url")
     .field(
-      squel.str("case when image_url = ''then ? || image else image_source_url end", "https://commons.wikimedia.org/wiki/File:"),
+      squel.str(
+        "case when (image_url = '') then (? || image) else (image_url) END",
+        "/api/wmcimage/"
+      ),
+      "image_url"
+    )
+    .field(
+      squel.str(
+        "case when image_url = ''then ? || image else image_source_url end",
+        "https://commons.wikimedia.org/wiki/File:"
+      ),
       "image_source_url"
     )
     .field("wikipedia_title")

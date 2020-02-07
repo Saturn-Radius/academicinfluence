@@ -263,9 +263,10 @@ validator.compile({
       properties: {
         slug: { type: "string" },
         name: { type: "string" },
-        description: { type: "string" }
+        description: { type: "string" },
+        short_description: { type: "string" }
       },
-      required: ["description", "name", "slug"],
+      required: ["description", "name", "short_description", "slug"],
       additionalProperties: false
     },
     EntityPartialData: {
@@ -274,6 +275,7 @@ validator.compile({
         slug: { type: "string" },
         name: { type: "string" },
         description: { type: "string" },
+        short_description: { type: "string" },
         overall: {
           type: "object",
           properties: {
@@ -285,7 +287,7 @@ validator.compile({
           additionalProperties: false
         }
       },
-      required: ["description", "name", "overall", "slug"],
+      required: ["description", "name", "overall", "short_description", "slug"],
       additionalProperties: false
     },
     PersonPartialData: {
@@ -295,6 +297,7 @@ validator.compile({
         slug: { type: "string" },
         name: { type: "string" },
         description: { type: "string" },
+        short_description: { type: "string" },
         overall: {
           type: "object",
           properties: {
@@ -306,7 +309,7 @@ validator.compile({
           additionalProperties: false
         }
       },
-      required: ["description", "name", "overall", "slug"]
+      required: ["description", "name", "overall", "short_description", "slug"]
     },
     SchoolPartialData: {
       type: "object",
@@ -314,6 +317,7 @@ validator.compile({
         slug: { type: "string" },
         name: { type: "string" },
         description: { type: "string" },
+        short_description: { type: "string" },
         overall: {
           type: "object",
           properties: {
@@ -349,6 +353,7 @@ validator.compile({
         "median_sat",
         "name",
         "overall",
+        "short_description",
         "slug",
         "state",
         "top_discipline",
@@ -369,6 +374,7 @@ validator.compile({
         slug: { type: "string" },
         name: { type: "string" },
         description: { type: "string" },
+        short_description: { type: "string" },
         overall: {
           type: "object",
           properties: {
@@ -391,6 +397,7 @@ validator.compile({
         desirability: { type: ["number", "null"] },
         logo_url: { type: ["string", "null"] },
         top_discipline: { type: ["string", "null"] },
+        meta_description: { type: "string" },
         employed_10_years: { type: ["number", "null"] },
         desirability_rank: { type: ["number", "null"] },
         undergrad_tuition_out_of_state: { type: ["number", "null"] },
@@ -470,9 +477,11 @@ validator.compile({
         "logo_url",
         "median_act",
         "median_sat",
+        "meta_description",
         "name",
         "overall",
         "people",
+        "short_description",
         "slug",
         "state",
         "test_competitiveness",
@@ -492,6 +501,7 @@ validator.compile({
         slug: { type: "string" },
         name: { type: "string" },
         description: { type: "string" },
+        short_description: { type: "string" },
         overall: {
           type: "object",
           properties: {
@@ -502,6 +512,7 @@ validator.compile({
           required: ["influence", "world_rank", "usa_rank"],
           additionalProperties: false
         },
+        meta_description: { type: "string" },
         links: { type: "array", items: { type: "string" } },
         birth_year: { type: ["number", "null"] },
         death_year: { type: ["number", "null"] },
@@ -535,9 +546,11 @@ validator.compile({
         "image_source_url",
         "image_url",
         "links",
+        "meta_description",
         "name",
         "overall",
         "schools",
+        "short_description",
         "slug",
         "works"
       ],

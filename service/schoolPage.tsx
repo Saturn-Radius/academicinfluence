@@ -183,7 +183,12 @@ export default async function serveSchoolPage(
 
   const schoolQuery = lookupBySlug(SCHOOL_ENTITY_TYPE, request.slug)
     .apply(addPartialSchoolFields)
-    .overrideableField(SCHOOL_ENTITY_TYPE, "meta_description", undefined, "description")
+    .overrideableField(
+      SCHOOL_ENTITY_TYPE,
+      "meta_description",
+      undefined,
+      "description"
+    )
     .field("undergrad_tuition_out_of_state")
     .field("grad_tuition_in_state")
     .field("grad_tuition_out_of_state")

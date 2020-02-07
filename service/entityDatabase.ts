@@ -60,17 +60,24 @@ export class EntityQuery {
     return this;
   }
 
-  overrideableField(entityType: EntityType, name: string, editor_column?: string, data_column?: string) {
+  overrideableField(
+    entityType: EntityType,
+    name: string,
+    editor_column?: string,
+    data_column?: string
+  ) {
     this._query.field(
-      `coalesce(nullif(${entityType.editor_table}.${editor_column || name}, ''), ${entityType.data_table}.${data_column || data_column})`,
-      name)
-    return this
+      `coalesce(nullif(${entityType.editor_table}.${editor_column ||
+        name}, ''), ${entityType.data_table}.${data_column || name})`,
+      name
+    );
+    return this;
   }
 
   addDescribableFields(entityType: EntityType) {
     return this.addIdentifiableFields(entityType)
       .overrideableField(entityType, "description")
-      .overrideableField(entityType, "short_description")
+      .overrideableField(entityType, "short_description");
   }
 
   addInfluenceFields(entityType: EntityType) {
@@ -161,8 +168,8 @@ export class EntityQuery {
     try {
       return pool.query(this._query.toParam());
     } catch (error) {
-      console.log(this._query.toString())
-      throw error
+      console.log(this._query.toString());
+      throw error;
     }
   }
 }
