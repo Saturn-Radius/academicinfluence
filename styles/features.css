@@ -10,7 +10,7 @@
 --page-bg-darker: #eff1f0;
 --lightgray: #ededed;
 --darkgray: #424B54;
---yellow: #ffff00;
+--yellow: #FEFE76;
 }
 
 
@@ -25,7 +25,7 @@ article, article aside, article details, article figcaption, article figure, art
 article audio, article canvas, article video { display: inline-block; }
 article abbr[title] { border-bottom: none; }
 article hr { -webkit-box-sizing: content-box; box-sizing: content-box; height: 0; }
-article mark { background-color: var(--yellow); color:#000; }
+article mark { background-color: var(--yellow); color: black; }
 article code, article kbd, article pre, article samp { font-family: monospace, serif; font-size: 1rem; }
 article pre { white-space: pre-wrap; }
 article q { quotes:"\201C" "\201D" "\2018" "\2019"; }
@@ -36,6 +36,9 @@ article fieldset { border: 1px solid var(--heading-bg); margin: 0 2px; padding:.
 article legend { border: 0; padding: 0; }
 article textarea { overflow: auto; vertical-align: top; }
 
+ SELECTED TEXT HIGHLIGHTING
+article ::-moz-selection { background-color: var(--yellow); color: black; }
+article ::selection { background-color: var(--yellow); color: black;  }
 
 /* FONT SIZING */
 article, article p, article blockquote, article aside, article div, article span { font-size: calc(12px + .35vw); line-height: calc(16px + .65vw); }
@@ -88,6 +91,14 @@ article figcaption { font-size: 0.8rem; color: var(--main-txt-darker); font-weig
 
 @media screen and (max-width: 610px) { article figure, article figure.alignleft, article figure.alignright {display: block; min-width:100%; margin-bottom: 1em; margin-right: 0 auto; margin-left: 0 auto; } }
 
+/* AMAZON BOOK IMAGE STYLE */
+article figure.amazonimg { width: 25%; min-width: 150px; max-width: 200px; height: auto; max-height: 300px; display: block; padding: 0; margin: 0; overflow: hidden; }
+article figure.amazonimg img { max-width: 100%; max-height: 100%; border: .5px silver solid; }
+article .amazonimg figcaption { font-weight: normal; }
+article .amazonimg.alignright { float:right; margin-left: 1rem; }
+article .amazonimg.alignleft { float:left; margin-right: 1rem; }
+
+/* SUBSCRIPT / SUPERSCRIPT */
 article sub, article sup { font-size:.8rem; line-height: 0; position: relative; vertical-align: baseline; top: -0.4em; font-weight: 500; color: var(--main-txt-darker); }
 article sub { top: 0.4em; }
 
@@ -177,6 +188,7 @@ article aside h2 { font-size: 1.243em; line-height: 1.243em; }
 article aside h3 { font-size: 1.132em; line-height: 1.132em; }
 article aside ol, article aside ul { margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0; }
 article aside ol.col2, article aside ul.col2 { margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0; }
+
 
 /* DETAILS ACCORDIONS */
 details.details_shim_closed, details.details_shim_open { display:block }
