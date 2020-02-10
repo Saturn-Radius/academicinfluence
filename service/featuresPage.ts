@@ -1,20 +1,25 @@
 import dateFormat from "date-fns/format";
+import { omit } from "lodash";
 import { HTMLElement, Node, NodeType, parse } from "node-html-parser";
+import React from "react";
 import smartQuotes from "smart-quotes";
 import databasePool from "../databasePool";
-import { FeaturesPageRequest, FeaturesPageResponse, Html, HtmlNode } from "../schema";
+import {
+  FeaturesPageRequest,
+  FeaturesPageResponse,
+  Html,
+  HtmlNode
+} from "../schema";
+import SHORTCODES, { Insert } from "../shortcodes";
 import * as squel from "../squel";
-import SHORTCODES from "../shortcodes"
-import { omit } from "lodash";
-import React from "react";
 
 function transformNode(node: Node): Html {
   switch (node.nodeType) {
     case NodeType.TEXT_NODE:
-      return smartQuotes(node.rawText);
+      return smartQuotes(node.text);
     case NodeType.ELEMENT_NODE:
       const element = node as HTMLElement;
-      
+
       return {
         component: element.tagName,
         props: element.attributes,
@@ -24,84 +29,92 @@ function transformNode(node: Node): Html {
 }
 
 function dereact(node: React.ReactElement | string): Html {
-  if (typeof node == "string") {
-    return node
+  if (typeof node !== "object") {
+    return node;
   } else {
+    const children: Html[] = [];
+    React.Children.forEach(node.props.children, (child: React.ReactElement) => {
+      if (child.type === Insert) {
+        children.push(...(child.props.children as Html[]));
+      } else {
+        children.push(dereact(child));
+      }
+    });
     return {
-      component: node.type as string,
-      props: omit(node.props, 'children'),
-      children: React.Children.map(node.props.children, dereact)
-    }
+      component: node.type === React.Fragment ? "" : (node.type as string),
+      props: omit(node.props, "children"),
+      children
+    };
   }
 }
 
 async function resolveNodes(nodes: Html[]): Promise<Html[] | null> {
-  const shortCodeNodes: {[k: string]: HtmlNode[]} = {}
+  const shortCodeNodes: { [k: string]: HtmlNode[] } = {};
   let hasShortcodes = false;
 
   function walk(node: Html) {
-    if (typeof node !== "string") {
-      const shortCode = SHORTCODES[node.component]
+    if (typeof node === "object") {
+      const shortCode = SHORTCODES[node.component];
       if (shortCode !== undefined) {
         hasShortcodes = true;
-        
+
         if ((shortCode as any).resolve !== undefined) {
           if (!(node.component in shortCodeNodes)) {
-            shortCodeNodes[node.component] = [node]
+            shortCodeNodes[node.component] = [node];
           } else {
-            shortCodeNodes[node.component].push(node)
+            shortCodeNodes[node.component].push(node);
           }
-          // do not walk children
-          return;
         }
-
+        return;
       }
       for (const child of node.children) {
-        walk(child)
+        walk(child);
       }
     }
   }
 
   for (const node of nodes) {
-    walk(node)
+    walk(node);
   }
 
   if (hasShortcodes) {
-
-    await Promise.all(Object.entries(shortCodeNodes).map(([key, nodes]) => (SHORTCODES[key] as any).resolve(nodes)))
+    await Promise.all(
+      Object.entries(shortCodeNodes).map(([key, nodes]) =>
+        (SHORTCODES[key] as any).resolve(nodes)
+      )
+    );
 
     const resolve = (node: Html): Html => {
-      if (typeof node === "string") {
-        return node
+      if (typeof node !== "object") {
+        return node;
       } else {
-        const shortCode = SHORTCODES[node.component]
+        const shortCode = SHORTCODES[node.component];
         if (shortCode !== undefined) {
-          return dereact(shortCode(node.props, node.children))
+          return dereact(shortCode(node.props, node.children));
         } else {
           return {
             component: node.component,
             props: node.props,
             children: node.children.map(resolve)
-          }
+          };
         }
       }
-    }
-    return nodes.map(resolve)
+    };
+    return nodes.map(resolve);
   } else {
-    return null
+    return null;
   }
 }
 
-
 async function processHtml(html: string): Promise<Html[]> {
-  const root = parse(html);
+  const root = parse("<div>" + html + "</div>");
   let nodes = (transformNode(root) as any).children;
   while (1) {
-    let resolved = await resolveNodes(nodes)
+    let resolved = await resolveNodes(nodes);
     if (resolved == null) {
       break;
     } else {
-      nodes = resolved
+      nodes = resolved;
     }
   }
 
@@ -220,7 +233,7 @@ export default async function serveFeaturesPage(
     articles.push(articles[0]);
   }
 
-  const article = articleQuery && (await articleQuery).rows[0]
+  const article = articleQuery && (await articleQuery).rows[0];
 
   return {
     category:
@@ -232,20 +245,19 @@ export default async function serveFeaturesPage(
       }))[0],
     categories: (await categoriesQuery).rows,
     articles,
-    article:
-      article && {
-        name: article.title,
-        slug: article.slug,
-        content: await processHtml(article.content),
-        excerpt: smartQuotes(article.excerpt),
-        author: article.username,
-        bannerUrl: article.hero_image_banner_url,
-        thumbnailUrl: article.hero_image_thumbnail_url,
-        date: dateFormat(article.modified_date_time, "MMM. d"),
-        category: {
-          slug: article.category_slug,
-          name: article.category_name
-        }
+    article: article && {
+      name: article.title,
+      slug: article.slug,
+      content: await processHtml(article.content),
+      excerpt: smartQuotes(article.excerpt),
+      author: article.username,
+      bannerUrl: article.hero_image_banner_url,
+      thumbnailUrl: article.hero_image_thumbnail_url,
+      date: dateFormat(article.modified_date_time, "MMM. d"),
+      category: {
+        slug: article.category_slug,
+        name: article.category_name
       }
+    }
   };
 }

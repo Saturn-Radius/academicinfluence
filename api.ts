@@ -791,18 +791,20 @@ validator.compile({
     },
     Html: {
       anyOf: [
-        {
-          type: "object",
-          properties: {
-            component: { type: "string" },
-            props: { type: "object" },
-            children: { type: "array", items: { $ref: "#/definitions/Html" } }
-          },
-          required: ["component", "props", "children"],
-          additionalProperties: false
-        },
-        { type: "string" }
+        { $ref: "#/definitions/HtmlNode" },
+        { type: "string" },
+        { type: "number" }
       ]
+    },
+    HtmlNode: {
+      type: "object",
+      properties: {
+        component: { type: "string" },
+        props: { type: "object" },
+        children: { type: "array", items: { $ref: "#/definitions/Html" } }
+      },
+      required: ["component", "props", "children"],
+      additionalProperties: false
     },
     ArticlePartialData: {
       type: "object",
