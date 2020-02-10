@@ -15,7 +15,7 @@ async function main() {
 
   const exports = Object.keys(schema.definitions as any);
 
-  content += "import {" + exports.join(",") + "} from './schema'";
+  content += "import {" + exports.join(",") + "} from './schema'\n";
 
   for (const typekey of exports) {
     if (typekey.endsWith("Request")) {

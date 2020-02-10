@@ -2,15 +2,39 @@ import { NextPage, NextPageContext } from "next";
 import Link from "next/link";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
+import * as React from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { apiFeaturesPage } from "../../../api";
 import FeaturePage, { Article } from "../../../components/FeaturePage";
-import { ArticlePartialData, FeaturesPageResponse } from "../../../schema";
+import { ArticlePartialData, FeaturesPageResponse, Html } from "../../../schema";
 import { DescriptionText, GRAY_MID, Header1 } from "../../../styles";
 import '../../../styles/features.css';
 
 type FeaturesProps = {
     data: FeaturesPageResponse
+}
+
+function childrenToReact(children: Html[]) {
+    switch (children.length) {
+        case 0:
+            return undefined;
+        case 1:
+            // React warns for a list of one child
+            return toReact(children[0])
+        default:
+            return children.map(toReact)
+    }
+}
+function toReact(node: Html): React.ReactNode {
+    if (typeof node === "string") {
+        return node
+    } else {
+        return React.createElement(
+            node.component,
+            node.props,
+            childrenToReact(node.children)
+        )
+    }
 }
 
 function FeatureGrid(props: {articles: ArticlePartialData[]}) {
@@ -85,7 +109,7 @@ const Features: NextPage<FeaturesProps> = props => {
               display: "block"
           }} src={props.data.article.bannerUrl}/>
             </header>
-          <div className="content" dangerouslySetInnerHTML={{__html: props.data.article.content}}/>
+          {React.createElement(React.Fragment, undefined , props.data.article.content.map(toReact))}
           <FeatureGrid articles={articles.slice(0, 3)}/>
             </article>
       </FeaturePage>

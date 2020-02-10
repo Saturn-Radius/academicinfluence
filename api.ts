@@ -774,7 +774,7 @@ validator.compile({
         bannerUrl: { type: "string" },
         thumbnailUrl: { type: "string" },
         category: { $ref: "#/definitions/Category" },
-        content: { type: "string" }
+        content: { type: "array", items: { $ref: "#/definitions/Html" } }
       },
       required: [
         "author",
@@ -788,6 +788,21 @@ validator.compile({
         "thumbnailUrl"
       ],
       additionalProperties: false
+    },
+    Html: {
+      anyOf: [
+        {
+          type: "object",
+          properties: {
+            component: { type: "string" },
+            props: { type: "object" },
+            children: { type: "array", items: { $ref: "#/definitions/Html" } }
+          },
+          required: ["component", "props", "children"],
+          additionalProperties: false
+        },
+        { type: "string" }
+      ]
     },
     ArticlePartialData: {
       type: "object",

@@ -204,8 +204,18 @@ export interface ArticlePartialData extends Identifiable {
   thumbnailUrl: string;
   category: Category;
 }
+
+export type HtmlNode =
+   {
+      component: string;
+      props: { [k: string]: any };
+      children: Html[];
+    }
+export type Html =
+    HtmlNode | string;
+
 export interface ArticleData extends ArticlePartialData {
-  content: string;
+  content: Html[];
 }
 
 export interface HomePageRequest {}

@@ -1,29 +1,111 @@
 import dateFormat from "date-fns/format";
-import { Node, NodeType, parse } from "node-html-parser";
+import { HTMLElement, Node, NodeType, parse } from "node-html-parser";
 import smartQuotes from "smart-quotes";
 import databasePool from "../databasePool";
-import { FeaturesPageRequest, FeaturesPageResponse } from "../schema";
+import { FeaturesPageRequest, FeaturesPageResponse, Html, HtmlNode } from "../schema";
 import * as squel from "../squel";
+import SHORTCODES from "../shortcodes"
+import { omit } from "lodash";
+import React from "react";
 
-function processHtml(html: string): string {
-  const root = parse("<root>" + html + "</root>");
-  const target = "";
-  function traverse(node: Node) {
-    switch (node.nodeType) {
-      case NodeType.TEXT_NODE:
-        node.rawText = smartQuotes(node.rawText);
-        break;
-      case NodeType.ELEMENT_NODE:
-        for (const child of node.childNodes) {
-          traverse(child);
-        }
-        break;
+function transformNode(node: Node): Html {
+  switch (node.nodeType) {
+    case NodeType.TEXT_NODE:
+      return smartQuotes(node.rawText);
+    case NodeType.ELEMENT_NODE:
+      const element = node as HTMLElement;
+      
+      return {
+        component: element.tagName,
+        props: element.attributes,
+        children: node.childNodes.map(transformNode)
+      };
+  }
+}
+
+function dereact(node: React.ReactElement | string): Html {
+  if (typeof node == "string") {
+    return node
+  } else {
+    return {
+      component: node.type as string,
+      props: omit(node.props, 'children'),
+      children: React.Children.map(node.props.children, dereact)
     }
   }
-  for (const child of root.childNodes) {
-    traverse(child);
+}
+
+async function resolveNodes(nodes: Html[]): Promise<Html[] | null> {
+  const shortCodeNodes: {[k: string]: HtmlNode[]} = {}
+  let hasShortcodes = false;
+
+  function walk(node: Html) {
+    if (typeof node !== "string") {
+      const shortCode = SHORTCODES[node.component]
+      if (shortCode !== undefined) {
+        hasShortcodes = true;
+        
+        if ((shortCode as any).resolve !== undefined) {
+          if (!(node.component in shortCodeNodes)) {
+            shortCodeNodes[node.component] = [node]
+          } else {
+            shortCodeNodes[node.component].push(node)
+          }
+          // do not walk children
+          return;
+        }
+
+      }
+      for (const child of node.children) {
+        walk(child)
+      }
+    }
   }
-  return (root.childNodes[0] as any).innerHTML;
+
+  for (const node of nodes) {
+    walk(node)
+  }
+
+  if (hasShortcodes) {
+
+    await Promise.all(Object.entries(shortCodeNodes).map(([key, nodes]) => (SHORTCODES[key] as any).resolve(nodes)))
+
+    const resolve = (node: Html): Html => {
+      if (typeof node === "string") {
+        return node
+      } else {
+        const shortCode = SHORTCODES[node.component]
+        if (shortCode !== undefined) {
+          return dereact(shortCode(node.props, node.children))
+        } else {
+          return {
+            component: node.component,
+            props: node.props,
+            children: node.children.map(resolve)
+          }
+        }
+      }
+    }
+    return nodes.map(resolve)
+  } else {
+    return null
+  }
+}
+
+
+async function processHtml(html: string): Promise<Html[]> {
+  const root = parse(html);
+  let nodes = (transformNode(root) as any).children;
+  while (1) {
+    let resolved = await resolveNodes(nodes)
+    if (resolved == null) {
+      break;
+    } else {
+      nodes = resolved
+    }
+  }
+
+  return nodes;
 }
 
 export default async function serveFeaturesPage(
@@ -138,7 +220,7 @@ export default async function serveFeaturesPage(
     articles.push(articles[0]);
   }
 
-  console.log(await articleQuery);
+  const article = articleQuery && (await articleQuery).rows[0]
 
   return {
     category:
@@ -151,20 +233,19 @@ export default async function serveFeaturesPage(
     categories: (await categoriesQuery).rows,
     articles,
     article:
-      articleQuery &&
-      (await articleQuery).rows.map(row => ({
-        name: row.title,
-        slug: row.slug,
-        content: processHtml(row.content),
-        excerpt: smartQuotes(row.excerpt),
-        author: row.username,
-        bannerUrl: row.hero_image_banner_url,
-        thumbnailUrl: row.hero_image_thumbnail_url,
-        date: dateFormat(row.modified_date_time, "MMM. d"),
+      article && {
+        name: article.title,
+        slug: article.slug,
+        content: await processHtml(article.content),
+        excerpt: smartQuotes(article.excerpt),
+        author: article.username,
+        bannerUrl: article.hero_image_banner_url,
+        thumbnailUrl: article.hero_image_thumbnail_url,
+        date: dateFormat(article.modified_date_time, "MMM. d"),
         category: {
-          slug: row.category_slug,
-          name: row.category_name
+          slug: article.category_slug,
+          name: article.category_name
         }
-      }))[0]
+      }
   };
 }
