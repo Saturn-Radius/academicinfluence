@@ -205,14 +205,12 @@ export interface ArticlePartialData extends Identifiable {
   category: Category;
 }
 
-export type HtmlNode =
-   {
-      component: string;
-      props: { [k: string]: any };
-      children: Html[];
-    }
-export type Html =
-    HtmlNode | string;
+export type HtmlNode = {
+  component: string;
+  props: { [k: string]: any };
+  children: Html[];
+};
+export type Html = HtmlNode | string | number;
 
 export interface ArticleData extends ArticlePartialData {
   content: Html[];

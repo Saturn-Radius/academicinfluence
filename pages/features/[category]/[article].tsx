@@ -14,25 +14,15 @@ type FeaturesProps = {
     data: FeaturesPageResponse
 }
 
-function childrenToReact(children: Html[]) {
-    switch (children.length) {
-        case 0:
-            return undefined;
-        case 1:
-            // React warns for a list of one child
-            return toReact(children[0])
-        default:
-            return children.map(toReact)
-    }
-}
 function toReact(node: Html): React.ReactNode {
-    if (typeof node === "string") {
+    if (typeof node !== "object") {
         return node
     } else {
+        
         return React.createElement(
-            node.component,
+            node.component === '' ? React.Fragment : node.component,
             node.props,
-            childrenToReact(node.children)
+            ...node.children.map(toReact)
         )
     }
 }
@@ -109,7 +99,7 @@ const Features: NextPage<FeaturesProps> = props => {
               display: "block"
           }} src={props.data.article.bannerUrl}/>
             </header>
-          {React.createElement(React.Fragment, undefined , props.data.article.content.map(toReact))}
+          {React.createElement(React.Fragment, undefined , ...props.data.article.content.map(toReact))}
           <FeatureGrid articles={articles.slice(0, 3)}/>
             </article>
       </FeaturePage>
