@@ -11,6 +11,7 @@ export interface Identifiable {
 
 export interface Describable extends Identifiable {
   description: string;
+  short_description: string;
 }
 
 export interface EntityPartialData extends Describable {
@@ -44,6 +45,7 @@ export interface WeatherData {
 }
 
 export interface SchoolData extends SchoolPartialData {
+  meta_description: string;
   employed_10_years: number | null;
   desirability_rank: number | null;
   undergrad_tuition_out_of_state: number | null;
@@ -82,6 +84,7 @@ export interface SchoolData extends SchoolPartialData {
 }
 
 export interface PersonData extends PersonPartialData {
+  meta_description: string;
   links: string[];
   birth_year: number | null;
   death_year: number | null;

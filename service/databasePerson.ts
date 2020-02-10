@@ -1,6 +1,6 @@
 import { PostgresSelect } from "squel";
 import { PersonPartialData } from "../schema";
-import { EntityType, extractOverall } from "./entityDatabase";
+import { EntityType, extractOverall, extractDescribableFields } from "./entityDatabase";
 
 export function addPartialPersonFields(select: PostgresSelect) {
   return select
@@ -16,9 +16,7 @@ export function addPartialPersonFields(select: PostgresSelect) {
 
 export function extractPartialPerson(row: any): PersonPartialData {
   return {
-    name: row.name,
-    description: row.description,
-    slug: row.slug,
+    ...extractDescribableFields(row),
     overall: extractOverall(row)
   };
 }

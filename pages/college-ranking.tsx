@@ -852,7 +852,12 @@ function Discipline(props: FilterProps) {
   return (
     <>
       <FilterLabel label="Discipline">
-        <Select instanceId="discipline-filter" value={selected} options={options} onChange={onChange} />
+        <Select
+          instanceId="discipline-filter"
+          value={selected}
+          options={options}
+          onChange={onChange}
+        />
       </FilterLabel>
       <FilterSep />
       <FilterLabel label="Subdiscipline">

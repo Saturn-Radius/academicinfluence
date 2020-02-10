@@ -1,13 +1,13 @@
 import { NextPage } from "next";
 import { apiFeaturesPage, apiHomePage } from "../api";
 import { Article } from "../components/FeaturePage";
+import { ArticleLink } from "../links";
 import {
   ArticlePartialData,
   FeaturesPageResponse,
   HomePageResponse
 } from "../schema";
 import { ACTION_COLOR, SECONDARY_DARK } from "../styles";
-import { ArticleLink } from "../links";
 
 type IndexProps = {
   homePage: HomePageResponse;
@@ -100,9 +100,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => (
       >
         {props.homePage.currentFeature.name}
       </div>
-      <ArticleLink
-        article={props.homePage.currentFeature}
-      >
+      <ArticleLink article={props.homePage.currentFeature}>
         <button
           css={{
             borderRadius: "30px",

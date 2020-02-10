@@ -33,7 +33,8 @@ export function extractIdentifiableFields(row: any) {
 export function extractDescribableFields(row: any) {
   return {
     ...extractIdentifiableFields(row),
-    description: row.description
+    description: row.description,
+    short_description: row.short_description
   };
 }
 
@@ -59,13 +60,24 @@ export class EntityQuery {
     return this;
   }
 
-  addDescribableFields(entityType: EntityType) {
-    this.addIdentifiableFields(entityType);
+  overrideableField(
+    entityType: EntityType,
+    name: string,
+    editor_column?: string,
+    data_column?: string
+  ) {
     this._query.field(
-      `coalesce(nullif(${entityType.editor_table}.description, ''), ${entityType.data_table}.description)`,
-      "description"
+      `coalesce(nullif(${entityType.editor_table}.${editor_column ||
+        name}, ''), ${entityType.data_table}.${data_column || name})`,
+      name
     );
     return this;
+  }
+
+  addDescribableFields(entityType: EntityType) {
+    return this.addIdentifiableFields(entityType)
+      .overrideableField(entityType, "description")
+      .overrideableField(entityType, "short_description");
   }
 
   addInfluenceFields(entityType: EntityType) {
@@ -153,7 +165,12 @@ export class EntityQuery {
 
   async execute() {
     const pool = await databasePool;
-    return pool.query(this._query.toParam());
+    try {
+      return pool.query(this._query.toParam());
+    } catch (error) {
+      console.log(this._query.toString());
+      throw error;
+    }
   }
 }
 

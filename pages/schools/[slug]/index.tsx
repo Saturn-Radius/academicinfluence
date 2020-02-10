@@ -1,8 +1,8 @@
 import { NextPage, NextPageContext } from "next";
 import { VictoryChart, VictoryLine } from "victory";
 import { apiSchoolPage } from "../../../api";
-import { SchoolData } from "../../../schema";
 import { PersonLink } from "../../../links";
+import { SchoolData } from "../../../schema";
 type SchoolProps = {
     school: SchoolData
 };
