@@ -206,3 +206,6 @@ summary::-webkit-details-marker { text-decoration:none!important; }
 summary::-webkit-details-marker { display:none; text-decoration:none!important }
 summary:before { text-decoration:none!important; content:"\002B"; color: var(--accent); margin-right:5px; font-weight:700 }
 details[open]>summary::before { text-decoration:none!important; content:"\2212"; color: var(--accent); margin-right:5px; font-weight:700 }
+
+/* TEXTAREA for CODE */
+textarea {width:100%; height: 6em; font-family: monospace; font-size: 12px; padding: 4pt; color: darkred;  }
