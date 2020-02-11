@@ -1,44 +1,27 @@
 import dateFormat from "date-fns/format";
+import { parseDOM } from "htmlparser2";
 import { omit } from "lodash";
-import { HTMLElement, Node, NodeType, parse } from "node-html-parser";
 import React from "react";
+import { processNodes } from "react-html-parser";
 import smartQuotes from "smart-quotes";
 import databasePool from "../databasePool";
-import {
-  FeaturesPageRequest,
-  FeaturesPageResponse,
-  Html,
-  HtmlNode
-} from "../schema";
-import SHORTCODES, { Insert } from "../shortcodes";
+import { FeaturesPageRequest, FeaturesPageResponse, Html } from "../schema";
+import SHORTCODES, { ResolvePromise } from "../shortcodes";
 import * as squel from "../squel";
-
-function transformNode(node: Node): Html {
-  switch (node.nodeType) {
-    case NodeType.TEXT_NODE:
-      return smartQuotes(node.text);
-    case NodeType.ELEMENT_NODE:
-      const element = node as HTMLElement;
-
-      return {
-        component: element.tagName,
-        props: element.attributes,
-        children: node.childNodes.map(transformNode)
-      };
-  }
+function allChildren(child: any) {
+  return React.Children.map(child, x => x) || [];
 }
 
-function dereact(node: React.ReactElement | string): Html {
+function dereact(node: ReactPiece): Html {
+  if (node == null) {
+    return "";
+  }
   if (typeof node !== "object") {
     return node;
   } else {
     const children: Html[] = [];
     React.Children.forEach(node.props.children, (child: React.ReactElement) => {
-      if (child.type === Insert) {
-        children.push(...(child.props.children as Html[]));
-      } else {
-        children.push(dereact(child));
-      }
+      children.push(dereact(child));
     });
     return {
       component: node.type === React.Fragment ? "" : (node.type as string),
@@ -48,77 +31,58 @@ function dereact(node: React.ReactElement | string): Html {
   }
 }
 
-async function resolveNodes(nodes: Html[]): Promise<Html[] | null> {
-  const shortCodeNodes: { [k: string]: HtmlNode[] } = {};
-  let hasShortcodes = false;
+type ReactPiece = string | number | React.ReactElement;
 
-  function walk(node: Html) {
-    if (typeof node === "object") {
-      const shortCode = SHORTCODES[node.component];
-      if (shortCode !== undefined) {
-        hasShortcodes = true;
-
-        if ((shortCode as any).resolve !== undefined) {
-          if (!(node.component in shortCodeNodes)) {
-            shortCodeNodes[node.component] = [node];
-          } else {
-            shortCodeNodes[node.component].push(node);
-          }
-        }
-        return;
-      }
-      for (const child of node.children) {
-        walk(child);
+function hasUnresolved(element: ReactPiece) {
+  if (typeof element === "object") {
+    if (element.type in SHORTCODES) {
+      return true;
+    }
+    if (element.type === ResolvePromise) {
+      return true;
+    }
+    if (element.props && "children" in element.props) {
+      if (allChildren(element.props.children).some(hasUnresolved)) {
+        return true;
       }
     }
   }
 
-  for (const node of nodes) {
-    walk(node);
-  }
+  return false;
+}
 
-  if (hasShortcodes) {
-    await Promise.all(
-      Object.entries(shortCodeNodes).map(([key, nodes]) =>
-        (SHORTCODES[key] as any).resolve(nodes)
-      )
-    );
-
-    const resolve = (node: Html): Html => {
-      if (typeof node !== "object") {
-        return node;
-      } else {
-        const shortCode = SHORTCODES[node.component];
-        if (shortCode !== undefined) {
-          return dereact(shortCode(node.props, node.children));
-        } else {
-          return {
-            component: node.component,
-            props: node.props,
-            children: node.children.map(resolve)
-          };
-        }
-      }
-    };
-    return nodes.map(resolve);
+async function resolveElements(element: ReactPiece): Promise<ReactPiece> {
+  if (typeof element !== "object") {
+    return element;
+  } else if (element.type in SHORTCODES) {
+    const component = element.type as string;
+    return SHORTCODES[component](element.props as any);
+  } else if (element.type === ResolvePromise) {
+    return element.props.children(await element.props.promise);
   } else {
-    return null;
+    const children: ReactPiece[] = [];
+    const kids = React.Children.map(element.props.children, child => child);
+    if (kids !== null && kids !== undefined) {
+      for (const child of kids) {
+        children.push(await resolveElements(child));
+      }
+    }
+    return React.cloneElement(element, undefined, ...children);
   }
 }
 
 async function processHtml(html: string): Promise<Html[]> {
-  const root = parse("<div>" + html + "</div>");
-  let nodes = (transformNode(root) as any).children;
-  while (1) {
-    let resolved = await resolveNodes(nodes);
-    if (resolved == null) {
-      break;
-    } else {
-      nodes = resolved;
-    }
+  const document = parseDOM(html, {
+    decodeEntities: true,
+    lowerCaseTags: false
+  });
+  let elements: ReactPiece[] = processNodes(document, undefined as any);
+  while (elements.some(hasUnresolved)) {
+    elements = await Promise.all(elements.map(resolveElements));
   }
 
-  return nodes;
+  const htmls = elements.map(dereact);
+  return htmls;
 }
 
 export default async function serveFeaturesPage(
