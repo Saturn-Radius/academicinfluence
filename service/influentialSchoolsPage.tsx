@@ -17,12 +17,16 @@ export default async function serveInfluentialSchools(
 
   const query = lookupAll(SCHOOL_ENTITY_TYPE)
     .apply(addPartialSchoolFields)
-    .addInfluenceFields(SCHOOL_ENTITY_TYPE)
+    .addInfluenceFields(SCHOOL_ENTITY_TYPE, request.years, request.discipline)
     .order("influence", false)
-    .limit(30)
-    .execute();
+    .limit(30);
 
-  const queryResult = await query;
+  if (request.country !== null) {
+    query.where("schools.country = ?", request.country);
+  }
+
+  console.log(query.inner().toString());
+  const queryResult = await query.execute();
 
   return {
     schools: queryResult.rows.map(row => ({

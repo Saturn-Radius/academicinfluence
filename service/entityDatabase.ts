@@ -80,17 +80,31 @@ export class EntityQuery {
       .overrideableField(entityType, "short_description");
   }
 
-  addInfluenceFields(entityType: EntityType) {
+  addInfluenceFields(
+    entityType: EntityType,
+    years: { min: number; max: number } = { min: 1900, max: 2020 },
+    discipline: string | null = null
+  ) {
     this._query
       .join(
         "ai_data.scores",
         undefined,
-        entityType.data_table + ".id = scores.id and scores.keyword is null"
+        entityType.data_table + ".id = scores.id"
       )
       .where("scores.kind = ?", entityType.kind)
-      .field(influenceScoreColumn(1900, 2020), "influence")
+      .field(influenceScoreColumn(years.min, years.max), "influence")
       .field("world_rank")
       .field("usa_rank");
+
+    if (discipline === null) {
+      this._query.where("scores.keyword is null");
+    } else {
+      this._query.where(
+        "scores.keyword = ((select id from editor.ai_disciplines where name = ?) union (select id from editor.ai_subdisciplines where name = ?))",
+        discipline,
+        discipline
+      );
+    }
     return this;
   }
 

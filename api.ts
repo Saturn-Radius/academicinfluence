@@ -3,6 +3,8 @@ import Ajv from "ajv";
 import {
   CollegeRankingsRequest,
   CollegeRankingsResponse,
+  CountriesRequest,
+  CountriesResponse,
   DisciplinesRequest,
   DisciplinesResponse,
   FeaturesPageRequest,
@@ -60,6 +62,25 @@ export const apiDisciplines = process.browser
       const module = await import("./service/disciplines");
       const response = await module.default(request);
       if (!validate("DisciplinesResponse", response)) {
+        throw new Error("validation failed");
+      }
+      return response;
+    };
+export const apiCountries = process.browser
+  ? async function(request: CountriesRequest): Promise<CountriesResponse> {
+      const response = await fetch(
+        "/api/Countries/" + encodeURIComponent(JSON.stringify(request))
+      );
+      const data = await response.json();
+      if (!validate("CountriesResponse", data)) {
+        throw new Error("validation failed");
+      }
+      return data;
+    }
+  : async function(request: CountriesRequest): Promise<CountriesResponse> {
+      const module = await import("./service/countries");
+      const response = await module.default(request);
+      if (!validate("CountriesResponse", response)) {
         throw new Error("validation failed");
       }
       return response;
@@ -715,6 +736,17 @@ validator.compile({
         additionalProperties: false
       }
     },
+    CountriesRequest: { type: "object", additionalProperties: false },
+    Country: {
+      type: "object",
+      properties: { name: { type: "string" } },
+      required: ["name"],
+      additionalProperties: false
+    },
+    CountriesResponse: {
+      type: "array",
+      items: { $ref: "#/definitions/Country" }
+    },
     FeaturesPageRequest: {
       type: "object",
       properties: {
@@ -841,6 +873,17 @@ validator.compile({
     },
     InfluentialSchoolsPageRequest: {
       type: "object",
+      properties: {
+        country: { type: ["string", "null"] },
+        discipline: { type: ["string", "null"] },
+        years: {
+          type: "object",
+          properties: { min: { type: "number" }, max: { type: "number" } },
+          required: ["min", "max"],
+          additionalProperties: false
+        }
+      },
+      required: ["country", "discipline", "years"],
       additionalProperties: false
     },
     InfluentialSchoolsPageResponse: {
