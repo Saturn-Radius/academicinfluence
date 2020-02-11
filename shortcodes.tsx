@@ -1,6 +1,5 @@
 import { Dictionary } from "lodash";
 import * as React from "react";
-import { Html, HtmlNode } from "./schema";
 import { PERSON_ENTITY_TYPE } from "./service/databasePerson";
 import { lookupAll } from "./service/entityDatabase";
 

@@ -1,8 +1,10 @@
 import dateFormat from "date-fns/format";
-import { parseDOM } from "htmlparser2";
+import { DataNode, Node, NodeWithChildren } from "domhandler";
+import { AllHtmlEntities } from "html-entities";
+import { domToReact } from "html-react-parser";
+import { ElementType, parseDOM } from "htmlparser2";
 import { omit } from "lodash";
-import React from "react";
-import { processNodes } from "react-html-parser";
+import React, { ReactElement } from "react";
 import smartQuotes from "smart-quotes";
 import databasePool from "../databasePool";
 import { FeaturesPageRequest, FeaturesPageResponse, Html } from "../schema";
@@ -71,12 +73,30 @@ async function resolveElements(element: ReactPiece): Promise<ReactPiece> {
   }
 }
 
+const entities = new AllHtmlEntities();
+function handleText(node: Node) {
+  if (node.type == ElementType.Text) {
+    let x = node as DataNode;
+    x.nodeValue = entities.decode(smartQuotes(x.nodeValue));
+  } else if (node instanceof NodeWithChildren) {
+    for (const child of node.childNodes) {
+      handleText(child);
+    }
+  }
+}
+
 async function processHtml(html: string): Promise<Html[]> {
   const document = parseDOM(html, {
-    decodeEntities: true,
+    decodeEntities: false,
     lowerCaseTags: false
   });
-  let elements: ReactPiece[] = processNodes(document, undefined as any);
+  for (const node of document) {
+    handleText(node);
+  }
+  let elements: ReactPiece[] = domToReact(
+    document,
+    undefined as any
+  ) as ReactElement[];
   while (elements.some(hasUnresolved)) {
     elements = await Promise.all(elements.map(resolveElements));
   }
