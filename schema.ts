@@ -180,6 +180,13 @@ export interface DisciplinesResponse {
   };
 }
 
+export interface CountriesRequest {}
+export type Country = {
+  name: string;
+};
+
+export type CountriesResponse = Country[];
+
 export interface FeaturesPageRequest {
   category: string | null;
   article: string | null;
@@ -221,7 +228,14 @@ export interface HomePageResponse {
   currentFeature: ArticlePartialData;
 }
 
-export interface InfluentialSchoolsPageRequest {}
+export interface InfluentialSchoolsPageRequest {
+  country: string | null;
+  discipline: string | null;
+  years: {
+    min: number;
+    max: number;
+  };
+}
 export interface InfluentialSchoolsPageResponse {
   schools: SchoolPartialData[];
 }
