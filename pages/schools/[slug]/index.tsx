@@ -1,122 +1,173 @@
 import { NextPage, NextPageContext } from "next";
-import { VictoryChart, VictoryLine } from "victory";
 import { apiSchoolPage } from "../../../api";
-import { PersonLink } from "../../../links";
 import { SchoolData } from "../../../schema";
+import ContentCard from "../../../components/ContentCard";
+import { PRIMARY_DARK, GREEN_MID } from "../../../styles";
+import DisciplineContainer from "../../../components/school/Discipline";
+import { Cost, Admissions, Accreditation, AfterGrad, Sidebar, InfluentialCard, CollegeHeader, Weather, CampusSafety } from '../../../components/school'
+import { VictoryChart, VictoryLine, VictoryArea } from "victory";
+import { Desktop, TabletOrMobile } from "../../../utils/responsive";
+import { useMediaQuery } from 'react-responsive'
+
+
 type SchoolProps = {
     school: SchoolData
+
 };
 
-const School: NextPage<SchoolProps> = (props: SchoolProps) => (
-  <div>
-      <img src={props.school.logo_url || ""}/>
-      <div>
-          Name: {props.school.name}
-      </div>
-      <div>
-          Description: {props.school.description}
-      </div>
-      <div>
-          City: {props.school.city}, {props.school.state}
-      </div>
-      <div>
-          Influence Score: {props.school.overall.influence}
-      </div>
-      <div>
-          Acceptance Rate: {props.school.acceptance_rate}
-      </div>
-      <div>
-          Graduation Rate: {props.school.graduation_rate}
-      </div>
-      <div>
-          Desirability: {props.school.desirability} #{props.school.desirability_rank}
-      </div>
-        <ol>
+const School: NextPage<SchoolProps> = (props: SchoolProps) => {
+    let { logo_url, name, city, state, description, acceptance_rate, graduation_rate } = props.school
 
-      {Object.entries(props.school.disciplines).map(([discipline, data]) => (<li>
-            {discipline} {data.influence} #{data.world_rank} #{data.usa_rank} (USA)
-       </li>))}
-       </ol>
-       <ol>
 
-      {props.school.people.map((person) => (<li key={person.slug}>
-            <PersonLink person={person}><a href={"/people/" + person.slug}>{person.name}</a></PersonLink> {person.overall.influence} {person.description}
-       </li>))}
+    const isBigScreen = useMediaQuery({ query: '(min-width: 1069px)' })
 
-        </ol>
 
-        <VictoryChart>
-            <VictoryLine data={props.school.influence_over_time} x="year" y="value"/>
-        </VictoryChart>
+    return (
+        <div style={{ display: 'flex', marginTop: 60 }}>
+            <style jsx>{`
+            .cardContainer {
+                margin-left:16px;
+                width:300px;
+            }
+            @media (max-width: 1050px) {
+                .cardContainer {
+                    margin-left:0px;
+                }
+            }
 
-        <div>
-            Tuition: {props.school.undergrad_tuition_in_state} (in-state) {props.school.undergrad_tuition_out_of_state} (out-of-state)
-        </div>
-        <div>
-            Fees: {props.school.undergrad_fees_in_state} (in-state) {props.school.undergrad_fees_out_of_state} (out-of-state)
-        </div>
-        <div>
-            Average net price: {props.school.average_net_price} (60k income)
-        </div>
-        <div>
-            Test Competitiveness: {props.school.test_competitiveness}
-        </div>
-        <div>
-            Sat: {props.school.median_sat} Act {props.school.median_act}
-        </div>
-        <div>
-            Average earning 10 years: {props.school.average_earnings}
-        </div>
-        <div>
-            Employed 10 years: {props.school.employed_10_years}
-        </div>
-        <div>
-            {JSON.stringify(props.school.weather)}
-        </div>
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th/>
-                        <th>Violent</th>
-                        <th>Property</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Campus</td>
-                        <td>{props.school.campus_violent_crime_rate}</td>
-                        <td>{props.school.campus_violent_crime_rate}</td>
-                    </tr>
-                    <tr>
-                        <td>City</td>
-                        <td>{props.school.city_violent_crime_rate}</td>
-                        <td>{props.school.city_violent_crime_rate}</td>
-                    </tr>
-                </tbody>
-            </table>
+
+            `} </style>
+
+            <div style={{ maxWidth: 950, minWidth: 375, marginLeft: "4%" }}>
+
+                <CollegeHeader logo_url={logo_url} name={name} city={city}
+                    state={state} acceptance_rate={acceptance_rate}
+                    graduation_rate={graduation_rate}
+                />
+
+                <ContentCard style={{ marginBottom: 40 }}>{description}</ContentCard>
+
+                <DisciplineContainer school={props.school} />
+                <h4 style={styles.subheaderText}>Most Influential People</h4>
+
+                <InfluentialContainer people={props.school.people} />
+
+                <h4 style={styles.subheaderText}>Influence Over Time</h4>
+                <InfluenceOverTime data={props.school.influence_over_time} />
+
+
+                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    <Cost school={props.school} />
+                    <Admissions school={props.school} />
+                </div>
+
+
+                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    <Accreditation />
+                    <AfterGrad school={props.school} />
+                </div>
+
+
+                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+
+                    <div className="cardContainer" style={{marginRight:0}}>
+                        <NotableAlumni />
+                    </div>
+
+                    <div className="cardContainer">
+                        <Weather data={props.school.weather} />
+                    </div>
+
+                    <div className="cardContainer">
+                        <CampusSafety school={props.school} />
+                    </div>
+
+                </div>
+
+            {!isBigScreen &&
+                <Sidebar style={{marginLeft:0,marginTop:30}} />
+            }
+                <BackToTop />
+            </div>
+
+            {isBigScreen &&
+                <Sidebar/ >
+            }
+
+
         </div>
 
-       <ol>
-
-      {props.school.alumni.map((person) => (<li key={person.slug}>
-            <a href={"/people/" + person.slug}>{person.name}</a> {person.overall.influence} {person.description}
-       </li>))}
-
-        </ol>
-  </div>
-);
-
-School.getInitialProps = async function(context: NextPageContext) {
-  const data = await apiSchoolPage({
-      slug: context.query.slug as string
-  })
-
-  console.log(data)
-
-  return {
-      school: data.school
-  };
+    )
 };
+
+const BackToTop = (props: any) => {
+    return (
+        <div style={{ padding: "20px 0px", textAlign: 'center' }} onClick={() => window.scrollTo(0, 0)}>
+            BACK TO TOP <img style={{ width: 20 }} src="/images/arrow-up.png" /></div>
+
+    )
+}
+
+const InfluenceOverTime = (props: any) => {
+    return (
+        <div style={{ backgroundColor: 'white', height: 305, width: "100%" }}></div>
+    )
+    //        <VictoryChart>
+    //            <VictoryArea data={props.data} x="year" y="value"/>
+    //        </VictoryChart>
+}
+
+const InfluentialContainer = (props: any) => {
+    return (
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+            {props.people.map((person: any) => (
+                <InfluentialCard name={person.name} description={person.description}
+                    short_description={person.short_description}
+                    ir_score={person.overall.influence} slug={person.slug}
+                />
+            ))
+            }
+        </div>
+
+    )
+}
+
+const NotableAlumni = (props: any) => {
+    return (
+        <div style={{ minWidth: 300 }}>
+            <h4 style={styles.subheaderText}>Notable Alumni</h4>
+            <ContentCard style={{ padding: 20 }}>
+                <div>Bill Gates</div>
+                <div>Bill Gates</div>
+                <div>Bill Gates</div>
+                <div>Bill Gates</div>
+            </ContentCard>
+        </div>
+    )
+}
+
+
+const styles = {
+    subheaderText: {
+        color: PRIMARY_DARK,
+        fontSize: 22
+    },
+
+}
+
+
+School.getInitialProps = async function (context: NextPageContext) {
+    const data = await apiSchoolPage({
+        slug: context.query.slug as string
+    })
+
+    console.log(data)
+
+
+    return {
+        school: data.school
+    };
+};
+(School as any).currentSection = 'influential-schools'
 
 export default School;
