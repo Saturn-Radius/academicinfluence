@@ -1,12 +1,13 @@
 /* DEFAULT COLORS */
  /*AMY’S SET */
+
 :root {
 --main-txt: #087E8B;
 --main-txt-darker: #19647E;
 --heading-bg: #EEF0EE;
---page-bg: #d2e0d9;
 --accent: #E8772A;
 --accent-darker: #DF7128;
+--page-bg: #F9FBFA;
 --page-bg-darker: #eff1f0;
 --lightgray: #ededed;
 --darkgray: #424B54;
