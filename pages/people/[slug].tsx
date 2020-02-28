@@ -61,18 +61,6 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
 };
 
 const styles = {
-  disciplinesidebarText: {
-      color: GRAY_MID,
-      lineHeight: 1,
-      fontSize: 16,
-      fontWeight: 500
-  },
-  disciplinebodyText: {
-      color: PRIMARY_DARK,
-      fontSize:24,
-      listStyleType: "none",
-      fontWeight: 600
-  },
   descriptionText: {
     fontSize: 18,
     fontFamily: 'SF UI Display Light',
