@@ -38,12 +38,12 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
 
             <div style={{ maxWidth: 950, minWidth: 375, marginLeft: "4%" }}>
 
+                <ContentCard style={{ marginBottom: 40 }}>{description}</ContentCard>
+
                 <CollegeHeader logo_url={logo_url} name={name} city={city}
                     state={state} acceptance_rate={acceptance_rate}
                     graduation_rate={graduation_rate}
                 />
-
-                <ContentCard style={{ marginBottom: 40 }}>{description}</ContentCard>
 
                 <DisciplineContainer school={props.school} />
                 <h4 style={styles.subheaderText}>Most Influential People</h4>
