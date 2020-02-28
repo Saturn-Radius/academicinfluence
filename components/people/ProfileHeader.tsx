@@ -1,0 +1,66 @@
+import { PRIMARY_DARK, GRAY_MID, GRAY_LIGHT } from "../../styles"
+import CheckBox from "../Checkbox"
+import { Desktop, TabletOrMobile } from '../../utils/responsive'
+
+const AddToLocker = (props: any) => (
+    <div style={{ ...{ display: 'flex', marginLeft: 'auto', paddingBottom: 20 }, ...props.style }}>
+        <span style={{ color: '#666666', marginRight: 10, fontSize: 12, paddingTop: 2 }}>Add to My Locker</span>
+        <CheckBox />
+    </div>
+)
+
+const ProfileHeader = (props: any) =>{
+    return (
+        <div>
+            <Desktop>
+                <div style={{ display: 'flex' }}>
+                    <ProfileInfo name={ props.name } image_url={props.image_url} birth_year={props.birth_year} death_year={props.death_year} />
+                    <AddToLocker />
+                </div>
+            </Desktop>
+
+        </div>
+    )
+}
+
+const ProfileInfo = (props: any) => {
+    return (
+        <div style={ {...{display: 'flex' }, ...props.style}}>
+            <img style={ styles.headerImg} src={props.image_url} />
+            <div style={{ marginLeft: 20 }}>
+                <h3 style={styles.name}>{props.name}</h3>
+                <div style={styles.lifePeriod}>
+                    <div style= {{ marginBottom: 10 }}> ( { props.birth_year }-{ props.death_year })</div>
+                    <div style={ styles.profileTitle}>American Business Magnate</div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+const styles = {
+    name: {
+        color: PRIMARY_DARK,
+        fontSize: 28,
+        margin: 0
+    },
+    lifePeriod: {
+        color: GRAY_MID,
+        fontSize: 20,
+        fontFamily: 'SF UI Display Ultralight',
+    },
+    headerImg: {
+        //width:80,
+        width: 104,
+        height: 104,
+    },
+    profileTitle: {
+        fontSize: 20,
+        fontFamily: 'SF UI Display Semibold',
+        color: GRAY_LIGHT,
+        fontWeight: 600
+    }
+
+}
+
+export default ProfileHeader

@@ -118,8 +118,8 @@ const InfluenceOverTime = (props: any) => {
 const InfluentialContainer = (props: any) => {
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {props.people.map((person: any) => (
-                <InfluentialCard name={person.name} description={person.description}
+            {props.people.map((person: any, index: number) => (
+                <InfluentialCard key={index} name={person.name} description={person.description}
                     short_description={person.short_description}
                     ir_score={person.overall.influence} slug={person.slug}
                 />
