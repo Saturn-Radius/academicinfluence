@@ -24,5 +24,5 @@ const TabletOrMobile = ({ children }) => {
 }
 
 
-export {Desktop, Tablet, Mobile, TabletOrMobile, isTablet}
+export { Desktop, Tablet, Mobile, TabletOrMobile, isTablet }
 

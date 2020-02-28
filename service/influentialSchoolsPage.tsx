@@ -1,4 +1,3 @@
-import databasePool from "../databasePool";
 import {
   InfluentialSchoolsPageRequest,
   InfluentialSchoolsPageResponse
@@ -13,8 +12,6 @@ import {
 export default async function serveInfluentialSchools(
   request: InfluentialSchoolsPageRequest
 ): Promise<InfluentialSchoolsPageResponse> {
-  const pool = await databasePool;
-
   const query = lookupAll(SCHOOL_ENTITY_TYPE)
     .apply(addPartialSchoolFields)
     .addInfluenceFields(SCHOOL_ENTITY_TYPE, request.years, request.discipline)
@@ -25,7 +22,6 @@ export default async function serveInfluentialSchools(
     query.where("schools.country = ?", request.country);
   }
 
-  console.log(query.inner().toString());
   const queryResult = await query.execute();
 
   return {

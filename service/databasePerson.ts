@@ -1,19 +1,14 @@
-import { PostgresSelect } from "squel";
 import { PersonPartialData } from "../schema";
 import {
+  EntityQuery,
   EntityType,
   extractDescribableFields,
   extractOverall
 } from "./entityDatabase";
 
-export function addPartialPersonFields(select: PostgresSelect) {
+export function addPartialPersonFields(select: EntityQuery) {
   return select
-    .field("people.name")
-    .field("ai_people.slug")
-    .field(
-      "coalesce(nullif(ai_people.description, ''), people.description)",
-      "description"
-    )
+    .addDescribableFields(PERSON_ENTITY_TYPE)
     .field("world_rank")
     .field("usa_rank");
 }

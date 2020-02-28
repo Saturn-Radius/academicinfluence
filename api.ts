@@ -11,12 +11,16 @@ import {
   FeaturesPageResponse,
   HomePageRequest,
   HomePageResponse,
+  InfluentialPeoplePageRequest,
+  InfluentialPeoplePageResponse,
   InfluentialSchoolsPageRequest,
   InfluentialSchoolsPageResponse,
   LocationAutocompleteRequest,
   LocationAutocompleteResponse,
   PersonPageRequest,
   PersonPageResponse,
+  PersonSearchRequest,
+  PersonSearchResponse,
   SchoolPageRequest,
   SchoolPageResponse,
   SchoolSearchRequest,
@@ -151,6 +155,30 @@ export const apiInfluentialSchoolsPage = process.browser
       }
       return response;
     };
+export const apiInfluentialPeoplePage = process.browser
+  ? async function(
+      request: InfluentialPeoplePageRequest
+    ): Promise<InfluentialPeoplePageResponse> {
+      const response = await fetch(
+        "/api/InfluentialPeoplePage/" +
+          encodeURIComponent(JSON.stringify(request))
+      );
+      const data = await response.json();
+      if (!validate("InfluentialPeoplePageResponse", data)) {
+        throw new Error("validation failed");
+      }
+      return data;
+    }
+  : async function(
+      request: InfluentialPeoplePageRequest
+    ): Promise<InfluentialPeoplePageResponse> {
+      const module = await import("./service/influentialPeoplePage");
+      const response = await module.default(request);
+      if (!validate("InfluentialPeoplePageResponse", response)) {
+        throw new Error("validation failed");
+      }
+      return response;
+    };
 export const apiLocationAutocomplete = process.browser
   ? async function(
       request: LocationAutocompleteRequest
@@ -194,6 +222,29 @@ export const apiSchoolSearch = process.browser
       const module = await import("./service/schoolSearch");
       const response = await module.default(request);
       if (!validate("SchoolSearchResponse", response)) {
+        throw new Error("validation failed");
+      }
+      return response;
+    };
+export const apiPersonSearch = process.browser
+  ? async function(
+      request: PersonSearchRequest
+    ): Promise<PersonSearchResponse> {
+      const response = await fetch(
+        "/api/PersonSearch/" + encodeURIComponent(JSON.stringify(request))
+      );
+      const data = await response.json();
+      if (!validate("PersonSearchResponse", data)) {
+        throw new Error("validation failed");
+      }
+      return data;
+    }
+  : async function(
+      request: PersonSearchRequest
+    ): Promise<PersonSearchResponse> {
+      const module = await import("./service/personSearch");
+      const response = await module.default(request);
+      if (!validate("PersonSearchResponse", response)) {
         throw new Error("validation failed");
       }
       return response;
@@ -897,6 +948,33 @@ validator.compile({
       required: ["schools"],
       additionalProperties: false
     },
+    InfluentialPeoplePageRequest: {
+      type: "object",
+      properties: {
+        country: { type: ["string", "null"] },
+        discipline: { type: ["string", "null"] },
+        gender: { type: ["boolean", "null"] },
+        years: {
+          type: "object",
+          properties: { min: { type: "number" }, max: { type: "number" } },
+          required: ["min", "max"],
+          additionalProperties: false
+        }
+      },
+      required: ["country", "discipline", "gender", "years"],
+      additionalProperties: false
+    },
+    InfluentialPeoplePageResponse: {
+      type: "object",
+      properties: {
+        people: {
+          type: "array",
+          items: { $ref: "#/definitions/PersonPartialData" }
+        }
+      },
+      required: ["people"],
+      additionalProperties: false
+    },
     LocationAutocompleteRequest: { type: "string" },
     LocationAutocompleteResponse: {
       type: "object",
@@ -928,6 +1006,15 @@ validator.compile({
         }
       },
       required: ["schools"],
+      additionalProperties: false
+    },
+    PersonSearchRequest: { type: "string" },
+    PersonSearchResponse: {
+      type: "object",
+      properties: {
+        people: { type: "array", items: { $ref: "#/definitions/Identifiable" } }
+      },
+      required: ["people"],
       additionalProperties: false
     },
     PersonPageRequest: {

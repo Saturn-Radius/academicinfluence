@@ -1,5 +1,4 @@
-import { PRIMARY_DARK } from "../styles"
-import React, { Component } from 'react';
+import React from 'react';
 
 
 const Button = React.forwardRef(({ onClick, href, ...props }: any, ref) => {

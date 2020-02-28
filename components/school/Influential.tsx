@@ -1,8 +1,8 @@
-import ContentCard from "../ContentCard"
-import { PRIMARY_DARK, GREEN_MID } from "../../styles"
-import CheckBox from "../Checkbox"
-import Button from "../Button"
 import { PersonLink } from "../../links"
+import { GREEN_MID, PRIMARY_DARK } from "../../styles"
+import Button from "../Button"
+import CheckBox from "../Checkbox"
+import ContentCard from "../ContentCard"
 
 
 const InfluentialCard = (props: any) => {

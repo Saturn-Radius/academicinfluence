@@ -18,11 +18,6 @@ export function addIdentifiableFields(
     .field(entityType.editor_table + ".slug");
 }
 
-export function addDescribableFields(
-  query: PostgresSelect,
-  entityType: EntityType
-) {}
-
 export function extractIdentifiableFields(row: any) {
   return {
     name: row.name,

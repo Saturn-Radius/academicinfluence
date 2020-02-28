@@ -240,6 +240,19 @@ export interface InfluentialSchoolsPageResponse {
   schools: SchoolPartialData[];
 }
 
+export interface InfluentialPeoplePageRequest {
+  country: string | null;
+  discipline: string | null;
+  gender: boolean | null;
+  years: {
+    min: number;
+    max: number;
+  };
+}
+export interface InfluentialPeoplePageResponse {
+  people: PersonPartialData[];
+}
+
 export type LocationAutocompleteRequest = string;
 export interface LocationAutocompleteResponse {
   cities: {
@@ -252,6 +265,11 @@ export interface LocationAutocompleteResponse {
 export type SchoolSearchRequest = string;
 export interface SchoolSearchResponse {
   schools: Identifiable[];
+}
+
+export type PersonSearchRequest = string;
+export interface PersonSearchResponse {
+  people: Identifiable[];
 }
 
 export interface PersonPageRequest {

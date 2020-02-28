@@ -197,8 +197,8 @@ export default async function serveSchoolSubjectPage(
       .join("editor.ai_people", undefined, "editor.ai_people.id = scores.id")
       .join("ai_data.people", undefined, "ai_people.id = people.id")
       .order("influence", false)
-      .limit(10)
-  );
+      .limit(10) as any
+  ) as any;
 
   const alumniQuery = pool.query(
     baseQuery
