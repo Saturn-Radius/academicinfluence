@@ -16,8 +16,7 @@ type PersonProps = {
 const Person: NextPage<PersonProps> = (props: PersonProps) => {
 
   let { image_url, image_source_url, name, birth_year, death_year, description, overall, disciplines, schools, links, works} = props.person
-  console.log(overall);
-  console.log(disciplines);
+
   const isBigScreen = useMediaQuery({query: '(min-width: 1069px)'})
 
   return (
