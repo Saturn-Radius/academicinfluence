@@ -51,7 +51,7 @@ const CollegeInfo = (props: any) => {
         <div style={ {...{display: 'flex' }, ...props.style}}>
             <img style={styles.headerImg} src={props.logo_url} />
             <div style={{ paddingTop: 10 }}>
-                <h1 style={styles.name}>{props.name}</h1>
+                <h1 id="top" style={styles.name}>{props.name}</h1>
                 <div style={styles.locationText}>
                     <div style={{ marginBottom: 10 }}>{props.city}, {props.state}</div>
                     <div>#1 in Overall Influence Ranking</div>
