@@ -1,5 +1,5 @@
+import { GRAY_MID, PRIMARY_DARK } from "../../styles"
 import ContentCard from "../ContentCard"
-import {PRIMARY_DARK, GRAY_MID} from "../../styles"
 
 interface InfulentialData {
     works: {label: string}[];

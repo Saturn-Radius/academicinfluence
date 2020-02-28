@@ -1,12 +1,10 @@
 import { NextPage, NextPageContext } from "next";
-import { apiPersonPage } from "../../api";
-import { SchoolLink } from "../../links";
-import { PersonData } from "../../schema";
 import { useMediaQuery } from 'react-responsive';
-import { ProfileHeader, InfluentialWorks, OtherResources, InfluenceScore, ProfileSchools, ProfileDescription, ProfileDiscipline } from "../../components/people";
-import ContentCard from "../../components/ContentCard";
+import { apiPersonPage } from "../../api";
+import { InfluenceScore, InfluentialWorks, OtherResources, ProfileDescription, ProfileDiscipline, ProfileHeader, ProfileSchools } from "../../components/people";
 import { Sidebar } from "../../components/school";
-import { GRAY_MID, PRIMARY_DARK } from "../../styles";
+import { PersonData } from "../../schema";
+import { GRAY_MID } from "../../styles";
 
 type PersonProps = {
   person: PersonData

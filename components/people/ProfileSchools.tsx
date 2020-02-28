@@ -1,4 +1,4 @@
-import {PRIMARY_DARK, GRAY_MID} from "../../styles"
+import { GRAY_MID, PRIMARY_DARK } from "../../styles"
 
 interface SchoolsData {
     schools: {name: string, slug: string }[];

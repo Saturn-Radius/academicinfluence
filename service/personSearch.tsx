@@ -1,8 +1,8 @@
 import databasePool from "../databasePool";
 import { PersonSearchRequest, PersonSearchResponse } from "../schema";
 import * as squel from "../squel";
-import { extractIdentifiableFields, lookupAll } from "./entityDatabase";
 import { PERSON_ENTITY_TYPE } from "./databasePerson";
+import { extractIdentifiableFields, lookupAll } from "./entityDatabase";
 
 export default async function serveAutocomplete(
   request: PersonSearchRequest

@@ -1,6 +1,6 @@
-import { PRIMARY_DARK, GRAY_MID, GRAY_LIGHT } from "../../styles"
+import { GRAY_LIGHT, GRAY_MID, PRIMARY_DARK } from "../../styles"
+import { Desktop } from '../../utils/responsive'
 import CheckBox from "../Checkbox"
-import { Desktop, TabletOrMobile } from '../../utils/responsive'
 
 const AddToLocker = (props: any) => (
     <div style={{ ...{ display: 'flex', marginLeft: 'auto', paddingBottom: 20 }, ...props.style }}>

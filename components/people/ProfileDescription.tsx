@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import ContentCard from "../ContentCard"
+import { useState } from 'react';
 
 const ProfileDescription =  (props:any) => {
     const textLength = 500;

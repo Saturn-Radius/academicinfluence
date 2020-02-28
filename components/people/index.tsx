@@ -1,9 +1,9 @@
-import ProfileHeader from "./ProfileHeader";
+import InfluenceScore from "./InfluenceScore";
 import InfluentialWorks from "./InfluentialWorks";
 import OtherResources from "./OtherResources";
-import InfluenceScore from "./InfluenceScore";
-import ProfileSchools from "./ProfileSchools";
 import ProfileDescription from "./ProfileDescription";
 import ProfileDiscipline from "./ProfileDiscipline";
+import ProfileHeader from "./ProfileHeader";
+import ProfileSchools from "./ProfileSchools";
 
-export { ProfileHeader, InfluentialWorks, OtherResources, InfluenceScore, ProfileSchools, ProfileDescription, ProfileDiscipline }
+export { ProfileHeader, InfluentialWorks, OtherResources, InfluenceScore, ProfileSchools, ProfileDescription, ProfileDiscipline };

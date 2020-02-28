@@ -1,6 +1,5 @@
-import Link from "next/link"
+import { GRAY_LIGHT, PRIMARY_DARK } from "../../styles"
 import ContentCard from "../ContentCard"
-import {PRIMARY_DARK, GRAY_MID, GRAY_LIGHT} from "../../styles"
 
 interface ResourceData {
     links: string[];

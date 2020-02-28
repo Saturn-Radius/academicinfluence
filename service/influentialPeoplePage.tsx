@@ -12,7 +12,7 @@ import { lookupAll } from "./entityDatabase";
 export default async function serveInfluentialPeople(
   request: InfluentialPeoplePageRequest
 ): Promise<InfluentialPeoplePageResponse> {
-  console.log(request)
+  console.log(request);
   const query = lookupAll(PERSON_ENTITY_TYPE)
     .apply(addPartialPersonFields)
     .addInfluenceFields(PERSON_ENTITY_TYPE, request.years, request.discipline)
@@ -27,7 +27,7 @@ export default async function serveInfluentialPeople(
     query.where("people.gender = ?", request.gender);
   }
 
-  console.log(query.inner().toString())
+  console.log(query.inner().toString());
   const queryResult = await query.execute();
 
   return {

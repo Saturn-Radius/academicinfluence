@@ -1,4 +1,4 @@
-import {PRIMARY_DARK, GRAY_MID} from "../../styles"
+import { GRAY_MID, PRIMARY_DARK } from "../../styles"
 
 interface InfluenceScore {
     overall: {influence: number, world_rank: number, usa_rank: number | null };
