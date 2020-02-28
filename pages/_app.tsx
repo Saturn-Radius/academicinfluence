@@ -3,6 +3,7 @@ import App from "next/app";
 import Link from "next/link";
 import "typeface-montserrat/index.css";
 import { GRAY_MID, PAGE_WIDTH_STYLE } from "../styles";
+import "../public/fonts/sfui_font.css";
 
 function HamburgerIcon() {
   return (
