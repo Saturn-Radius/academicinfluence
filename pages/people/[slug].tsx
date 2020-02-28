@@ -3,7 +3,7 @@ import { apiPersonPage } from "../../api";
 import { SchoolLink } from "../../links";
 import { PersonData } from "../../schema";
 import { useMediaQuery } from 'react-responsive';
-import { ProfileHeader, InfluentialWorks, OtherResources, InfluenceScore, ProfileSchools, ProfileDescription } from "../../components/people";
+import { ProfileHeader, InfluentialWorks, OtherResources, InfluenceScore, ProfileSchools, ProfileDescription, ProfileDiscipline } from "../../components/people";
 import ContentCard from "../../components/ContentCard";
 import { Sidebar } from "../../components/school";
 import { GRAY_MID, PRIMARY_DARK } from "../../styles";
@@ -16,55 +16,47 @@ type PersonProps = {
 const Person: NextPage<PersonProps> = (props: PersonProps) => {
 
   let { image_url, image_source_url, name, birth_year, death_year, description, overall, disciplines, schools, links, works} = props.person
-
+  console.log(overall);
+  console.log(disciplines);
   const isBigScreen = useMediaQuery({query: '(min-width: 1069px)'})
 
   return (
     <div>
-    <div style={{ display: 'flex', marginTop:65 }}>
-      <div style={{ maxWidth: 950, minWidth:375, marginLeft: "6%"}}>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div style={{ display: 'flex', marginTop:65 }}>
+        <div style={{ maxWidth: 950, minWidth:375, marginLeft: "6%"}}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
 
-          <ProfileHeader image_url={image_url} name={name} birth_year={birth_year}
-              death_year={death_year}
-              disciplines={disciplines} schools={schools}
-          />
+            <ProfileHeader image_url={image_url} name={name} birth_year={birth_year}
+                death_year={death_year}
+                disciplines={disciplines} schools={schools}
+            />
 
-          <div style={{ display: 'flex', marginLeft: 124, paddingTop: 8 }}>
-            <InfluenceScore overall={overall} />
-            <ProfileSchools schools={schools} />
-
-            <div style={{ display: 'flex', flexDirection: 'column', width: 170, fontFamily: 'SF UI Display Light' }}>
-              <div style={styles.disciplinesidebarText}>Disciplines</div>
-              <div style={styles.disciplinebodyText}>
-                Computer Science
-                {/* {Object.entries(props.person.disciplines).map(([discipline, data]) => (<li key={discipline}>
-                  {discipline} {data.influence} #{data.world_rank} #{data.usa_rank} (USA)
-                </li>))} */}
-              </div>
+            <div style={{ display: 'flex', marginLeft: 124, paddingTop: 8 }}>
+              <InfluenceScore overall={overall} />
+              <ProfileSchools schools={schools} />
+              <ProfileDiscipline disciplines={disciplines} />
             </div>
+
+            <ProfileDescription style={ styles.descriptionText }>{description}</ProfileDescription>
+
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <InfluentialWorks works={works} />
+              <OtherResources links={links} />
+            </div>
+
           </div>
-
-          <ProfileDescription style={ styles.descriptionText }>{description}</ProfileDescription>
-
-          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            <InfluentialWorks works={works} />
-            <OtherResources links={links} />
-          </div>
-
+          {!isBigScreen &&
+            <Sidebar style={{marginLeft:0,marginTop:30}} />
+          }
         </div>
-        {!isBigScreen &&
-          <Sidebar style={{marginLeft:0,marginTop:30}} />
-        }
+        <div style={{marginLeft:0}}>
+          <TopSidebar />
+          {isBigScreen &&
+            <Sidebar/ >
+          }
+        </div>
       </div>
-      <div style={{marginLeft:0}}>
-      <TopSidebar />
-      {isBigScreen &&
-        <Sidebar/ >
-      }
-      </div>
-    </div>
-    <BackToTop />
+      <BackToTop />
     </div>
   )
 };

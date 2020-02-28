@@ -1,18 +1,14 @@
 import {PRIMARY_DARK, GRAY_MID} from "../../styles"
 
-interface InfluenceScore {
-    overall: {influence: number, world_rank: number, usa_rank: number | null };
-}
 
-const InfluenceScore = (props: InfluenceScore) => {
-    let score = Math.floor(props.overall.influence * 100)
+const ProfileDiscipline = (props: any) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', width: 170, fontFamily: 'SF UI Display Light' }}>
-            <div style={styles.sidebarText}>Influence Score</div>
+            <div style={styles.sidebarText}>Disciplines</div>
             <div style={styles.bodyText}>
-                <li>{score}</li>
-                {/* <li>{props.overall.world_rank}</li> */}
-                {/* <li>{props.overall.usa_rank} (USA)</li> */}
+                {Object.entries(props.disciplines).map(([discipline, data]) => (<li key={discipline}>
+                  {discipline}
+                </li>))}
             </div>
         </div>
     )
@@ -34,4 +30,4 @@ const styles = {
     }
 }
 
-export default InfluenceScore
+export default ProfileDiscipline
