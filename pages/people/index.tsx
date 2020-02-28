@@ -313,7 +313,7 @@ function PersonSearchBox() {
 
   const onSelect = React.useCallback(
     slug => {
-      router.push('/schools/' + slug)
+      router.push('/people/' + slug)
     },
     [router]
   )

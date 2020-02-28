@@ -87,6 +87,8 @@ export class EntityQuery {
         entityType.data_table + ".id = scores.id"
       )
       .where("scores.kind = ?", entityType.kind)
+      .where("scores.year_start <= ?", years.max)
+      .where("scores.year_end >= ?", years.min)
       .field(influenceScoreColumn(years.min, years.max), "influence")
       .field("world_rank")
       .field("usa_rank");

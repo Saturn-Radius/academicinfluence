@@ -27,7 +27,13 @@ export default async function serveInfluentialPeople(
     query.where("people.gender = ?", request.gender);
   }
 
-  console.log(query.inner().toString());
+  // if we aren't filtering too specifically
+  // and we are including relatively recent dates
+  // anyone who shows up should rank relatively highly in the world rank
+  if (request.country == null && request.years.max > 1900) {
+    query.where("scores.world_rank < 2000")
+  }
+
   const queryResult = await query.execute();
 
   return {

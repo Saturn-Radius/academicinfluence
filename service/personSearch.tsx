@@ -3,6 +3,7 @@ import { PersonSearchRequest, PersonSearchResponse } from "../schema";
 import * as squel from "../squel";
 import { PERSON_ENTITY_TYPE } from "./databasePerson";
 import { extractIdentifiableFields, lookupAll } from "./entityDatabase";
+import { Dictionary } from "lodash";
 
 export default async function serveAutocomplete(
   request: PersonSearchRequest
@@ -17,19 +18,28 @@ export default async function serveAutocomplete(
         "person_aliases.person_id = people.id"
       )
       .field(
-        squel.rstr("max(similarity(?, person_aliases.alias))", request),
+        squel.rstr("similarity(?, person_aliases.alias)", request),
         "similarity"
       )
       .order("similarity", false)
       .inner()
-      .group("people.id")
-      .field("max(ai_people.slug)", "slug")
-      .field("max(people.name)", "name")
+      .field("ai_people.slug", "slug")
+      .field("people.name", "name")
+      .where("alias % ?", request)
       .limit(10)
       .toParam()
   );
 
+  const seen: Dictionary<boolean> = {}
+  const people = []
+  for (const row of (await query).rows) {
+    if (!(row.id in seen)) {
+      people.push(extractIdentifiableFields(row))
+      seen[row.id] = true
+    }
+  }
+  
   return {
-    people: (await query).rows.map(extractIdentifiableFields)
+    people
   };
 }
