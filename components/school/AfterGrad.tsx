@@ -1,6 +1,6 @@
+import { PRIMARY_DARK } from "../../styles"
 import CircularProgress from "../CircularProgress"
 import ContentCard from "../ContentCard"
-import { PRIMARY_DARK } from "../../styles"
 
 const AfterGrad = (props: any) => {
     return (

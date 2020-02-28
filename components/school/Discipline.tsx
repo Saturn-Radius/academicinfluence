@@ -1,8 +1,8 @@
-import { SchoolData } from '../../schema'
 import { useState } from 'react'
+import { SchoolData } from '../../schema'
+import CheckBox from '../Checkbox'
 import CircularProgress from '../CircularProgress'
 import ContentCard from '../ContentCard'
-import CheckBox from '../Checkbox'
 
 type SchoolProps = {
     school: SchoolData

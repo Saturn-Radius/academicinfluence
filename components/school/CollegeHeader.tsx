@@ -1,7 +1,7 @@
-import CircularProgress from "../CircularProgress"
 import { PRIMARY_DARK } from "../../styles"
-import CheckBox from "../Checkbox"
 import { Desktop, TabletOrMobile } from '../../utils/responsive'
+import CheckBox from "../Checkbox"
+import CircularProgress from "../CircularProgress"
 
 
 
