@@ -45,7 +45,8 @@ function SectionLink(props: {
           display: "block",
           color: active ? "white" : GRAY_MID,
           padding: "5px",
-          backgroundColor: active ? "#eb5857" : undefined
+          backgroundColor: active ? "#eb5857" : undefined,
+          cursor: "pointer"
         }}
       >
         {props.label}

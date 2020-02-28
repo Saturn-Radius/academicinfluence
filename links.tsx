@@ -42,7 +42,11 @@ export function PersonLink(props: {
   children: React.ReactNode;
 }) {
   return (
-    <Link href={`/people/${props.person.slug}`} as={`/people/${props.person.slug}`} passHref>
+    <Link
+      href={`/people/${props.person.slug}`}
+      as={`/people/${props.person.slug}`}
+      passHref
+    >
       {props.children}
     </Link>
   );

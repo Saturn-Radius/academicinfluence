@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import React from 'react';
+import { CircularProgressbar } from 'react-circular-progressbar';
 
 
 const CircularProgress = (props: any) => {

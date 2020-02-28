@@ -1,13 +1,11 @@
 import { NextPage, NextPageContext } from "next";
+import { useMediaQuery } from 'react-responsive';
 import { apiSchoolPage } from "../../../api";
-import { SchoolData } from "../../../schema";
 import ContentCard from "../../../components/ContentCard";
-import { PRIMARY_DARK, GREEN_MID } from "../../../styles";
+import { Accreditation, Admissions, AfterGrad, CampusSafety, CollegeHeader, Cost, InfluentialCard, Sidebar, Weather } from '../../../components/school';
 import DisciplineContainer from "../../../components/school/Discipline";
-import { Cost, Admissions, Accreditation, AfterGrad, Sidebar, InfluentialCard, CollegeHeader, Weather, CampusSafety } from '../../../components/school'
-import { VictoryChart, VictoryLine, VictoryArea } from "victory";
-import { Desktop, TabletOrMobile } from "../../../utils/responsive";
-import { useMediaQuery } from 'react-responsive'
+import { SchoolData } from "../../../schema";
+import { PRIMARY_DARK } from "../../../styles";
 
 
 type SchoolProps = {
@@ -120,8 +118,8 @@ const InfluenceOverTime = (props: any) => {
 const InfluentialContainer = (props: any) => {
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {props.people.map((person: any) => (
-                <InfluentialCard name={person.name} description={person.description}
+            {props.people.map((person: any, index: number) => (
+                <InfluentialCard key={index} name={person.name} description={person.description}
                     short_description={person.short_description}
                     ir_score={person.overall.influence} slug={person.slug}
                 />

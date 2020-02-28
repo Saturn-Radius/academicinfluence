@@ -1,8 +1,8 @@
-import { SchoolData } from '../../schema'
 import { useState } from 'react'
+import { SchoolData } from '../../schema'
+import CheckBox from '../Checkbox'
 import CircularProgress from '../CircularProgress'
 import ContentCard from '../ContentCard'
-import CheckBox from '../Checkbox'
 
 type SchoolProps = {
     school: SchoolData
@@ -12,9 +12,9 @@ type SchoolProps = {
 
 const DisciplineContainer = (props: SchoolProps) => {
     const generateCards = () => (
-        Object.entries(props.school.disciplines).filter(([discipline, data]) => discipline != '').map(([discipline, data]) => {
+        Object.entries(props.school.disciplines).filter(([discipline, data]) => discipline != '').map(([discipline, data], index) => {
             return (
-                <DisciplineCard schoolName={props.school.name} title={discipline} score={data.influence} usa_rank={data.usa_rank} world_rank={data.world_rank} />
+                <DisciplineCard key={index} schoolName={props.school.name} title={discipline} score={data.influence} usa_rank={data.usa_rank} world_rank={data.world_rank} />
             )
         })
     )
