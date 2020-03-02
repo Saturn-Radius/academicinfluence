@@ -847,7 +847,6 @@ function Discipline(props: FilterProps) {
       .map(item => ({
         value: item.slug,
         label: item.name
-
       }))
   ];
 

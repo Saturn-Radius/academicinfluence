@@ -5,7 +5,6 @@ import {
   DisciplineDetail,
   Identifiable
 } from "./schema";
-import { disciplineBreakdownQuery } from "./influenceScore";
 
 export function CategoryLink(props: {
   category: Category;
@@ -63,22 +62,22 @@ export function DisciplineLink(props: {
   children: React.ReactNode;
 }) {
   if (props.discipline.level === 1) {
-  return (
-    <Link
-      href={`/disciplines/[discipline]`}
-      as={`/disciplines/${props.discipline.slug}`}
-    >
-      {props.children}
-    </Link>
-  );
+    return (
+      <Link
+        href={`/disciplines/[discipline]`}
+        as={`/disciplines/${props.discipline.slug}`}
+      >
+        {props.children}
+      </Link>
+    );
   } else {
-  return (
-    <Link
-      href={`/disciplines/[discipline]/[subdiscipline]`}
-      as={`/disciplines/${props.discipline.parent}/${props.discipline.slug}`}
-    >
-      {props.children}
-    </Link>
-  );
+    return (
+      <Link
+        href={`/disciplines/[discipline]/[subdiscipline]`}
+        as={`/disciplines/${props.discipline.parent}/${props.discipline.slug}`}
+      >
+        {props.children}
+      </Link>
+    );
   }
 }

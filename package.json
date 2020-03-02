@@ -45,6 +45,7 @@
     "nano-css": "^5.2.1",
     "next": "^9.1.2",
     "next-fonts": "^0.19.0",
+    "next-seo": "^4.4.0",
     "node-html-parser": "^1.1.16",
     "organize-imports-cli": "^0.7.0",
     "pg": "^7.14.0",

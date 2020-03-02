@@ -98,8 +98,8 @@ export class EntityQuery {
     } else {
       this._query.where(
         "scores.keyword = ((select id from editor.ai_disciplines where lower(name) = ?) union (select id from editor.ai_subdisciplines where lower(name) = ?))",
-        discipline.replace(/-/g, ' '),
-        discipline.replace(/-/g, ' ')
+        discipline.replace(/-/g, " "),
+        discipline.replace(/-/g, " ")
       );
     }
     return this;

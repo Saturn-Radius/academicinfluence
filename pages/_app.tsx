@@ -1,6 +1,8 @@
 import { jsx } from "@emotion/core";
+import { DefaultSeo } from "next-seo";
 import App from "next/app";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import "typeface-montserrat/index.css";
 import "../public/fonts/sfui_font.css";
 import { GRAY_MID, PAGE_WIDTH_STYLE } from "../styles";
@@ -400,6 +402,13 @@ function Footer() {
   );
 }
 
+function AddSeo() {
+  const router = useRouter();
+  return (
+    <DefaultSeo canonical={"https://academicinfluence.com" + router.pathname} />
+  );
+}
+
 class AIApp extends App {
   render() {
     const { Component, pageProps } = this.props;
@@ -407,20 +416,23 @@ class AIApp extends App {
     const currentSection: string | undefined = (Component as any)
       .currentSection;
     return (
-      <div
-        css={{
-          display: "flex",
-          flexDirection: "column",
-          backgroundColor: "#F9FBFA",
-          fontFamily: "Montserrat"
-        }}
-      >
-        <div className="body">
-          <SiteHeader currentSection={currentSection} />
-          <Component {...pageProps} />
+      <>
+        <AddSeo />
+        <div
+          css={{
+            display: "flex",
+            flexDirection: "column",
+            backgroundColor: "#F9FBFA",
+            fontFamily: "Montserrat"
+          }}
+        >
+          <div className="body">
+            <SiteHeader currentSection={currentSection} />
+            <Component {...pageProps} />
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </>
     );
   }
 }

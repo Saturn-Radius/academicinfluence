@@ -1,9 +1,7 @@
 import databasePool from "../databasePool";
+import { disciplineNameToSlug } from "../disciplines";
 import { DisciplinesRequest, DisciplinesResponse } from "../schema";
 import * as squel from "../squel";
-import { disciplineNameToSlug } from "../disciplines";
-
-
 
 export default async function serveDisciplines(
   request: DisciplinesRequest

@@ -10,9 +10,9 @@ import Autocomplete from "react-autocomplete";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
 import { apiCountries, apiDisciplines, apiInfluentialPeoplePage, apiPersonSearch } from "../../api";
+import { lookupDiscipline } from "../../disciplines";
 import { CountriesResponse, DisciplinesResponse, Identifiable, InfluentialPeoplePageRequest, InfluentialPeoplePageResponse } from "../../schema";
 import { GRAY_MID } from "../../styles";
-import { lookupDiscipline } from "../../disciplines";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
 // refactoring is encouraged

@@ -1,5 +1,4 @@
 import databasePool from "../databasePool";
-import { influenceScoreQuery } from "../influenceScore";
 import { CollegeRankingsRequest, CollegeRankingsResponse } from "../schema";
 import * as squel from "../squel";
 import { extractOverall, lookupAll } from "./entityDatabase";
