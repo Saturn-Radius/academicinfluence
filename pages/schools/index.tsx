@@ -12,6 +12,7 @@ import Select from "react-select";
 import { apiCountries, apiDisciplines, apiInfluentialSchoolsPage, apiSchoolSearch } from "../../api";
 import { CountriesResponse, DisciplinesResponse, Identifiable, InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../../schema";
 import { GRAY_MID } from "../../styles";
+import { lookupDiscipline } from "../../disciplines";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
 // refactoring is encouraged
@@ -73,13 +74,17 @@ function Discipline(props: FilterProps) {
 
   let discipline = props.request.discipline;
 
-  let supertopic: string | null;
+ let supertopic: string | null;
   let subtopic: string | null;
-  if (discipline === null || props.disciplines[discipline].level === 1) {
+ 
+  if (
+    discipline === null ||
+    lookupDiscipline(props.disciplines, discipline).level === 1
+  ) {
     supertopic = discipline;
     subtopic = null;
   } else {
-    supertopic = props.disciplines[discipline].parent;
+    supertopic = lookupDiscipline(props.disciplines, discipline).parent;
     subtopic = discipline;
   }
 
@@ -88,11 +93,11 @@ function Discipline(props: FilterProps) {
       value: null,
       label: "Overall"
     },
-    ...Object.entries(props.disciplines)
-      .filter(item => item[1].level === 1)
+    ...props.disciplines
+      .filter(item => item.level === 1)
       .map(item => ({
-        value: item[0],
-        label: item[0]
+        value: item.slug,
+        label: item.name
       }))
   ];
 
@@ -104,16 +109,19 @@ function Discipline(props: FilterProps) {
       value: null,
       label: "Overall"
     },
-    ...Object.entries(props.disciplines)
-      .filter(item => item[1].parent === supertopic)
+    ...props.disciplines
+      .filter(item => item.parent === supertopic)
       .map(item => ({
-        value: item[0],
-        label: item[0]
+        value: item.slug,
+        label: item.name
+
       }))
   ];
 
   const sub_selected =
     find(suboptions, option => option.value === subtopic) || suboptions[0];
+
+
 
   return (
     <>

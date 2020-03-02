@@ -172,14 +172,16 @@ export interface CollegeRankingsResponse {
   };
 }
 
+export type DisciplineDetail = {
+  level: number;
+  parent: string;
+  slug: string;
+  name: string;
+};
+
 export interface DisciplinesRequest {}
 
-export interface DisciplinesResponse {
-  [k: string]: {
-    level: number;
-    parent: string | null;
-  };
-}
+export type DisciplinesResponse = DisciplineDetail[];
 
 export interface CountriesRequest {}
 export type Country = {

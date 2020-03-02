@@ -777,18 +777,21 @@ validator.compile({
       required: ["schools", "limits"],
       additionalProperties: false
     },
+    DisciplineDetail: {
+      type: "object",
+      properties: {
+        level: { type: "number" },
+        parent: { type: "string" },
+        slug: { type: "string" },
+        name: { type: "string" }
+      },
+      required: ["level", "parent", "slug", "name"],
+      additionalProperties: false
+    },
     DisciplinesRequest: { type: "object", additionalProperties: false },
     DisciplinesResponse: {
-      type: "object",
-      additionalProperties: {
-        type: "object",
-        properties: {
-          level: { type: "number" },
-          parent: { type: ["string", "null"] }
-        },
-        required: ["level", "parent"],
-        additionalProperties: false
-      }
+      type: "array",
+      items: { $ref: "#/definitions/DisciplineDetail" }
     },
     CountriesRequest: { type: "object", additionalProperties: false },
     Country: {

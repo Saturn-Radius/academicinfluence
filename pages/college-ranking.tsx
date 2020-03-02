@@ -19,6 +19,7 @@ import {
   apiDisciplines,
   apiLocationAutocomplete
 } from "../api";
+import { lookupDiscipline } from "../disciplines";
 import {
   CollegeRankingSort,
   CollegeRankingsRequest,
@@ -809,11 +810,14 @@ function Discipline(props: FilterProps) {
 
   let supertopic: string | null;
   let subtopic: string | null;
-  if (discipline === null || props.disciplines[discipline].level === 1) {
+  if (
+    discipline === null ||
+    lookupDiscipline(props.disciplines, discipline).level === 1
+  ) {
     supertopic = discipline;
     subtopic = null;
   } else {
-    supertopic = props.disciplines[discipline].parent;
+    supertopic = lookupDiscipline(props.disciplines, discipline).parent;
     subtopic = discipline;
   }
 
@@ -822,11 +826,11 @@ function Discipline(props: FilterProps) {
       value: null,
       label: "Overall"
     },
-    ...Object.entries(props.disciplines)
-      .filter(item => item[1].level === 1)
+    ...props.disciplines
+      .filter(item => item.level === 1)
       .map(item => ({
-        value: item[0],
-        label: item[0]
+        value: item.slug,
+        label: item.name
       }))
   ];
 
@@ -838,11 +842,12 @@ function Discipline(props: FilterProps) {
       value: null,
       label: "Overall"
     },
-    ...Object.entries(props.disciplines)
-      .filter(item => item[1].parent === supertopic)
+    ...props.disciplines
+      .filter(item => item.parent === supertopic)
       .map(item => ({
-        value: item[0],
-        label: item[0]
+        value: item.slug,
+        label: item.name
+
       }))
   ];
 

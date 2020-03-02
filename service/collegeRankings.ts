@@ -9,27 +9,6 @@ import {
   SCHOOL_ENTITY_TYPE
 } from "./schoolDatabase";
 
-export function calculateScore(
-  start_year: number,
-  stop_year: number,
-  discipline: string | null
-) {
-  const query = influenceScoreQuery("school", start_year, stop_year);
-
-  if (discipline) {
-    query.join(
-      "editor.ai_disciplines",
-      undefined,
-      "editor.ai_disciplines.id = ai_data.scores.keyword"
-    );
-    query.where("editor.ai_disciplines.name = ?", discipline);
-  } else {
-    query.where("keyword is null");
-  }
-
-  return query;
-}
-
 export default async function serveCollegeRankings(
   request: CollegeRankingsRequest
 ): Promise<CollegeRankingsResponse> {
@@ -37,7 +16,7 @@ export default async function serveCollegeRankings(
 
   const innerQuery = lookupAll(SCHOOL_ENTITY_TYPE)
     .apply(addPartialSchoolFields)
-    .addInfluenceFields(SCHOOL_ENTITY_TYPE)
+    .addInfluenceFields(SCHOOL_ENTITY_TYPE, undefined, request.discipline)
     .field("location");
 
   const query = squel

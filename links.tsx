@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { ArticlePartialData, Category, Identifiable } from "./schema";
+import {
+  ArticlePartialData,
+  Category,
+  DisciplineDetail,
+  Identifiable
+} from "./schema";
+import { disciplineBreakdownQuery } from "./influenceScore";
 
 export function CategoryLink(props: {
   category: Category;
@@ -50,4 +56,29 @@ export function PersonLink(props: {
       {props.children}
     </Link>
   );
+}
+
+export function DisciplineLink(props: {
+  discipline: DisciplineDetail;
+  children: React.ReactNode;
+}) {
+  if (props.discipline.level === 1) {
+  return (
+    <Link
+      href={`/disciplines/[discipline]`}
+      as={`/disciplines/${props.discipline.slug}`}
+    >
+      {props.children}
+    </Link>
+  );
+  } else {
+  return (
+    <Link
+      href={`/disciplines/[discipline]/[subdiscipline]`}
+      as={`/disciplines/${props.discipline.parent}/${props.discipline.slug}`}
+    >
+      {props.children}
+    </Link>
+  );
+  }
 }

@@ -1,7 +1,9 @@
-import { Dictionary } from "lodash";
 import databasePool from "../databasePool";
 import { DisciplinesRequest, DisciplinesResponse } from "../schema";
 import * as squel from "../squel";
+import { disciplineNameToSlug } from "../disciplines";
+
+
 
 export default async function serveDisciplines(
   request: DisciplinesRequest
@@ -31,22 +33,23 @@ export default async function serveDisciplines(
       .toParam()
   );
 
-  const disciplines: Dictionary<{
-    parent: string | null;
-    level: number;
-  }> = {};
+  const disciplines = [];
   for (const discipline of (await superdisciplineQuery).rows) {
-    disciplines[discipline.name] = {
+    disciplines.push({
       level: 1,
-      parent: discipline.superdiscipline
-    };
+      parent: disciplineNameToSlug(discipline.superdiscipline),
+      name: discipline.name,
+      slug: disciplineNameToSlug(discipline.name)
+    });
   }
 
   for (const discipline of (await subdisciplineQuery).rows) {
-    disciplines[discipline.name] = {
+    disciplines.push({
       level: 2,
-      parent: discipline.parent
-    };
+      parent: disciplineNameToSlug(discipline.parent),
+      name: discipline.name,
+      slug: disciplineNameToSlug(discipline.name)
+    });
   }
 
   return disciplines;
