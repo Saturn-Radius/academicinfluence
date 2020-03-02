@@ -1,9 +1,9 @@
+import { Dictionary } from "lodash";
 import databasePool from "../databasePool";
 import { PersonSearchRequest, PersonSearchResponse } from "../schema";
 import * as squel from "../squel";
 import { PERSON_ENTITY_TYPE } from "./databasePerson";
 import { extractIdentifiableFields, lookupAll } from "./entityDatabase";
-import { Dictionary } from "lodash";
 
 export default async function serveAutocomplete(
   request: PersonSearchRequest
@@ -30,15 +30,15 @@ export default async function serveAutocomplete(
       .toParam()
   );
 
-  const seen: Dictionary<boolean> = {}
-  const people = []
+  const seen: Dictionary<boolean> = {};
+  const people = [];
   for (const row of (await query).rows) {
     if (!(row.id in seen)) {
-      people.push(extractIdentifiableFields(row))
-      seen[row.id] = true
+      people.push(extractIdentifiableFields(row));
+      seen[row.id] = true;
     }
   }
-  
+
   return {
     people
   };
