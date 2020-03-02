@@ -31,7 +31,7 @@ export default async function serveInfluentialPeople(
   // and we are including relatively recent dates
   // anyone who shows up should rank relatively highly in the world rank
   if (request.country == null && request.years.max > 1900) {
-    query.where("scores.world_rank < 2000")
+    query.where("scores.world_rank < 2000");
   }
 
   const queryResult = await query.execute();

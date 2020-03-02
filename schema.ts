@@ -176,6 +176,7 @@ export interface DisciplinesRequest {}
 
 export interface DisciplinesResponse {
   [k: string]: {
+    level: number;
     parent: string | null;
   };
 }

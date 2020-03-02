@@ -13,6 +13,7 @@ export default async function serveDisciplines(
       .select()
       .from("editor.ai_disciplines")
       .field("editor.ai_disciplines.name")
+      .field("editor.ai_disciplines.superdiscipline")
       .toParam()
   );
 
@@ -32,15 +33,18 @@ export default async function serveDisciplines(
 
   const disciplines: Dictionary<{
     parent: string | null;
+    level: number;
   }> = {};
   for (const discipline of (await superdisciplineQuery).rows) {
     disciplines[discipline.name] = {
-      parent: null
+      level: 1,
+      parent: discipline.superdiscipline
     };
   }
 
   for (const discipline of (await subdisciplineQuery).rows) {
     disciplines[discipline.name] = {
+      level: 2,
       parent: discipline.parent
     };
   }

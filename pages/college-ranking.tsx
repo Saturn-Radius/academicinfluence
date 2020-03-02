@@ -809,7 +809,7 @@ function Discipline(props: FilterProps) {
 
   let supertopic: string | null;
   let subtopic: string | null;
-  if (discipline === null || props.disciplines[discipline].parent === null) {
+  if (discipline === null || props.disciplines[discipline].level === 1) {
     supertopic = discipline;
     subtopic = null;
   } else {
@@ -823,7 +823,7 @@ function Discipline(props: FilterProps) {
       label: "Overall"
     },
     ...Object.entries(props.disciplines)
-      .filter(item => item[1].parent === null)
+      .filter(item => item[1].level === 1)
       .map(item => ({
         value: item[0],
         label: item[0]

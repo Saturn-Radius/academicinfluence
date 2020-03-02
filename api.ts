@@ -782,8 +782,11 @@ validator.compile({
       type: "object",
       additionalProperties: {
         type: "object",
-        properties: { parent: { type: ["string", "null"] } },
-        required: ["parent"],
+        properties: {
+          level: { type: "number" },
+          parent: { type: ["string", "null"] }
+        },
+        required: ["level", "parent"],
         additionalProperties: false
       }
     },
