@@ -3,6 +3,7 @@ import { DefaultSeo } from "next-seo";
 import App from "next/app";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import CookieConsent from "react-cookie-consent";
 import "typeface-montserrat/index.css";
 import "../public/fonts/sfui_font.css";
 import { GRAY_MID, PAGE_WIDTH_STYLE } from "../styles";
@@ -417,6 +418,9 @@ class AIApp extends App {
       .currentSection;
     return (
       <>
+        <CookieConsent acceptOnScroll>
+          This website uses cookies to enhance the user experience.{" "}
+        </CookieConsent>
         <AddSeo />
         <div
           css={{

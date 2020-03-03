@@ -53,6 +53,7 @@
     "react": "^16.11.0",
     "react-autocomplete": "^1.8.1",
     "react-circular-progressbar": "^2.0.3",
+    "react-cookie-consent": "^3.0.0",
     "react-dom": "^16.11.0",
     "react-dropdown-tree-select": "^2.1.1",
     "react-responsive": "^8.0.3",
