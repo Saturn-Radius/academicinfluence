@@ -94,6 +94,9 @@ export default async function processHtml(html: string): Promise<Html[]> {
     document,
     undefined as any
   ) as ReactElement[];
+  if (!Array.isArray(elements)) {
+    elements = [elements];
+  }
   while (elements.some(hasUnresolved)) {
     elements = await Promise.all(elements.map(resolveElements));
   }

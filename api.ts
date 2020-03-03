@@ -19,6 +19,8 @@ import {
   InfluentialSchoolsPageResponse,
   LocationAutocompleteRequest,
   LocationAutocompleteResponse,
+  PageRequest,
+  PageResponse,
   PersonPageRequest,
   PersonPageResponse,
   PersonSearchRequest,
@@ -327,6 +329,25 @@ export const apiDiscipline = process.browser
       const module = await import("./service/discipline");
       const response = await module.default(request);
       if (!validate("DisciplineResponse", response)) {
+        throw new Error("validation failed");
+      }
+      return response;
+    };
+export const apiPage = process.browser
+  ? async function(request: PageRequest): Promise<PageResponse> {
+      const response = await fetch(
+        "/api/Page/" + encodeURIComponent(JSON.stringify(request))
+      );
+      const data = await response.json();
+      if (!validate("PageResponse", data)) {
+        throw new Error("validation failed");
+      }
+      return data;
+    }
+  : async function(request: PageRequest): Promise<PageResponse> {
+      const module = await import("./service/page");
+      const response = await module.default(request);
+      if (!validate("PageResponse", response)) {
         throw new Error("validation failed");
       }
       return response;
@@ -1097,6 +1118,15 @@ validator.compile({
         description: { type: "array", items: { $ref: "#/definitions/Html" } }
       },
       required: ["name", "description"],
+      additionalProperties: false
+    },
+    PageRequest: { type: "string" },
+    PageResponse: {
+      type: "object",
+      properties: {
+        content: { type: "array", items: { $ref: "#/definitions/Html" } }
+      },
+      required: ["content"],
       additionalProperties: false
     }
   }

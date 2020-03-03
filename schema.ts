@@ -304,3 +304,8 @@ export interface DisciplineResponse {
   name: string;
   description: Html[];
 }
+
+export type PageRequest = string;
+export interface PageResponse {
+  content: Html[];
+}
