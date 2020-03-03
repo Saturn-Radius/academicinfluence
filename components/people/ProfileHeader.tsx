@@ -12,13 +12,10 @@ const AddToLocker = (props: any) => (
 const ProfileHeader = (props: any) =>{
     return (
         <div>
-            <Desktop>
-                <div style={{ display: 'flex' }}>
-                    <ProfileInfo name={ props.name } image_url={props.image_url} birth_year={props.birth_year} death_year={props.death_year} />
-                    <AddToLocker />
-                </div>
-            </Desktop>
-
+            <div style={{ display: 'flex' }}>
+                <ProfileInfo name={ props.name } image_url={props.image_url} birth_year={props.birth_year} death_year={props.death_year} />
+                <AddToLocker />
+            </div>
         </div>
     )
 }

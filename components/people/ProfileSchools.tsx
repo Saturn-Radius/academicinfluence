@@ -15,7 +15,6 @@ const ProfileSchools = (props: SchoolsData) => {
     )
 }
 
-
 const styles = {
     sidebarText: {
         color: GRAY_MID,

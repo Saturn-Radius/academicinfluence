@@ -6,6 +6,33 @@ interface ResourceData {
 }
 
 const OtherResources = (props: ResourceData) => {
+    const getHostName = (url: any) => {
+        let match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+        if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
+            return match[2];
+        } else {
+            return null;
+        }
+    }
+
+    const getDomain = (url: any) => {
+        var hostName = getHostName(url);
+        var domain = hostName;
+
+        if(hostName != null) {
+            var parts = hostName.split('.').reverse();
+
+            if (parts != null && parts.length > 1) {
+                domain = parts[1] + '.' + parts[0];
+                if (domain == "wikipedia.org") {
+                  domain = "Wikipedia.com";
+                }
+            }
+        }
+
+        return domain;
+    }
+
     return (
         <div style={{ display: 'inline-block', maxWidth:"100vw", minWidth:320, marginRight:40}}>
             <h4 style={styles.subheaderText}>Other resources</h4>
@@ -14,7 +41,7 @@ const OtherResources = (props: ResourceData) => {
                 {
                     props.links.map((resource, i) =>
                     <div key={i}>
-                        <a href={resource} style={styles.container}>{resource}</a>
+                        <a href={resource} style={styles.link}>{getDomain(resource)}</a>
                     </div>)
                 }
                 </div>
@@ -35,6 +62,15 @@ const styles = {
         lineHeight: 1.78,
         height:234,
         padding:20,
+        color: GRAY_LIGHT,
+        listStyleType: "none",
+        fontFamily: 'SF UI Display Bold',
+    },
+    link: {
+        fontSize: 18,
+        lineHeight: 1.78,
+        height:234,
+        textDecoration: "none",
         color: GRAY_LIGHT,
         listStyleType: "none",
         fontFamily: 'SF UI Display Bold',

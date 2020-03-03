@@ -28,28 +28,51 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
                 disciplines={disciplines} schools={schools}
             />
 
-            <div style={{ display: 'flex', marginLeft: 124, paddingTop: 8 }}>
-              <InfluenceScore overall={overall} />
-              <ProfileSchools schools={schools} />
-              <ProfileDiscipline disciplines={disciplines} />
-            </div>
+            {isBigScreen &&
+              (
+                <div style={{ display: 'flex', marginLeft: 124, paddingTop: 8 }}>
+                  <InfluenceScore overall={overall} />
+                  <ProfileSchools schools={schools} />
+                  <ProfileDiscipline disciplines={disciplines} />
+                </div>
+              )
+            }
 
-            <ProfileDescription style={ styles.descriptionText }>{description}</ProfileDescription>
+            {!isBigScreen &&
+              (
+                <div style={{ display: 'flex', marginLeft: 0, paddingTop: 12 }}>
+                  <InfluenceScore overall={overall} />
+                  <ProfileSchools schools={schools} />
+                  <ProfileDiscipline disciplines={disciplines} />
+                </div>
+              )
+            }
+
+            <ProfileDescription style={ styles.DescriptionTextStyle }>{description}</ProfileDescription>
 
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-              <InfluentialWorks works={works} />
+              <InfluentialWorks style={ styles.InfluenceWorksStyle } works={works} />
               <OtherResources links={links} />
             </div>
 
           </div>
           {!isBigScreen &&
-            <Sidebar style={{marginLeft:0,marginTop:30}} />
+            (
+              <>
+                <TopSidebar style={{marginLeft:0,marginTop:30}} />
+                <Sidebar style={{marginLeft:0,marginTop:30}} />
+              </>
+            )
           }
         </div>
-        <div style={{marginLeft:0}}>
-          <TopSidebar />
+        <div style={{marginLeft:0, marginRight: "6%"}}>
           {isBigScreen &&
-            <Sidebar/ >
+            (
+              <>
+                <TopSidebar />
+                <Sidebar/ >
+              </>
+            )
           }
         </div>
       </div>
@@ -59,12 +82,18 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
 };
 
 const styles = {
-  descriptionText: {
+  DescriptionTextStyle: {
     fontSize: 18,
     fontFamily: 'SF UI Display Light',
     marginTop:33,
     marginBottom: 40,
     lineHeight: 1.78
+  },
+  InfluenceWorksStyle:{
+    display: 'inline-block',
+    maxWidth: "100vw",
+    minWidth: 320,
+    marginRight: 40
   },
   TopSidebarStyle: {
     display: 'flex',
@@ -81,7 +110,7 @@ const styles = {
 
 const TopSidebar = (props: any) => {
   return(
-    <div style={styles.TopSidebarStyle}>
+    <div style={{...styles.TopSidebarStyle, ...props.style}}>
       <img style={{ width:20, height:20 }} src="/images/my-locker.png" />
       <span style= {{ fontSize: 14, color: GRAY_MID }}>My Locker</span>
       <img style={{ width:20, height:10, marginLeft: 173 }} src="/images/arrow-down.png" />

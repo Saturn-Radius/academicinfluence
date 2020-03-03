@@ -14,7 +14,6 @@ const ProfileDiscipline = (props: any) => {
     )
 }
 
-
 const styles = {
     sidebarText: {
         color: GRAY_MID,

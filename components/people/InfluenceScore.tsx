@@ -18,7 +18,6 @@ const InfluenceScore = (props: InfluenceScore) => {
     )
 }
 
-
 const styles = {
     sidebarText: {
         color: GRAY_MID,
