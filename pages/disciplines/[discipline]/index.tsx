@@ -2,21 +2,24 @@ import { NextPage, NextPageContext } from "next";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
-import { apiDisciplines, apiInfluentialSchoolsPage } from "../../../api";
+import { apiDiscipline, apiDisciplines, apiInfluentialSchoolsPage } from "../../../api";
+import HtmlContent from "../../../components/HtmlContent";
 import { DisciplineLink } from "../../../links";
-import { DisciplinesResponse, InfluentialSchoolsPageResponse } from "../../../schema";
+import { DisciplineResponse, DisciplinesResponse, InfluentialSchoolsPageResponse } from "../../../schema";
 
 
 type DisciplinesProps = {
     discipline: string,
   disciplines: DisciplinesResponse,
   schools: InfluentialSchoolsPageResponse
-}
+} & DisciplineResponse
 
 
 const Discipline: NextPage<DisciplinesProps> = props => {
   return (
      <div>
+          <h1>{props.name}</h1>
+          <HtmlContent html={props.description}/>
          <ul>
 
          {props.disciplines.filter(discipline => discipline.parent === props.discipline).map(discipline => (
@@ -36,14 +39,14 @@ Discipline.getInitialProps = async function(context: NextPageContext) {
       discipline: context.query.discipline as string,
       years: {min: 1900, max: 2020}
   })
-  console.log(context.query)
+  const discipline = apiDiscipline(context.query.discipline as string)
   return {
     disciplines: await disciplines,
     discipline: context.query.discipline as string,
-    schools: await schools
+    schools: await schools,
+    ...await discipline
 
   }
-
 };
 
 export default Discipline;

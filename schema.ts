@@ -298,3 +298,9 @@ export interface SchoolSubjectPageResponse {
   staff: PersonPartialData[];
   alumni: PersonPartialData[];
 }
+
+export type DisciplineRequest = string;
+export interface DisciplineResponse {
+  name: string;
+  description: Html[];
+}

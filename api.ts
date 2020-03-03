@@ -5,6 +5,8 @@ import {
   CollegeRankingsResponse,
   CountriesRequest,
   CountriesResponse,
+  DisciplineRequest,
+  DisciplineResponse,
   DisciplinesRequest,
   DisciplinesResponse,
   FeaturesPageRequest,
@@ -306,6 +308,25 @@ export const apiSchoolSubjectPage = process.browser
       const module = await import("./service/schoolSubjectPage");
       const response = await module.default(request);
       if (!validate("SchoolSubjectPageResponse", response)) {
+        throw new Error("validation failed");
+      }
+      return response;
+    };
+export const apiDiscipline = process.browser
+  ? async function(request: DisciplineRequest): Promise<DisciplineResponse> {
+      const response = await fetch(
+        "/api/Discipline/" + encodeURIComponent(JSON.stringify(request))
+      );
+      const data = await response.json();
+      if (!validate("DisciplineResponse", data)) {
+        throw new Error("validation failed");
+      }
+      return data;
+    }
+  : async function(request: DisciplineRequest): Promise<DisciplineResponse> {
+      const module = await import("./service/discipline");
+      const response = await module.default(request);
+      if (!validate("DisciplineResponse", response)) {
         throw new Error("validation failed");
       }
       return response;
@@ -1066,6 +1087,16 @@ validator.compile({
         }
       },
       required: ["staff", "alumni"],
+      additionalProperties: false
+    },
+    DisciplineRequest: { type: "string" },
+    DisciplineResponse: {
+      type: "object",
+      properties: {
+        name: { type: "string" },
+        description: { type: "array", items: { $ref: "#/definitions/Html" } }
+      },
+      required: ["name", "description"],
       additionalProperties: false
     }
   }
