@@ -2,11 +2,11 @@ import { NextPage, NextPageContext } from "next";
 import Link from "next/link";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
-import * as React from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { apiFeaturesPage } from "../../../api";
 import FeaturePage, { Article } from "../../../components/FeaturePage";
-import { ArticlePartialData, FeaturesPageResponse, Html } from "../../../schema";
+import HtmlContent from "../../../components/HtmlContent";
+import { ArticlePartialData, FeaturesPageResponse } from "../../../schema";
 import { DescriptionText, GRAY_MID, Header1 } from "../../../styles";
 import '../../../styles/features.css';
 
@@ -14,18 +14,7 @@ type FeaturesProps = {
     data: FeaturesPageResponse
 }
 
-function toReact(node: Html): React.ReactNode {
-    if (typeof node !== "object") {
-        return node
-    } else {
-        
-        return React.createElement(
-            node.component === '' ? React.Fragment : node.component,
-            node.props,
-            ...node.children.map(toReact)
-        )
-    }
-}
+
 
 function FeatureGrid(props: {articles: ArticlePartialData[]}) {
     return <div css={{
@@ -99,7 +88,7 @@ const Features: NextPage<FeaturesProps> = props => {
               display: "block"
           }} src={props.data.article.bannerUrl}/>
             </header>
-          {React.createElement(React.Fragment, undefined , ...props.data.article.content.map(toReact))}
+            <HtmlContent html={props.data.article.content}/>
           <FeatureGrid articles={articles.slice(0, 3)}/>
             </article>
       </FeaturePage>

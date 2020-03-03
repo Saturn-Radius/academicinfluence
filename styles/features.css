@@ -171,7 +171,7 @@ article .clear { clear: both!important; }
 @media screen and (min-width: 500px) { article .flushleft { clear: both; position: relative; overflow: hidden; min-height: 150px; } }
 
 /* CENTERING */
-article .aligncenter, { display: block; margin: 0 auto 10px;  }
+article .aligncenter { display: block; margin: 0 auto 10px;  }
 article img.alignnone { display: inline; margin: 0 0 10px; }
 article img.alignleft { display: inline; margin: 6px 15px 10px 0; }
 article img.alignright { display: inline; margin: 6px 0 10px 15px; }
