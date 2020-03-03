@@ -20,6 +20,22 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
   return (
     <div>
       <div style={{ display: 'flex', marginTop:65 }}>
+        <style jsx>
+          {`
+            .profileDetail {
+              display: flex;
+              margin-left: 124px;
+              padding-top: 8px;
+            }
+            @media (max-width: 1069px) {
+              .profileDetail {
+                display: flex;
+                margin-left: 0px;
+                padding-top: 12px;
+              }
+            }
+          `}
+        </style>
         <div style={{ maxWidth: 950, minWidth:375, marginLeft: "6%"}}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
 
@@ -28,7 +44,7 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
                 disciplines={disciplines} schools={schools}
             />
 
-            <div style={ isBigScreen? styles.profileTitle: styles.profileMobileTitle }>
+            <div className="profileDetail">
               <InfluenceScore overall={overall} />
               <ProfileSchools schools={schools} />
               <ProfileDiscipline disciplines={disciplines} />
@@ -68,16 +84,6 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
 };
 
 const styles = {
-  profileTitle: {
-    display: 'flex',
-    marginLeft: 124,
-    paddingTop: 8
-  },
-  profileMobileTitle: {
-    display: 'flex',
-    marginLeft: 0,
-    paddingTop: 12
-  },
   DescriptionTextStyle: {
     fontSize: 18,
     fontFamily: 'SF UI Display Light',
