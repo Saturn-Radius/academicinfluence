@@ -13,7 +13,7 @@ type PersonProps = {
 
 const Person: NextPage<PersonProps> = (props: PersonProps) => {
 
-  let { image_url, image_source_url, name, birth_year, death_year, description, overall, disciplines, schools, links, works} = props.person
+  let { image_url, image_source_url, name, birth_year, death_year, short_description, description, overall, disciplines, schools, links, works} = props.person
 
   const isBigScreen = useMediaQuery({query: '(min-width: 1069px)'})
 
@@ -24,7 +24,7 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
           <div style={{ display: 'flex', flexDirection: 'column' }}>
 
             <ProfileHeader image_url={image_url} name={name} birth_year={birth_year}
-                death_year={death_year}
+                death_year={death_year} short_description={short_description}
                 disciplines={disciplines} schools={schools}
             />
 
