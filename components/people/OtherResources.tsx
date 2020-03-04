@@ -14,7 +14,7 @@ const OtherResources = (props: ResourceData) => {
                 {
                     props.links.map((resource, i) =>
                     <div key={i}>
-                        <a href={resource} style={styles.container}>{resource}</a>
+                        <a href={resource} style={styles.link}>{new URL(resource).host}</a>
                     </div>)
                 }
                 </div>
@@ -37,7 +37,14 @@ const styles = {
         padding:20,
         color: GRAY_LIGHT,
         listStyleType: "none",
-        fontFamily: 'SF UI Display Bold',
+    },
+    link: {
+        fontSize: 18,
+        lineHeight: 1.78,
+        height:234,
+        textDecoration: "none",
+        color: GRAY_LIGHT,
+        listStyleType: "none",
     }
 }
 

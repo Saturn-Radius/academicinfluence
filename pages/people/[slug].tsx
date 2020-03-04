@@ -13,44 +13,76 @@ type PersonProps = {
 
 const Person: NextPage<PersonProps> = (props: PersonProps) => {
 
-  let { image_url, image_source_url, name, birth_year, death_year, description, overall, disciplines, schools, links, works} = props.person
+  let { image_url, image_source_url, name, birth_year, death_year, short_description, description, overall, disciplines, schools, links, works} = props.person
 
   const isBigScreen = useMediaQuery({query: '(min-width: 1069px)'})
 
   return (
     <div>
       <div style={{ display: 'flex', marginTop:65 }}>
-        <div style={{ maxWidth: 950, minWidth:375, marginLeft: "6%"}}>
+        <style jsx>
+          {`
+            .profileSidebar {
+              display: flex;
+              flex-direction: row;
+              margin-left: 6%;
+            }
+            .profileDetail {
+              display: flex;
+              margin-left: 124px;
+              padding-top: 8px;
+            }
+            .sideBar {
+              margin-left: 0px;
+              margin-right: 6%;
+            }
+            @media (max-width: 1069px) {
+              .profileSidebar {
+                display: flex;
+                flex-direction: column;
+                margin-left: 5%;
+                margin-right: 4%;
+              }
+              .profileDetail {
+                display: flex;
+                margin-left: 0px;
+                padding-top: 12px;
+              }
+              .sideBar {
+                margin-left: 0px;
+                margin-top: 30px;
+              }
+            }
+          `}
+        </style>
+        <div className="profileSidebar">
           <div style={{ display: 'flex', flexDirection: 'column' }}>
 
             <ProfileHeader image_url={image_url} name={name} birth_year={birth_year}
-                death_year={death_year}
+                death_year={death_year} short_description={short_description}
                 disciplines={disciplines} schools={schools}
             />
 
-            <div style={{ display: 'flex', marginLeft: 124, paddingTop: 8 }}>
+            <div className="profileDetail">
               <InfluenceScore overall={overall} />
               <ProfileSchools schools={schools} />
               <ProfileDiscipline disciplines={disciplines} />
             </div>
 
-            <ProfileDescription style={ styles.descriptionText }>{description}</ProfileDescription>
+            <ProfileDescription style={ styles.DescriptionTextStyle }>{description}</ProfileDescription>
 
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-              <InfluentialWorks works={works} />
+              <InfluentialWorks style={ styles.InfluenceWorksStyle } works={works} />
               <OtherResources links={links} />
             </div>
 
           </div>
-          {!isBigScreen &&
-            <Sidebar style={{marginLeft:0,marginTop:30}} />
-          }
-        </div>
-        <div style={{marginLeft:0}}>
-          <TopSidebar />
-          {isBigScreen &&
+
+          <div className="sideBar">
+            <TopSidebar />
             <Sidebar/ >
-          }
+          </div>
+
         </div>
       </div>
       <BackToTop />
@@ -59,12 +91,17 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
 };
 
 const styles = {
-  descriptionText: {
+  DescriptionTextStyle: {
     fontSize: 18,
-    fontFamily: 'SF UI Display Light',
     marginTop:33,
     marginBottom: 40,
     lineHeight: 1.78
+  },
+  InfluenceWorksStyle:{
+    display: 'inline-block',
+    maxWidth: "100vw",
+    minWidth: 320,
+    marginRight: 40
   },
   TopSidebarStyle: {
     display: 'flex',
@@ -81,7 +118,7 @@ const styles = {
 
 const TopSidebar = (props: any) => {
   return(
-    <div style={styles.TopSidebarStyle}>
+    <div style={ styles.TopSidebarStyle }>
       <img style={{ width:20, height:20 }} src="/images/my-locker.png" />
       <span style= {{ fontSize: 14, color: GRAY_MID }}>My Locker</span>
       <img style={{ width:20, height:10, marginLeft: 173 }} src="/images/arrow-down.png" />

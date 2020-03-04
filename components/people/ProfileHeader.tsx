@@ -1,5 +1,4 @@
 import { GRAY_LIGHT, GRAY_MID, PRIMARY_DARK } from "../../styles"
-import { Desktop } from '../../utils/responsive'
 import CheckBox from "../Checkbox"
 
 const AddToLocker = (props: any) => (
@@ -12,13 +11,10 @@ const AddToLocker = (props: any) => (
 const ProfileHeader = (props: any) =>{
     return (
         <div>
-            <Desktop>
-                <div style={{ display: 'flex' }}>
-                    <ProfileInfo name={ props.name } image_url={props.image_url} birth_year={props.birth_year} death_year={props.death_year} />
-                    <AddToLocker />
-                </div>
-            </Desktop>
-
+            <div style={{ display: "flex" }}>
+                <ProfileInfo name={ props.name } image_url={props.image_url} birth_year={props.birth_year} death_year={props.death_year} short_description={props.short_description} />
+                <AddToLocker />
+            </div>
         </div>
     )
 }
@@ -30,8 +26,8 @@ const ProfileInfo = (props: any) => {
             <div style={{ marginLeft: 20 }}>
                 <h3 style={styles.name}>{props.name}</h3>
                 <div style={styles.lifePeriod}>
-                    <div style= {{ marginBottom: 10 }}> ( { props.birth_year }-{ props.death_year })</div>
-                    <div style={ styles.profileTitle}>American Business Magnate</div>
+                    <div style= {{ marginBottom: 10 }}> ( {props.birth_year}-{props.death_year})</div>
+                    <div style={styles.profileTitle}>{props.short_description}</div>
                 </div>
             </div>
         </div>
@@ -47,7 +43,6 @@ const styles = {
     lifePeriod: {
         color: GRAY_MID,
         fontSize: 20,
-        fontFamily: 'SF UI Display Ultralight',
     },
     headerImg: {
         //width:80,
@@ -56,7 +51,6 @@ const styles = {
     },
     profileTitle: {
         fontSize: 20,
-        fontFamily: 'SF UI Display Semibold',
         color: GRAY_LIGHT,
         fontWeight: 600
     }

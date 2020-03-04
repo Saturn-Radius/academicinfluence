@@ -1,28 +1,42 @@
+import { useState } from 'react';
 import { GRAY_MID, PRIMARY_DARK } from "../../styles"
 import ContentCard from "../ContentCard"
 
 interface InfulentialData {
+    style: any;
     works: {label: string}[];
 }
 
 const InfluentialWorks = (props: InfulentialData) => {
+    const [isMore, setIsMore] = useState(true);
+    const displayWorks = isMore ? props.works.slice(0,7): props.works;
+
+    const clickButton = () => {
+        setIsMore(!isMore);
+    }
     return (
-        <div style ={{ display: 'inline-block', maxWidth:"100vw", minWidth:320, marginRight:40 }}>
+        <div style ={props.style}>
             <h4 style={styles.subheaderText}>Influential Works</h4>
             <ContentCard style={styles.container}>
                 <div>
-                    {props.works.map((work, i) => <li key={i}>{work.label}</li>)}
+                    {displayWorks.map((work, i) => <li key={i}>{work.label}</li>)}
                 </div>
+                {
+                    props.works.length > 8 && (
+                        <div onClick={() => clickButton()} style={{ fontWeight: 'bold', textAlign: 'center', fontSize: 16 }}>
+                            {isMore && <div>More<img src="/images/arrow-down.png" /></div>}
+                            {!isMore && <div>Less<img src="/images/small-arrow-up.png" /></div>}
+                        </div>
+                    )
+                }
             </ContentCard>
         </div>
     )
 }
 
-
 const styles = {
     subheaderText: {
         color: PRIMARY_DARK,
-        fontFamily: 'SF UI Display Bold',
         fontSize: 22,
         marginTop: 10,
         marginBottom: 10
@@ -30,11 +44,10 @@ const styles = {
     container: {
         fontSize: 16,
         lineHeight: 1.88,
-        height:234,
         padding:20,
+        minHeight: 234,
         color: GRAY_MID,
         listStyleType: "none",
-        fontFamily: 'SF UI Display Medium'
     }
 }
 
