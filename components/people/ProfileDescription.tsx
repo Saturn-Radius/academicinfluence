@@ -2,15 +2,11 @@ import { useState } from 'react';
 
 const ProfileDescription =  (props:any) => {
     const textLength = 540;
-    const [displayString, setDisplayString] = useState(props.children.length > textLength ? props.children.substring(0, textLength) + ' ...' : props.children);
+    // const [displayString, setDisplayString] = useState(props.children.length > textLength ? props.children.substring(0, textLength) + ' ...' : props.children);
     const [isMore, setIsMore] = useState(true);
+    const displayString = props.children.length > textLength ? props.children.substring(0, 540) + ' ...' : props.children;
 
     const clickButton = () => {
-        if (isMore) {
-            setDisplayString(props.children);
-        } else {
-            setDisplayString(props.children.length > textLength ? props.children.substring(0, textLength) + ' ...' : props.children);
-        }
         setIsMore(!isMore);
     }
     return (
