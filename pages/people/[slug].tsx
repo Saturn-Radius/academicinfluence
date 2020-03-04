@@ -22,21 +22,40 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
       <div style={{ display: 'flex', marginTop:65 }}>
         <style jsx>
           {`
+            .profileSidebar {
+              display: flex;
+              flex-direction: row;
+              margin-left: 6%;
+            }
             .profileDetail {
               display: flex;
               margin-left: 124px;
               padding-top: 8px;
             }
+            .sideBar {
+              margin-left: 0px;
+              margin-right: 6%;
+            }
             @media (max-width: 1069px) {
+              .profileSidebar {
+                display: flex;
+                flex-direction: column;
+                margin-left: 5%;
+                margin-right: 4%;
+              }
               .profileDetail {
                 display: flex;
                 margin-left: 0px;
                 padding-top: 12px;
               }
+              .sideBar {
+                margin-left: 0px;
+                margin-top: 30px;
+              }
             }
           `}
         </style>
-        <div style={{ maxWidth: 950, minWidth:375, marginLeft: "6%"}}>
+        <div className="profileSidebar">
           <div style={{ display: 'flex', flexDirection: 'column' }}>
 
             <ProfileHeader image_url={image_url} name={name} birth_year={birth_year}
@@ -58,24 +77,12 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
             </div>
 
           </div>
-          {!isBigScreen &&
-            (
-              <>
-                <TopSidebar style={{marginLeft:0,marginTop:30}} />
-                <Sidebar style={{marginLeft:0,marginTop:30}} />
-              </>
-            )
-          }
-        </div>
-        <div style={{marginLeft:0, marginRight: "6%"}}>
-          {isBigScreen &&
-            (
-              <>
-                <TopSidebar />
-                <Sidebar/ >
-              </>
-            )
-          }
+
+          <div className="sideBar">
+            <TopSidebar />
+            <Sidebar/ >
+          </div>
+
         </div>
       </div>
       <BackToTop />
@@ -112,7 +119,7 @@ const styles = {
 
 const TopSidebar = (props: any) => {
   return(
-    <div style={{...styles.TopSidebarStyle, ...props.style}}>
+    <div style={ styles.TopSidebarStyle }>
       <img style={{ width:20, height:20 }} src="/images/my-locker.png" />
       <span style= {{ fontSize: 14, color: GRAY_MID }}>My Locker</span>
       <img style={{ width:20, height:10, marginLeft: 173 }} src="/images/arrow-down.png" />

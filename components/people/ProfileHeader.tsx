@@ -1,5 +1,4 @@
 import { GRAY_LIGHT, GRAY_MID, PRIMARY_DARK } from "../../styles"
-import { Desktop } from '../../utils/responsive'
 import CheckBox from "../Checkbox"
 
 const AddToLocker = (props: any) => (
@@ -12,7 +11,7 @@ const AddToLocker = (props: any) => (
 const ProfileHeader = (props: any) =>{
     return (
         <div>
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: "flex" }}>
                 <ProfileInfo name={ props.name } image_url={props.image_url} birth_year={props.birth_year} death_year={props.death_year} short_description={props.short_description} />
                 <AddToLocker />
             </div>
