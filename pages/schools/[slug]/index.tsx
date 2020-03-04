@@ -2,17 +2,7 @@ import { NextPage, NextPageContext } from "next";
 import { useMediaQuery } from "react-responsive";
 import { apiSchoolPage } from "../../../api";
 import ContentCard from "../../../components/ContentCard";
-import {
-  Accreditation,
-  Admissions,
-  AfterGrad,
-  CampusSafety,
-  CollegeHeader,
-  Cost,
-  InfluentialCard,
-  Sidebar,
-  Weather
-} from "../../../components/school";
+import { Accreditation, Admissions, AfterGrad, CampusSafety, CollegeHeader, Cost, InfluentialCard, Sidebar, Weather } from "../../../components/school";
 import DisciplineContainer from "../../../components/school/Discipline";
 import Rankings from "../../../components/school/Rankings";
 import { SchoolData } from "../../../schema";

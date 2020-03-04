@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { SchoolData } from "../../schema";
+import { SectionDescription, SectionTitle } from "../../styles";
 import CheckBox from "../Checkbox";
 import CircularProgress from "../CircularProgress";
 import ContentCard from "../ContentCard";
-import { SectionTitle, SectionDescription } from "../../styles";
-import { SHORT_CODES } from "../../shortcodes";
 
 type SchoolProps = {
   school: SchoolData;
