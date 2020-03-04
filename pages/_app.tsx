@@ -1,3 +1,4 @@
+import * as React from "react"
 import { jsx } from "@emotion/core";
 import { DefaultSeo } from "next-seo";
 import App from "next/app";
@@ -7,6 +8,7 @@ import CookieConsent from "react-cookie-consent";
 import "typeface-montserrat/index.css";
 import "../public/fonts/sfui_font.css";
 import { GRAY_MID, PAGE_WIDTH_STYLE } from "../styles";
+import ReactGA from "react-ga"
 
 function HamburgerIcon() {
   return (
@@ -410,7 +412,24 @@ function AddSeo() {
   );
 }
 
+function AddAnalytics() {
+  const [activated, setActivated] = React.useState(false)
+  const router = useRouter()
+  React.useEffect(() => {
+    if (!activated) {
+      ReactGA.initialize("UA-109343547-1");
+      setActivated(false)
+    }
+    ReactGA.pageview(router.pathname)
+  }, [router.pathname, activated, setActivated])
+
+  return <></>
+
+}
+
 class AIApp extends App {
+
+
   render() {
     const { Component, pageProps } = this.props;
 
@@ -422,6 +441,7 @@ class AIApp extends App {
           This website uses cookies to enhance the user experience.{" "}
         </CookieConsent>
         <AddSeo />
+        <AddAnalytics />
         <div
           css={{
             display: "flex",
