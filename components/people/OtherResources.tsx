@@ -8,7 +8,7 @@ interface ResourceData {
 const OtherResources = (props: ResourceData) => {
     return (
         <div style={{ display: 'inline-block', maxWidth:"100vw", minWidth:320, marginRight:40}}>
-            <h4 style={styles.subheaderText}>Other resources</h4>
+            <h4 style={styles.subheaderText}>Other Resources</h4>
             <ContentCard style={styles.container}>
                 <div>
                 {
@@ -42,7 +42,7 @@ const styles = {
         fontSize: 18,
         lineHeight: 1.78,
         height:234,
-        textDecoration: "none",
+        textDecoration: "underline",
         color: GRAY_LIGHT,
         listStyleType: "none",
     }

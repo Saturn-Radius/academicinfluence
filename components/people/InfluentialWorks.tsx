@@ -16,7 +16,7 @@ const InfluentialWorks = (props: InfulentialData) => {
     }
     return (
         <div style ={props.style}>
-            <h4 style={styles.subheaderText}>Influential Works</h4>
+            <h4 style={styles.subheaderText}>Notable Books</h4>
             <ContentCard style={styles.container}>
                 <div>
                     {displayWorks.map((work, i) => <li key={i}>{work.label}</li>)}
@@ -42,9 +42,9 @@ const styles = {
         marginBottom: 10
     },
     container: {
-        fontSize: 16,
-        lineHeight: 1.88,
-        padding:20,
+        fontSize: 18,
+        lineHeight: 1.78,
+        padding: 20,
         minHeight: 234,
         color: GRAY_MID,
         listStyleType: "none",
