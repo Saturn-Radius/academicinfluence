@@ -44,3 +44,21 @@ export const DescriptionText = styled.p({
   fontWeight: "bold",
   lineHeight: "30px"
 });
+
+export const SectionTitle = styled.h2({
+  color: SECONDARY_DARK,
+  fontSize: "20px",
+  "@media(min-width: 1248px)": {
+    fontSize: "28px",
+    lineHeight: "80px",
+    fontWeight: "bold",
+    margin: 0
+  }
+});
+
+export const SectionDescription = styled.p({
+  color: GRAY_MID,
+  fontSize: "16px",
+  fontWeight: "normal",
+  lineHeight: "20px"
+});
