@@ -1,13 +1,19 @@
 import { NextPage } from "next";
-import { apiDisciplines, apiFeaturesPage, apiHomePage } from "../api";
+import {
+  apiDisciplines,
+  apiFeaturesPage,
+  apiHomePage,
+  apiInfluentialPeoplePage
+} from "../api";
 import DisciplineIcon from "../components/DisciplineIcon";
 import { Article } from "../components/FeaturePage";
-import { ArticleLink, DisciplineLink } from "../links";
+import { ArticleLink, DisciplineLink, PersonLink } from "../links";
 import {
   ArticlePartialData,
   DisciplinesResponse,
   FeaturesPageResponse,
-  HomePageResponse
+  HomePageResponse,
+  PersonPartialData
 } from "../schema";
 import { ACTION_COLOR, SECONDARY_DARK } from "../styles";
 
@@ -15,6 +21,7 @@ type IndexProps = {
   homePage: HomePageResponse;
   features: FeaturesPageResponse;
   disciplines: DisciplinesResponse;
+  people: PersonPartialData[];
 };
 
 type SectionProps = {
@@ -77,7 +84,6 @@ function FeatureGrid(props: { articles: ArticlePartialData[] }) {
 }
 
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
-  console.log(props);
   return (
     <div>
       <div
@@ -152,6 +158,20 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
             </a>
           </DisciplineLink>
         ))}
+
+      <ul>
+        {props.people.map(person => (
+          <li key={person.slug}>
+            {person.image_url && <img width="100" src={person.image_url} />}
+            {person.image_source_url && (
+              <a href={person.image_source_url}>Source</a>
+            )}
+            <PersonLink person={person}>
+              <a>{person.name}</a>
+            </PersonLink>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
@@ -163,11 +183,21 @@ Index.getInitialProps = async function({ req }) {
     article: null
   });
   const disciplinesQuery = apiDisciplines({});
+  const peopleQuery = apiInfluentialPeoplePage({
+    country: null,
+    discipline: null,
+    gender: null,
+    years: {
+      min: 1900,
+      max: 2020
+    }
+  });
 
   return {
     homePage: await homePageQuery,
     features: await featuresQuery,
-    disciplines: await disciplinesQuery
+    disciplines: await disciplinesQuery,
+    people: (await peopleQuery).people
   };
 };
 

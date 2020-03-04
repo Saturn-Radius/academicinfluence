@@ -27,7 +27,10 @@ export interface EntityFullData extends EntityPartialData {
   meta_description: string;
 }
 
-export interface PersonPartialData extends EntityPartialData {}
+export interface PersonPartialData extends EntityPartialData {
+  image_url: string | null;
+  image_source_url: string | null;
+}
 
 export interface SchoolPartialData extends EntityPartialData {
   city: string | null;
@@ -91,8 +94,6 @@ export interface PersonData extends PersonPartialData, EntityFullData {
   links: string[];
   birth_year: number | null;
   death_year: number | null;
-  image_url: string | null;
-  image_source_url: string | null;
   disciplines: {
     [k: string]: DisciplineInfluenceData;
   };

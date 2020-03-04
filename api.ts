@@ -452,7 +452,6 @@ validator.compile({
     },
     PersonPartialData: {
       type: "object",
-      additionalProperties: false,
       properties: {
         slug: { type: "string" },
         name: { type: "string" },
@@ -466,9 +465,19 @@ validator.compile({
           },
           required: ["influence", "world_rank", "usa_rank"],
           additionalProperties: false
-        }
+        },
+        image_url: { type: ["string", "null"] },
+        image_source_url: { type: ["string", "null"] }
       },
-      required: ["name", "overall", "short_description", "slug"]
+      required: [
+        "image_source_url",
+        "image_url",
+        "name",
+        "overall",
+        "short_description",
+        "slug"
+      ],
+      additionalProperties: false
     },
     SchoolPartialData: {
       type: "object",
@@ -673,11 +682,11 @@ validator.compile({
         description: { type: "array", items: { $ref: "#/definitions/Html" } },
         wikipedia_description: { type: "boolean" },
         meta_description: { type: "string" },
+        image_url: { type: ["string", "null"] },
+        image_source_url: { type: ["string", "null"] },
         links: { type: "array", items: { type: "string" } },
         birth_year: { type: ["number", "null"] },
         death_year: { type: ["number", "null"] },
-        image_url: { type: ["string", "null"] },
-        image_source_url: { type: ["string", "null"] },
         disciplines: {
           type: "object",
           additionalProperties: {

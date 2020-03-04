@@ -4,13 +4,8 @@ import {
   extractDisciplineBreakdown
 } from "../influenceScore";
 import { PersonPageRequest, PersonPageResponse } from "../schema";
-import * as squel from "../squel";
-import { PERSON_ENTITY_TYPE } from "./databasePerson";
-import {
-  extractDescribableFields,
-  extractEntityFields,
-  lookupBySlug
-} from "./entityDatabase";
+import { extractPartialPerson, PERSON_ENTITY_TYPE } from "./databasePerson";
+import { extractEntityFields, lookupBySlug } from "./entityDatabase";
 import { SCHOOL_ENTITY_TYPE } from "./schoolDatabase";
 
 export default async function servePersonPage(
@@ -23,20 +18,7 @@ export default async function servePersonPage(
     .addEntityFields(PERSON_ENTITY_TYPE)
     .field("birth_year")
     .field("death_year")
-    .field(
-      squel.str(
-        "case when (image_url = '') then (? || image) else (image_url) END",
-        "/api/wmcimage/"
-      ),
-      "image_url"
-    )
-    .field(
-      squel.str(
-        "case when image_url = ''then ? || image else image_source_url end",
-        "https://commons.wikimedia.org/wiki/File:"
-      ),
-      "image_source_url"
-    )
+
     .field("wikipedia_title")
     .field("website")
     .execute();
@@ -80,13 +62,10 @@ export default async function servePersonPage(
   }
   return {
     person: {
-      ...extractDescribableFields(person),
+      ...extractPartialPerson(person),
       ...(await extractEntityFields(person)),
-      meta_description: person.meta_description,
       birth_year: person.birth_year,
       death_year: person.death_year,
-      image_url: person.image_url,
-      image_source_url: person.image_source_url,
       links,
       schools: (await schoolQuery).rows,
       works: (await workQuery).rows,

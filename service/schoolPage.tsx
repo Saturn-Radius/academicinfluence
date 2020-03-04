@@ -4,7 +4,10 @@ import {
   extractDisciplineBreakdownWithYears
 } from "../influenceScore";
 import { SchoolPageRequest, SchoolPageResponse } from "../schema";
-import { extractPartialPerson, PERSON_ENTITY_TYPE } from "./databasePerson";
+import {
+  extractPartialPersonWithOverall,
+  PERSON_ENTITY_TYPE
+} from "./databasePerson";
 import { extractEntityFields, lookupBySlug } from "./entityDatabase";
 import {
   addPartialSchoolFields,
@@ -258,8 +261,8 @@ export default async function serveSchoolPage(
       city_violent_crime_rate: school.city_violent_crime_rate,
       test_competitiveness: lookupSatMath(school.median_sat / 2) / 100,
       ...extractDisciplineBreakdownWithYears(await disciplineQuery),
-      people: (await personQuery).rows.map(extractPartialPerson),
-      alumni: (await alumniQuery).rows.map(extractPartialPerson),
+      people: (await personQuery).rows.map(extractPartialPersonWithOverall),
+      alumni: (await alumniQuery).rows.map(extractPartialPersonWithOverall),
       weather: calcWeather(school.weather_maximums, school.weather_minimums)
     }
   };
