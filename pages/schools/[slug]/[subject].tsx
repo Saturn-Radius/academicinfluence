@@ -9,7 +9,7 @@ type PeopleListProps = {
 function PeopleList(props:PeopleListProps) {
     return <ol>            {props.people.map(person => <li key={person.slug}>
                 <h2><a href={"/people/" + person.slug}>{person.name}</a> {person.overall.influence}</h2>
-                <p>{person.description}</p>
+                <p>{person.short_description}</p>
                 </li>)}
     </ol>
 }
