@@ -93,7 +93,6 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
 const styles = {
   DescriptionTextStyle: {
     fontSize: 18,
-    fontFamily: 'SF UI Display Light',
     marginTop:33,
     marginBottom: 40,
     lineHeight: 1.78

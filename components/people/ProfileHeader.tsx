@@ -43,7 +43,6 @@ const styles = {
     lifePeriod: {
         color: GRAY_MID,
         fontSize: 20,
-        fontFamily: 'SF UI Display Ultralight',
     },
     headerImg: {
         //width:80,
@@ -52,7 +51,6 @@ const styles = {
     },
     profileTitle: {
         fontSize: 20,
-        fontFamily: 'SF UI Display Semibold',
         color: GRAY_LIGHT,
         fontWeight: 600
     }

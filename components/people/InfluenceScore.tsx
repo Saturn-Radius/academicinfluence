@@ -7,7 +7,7 @@ interface InfluenceScore {
 const InfluenceScore = (props: InfluenceScore) => {
     let score = Math.floor(props.overall.influence * 100)
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', width: 170, fontFamily: 'SF UI Display Light' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: 170 }}>
             <div style={styles.sidebarText}>Influence Score</div>
             <div style={styles.bodyText}>
                 <li>{score}</li>

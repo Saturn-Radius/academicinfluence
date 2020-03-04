@@ -6,7 +6,7 @@ interface SchoolsData {
 
 const ProfileSchools = (props: SchoolsData) => {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', width: 170, fontFamily: 'SF UI Display Light' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: 170 }}>
             <div style={styles.sidebarText}>Schools</div>
             <div style={styles.bodyText}>
                 {props.schools.map((school, i) =><li key={i}>{school.name}</li>)}
