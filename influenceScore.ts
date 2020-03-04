@@ -79,7 +79,7 @@ export function disciplineBreakdownQuery(
     .field("scores.keyword")
     .field("world_rank")
     .field("usa_rank")
-    .field(influenceScoreColumn(1900, 2020), "influence")
+    .field(influenceScoreColumn(-8000, 2020), "influence")
     .order("influence", false)
     .where(
       "scores.keyword is null or (ai_disciplines.name is not null and ai_disciplines.active)"
