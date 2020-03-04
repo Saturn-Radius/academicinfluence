@@ -1,17 +1,20 @@
 import { NextPage } from "next";
-import { apiFeaturesPage, apiHomePage } from "../api";
+import { apiFeaturesPage, apiHomePage, apiDisciplines } from "../api";
 import { Article } from "../components/FeaturePage";
-import { ArticleLink } from "../links";
+import { ArticleLink, DisciplineLink } from "../links";
 import {
   ArticlePartialData,
   FeaturesPageResponse,
-  HomePageResponse
+  HomePageResponse,
+  DisciplinesResponse
 } from "../schema";
 import { ACTION_COLOR, SECONDARY_DARK } from "../styles";
+import DisciplineIcon from "../components/DisciplineIcon";
 
 type IndexProps = {
   homePage: HomePageResponse;
   features: FeaturesPageResponse;
+  disciplines: DisciplinesResponse
 };
 
 type SectionProps = {
@@ -73,8 +76,9 @@ function FeatureGrid(props: { articles: ArticlePartialData[] }) {
   );
 }
 
-const Index: NextPage<IndexProps> = (props: IndexProps) => (
-  <div>
+const Index: NextPage<IndexProps> = (props: IndexProps) => {
+  console.log(props)
+  return <div>
     <div
       css={{
         backgroundImage: `url(${props.homePage.currentFeature.bannerUrl})`,
@@ -126,8 +130,24 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => (
     <Section label="FEATURE ARTICLES">
       <FeatureGrid articles={props.features.articles.slice(0, 3)} />
     </Section>
+    {props.disciplines.filter(discipline => discipline.level == 1).map(discipline => (
+      <DisciplineLink discipline={discipline}>
+        <a css={{
+          display: "inline-block",
+          width: '1in',
+          height: '1in',
+          margin: ".5in",
+          "& svg": {
+            fontSize: "48pt",
+            display: "block"
+          }
+        }}><DisciplineIcon discipline={discipline}/>{discipline.name}</a>
+      </DisciplineLink>
+    ))
+
+    }
   </div>
-);
+};
 
 Index.getInitialProps = async function({ req }) {
   const homePageQuery = apiHomePage({});
@@ -135,10 +155,12 @@ Index.getInitialProps = async function({ req }) {
     category: null,
     article: null
   });
+  const disciplinesQuery = apiDisciplines({})
 
   return {
     homePage: await homePageQuery,
-    features: await featuresQuery
+    features: await featuresQuery,
+    disciplines: await disciplinesQuery
   };
 };
 
