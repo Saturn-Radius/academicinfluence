@@ -11,6 +11,7 @@ export interface Identifiable {
 
 export interface Describable extends Identifiable {
   description: string;
+  wikipedia_description: boolean;
   short_description: string;
 }
 

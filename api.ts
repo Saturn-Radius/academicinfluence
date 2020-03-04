@@ -378,9 +378,16 @@ validator.compile({
         slug: { type: "string" },
         name: { type: "string" },
         description: { type: "string" },
+        wikipedia_description: { type: "boolean" },
         short_description: { type: "string" }
       },
-      required: ["description", "name", "short_description", "slug"],
+      required: [
+        "description",
+        "name",
+        "short_description",
+        "slug",
+        "wikipedia_description"
+      ],
       additionalProperties: false
     },
     EntityPartialData: {
@@ -389,6 +396,7 @@ validator.compile({
         slug: { type: "string" },
         name: { type: "string" },
         description: { type: "string" },
+        wikipedia_description: { type: "boolean" },
         short_description: { type: "string" },
         overall: {
           type: "object",
@@ -401,7 +409,14 @@ validator.compile({
           additionalProperties: false
         }
       },
-      required: ["description", "name", "overall", "short_description", "slug"],
+      required: [
+        "description",
+        "name",
+        "overall",
+        "short_description",
+        "slug",
+        "wikipedia_description"
+      ],
       additionalProperties: false
     },
     PersonPartialData: {
@@ -411,6 +426,7 @@ validator.compile({
         slug: { type: "string" },
         name: { type: "string" },
         description: { type: "string" },
+        wikipedia_description: { type: "boolean" },
         short_description: { type: "string" },
         overall: {
           type: "object",
@@ -423,7 +439,14 @@ validator.compile({
           additionalProperties: false
         }
       },
-      required: ["description", "name", "overall", "short_description", "slug"]
+      required: [
+        "description",
+        "name",
+        "overall",
+        "short_description",
+        "slug",
+        "wikipedia_description"
+      ]
     },
     SchoolPartialData: {
       type: "object",
@@ -431,6 +454,7 @@ validator.compile({
         slug: { type: "string" },
         name: { type: "string" },
         description: { type: "string" },
+        wikipedia_description: { type: "boolean" },
         short_description: { type: "string" },
         overall: {
           type: "object",
@@ -472,7 +496,8 @@ validator.compile({
         "state",
         "top_discipline",
         "total_students",
-        "undergrad_tuition_in_state"
+        "undergrad_tuition_in_state",
+        "wikipedia_description"
       ],
       additionalProperties: false
     },
@@ -488,6 +513,7 @@ validator.compile({
         slug: { type: "string" },
         name: { type: "string" },
         description: { type: "string" },
+        wikipedia_description: { type: "boolean" },
         short_description: { type: "string" },
         overall: {
           type: "object",
@@ -605,7 +631,8 @@ validator.compile({
         "undergrad_fees_out_of_state",
         "undergrad_tuition_in_state",
         "undergrad_tuition_out_of_state",
-        "weather"
+        "weather",
+        "wikipedia_description"
       ],
       additionalProperties: false
     },
@@ -615,6 +642,7 @@ validator.compile({
         slug: { type: "string" },
         name: { type: "string" },
         description: { type: "string" },
+        wikipedia_description: { type: "boolean" },
         short_description: { type: "string" },
         overall: {
           type: "object",
@@ -666,6 +694,7 @@ validator.compile({
         "schools",
         "short_description",
         "slug",
+        "wikipedia_description",
         "works"
       ],
       additionalProperties: false

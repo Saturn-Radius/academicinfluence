@@ -29,6 +29,7 @@ export function extractDescribableFields(row: any) {
   return {
     ...extractIdentifiableFields(row),
     description: row.description,
+    wikipedia_description: row.wikipedia_description,
     short_description: row.short_description
   };
 }
@@ -65,6 +66,10 @@ export class EntityQuery {
       `coalesce(nullif(${entityType.editor_table}.${editor_column ||
         name}, ''), ${entityType.data_table}.${data_column || name})`,
       name
+    );
+    this._query.field(
+      `${entityType.editor_table}.${editor_column || name} <> ''`,
+      "wikipedia_" + name
     );
     return this;
   }
