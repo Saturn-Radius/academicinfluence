@@ -77,7 +77,7 @@ export class EntityQuery {
 
   addInfluenceFields(
     entityType: EntityType,
-    years: { min: number; max: number } = { min: 1900, max: 2020 },
+    years: { min: number; max: number } = { min: -8000, max: 2020 },
     discipline: string | null = null
   ) {
     this._query
