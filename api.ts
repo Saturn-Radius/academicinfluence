@@ -377,17 +377,9 @@ validator.compile({
       properties: {
         slug: { type: "string" },
         name: { type: "string" },
-        description: { type: "string" },
-        wikipedia_description: { type: "boolean" },
         short_description: { type: "string" }
       },
-      required: [
-        "description",
-        "name",
-        "short_description",
-        "slug",
-        "wikipedia_description"
-      ],
+      required: ["name", "short_description", "slug"],
       additionalProperties: false
     },
     EntityPartialData: {
@@ -395,8 +387,6 @@ validator.compile({
       properties: {
         slug: { type: "string" },
         name: { type: "string" },
-        description: { type: "string" },
-        wikipedia_description: { type: "boolean" },
         short_description: { type: "string" },
         overall: {
           type: "object",
@@ -409,14 +399,55 @@ validator.compile({
           additionalProperties: false
         }
       },
+      required: ["name", "overall", "short_description", "slug"],
+      additionalProperties: false
+    },
+    EntityFullData: {
+      type: "object",
+      properties: {
+        slug: { type: "string" },
+        name: { type: "string" },
+        short_description: { type: "string" },
+        overall: {
+          type: "object",
+          properties: {
+            influence: { type: "number" },
+            world_rank: { type: "number" },
+            usa_rank: { type: ["number", "null"] }
+          },
+          required: ["influence", "world_rank", "usa_rank"],
+          additionalProperties: false
+        },
+        description: { type: "array", items: { $ref: "#/definitions/Html" } },
+        wikipedia_description: { type: "boolean" },
+        meta_description: { type: "string" }
+      },
       required: [
         "description",
+        "meta_description",
         "name",
         "overall",
         "short_description",
         "slug",
         "wikipedia_description"
       ],
+      additionalProperties: false
+    },
+    Html: {
+      anyOf: [
+        { $ref: "#/definitions/HtmlNode" },
+        { type: "string" },
+        { type: "number" }
+      ]
+    },
+    HtmlNode: {
+      type: "object",
+      properties: {
+        component: { type: "string" },
+        props: { type: "object" },
+        children: { type: "array", items: { $ref: "#/definitions/Html" } }
+      },
+      required: ["component", "props", "children"],
       additionalProperties: false
     },
     PersonPartialData: {
@@ -425,8 +456,6 @@ validator.compile({
       properties: {
         slug: { type: "string" },
         name: { type: "string" },
-        description: { type: "string" },
-        wikipedia_description: { type: "boolean" },
         short_description: { type: "string" },
         overall: {
           type: "object",
@@ -439,22 +468,13 @@ validator.compile({
           additionalProperties: false
         }
       },
-      required: [
-        "description",
-        "name",
-        "overall",
-        "short_description",
-        "slug",
-        "wikipedia_description"
-      ]
+      required: ["name", "overall", "short_description", "slug"]
     },
     SchoolPartialData: {
       type: "object",
       properties: {
         slug: { type: "string" },
         name: { type: "string" },
-        description: { type: "string" },
-        wikipedia_description: { type: "boolean" },
         short_description: { type: "string" },
         overall: {
           type: "object",
@@ -483,7 +503,6 @@ validator.compile({
         "acceptance_rate",
         "average_earnings",
         "city",
-        "description",
         "desirability",
         "graduation_rate",
         "logo_url",
@@ -496,8 +515,7 @@ validator.compile({
         "state",
         "top_discipline",
         "total_students",
-        "undergrad_tuition_in_state",
-        "wikipedia_description"
+        "undergrad_tuition_in_state"
       ],
       additionalProperties: false
     },
@@ -512,8 +530,6 @@ validator.compile({
       properties: {
         slug: { type: "string" },
         name: { type: "string" },
-        description: { type: "string" },
-        wikipedia_description: { type: "boolean" },
         short_description: { type: "string" },
         overall: {
           type: "object",
@@ -525,6 +541,9 @@ validator.compile({
           required: ["influence", "world_rank", "usa_rank"],
           additionalProperties: false
         },
+        description: { type: "array", items: { $ref: "#/definitions/Html" } },
+        wikipedia_description: { type: "boolean" },
+        meta_description: { type: "string" },
         city: { type: ["string", "null"] },
         state: { type: ["string", "null"] },
         median_act: { type: ["number", "null"] },
@@ -537,7 +556,6 @@ validator.compile({
         desirability: { type: ["number", "null"] },
         logo_url: { type: ["string", "null"] },
         top_discipline: { type: ["string", "null"] },
-        meta_description: { type: "string" },
         employed_10_years: { type: ["number", "null"] },
         desirability_rank: { type: ["number", "null"] },
         undergrad_tuition_out_of_state: { type: ["number", "null"] },
@@ -641,8 +659,6 @@ validator.compile({
       properties: {
         slug: { type: "string" },
         name: { type: "string" },
-        description: { type: "string" },
-        wikipedia_description: { type: "boolean" },
         short_description: { type: "string" },
         overall: {
           type: "object",
@@ -654,6 +670,8 @@ validator.compile({
           required: ["influence", "world_rank", "usa_rank"],
           additionalProperties: false
         },
+        description: { type: "array", items: { $ref: "#/definitions/Html" } },
+        wikipedia_description: { type: "boolean" },
         meta_description: { type: "string" },
         links: { type: "array", items: { type: "string" } },
         birth_year: { type: ["number", "null"] },
@@ -947,23 +965,6 @@ validator.compile({
         "slug",
         "thumbnailUrl"
       ],
-      additionalProperties: false
-    },
-    Html: {
-      anyOf: [
-        { $ref: "#/definitions/HtmlNode" },
-        { type: "string" },
-        { type: "number" }
-      ]
-    },
-    HtmlNode: {
-      type: "object",
-      properties: {
-        component: { type: "string" },
-        props: { type: "object" },
-        children: { type: "array", items: { $ref: "#/definitions/Html" } }
-      },
-      required: ["component", "props", "children"],
       additionalProperties: false
     },
     ArticlePartialData: {

@@ -5,7 +5,7 @@ import {
 } from "../influenceScore";
 import { SchoolPageRequest, SchoolPageResponse } from "../schema";
 import { extractPartialPerson, PERSON_ENTITY_TYPE } from "./databasePerson";
-import { lookupBySlug } from "./entityDatabase";
+import { lookupBySlug, extractEntityFields } from "./entityDatabase";
 import {
   addPartialSchoolFields,
   extractPartialSchoolFields,
@@ -183,12 +183,7 @@ export default async function serveSchoolPage(
 
   const schoolQuery = lookupBySlug(SCHOOL_ENTITY_TYPE, request.slug)
     .apply(addPartialSchoolFields)
-    .overrideableField(
-      SCHOOL_ENTITY_TYPE,
-      "meta_description",
-      undefined,
-      "description"
-    )
+    .addEntityFields(SCHOOL_ENTITY_TYPE)
     .field("undergrad_tuition_out_of_state")
     .field("grad_tuition_in_state")
     .field("grad_tuition_out_of_state")
@@ -244,7 +239,7 @@ export default async function serveSchoolPage(
   return {
     school: {
       ...extractPartialSchoolFields(school),
-      meta_description: school.meta_description,
+      ...await extractEntityFields(school),
       employed_10_years: school.employed_10_years,
       desirability_rank: school.desirability_rank,
       undergrad_tuition_out_of_state: school.undergrad_tuition_out_of_state,

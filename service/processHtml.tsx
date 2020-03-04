@@ -82,6 +82,10 @@ function handleText(node: Node) {
   }
 }
 
+export function processText(text: string): Html[] {
+  return [smartQuotes(text)];
+}
+
 export default async function processHtml(html: string): Promise<Html[]> {
   const document = parseDOM(html, {
     decodeEntities: false,

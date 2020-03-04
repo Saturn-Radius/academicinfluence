@@ -10,8 +10,6 @@ export interface Identifiable {
 }
 
 export interface Describable extends Identifiable {
-  description: string;
-  wikipedia_description: boolean;
   short_description: string;
 }
 
@@ -21,6 +19,12 @@ export interface EntityPartialData extends Describable {
     world_rank: number;
     usa_rank: number | null;
   };
+}
+
+export interface EntityFullData extends EntityPartialData {
+  description: Html[];
+  wikipedia_description: boolean;
+  meta_description: string;
 }
 
 export interface PersonPartialData extends EntityPartialData {}
@@ -45,8 +49,7 @@ export interface WeatherData {
   low: number;
 }
 
-export interface SchoolData extends SchoolPartialData {
-  meta_description: string;
+export interface SchoolData extends SchoolPartialData, EntityFullData {
   employed_10_years: number | null;
   desirability_rank: number | null;
   undergrad_tuition_out_of_state: number | null;
@@ -84,8 +87,7 @@ export interface SchoolData extends SchoolPartialData {
   } | null;
 }
 
-export interface PersonData extends PersonPartialData {
-  meta_description: string;
+export interface PersonData extends PersonPartialData, EntityFullData {
   links: string[];
   birth_year: number | null;
   death_year: number | null;

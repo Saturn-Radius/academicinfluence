@@ -6,7 +6,11 @@ import {
 import { PersonPageRequest, PersonPageResponse } from "../schema";
 import * as squel from "../squel";
 import { PERSON_ENTITY_TYPE } from "./databasePerson";
-import { extractDescribableFields, lookupBySlug } from "./entityDatabase";
+import {
+  extractDescribableFields,
+  extractEntityFields,
+  lookupBySlug
+} from "./entityDatabase";
 import { SCHOOL_ENTITY_TYPE } from "./schoolDatabase";
 
 export default async function servePersonPage(
@@ -16,13 +20,8 @@ export default async function servePersonPage(
 
   const personQuery = lookupBySlug(PERSON_ENTITY_TYPE, request.slug)
     .addDescribableFields(PERSON_ENTITY_TYPE)
+    .addEntityFields(PERSON_ENTITY_TYPE)
     .field("birth_year")
-    .overrideableField(
-      PERSON_ENTITY_TYPE,
-      "meta_description",
-      undefined,
-      "description"
-    )
     .field("death_year")
     .field(
       squel.str(
@@ -82,6 +81,7 @@ export default async function servePersonPage(
   return {
     person: {
       ...extractDescribableFields(person),
+      ...(await extractEntityFields(person)),
       meta_description: person.meta_description,
       birth_year: person.birth_year,
       death_year: person.death_year,

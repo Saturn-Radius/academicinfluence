@@ -2,6 +2,7 @@ import { BaseBuilder, Expression, FieldOptions, PostgresSelect } from "squel";
 import databasePool from "../databasePool";
 import { influenceScoreColumn } from "../influenceScore";
 import * as squel from "../squel";
+import processHtml, { processText } from "./processHtml";
 
 export interface EntityType {
   kind: string;
@@ -28,8 +29,6 @@ export function extractIdentifiableFields(row: any) {
 export function extractDescribableFields(row: any) {
   return {
     ...extractIdentifiableFields(row),
-    description: row.description,
-    wikipedia_description: row.wikipedia_description,
     short_description: row.short_description
   };
 }
@@ -39,6 +38,16 @@ export function extractOverall(row: any) {
     influence: row.influence,
     world_rank: row.world_rank,
     usa_rank: row.usa_rank
+  };
+}
+
+export async function extractEntityFields(row: any) {
+  return {
+    description: row.wikipedia_description
+      ? processText(row.description)
+      : await processHtml(row.description),
+    wikipedia_description: row.wikipedia_description,
+    meta_description: row.description
   };
 }
 
@@ -68,16 +77,17 @@ export class EntityQuery {
       name
     );
     this._query.field(
-      `${entityType.editor_table}.${editor_column || name} <> ''`,
+      `${entityType.editor_table}.${editor_column || name} = ''`,
       "wikipedia_" + name
     );
     return this;
   }
 
   addDescribableFields(entityType: EntityType) {
-    return this.addIdentifiableFields(entityType)
-      .overrideableField(entityType, "description")
-      .overrideableField(entityType, "short_description");
+    return this.addIdentifiableFields(entityType).overrideableField(
+      entityType,
+      "short_description"
+    );
   }
 
   addInfluenceFields(
@@ -113,6 +123,16 @@ export class EntityQuery {
   addPartialFields(entityType: EntityType) {
     this.addDescribableFields(entityType);
     this.addInfluenceFields(entityType);
+    return this;
+  }
+
+  addEntityFields(entityType: EntityType) {
+    this.overrideableField(entityType, "description").overrideableField(
+      entityType,
+      "meta_description",
+      undefined,
+      "description"
+    );
     return this;
   }
 

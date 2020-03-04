@@ -1,29 +1,15 @@
 import { useState } from 'react';
-import { Describable } from '../../schema';
+import { EntityFullData } from '../../schema';
+import HtmlContent from '../HtmlContent';
+import Description from '../Description';
 
 const ProfileDescription =  (props: {
     style: any,
-    person: Describable
+    person: EntityFullData
 }) => {
-    const textLength = 540;
-    const [isMore, setIsMore] = useState(true);
-    const displayString = props.person.description.length > textLength ? props.person.description.substring(0, 540) + ' ...' : props.person.description;
-
-    const clickButton = () => {
-        setIsMore(!isMore);
-    }
     return (
         <div style={{...styles.card, ...props.style}}>
-            <div>{displayString}</div>
-            {
-                props.person.description.length > textLength && (
-                    <div onClick={() => clickButton()} style={{ fontWeight: 'bold', textAlign: 'center', fontSize: 16 }}>
-                        {isMore && <div>More<img src="/images/arrow-down.png" /></div>}
-                        {!isMore && <div>Less<img src="/images/small-arrow-up.png" /></div>}
-                    </div>
-                )
-            }
-            {props.person.wikipedia_description && <><b>Source:</b> Wikipedia</>}
+            <Description entity={props.person}/>
         </div>
     )
 }
