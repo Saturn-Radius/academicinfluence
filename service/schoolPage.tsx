@@ -5,7 +5,7 @@ import {
 } from "../influenceScore";
 import { SchoolPageRequest, SchoolPageResponse } from "../schema";
 import { extractPartialPerson, PERSON_ENTITY_TYPE } from "./databasePerson";
-import { lookupBySlug, extractEntityFields } from "./entityDatabase";
+import { extractEntityFields, lookupBySlug } from "./entityDatabase";
 import {
   addPartialSchoolFields,
   extractPartialSchoolFields,
@@ -239,7 +239,7 @@ export default async function serveSchoolPage(
   return {
     school: {
       ...extractPartialSchoolFields(school),
-      ...await extractEntityFields(school),
+      ...(await extractEntityFields(school)),
       employed_10_years: school.employed_10_years,
       desirability_rank: school.desirability_rank,
       undergrad_tuition_out_of_state: school.undergrad_tuition_out_of_state,

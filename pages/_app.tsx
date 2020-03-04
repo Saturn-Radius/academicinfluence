@@ -146,13 +146,13 @@ function SiteHeader(props: { currentSection?: string }) {
           currentSection={props.currentSection}
         />
         <SectionLink
-          href="/"
+          href="/people"
           id="influential-people"
           label="INFLUENTIAL PEOPLE"
           currentSection={props.currentSection}
         />
         <SectionLink
-          href="/"
+          href="/disciplines"
           id="by-discipline"
           label="BY DISCIPLINE"
           currentSection={props.currentSection}
@@ -164,7 +164,7 @@ function SiteHeader(props: { currentSection?: string }) {
           currentSection={props.currentSection}
         />
         <SectionLink
-          href="/"
+          href="/about"
           id="about"
           label="ABOUT"
           currentSection={props.currentSection}

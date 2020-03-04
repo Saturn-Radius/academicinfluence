@@ -1,6 +1,4 @@
-import { useState } from 'react';
 import { EntityFullData } from '../../schema';
-import HtmlContent from '../HtmlContent';
 import Description from '../Description';
 
 const ProfileDescription =  (props: {
