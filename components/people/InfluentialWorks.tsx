@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { GRAY_MID, PRIMARY_DARK } from "../../styles"
-import ContentCard from "../ContentCard"
+import { GRAY_MID, PRIMARY_DARK } from "../../styles";
+import ContentCard from "../ContentCard";
 
 interface InfulentialData {
     style: any;

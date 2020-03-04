@@ -1,14 +1,14 @@
-import * as React from "react"
 import { jsx } from "@emotion/core";
 import { DefaultSeo } from "next-seo";
 import App from "next/app";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import * as React from "react";
 import CookieConsent from "react-cookie-consent";
+import ReactGA from "react-ga";
 import "typeface-montserrat/index.css";
 import "../public/fonts/sfui_font.css";
 import { GRAY_MID, PAGE_WIDTH_STYLE } from "../styles";
-import ReactGA from "react-ga"
 
 function HamburgerIcon() {
   return (
@@ -413,23 +413,20 @@ function AddSeo() {
 }
 
 function AddAnalytics() {
-  const [activated, setActivated] = React.useState(false)
-  const router = useRouter()
+  const [activated, setActivated] = React.useState(false);
+  const router = useRouter();
   React.useEffect(() => {
     if (!activated) {
       ReactGA.initialize("UA-109343547-1");
-      setActivated(false)
+      setActivated(false);
     }
-    ReactGA.pageview(router.pathname)
-  }, [router.pathname, activated, setActivated])
+    ReactGA.pageview(router.pathname);
+  }, [router.pathname, activated, setActivated]);
 
-  return <></>
-
+  return <></>;
 }
 
 class AIApp extends App {
-
-
   render() {
     const { Component, pageProps } = this.props;
 
