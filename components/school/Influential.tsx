@@ -69,9 +69,11 @@ const InfluentialCard = (props: any) => {
           Story of Success
         </div>
 
-        <PersonLink person={{ name: props.name, slug: props.slug }}>
-          <Button color={GREEN_MID} text="See Profile" />
-        </PersonLink>
+        <div style={{ float: "right" }}>
+          <PersonLink person={{ name: props.name, slug: props.slug }}>
+            <Button color={GREEN_MID} text="See Profile" />
+          </PersonLink>
+        </div>
       </div>
     </ContentCard>
   );

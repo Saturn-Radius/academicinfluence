@@ -390,6 +390,8 @@ const InfluentialPeople: NextPage<InfluentialPeopleProps> = props => {
 };
 
 InfluentialPeople.getInitialProps = async function(context: NextPageContext) {
+  
+
   const request = {
     country: (context.query.country as string) || null,
     years: {
