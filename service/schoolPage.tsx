@@ -6,7 +6,8 @@ import {
 import { SchoolPageRequest, SchoolPageResponse } from "../schema";
 import {
   extractPartialPersonWithOverall,
-  PERSON_ENTITY_TYPE
+  PERSON_ENTITY_TYPE,
+  addPartialPersonFields
 } from "./databasePerson";
 import { extractEntityFields, lookupBySlug } from "./entityDatabase";
 import {
@@ -219,7 +220,8 @@ export default async function serveSchoolPage(
       "person_schools.school_id = schools.id"
     )
     .followLink(PERSON_ENTITY_TYPE, "person_schools.person_id")
-    .addPartialFields(PERSON_ENTITY_TYPE)
+    .apply(addPartialPersonFields)
+    .addInfluenceFields(PERSON_ENTITY_TYPE)
     .order("influence", false)
     .limit(3)
     .execute();
@@ -232,7 +234,8 @@ export default async function serveSchoolPage(
     )
     .where("person_schools.relationship = ?", "student")
     .followLink(PERSON_ENTITY_TYPE, "person_schools.person_id")
-    .addPartialFields(PERSON_ENTITY_TYPE)
+    .apply(addPartialPersonFields)
+    .addInfluenceFields(PERSON_ENTITY_TYPE)
     .order("influence", false)
     .limit(3)
     .execute();
