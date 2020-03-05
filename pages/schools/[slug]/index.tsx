@@ -93,10 +93,6 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
         </div>
 
         <div style={{ display: "flex", flexWrap: "wrap" }}>
-          <div className="cardContainer" style={{ marginRight: 0 }}>
-            <NotableAlumni />
-          </div>
-
           <div className="cardContainer">
             <Weather data={weather} />
           </div>
@@ -153,20 +149,6 @@ const InfluentialContainer = (props: any) => {
         ))}
       </div>
     </section>
-  );
-};
-
-const NotableAlumni = (props: any) => {
-  return (
-    <div style={{ minWidth: 300 }}>
-      <h4 style={styles.subheaderText}>Notable Alumni</h4>
-      <ContentCard style={{ padding: 20 }}>
-        <div>Bill Gates</div>
-        <div>Bill Gates</div>
-        <div>Bill Gates</div>
-        <div>Bill Gates</div>
-      </ContentCard>
-    </div>
   );
 };
 
