@@ -1,37 +1,36 @@
 .checkbox-container {
-    display: inline-block;
-    vertical-align: middle;
-  }
-  
-  .hidden-checkbox {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 0.0625rem;
-    margin: -0.0625rem;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    white-space: nowrap;
-    width: 0.0625rem;
-  }
-  
-  .styled-checkbox {
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 0.25rem;
-    border: 0.0625rem solid #666666;
-    transition: all 150ms;
-    cursor: pointer;
-  }
-    
-  .hidden-checkbox:focus  {
-    box-shadow: 0 0 0 0.25rem #666666;
-  }
-  
-  .icon {
-    fill: none;
-    stroke: white;
-    stroke-width: 2px;
-  }
-  
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.hidden-checkbox {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 0.0625rem;
+  margin: -0.0625rem;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 0.0625rem;
+}
+
+.styled-checkbox {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+  border: 0.0625rem solid #666666;
+  transition: all 150ms;
+  cursor: pointer;
+}
+
+.hidden-checkbox:focus {
+  box-shadow: 0 0 0 0.25rem #666666;
+}
+
+.icon {
+  fill: none;
+  stroke: white;
+  stroke-width: 2px;
+}

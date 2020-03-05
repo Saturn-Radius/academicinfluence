@@ -3,7 +3,17 @@ import { useMediaQuery } from "react-responsive";
 import { apiSchoolPage } from "../../../api";
 import ContentCard from "../../../components/ContentCard";
 import Description from "../../../components/Description";
-import { Accreditation, Admissions, AfterGrad, CampusSafety, CollegeHeader, Cost, InfluentialCard, Sidebar, Weather } from "../../../components/school";
+import {
+  Accreditation,
+  Admissions,
+  AfterGrad,
+  CampusSafety,
+  CollegeHeader,
+  Cost,
+  InfluentialCard,
+  Sidebar,
+  Weather
+} from "../../../components/school";
 import DisciplineContainer from "../../../components/school/Discipline";
 import Rankings from "../../../components/school/Rankings";
 import { SchoolData } from "../../../schema";
@@ -52,7 +62,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
           />
 
           <ContentCard style={{ marginBottom: 40 }}>
-            <Description entity={props.school}/>
+            <Description entity={props.school} />
           </ContentCard>
 
           <Rankings
