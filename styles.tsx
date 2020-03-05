@@ -1,7 +1,7 @@
 import css from "@emotion/css";
 import styled from "@emotion/styled";
 
-export const PRIMARY_DARK = "#1E988A";
+export const PRIMARY_DARK = "#038C8C";
 
 export const GREEN_MID = "#37c2ab";
 
@@ -11,11 +11,11 @@ export const GRAY_LIGHT = "#333333";
 
 export const TERTIARY_DARK = "#08526D";
 
-export const SECONDARY_DARK = "#1E988A";
+export const SECONDARY_DARK = "#037F8C";
 
 export const BACKGROUND_1 = "#f9fbfa";
 
-export const ACTION_COLOR = "#eb5857";
+export const ACTION_COLOR = "#CC5023";
 
 export const PAGE_WIDTH_STYLE = css({
   paddingLeft: "20px",
