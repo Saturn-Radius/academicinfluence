@@ -81,16 +81,17 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
 
         <InfluentialContainer school={school} />
 
-        <section style={{ display: "flex", flexWrap: "wrap" }}>
+        <section>
           <SectionTitle>{name} Admissions & ROI Stats</SectionTitle>
-          <Cost school={school} />
-          <Admissions school={school} />
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            <Cost school={school} />
+            <Admissions school={school} />
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            <Accreditation />
+            <AfterGrad school={school} />
+          </div>
         </section>
-
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
-          <Accreditation />
-          <AfterGrad school={school} />
-        </div>
 
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           <div className="cardContainer">
