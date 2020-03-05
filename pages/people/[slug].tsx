@@ -79,7 +79,7 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
           </div>
 
           <div className="sideBar">
-            <TopSidebar />
+            {/* <TopSidebar /> */}
             <Sidebar/ >
           </div>
 
