@@ -8,7 +8,7 @@ import CookieConsent from "react-cookie-consent";
 import ReactGA from "react-ga";
 import "typeface-montserrat/index.css";
 import "../public/fonts/sfui_font.css";
-import { PRIMARY_DARK, GRAY_MID, PAGE_WIDTH_STYLE } from "../styles";
+import { GRAY_MID, PAGE_WIDTH_STYLE } from "../styles";
 
 function HamburgerIcon() {
   return (
@@ -331,17 +331,17 @@ function Footer() {
         <div className="sections">
           <div className="section">
             <div className="label">EXPLORE</div>
-            <a href="/">INFLUENTIAL SCHOOLS</a>
-            <a href="/">INFLUENTIAL PEOPLE</a>
-            <a href="/">BY DISCIPLINE</a>
-            <a href="/">ARTICLES</a>
-            <a href="/">FIND YOUR SCHOOL</a>
-            <a href="/">ABOUT</a>
+            <a href="/schools">INFLUENTIAL SCHOOLS</a>
+            <a href="/people">INFLUENTIAL PEOPLE</a>
+            <a href="/disciplines">BY DISCIPLINE</a>
+            <a href="/features">FEATURES</a>
+            <a href="/college-ranking">FIND YOUR SCHOOL</a>
+            <a href="/about">ABOUT</a>
           </div>
           <div className="section connect">
             <div className="label">CONNECT WITH US</div>
             <div className="icons">
-              <a href="/">
+              <a href="https://www.facebook.com/AcademicInfluence">
                 <svg
                   width="10"
                   height="20"
@@ -357,7 +357,7 @@ function Footer() {
                   />
                 </svg>
               </a>
-              <a href="/">
+              <a href="https://www.instagram.com/AcademicInfluence/">
                 <svg
                   width="20"
                   height="20"
@@ -373,7 +373,7 @@ function Footer() {
                   />
                 </svg>
               </a>
-              <a href="/">
+              <a href="https://twitter.com/AcademicInfluen">
                 <svg
                   width="20"
                   height="16"
@@ -393,8 +393,9 @@ function Footer() {
           </div>
           <div className="section">
             <div className="label">OUR NETWORK</div>
-            <a href="/">INTELLIGENT EDUCATION</a>
-            <a href="/">ALEXANDRIA</a>
+            <a href="https://influencenetworks.com">INFLUENCE NETWORKS</a>
+            <a href="https://intelligenteducation.com">INTELLIGENT EDUCATION</a>
+            <a href="https://influencepublishers.com">INFLUENCE PUBLISHERS</a>
           </div>
         </div>
       </div>
