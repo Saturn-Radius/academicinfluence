@@ -14,6 +14,7 @@ type AboutProps = PageResponse;
 const About: NextPage<AboutProps> = (props: AboutProps) => {
   return(
     <div>
+    <title>About | Academic Influence</title>
       <style jsx>
       {`
         .aboutPage {
@@ -74,11 +75,11 @@ const About: NextPage<AboutProps> = (props: AboutProps) => {
           <div className="locationContact">
             <div>
               <h2 className="head">Location</h2>
-              <p>Our office is located at<br /> 123 Sesame Street<br /> Boulder, Co 81009</p>
+              <p>Our company is headquartered in Pella, Iowa</p>
             </div>
             <div className="contact">
               <h2 className="head">Contact</h2>
-              <p>123.456.7890<br /> email@email.com</p>
+              <p>682.302.4945<br /> connect@academicinfluence.com</p>
             </div>
           </div>
         </div>
@@ -93,7 +94,7 @@ const About: NextPage<AboutProps> = (props: AboutProps) => {
           </div>
         </div>
         <div className="righSideBar">
-          <div className="topSidebar"><TopSidebar/></div>
+          {/* <div className="topSidebar"><TopSidebar/></div> */}
           <div className="sidebar"><Sidebar /></div>
         </div>
       </div>

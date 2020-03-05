@@ -20,7 +20,7 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
 
   return (
     <div>
-      <title>{name}</title>
+      <title>{name} | Academic Influence</title>
       <div style={{ display: 'flex', marginTop:65 }}>
         <style jsx>
           {`
