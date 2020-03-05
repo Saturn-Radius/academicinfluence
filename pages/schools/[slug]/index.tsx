@@ -17,7 +17,11 @@ import {
 import DisciplineContainer from "../../../components/school/Discipline";
 import Rankings from "../../../components/school/Rankings";
 import { SchoolData } from "../../../schema";
-import { PRIMARY_DARK } from "../../../styles";
+import {
+  PRIMARY_DARK,
+  SectionTitle,
+  SectionDescription
+} from "../../../styles";
 
 type SchoolProps = {
   school: SchoolData;
@@ -73,9 +77,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
 
         <DisciplineContainer school={props.school} />
 
-        <h4 style={styles.subheaderText}>Most Influential People</h4>
-
-        <InfluentialContainer people={props.school.people} />
+        <InfluentialContainer school={props.school} />
 
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           <Cost school={props.school} />
@@ -122,21 +124,29 @@ const BackToTop = (props: any) => {
 };
 
 const InfluentialContainer = (props: any) => {
+  const { name, people } = props.school;
+  const LoremIpsum =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
   return (
-    <div
-      style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
-    >
-      {props.people.map((person: any, index: number) => (
-        <InfluentialCard
-          key={index}
-          name={person.name}
-          description={person.description}
-          short_description={person.short_description}
-          ir_score={person.overall.influence}
-          slug={person.slug}
-        />
-      ))}
-    </div>
+    <section>
+      <SectionTitle>Who are {name}'s Most influential alumni?</SectionTitle>
+      <SectionDescription>{LoremIpsum}</SectionDescription>
+      <div
+        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+      >
+        {people.map((person: any, index: number) => (
+          <InfluentialCard
+            key={index}
+            name={person.name}
+            description={person.description}
+            short_description={person.short_description}
+            ir_score={person.overall.influence}
+            slug={person.slug}
+          />
+        ))}
+      </div>
+    </section>
   );
 };
 
