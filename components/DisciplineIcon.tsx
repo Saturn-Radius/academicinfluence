@@ -22,7 +22,12 @@ import {
   faUserFriends,
   faUserMd,
   faUserNurse,
-  faUsers
+  faUsers,
+  faSquareRootAlt,
+  faCog,
+  faCogs,
+  faChalkboardTeacher,
+  faLightbulb
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dictionary } from "lodash";
@@ -40,18 +45,18 @@ const ICONS: Dictionary<any> = {
   literature: faBook,
   medical: faUserMd,
   law: faBalanceScale,
-  sociology: faPeopleCarry,
+  sociology: faUserFriends,
   "computer-science": faDesktop,
   nursing: faUserNurse,
   "political-science": faLandmark,
   psychology: faBrain,
   "religious-studies": faPrayingHands,
-  "social-work": faUserFriends,
+  "social-work": faPeopleCarry,
   history: faMonument,
-  mathematics: faInfinity,
-  philosophy: faCircle,
-  engineering: faHdd,
-  education: faChalkboard,
+  mathematics: faSquareRootAlt,
+  philosophy: faLightbulb,
+  engineering: faCogs,
+  education: faChalkboardTeacher,
   physics: faAtom
 };
 

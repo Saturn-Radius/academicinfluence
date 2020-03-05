@@ -168,8 +168,6 @@ School.getInitialProps = async function(context: NextPageContext) {
     slug: context.query.slug as string
   });
 
-  console.log(data);
-
   return {
     school: data.school
   };
