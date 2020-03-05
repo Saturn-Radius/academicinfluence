@@ -8,18 +8,30 @@ const InfluenceScore = (props: InfluenceScore) => {
     let score = Math.floor(props.overall.influence * 100)
     return (
         <div style={{ display: 'flex', flexDirection: 'column', width: 170 }}>
-            <div style={styles.sidebarText}>Influence Score:</div>
-            <div style={styles.bodyText}>
-                <li>{score}</li>
-                {/* <li>#{props.overall.world_rank} World</li> */}
-                {/* <li>{props.overall.usa_rank} (USA)</li> */}
-            </div>
-            <div style={styles.rankingText}>World Ranking:</div>
-            <div style={styles.bodyText}>
-                {/* <li>{score}</li> */}
-                <li>#{props.overall.world_rank} World</li>
-                {/* <li>{props.overall.usa_rank} (USA)</li> */}
-            </div>
+            {
+                props.overall.influence && (
+                    <div>
+                        <div style={styles.sidebarText}>Influence Score:</div>
+                        <div style={styles.bodyText}>
+                            <li>{score}</li>
+                            {/* <li>#{props.overall.world_rank} World</li> */}
+                            {/* <li>{props.overall.usa_rank} (USA)</li> */}
+                        </div>
+                    </div>
+                )
+            }
+            {
+                props.overall.world_rank && (
+                    <div>
+                        <div style={styles.rankingText}>World Ranking:</div>
+                        <div style={styles.bodyText}>
+                            {/* <li>{score}</li> */}
+                            <li>#{props.overall.world_rank} World</li>
+                            {/* <li>{props.overall.usa_rank} (USA)</li> */}
+                        </div>
+                    </div>
+                )
+            }
         </div>
     )
 }
