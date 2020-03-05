@@ -7,12 +7,11 @@ import {
   extractPartialPerson,
   PERSON_ENTITY_TYPE
 } from "./databasePerson";
-import { lookupAll } from "./entityDatabase";
+import { extractOverall, lookupAll } from "./entityDatabase";
 
 export default async function serveInfluentialPeople(
   request: InfluentialPeoplePageRequest
 ): Promise<InfluentialPeoplePageResponse> {
-  console.log(request);
   const query = lookupAll(PERSON_ENTITY_TYPE)
     .apply(addPartialPersonFields)
     .addInfluenceFields(PERSON_ENTITY_TYPE, request.years, request.discipline)
@@ -38,7 +37,8 @@ export default async function serveInfluentialPeople(
 
   return {
     people: queryResult.rows.map(row => ({
-      ...extractPartialPerson(row)
+      ...extractPartialPerson(row),
+      overall: extractOverall(row)
     }))
   };
 }

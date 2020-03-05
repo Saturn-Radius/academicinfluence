@@ -2,6 +2,7 @@ import { NextPage, NextPageContext } from "next";
 import { useMediaQuery } from "react-responsive";
 import { apiSchoolPage } from "../../../api";
 import ContentCard from "../../../components/ContentCard";
+import Description from "../../../components/Description";
 import { Accreditation, Admissions, AfterGrad, CampusSafety, CollegeHeader, Cost, InfluentialCard, Sidebar, Weather } from "../../../components/school";
 import DisciplineContainer from "../../../components/school/Discipline";
 import Rankings from "../../../components/school/Rankings";
@@ -42,21 +43,26 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
       </style>
 
       <div style={{ maxWidth: 950, minWidth: 375, marginLeft: "4%" }}>
-        <CollegeHeader
-          logo_url={logo_url}
-          name={name}
-          city={city}
-          state={state}
-        />
+        <section id="school-header">
+          <CollegeHeader
+            logo_url={logo_url}
+            name={name}
+            city={city}
+            state={state}
+          />
 
-        <ContentCard style={{ marginBottom: 40 }}>{description}</ContentCard>
+          <ContentCard style={{ marginBottom: 40 }}>
+            <Description entity={props.school}/>
+          </ContentCard>
 
-        <Rankings
-          acceptance_rate={acceptance_rate}
-          graduation_rate={graduation_rate}
-        />
+          <Rankings
+            acceptance_rate={acceptance_rate}
+            graduation_rate={graduation_rate}
+          />
+        </section>
 
         <DisciplineContainer school={props.school} />
+
         <h4 style={styles.subheaderText}>Most Influential People</h4>
 
         <InfluentialContainer people={props.school.people} />

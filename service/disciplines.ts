@@ -14,6 +14,7 @@ export default async function serveDisciplines(
       .from("editor.ai_disciplines")
       .field("editor.ai_disciplines.name")
       .field("editor.ai_disciplines.superdiscipline")
+      .where("active")
       .toParam()
   );
 
@@ -28,6 +29,7 @@ export default async function serveDisciplines(
         undefined,
         "editor.ai_disciplines.id = editor.ai_subdisciplines.parent"
       )
+      .where("ai_subdisciplines.active")
       .toParam()
   );
 

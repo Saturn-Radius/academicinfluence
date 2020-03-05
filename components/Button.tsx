@@ -1,26 +1,28 @@
-import React from 'react';
-
+import React from "react";
 
 const Button = React.forwardRef(({ onClick, href, ...props }: any, ref) => {
-    let style = {
-        backgroundColor: props.color
-    }
-    return (
-        <div onClick={onClick} style={{ ...styles.button , ...style, ...props.style}}>
-            {props.text}
-        </div>
-    )
-})
+  let style = {
+    backgroundColor: props.color
+  };
+  return (
+    <div
+      onClick={onClick}
+      style={{ ...styles.button, ...style, ...props.style }}
+    >
+      {props.text}
+    </div>
+  );
+});
 const styles = {
-    button: {
-        width: 140,
-        borderRadius: 30,
-        color:'white',
-        padding:8,
-        fontSize:14,
-        textAlign:'center',
-        boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.25)"
-    }
-}
+  button: {
+    width: 140,
+    borderRadius: 30,
+    color: "white",
+    padding: 8,
+    fontSize: 14,
+    textAlign: "center",
+    boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.25)"
+  }
+};
 
-export default Button
+export default Button;

@@ -26,7 +26,7 @@ const InfluentialCard = (props: any) => {
                 <div style={{ fontWeight: 'bold' }}>{props.short_description}</div>
             </div>
 
-            <p>{trimDesc(props.description)}</p>
+            <p>{trimDesc(props.short_description)}</p>
 
             <div style={{ display: 'flex', width: "100%", justifyContent: 'space-between' }}>
                 <div style={styles.influentialRow}>

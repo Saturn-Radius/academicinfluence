@@ -8,10 +8,16 @@ const InfluenceScore = (props: InfluenceScore) => {
     let score = Math.floor(props.overall.influence * 100)
     return (
         <div style={{ display: 'flex', flexDirection: 'column', width: 170 }}>
-            <div style={styles.sidebarText}>Influence Score</div>
+            <div style={styles.sidebarText}>Influence Score:</div>
             <div style={styles.bodyText}>
                 <li>{score}</li>
-                {/* <li>{props.overall.world_rank}</li> */}
+                {/* <li>#{props.overall.world_rank} World</li> */}
+                {/* <li>{props.overall.usa_rank} (USA)</li> */}
+            </div>
+            <div style={styles.rankingText}>World Ranking:</div>
+            <div style={styles.bodyText}>
+                {/* <li>{score}</li> */}
+                <li>#{props.overall.world_rank} World</li>
                 {/* <li>{props.overall.usa_rank} (USA)</li> */}
             </div>
         </div>
@@ -23,7 +29,14 @@ const styles = {
         color: GRAY_MID,
         lineHeight: 1,
         fontSize: 16,
-        fontWeight: 500
+        fontWeight: 500,
+    },
+    rankingText: {
+        color: GRAY_MID,
+        lineHeight: 1,
+        fontSize: 16,
+        fontWeight: 500,
+        paddingTop: 10
     },
     bodyText: {
         color: PRIMARY_DARK,

@@ -19,27 +19,6 @@ const RankGauges = (props: any) => {
     <div style={{ display: "flex" }}>
       <CircularProgress
         style={{ paddingRight: 20 }}
-        percentage={95}
-        size={props.size}
-        fontSize={props.fontSize}
-        text={
-          <span>
-            Overall
-            <br /> IR
-          </span>
-        }
-      />
-
-      <CircularProgress
-        style={{ paddingRight: 20 }}
-        percentage={95}
-        size={props.size}
-        fontSize={props.fontSize}
-        text="Discipline IR"
-      />
-
-      <CircularProgress
-        style={{ paddingRight: 20 }}
         percentage={props.acceptance_rate * 100}
         size={props.size}
         fontSize={props.fontSize}

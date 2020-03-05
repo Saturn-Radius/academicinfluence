@@ -4,8 +4,11 @@ import {
   extractDisciplineBreakdownWithYears
 } from "../influenceScore";
 import { SchoolPageRequest, SchoolPageResponse } from "../schema";
-import { extractPartialPerson, PERSON_ENTITY_TYPE } from "./databasePerson";
-import { lookupBySlug } from "./entityDatabase";
+import {
+  extractPartialPersonWithOverall,
+  PERSON_ENTITY_TYPE
+} from "./databasePerson";
+import { extractEntityFields, lookupBySlug } from "./entityDatabase";
 import {
   addPartialSchoolFields,
   extractPartialSchoolFields,
@@ -183,12 +186,7 @@ export default async function serveSchoolPage(
 
   const schoolQuery = lookupBySlug(SCHOOL_ENTITY_TYPE, request.slug)
     .apply(addPartialSchoolFields)
-    .overrideableField(
-      SCHOOL_ENTITY_TYPE,
-      "meta_description",
-      undefined,
-      "description"
-    )
+    .addEntityFields(SCHOOL_ENTITY_TYPE)
     .field("undergrad_tuition_out_of_state")
     .field("grad_tuition_in_state")
     .field("grad_tuition_out_of_state")
@@ -244,7 +242,7 @@ export default async function serveSchoolPage(
   return {
     school: {
       ...extractPartialSchoolFields(school),
-      meta_description: school.meta_description,
+      ...(await extractEntityFields(school)),
       employed_10_years: school.employed_10_years,
       desirability_rank: school.desirability_rank,
       undergrad_tuition_out_of_state: school.undergrad_tuition_out_of_state,
@@ -263,8 +261,8 @@ export default async function serveSchoolPage(
       city_violent_crime_rate: school.city_violent_crime_rate,
       test_competitiveness: lookupSatMath(school.median_sat / 2) / 100,
       ...extractDisciplineBreakdownWithYears(await disciplineQuery),
-      people: (await personQuery).rows.map(extractPartialPerson),
-      alumni: (await alumniQuery).rows.map(extractPartialPerson),
+      people: (await personQuery).rows.map(extractPartialPersonWithOverall),
+      alumni: (await alumniQuery).rows.map(extractPartialPersonWithOverall),
       weather: calcWeather(school.weather_maximums, school.weather_minimums)
     }
   };

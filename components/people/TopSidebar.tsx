@@ -3,7 +3,7 @@ import { GRAY_MID } from "../../styles";
 const TopSidebar = (props: any) => {
     return(
       <div style={ styles.TopSidebarStyle }>
-        <img style={{ width:20, height:20 }} src="/images/my-locker.png" />
+        <img style={{ width:20, height:20, paddingRight:10 }} src="/images/my-locker.png" />
         <span style= {{ fontSize: 14, color: GRAY_MID }}>My Locker</span>
         <img style={{ width:20, height:10, marginLeft: 173 }} src="/images/arrow-down.png" />
       </div>

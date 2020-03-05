@@ -2,6 +2,10 @@
 /schools
 /schools/harvard-university
 /schools/baylor-university
+/disciplines
+/disciplines/physics
+/about
+/people
 /people/bill-gates-1
 /college-ranking
 /features

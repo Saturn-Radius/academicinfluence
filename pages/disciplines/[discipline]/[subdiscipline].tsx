@@ -37,7 +37,6 @@ Discipline.getInitialProps = async function(context: NextPageContext) {
       discipline: context.query.subdiscipline as string,
       years: {min: 1900, max: 2020}
   })
-  console.log(context.query)
   return {
     disciplines: await disciplines,
     discipline: context.query.discipline as string,

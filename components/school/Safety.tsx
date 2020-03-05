@@ -5,10 +5,6 @@ import ContentCard from "../ContentCard"
 
 
 const CampusSafety = (props: any) => {
-    console.log(props)
-    console.log(props)
-    console.log(props)
-    console.log(props)
     return (
         <div style={{ minWidth: 300 }}>
             <h4 style={styles.subheaderText}>Campus Safety</h4>

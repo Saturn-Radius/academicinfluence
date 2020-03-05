@@ -70,7 +70,7 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
               <ProfileDiscipline disciplines={disciplines} />
             </div>
 
-            <ProfileDescription style={ styles.DescriptionTextStyle }>{description}</ProfileDescription>
+            <ProfileDescription style={ styles.DescriptionTextStyle } person={props.person}/>
 
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
               <InfluentialWorks style={ styles.InfluenceWorksStyle } works={works} />

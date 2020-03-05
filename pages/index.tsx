@@ -1,17 +1,27 @@
 import { NextPage } from "next";
-import { apiFeaturesPage, apiHomePage } from "../api";
+import {
+  apiDisciplines,
+  apiFeaturesPage,
+  apiHomePage,
+  apiInfluentialPeoplePage
+} from "../api";
+import DisciplineIcon from "../components/DisciplineIcon";
 import { Article } from "../components/FeaturePage";
-import { ArticleLink } from "../links";
+import { ArticleLink, DisciplineLink, PersonLink } from "../links";
 import {
   ArticlePartialData,
+  DisciplinesResponse,
   FeaturesPageResponse,
-  HomePageResponse
+  HomePageResponse,
+  PersonPartialData
 } from "../schema";
 import { ACTION_COLOR, SECONDARY_DARK } from "../styles";
 
 type IndexProps = {
   homePage: HomePageResponse;
   features: FeaturesPageResponse;
+  disciplines: DisciplinesResponse;
+  people: PersonPartialData[];
 };
 
 type SectionProps = {
@@ -73,61 +83,98 @@ function FeatureGrid(props: { articles: ArticlePartialData[] }) {
   );
 }
 
-const Index: NextPage<IndexProps> = (props: IndexProps) => (
-  <div>
-    <div
-      css={{
-        backgroundImage: `url(${props.homePage.currentFeature.bannerUrl})`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "contain",
-        width: "100%",
-        height: "394px",
-        display: "flex",
-        flexDirection: "column"
-      }}
-    >
-      <div css={{ flexGrow: 1 }} />
+const Index: NextPage<IndexProps> = (props: IndexProps) => {
+  return (
+    <div>
       <div
         css={{
-          fontSize: "16px",
-          lineHeight: "18px",
-          color: "white",
-          paddingLeft: "20px",
-          paddingRight: "75%",
-          fontWeight: "bold",
-          justifyContent: "end"
+          backgroundImage: `url(${props.homePage.currentFeature.bannerUrl})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "contain",
+          width: "100%",
+          height: "394px",
+          display: "flex",
+          flexDirection: "column"
         }}
       >
-        {props.homePage.currentFeature.name}
-      </div>
-      <ArticleLink article={props.homePage.currentFeature}>
-        <button
+        <div css={{ flexGrow: 1 }} />
+        <div
           css={{
-            borderRadius: "30px",
-            boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.25)",
-            backgroundColor: ACTION_COLOR,
-            paddingLeft: "56px",
-            paddingRight: "56px",
-            height: "36px",
-            lineHeight: "36px",
-            marginLeft: "20px",
-            marginTop: "20px",
-            fontSize: "20px",
+            fontSize: "16px",
+            lineHeight: "18px",
             color: "white",
-            borderWidth: "0px",
-            width: "189px",
-            margin: "20px"
+            paddingLeft: "20px",
+            paddingRight: "75%",
+            fontWeight: "bold",
+            justifyContent: "end"
           }}
         >
-          Explore
-        </button>
-      </ArticleLink>
+          {props.homePage.currentFeature.name}
+        </div>
+        <ArticleLink article={props.homePage.currentFeature}>
+          <button
+            css={{
+              borderRadius: "30px",
+              boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.25)",
+              backgroundColor: ACTION_COLOR,
+              paddingLeft: "56px",
+              paddingRight: "56px",
+              height: "36px",
+              lineHeight: "36px",
+              marginLeft: "20px",
+              marginTop: "20px",
+              fontSize: "20px",
+              color: "white",
+              borderWidth: "0px",
+              width: "189px",
+              margin: "20px"
+            }}
+          >
+            Explore
+          </button>
+        </ArticleLink>
+      </div>
+      <Section label="FEATURE ARTICLES">
+        <FeatureGrid articles={props.features.articles.slice(0, 3)} />
+      </Section>
+      {props.disciplines
+        .filter(discipline => discipline.level == 1)
+        .map(discipline => (
+          <DisciplineLink discipline={discipline}>
+            <a
+              css={{
+                display: "inline-block",
+                width: "1in",
+                height: "1in",
+                margin: ".5in",
+                "& svg": {
+                  fontSize: "48pt",
+                  display: "block"
+                }
+              }}
+            >
+              <DisciplineIcon discipline={discipline} />
+              {discipline.name}
+            </a>
+          </DisciplineLink>
+        ))}
+
+      <ul>
+        {props.people.map(person => (
+          <li key={person.slug}>
+            {person.image_url && <img width="100" src={person.image_url} />}
+            {person.image_source_url && (
+              <a href={person.image_source_url}>Source</a>
+            )}
+            <PersonLink person={person}>
+              <a>{person.name}</a>
+            </PersonLink>
+          </li>
+        ))}
+      </ul>
     </div>
-    <Section label="FEATURE ARTICLES">
-      <FeatureGrid articles={props.features.articles.slice(0, 3)} />
-    </Section>
-  </div>
-);
+  );
+};
 
 Index.getInitialProps = async function({ req }) {
   const homePageQuery = apiHomePage({});
@@ -135,10 +182,22 @@ Index.getInitialProps = async function({ req }) {
     category: null,
     article: null
   });
+  const disciplinesQuery = apiDisciplines({});
+  const peopleQuery = apiInfluentialPeoplePage({
+    country: null,
+    discipline: null,
+    gender: null,
+    years: {
+      min: 1900,
+      max: 2020
+    }
+  });
 
   return {
     homePage: await homePageQuery,
-    features: await featuresQuery
+    features: await featuresQuery,
+    disciplines: await disciplinesQuery,
+    people: (await peopleQuery).people
   };
 };
 

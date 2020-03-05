@@ -19,6 +19,16 @@ const ProfileHeader = (props: any) =>{
     )
 }
 
+const formatYear = (year: number | null): string => {
+    if (year === null) {
+        return ''
+    } else if (year < 0) {
+        return `${-year} BC`
+    } else {
+        return `${year} AD`
+    }
+}
+
 const ProfileInfo = (props: any) => {
     return (
         <div style={ {...{display: 'flex' }, ...props.style}}>
@@ -26,8 +36,8 @@ const ProfileInfo = (props: any) => {
             <div style={{ marginLeft: 20 }}>
                 <h3 style={styles.name}>{props.name}</h3>
                 <div style={styles.lifePeriod}>
-                    <div style= {{ marginBottom: 10 }}> ( {props.birth_year}-{props.death_year})</div>
                     <div style={styles.profileTitle}>{props.short_description}</div>
+                    <div style= {{ marginBottom: 10 }}> ( {formatYear(props.birth_year)}-{formatYear(props.death_year)})</div>
                 </div>
             </div>
         </div>
