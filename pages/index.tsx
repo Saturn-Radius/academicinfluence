@@ -139,8 +139,8 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
       </Section>
       {props.disciplines
         .filter(discipline => discipline.level == 1)
-        .map(discipline => (
-          <DisciplineLink discipline={discipline}>
+        .map((discipline, index) => (
+          <DisciplineLink key={index} discipline={discipline}>
             <a
               css={{
                 display: "inline-block",
