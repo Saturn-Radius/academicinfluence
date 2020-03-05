@@ -5,7 +5,6 @@ function toReact(node: Html): React.ReactNode {
     if (typeof node !== "object") {
         return node
     } else {
-        
         return React.createElement(
             node.component === '' ? React.Fragment : node.component,
             node.props,
