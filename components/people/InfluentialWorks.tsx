@@ -16,7 +16,7 @@ const InfluentialWorks = (props: InfulentialData) => {
     }
     return (
         <div style ={props.style}>
-            <h4 style={styles.subheaderText}>Notable Books</h4>
+            <h2 style={styles.subheaderText}>Notable Books</h2>
             <ContentCard style={styles.container}>
                 <div>
                     {displayWorks.map((work, i) => <li key={i}>{work.label}</li>)}

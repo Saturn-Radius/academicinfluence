@@ -34,7 +34,7 @@ const ProfileInfo = (props: any) => {
         <div style={ {...{display: 'flex' }, ...props.style}}>
             <img style={ styles.headerImg} src={props.image_url} />
             <div style={{ marginLeft: 20 }}>
-                <h3 style={styles.name}>{props.name}</h3>
+                <h1 style={styles.name}>{props.name}</h1>
                 <div style={styles.lifePeriod}>
                     <div style={styles.profileTitle}>{props.short_description}</div>
                     <div style= {{ marginBottom: 10 }}> ( {formatYear(props.birth_year)} – {formatYear(props.death_year)})</div>

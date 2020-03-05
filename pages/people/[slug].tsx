@@ -19,6 +19,7 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
 
   return (
     <div>
+      <title>{name}</title>
       <div style={{ display: 'flex', marginTop:65 }}>
         <style jsx>
           {`
