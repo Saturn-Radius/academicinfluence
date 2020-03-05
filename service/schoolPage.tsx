@@ -5,9 +5,9 @@ import {
 } from "../influenceScore";
 import { SchoolPageRequest, SchoolPageResponse } from "../schema";
 import {
+  addPartialPersonFields,
   extractPartialPersonWithOverall,
-  PERSON_ENTITY_TYPE,
-  addPartialPersonFields
+  PERSON_ENTITY_TYPE
 } from "./databasePerson";
 import { extractEntityFields, lookupBySlug } from "./entityDatabase";
 import {
