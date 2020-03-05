@@ -4,7 +4,11 @@ import {
   extractDisciplineBreakdown
 } from "../influenceScore";
 import { PersonPageRequest, PersonPageResponse } from "../schema";
-import { extractPartialPerson, PERSON_ENTITY_TYPE, addPartialPersonFields } from "./databasePerson";
+import {
+  addPartialPersonFields,
+  extractPartialPerson,
+  PERSON_ENTITY_TYPE
+} from "./databasePerson";
 import { extractEntityFields, lookupBySlug } from "./entityDatabase";
 import { SCHOOL_ENTITY_TYPE } from "./schoolDatabase";
 
