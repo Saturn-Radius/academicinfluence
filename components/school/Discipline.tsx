@@ -36,7 +36,7 @@ const DisciplineContainer = (props: SchoolProps) => {
   const [cards, setCards] = useState(allCards.slice(0, 9));
 
   return (
-    <>
+    <section>
       <SectionTitle>
         What subject is {props.school.name} best known for?
       </SectionTitle>
@@ -54,7 +54,7 @@ const DisciplineContainer = (props: SchoolProps) => {
           MORE <img src="/images/arrow-down.png" />
         </div>
       )}
-    </>
+    </section>
   );
 };
 
