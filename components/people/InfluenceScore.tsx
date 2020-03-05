@@ -13,8 +13,6 @@ const InfluenceScore = (props: InfluenceScore) => {
           <div style={styles.sidebarText}>Influence Score:</div>
           <div style={styles.bodyText}>
             <li>{score}</li>
-            {/* <li>#{props.overall.world_rank} World</li> */}
-            {/* <li>{props.overall.usa_rank} (USA)</li> */}
           </div>
         </div>
       )}
@@ -22,9 +20,15 @@ const InfluenceScore = (props: InfluenceScore) => {
         <div>
           <div style={styles.rankingText}>World Ranking:</div>
           <div style={styles.bodyText}>
-            {/* <li>{score}</li> */}
             <li>#{props.overall.world_rank} World</li>
-            {/* <li>{props.overall.usa_rank} (USA)</li> */}
+          </div>
+        </div>
+      )}
+      {props.overall.usa_rank && (
+        <div>
+          <div style={styles.rankingText}>USA Ranking:</div>
+          <div style={styles.bodyText}>
+            <li>#{props.overall.usa_rank} USA</li>
           </div>
         </div>
       )}
