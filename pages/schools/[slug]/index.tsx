@@ -152,13 +152,6 @@ const InfluentialContainer = (props: any) => {
   );
 };
 
-const styles = {
-  subheaderText: {
-    color: PRIMARY_DARK,
-    fontSize: 22
-  }
-};
-
 School.getInitialProps = async function(context: NextPageContext) {
   const data = await apiSchoolPage({
     slug: context.query.slug as string
