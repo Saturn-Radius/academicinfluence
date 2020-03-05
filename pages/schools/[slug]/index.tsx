@@ -130,7 +130,9 @@ const InfluentialContainer = (props: any) => {
 
   return (
     <section>
-      <SectionTitle>Who are {name}'s Most influential alumni?</SectionTitle>
+      <SectionTitle id="alumni">
+        Who are {name}'s Most influential alumni?
+      </SectionTitle>
       <SectionDescription>{LoremIpsum}</SectionDescription>
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}

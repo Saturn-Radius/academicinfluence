@@ -37,7 +37,7 @@ const DisciplineContainer = (props: SchoolProps) => {
 
   return (
     <section>
-      <SectionTitle>
+      <SectionTitle id="subjects">
         What subject is {props.school.name} best known for?
       </SectionTitle>
       <SectionDescription>{LoremIpsum}</SectionDescription>
