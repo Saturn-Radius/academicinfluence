@@ -28,6 +28,7 @@ type SchoolProps = {
 };
 
 const School: NextPage<SchoolProps> = (props: SchoolProps) => {
+  const { school } = props;
   let {
     logo_url,
     name,
@@ -35,8 +36,9 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
     state,
     description,
     acceptance_rate,
-    graduation_rate
-  } = props.school;
+    graduation_rate,
+    weather
+  } = school;
 
   const isBigScreen = useMediaQuery({ query: "(min-width: 1069px)" });
 
@@ -66,7 +68,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
           />
 
           <ContentCard style={{ marginBottom: 40 }}>
-            <Description entity={props.school} />
+            <Description entity={school} />
           </ContentCard>
 
           <Rankings
@@ -75,18 +77,19 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
           />
         </section>
 
-        <DisciplineContainer school={props.school} />
+        <DisciplineContainer school={school} />
 
-        <InfluentialContainer school={props.school} />
+        <InfluentialContainer school={school} />
 
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
-          <Cost school={props.school} />
-          <Admissions school={props.school} />
-        </div>
+        <section style={{ display: "flex", flexWrap: "wrap" }}>
+          <SectionTitle>{name} Admissions & ROI Stats</SectionTitle>
+          <Cost school={school} />
+          <Admissions school={school} />
+        </section>
 
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           <Accreditation />
-          <AfterGrad school={props.school} />
+          <AfterGrad school={school} />
         </div>
 
         <div style={{ display: "flex", flexWrap: "wrap" }}>
@@ -95,11 +98,11 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
           </div>
 
           <div className="cardContainer">
-            <Weather data={props.school.weather} />
+            <Weather data={weather} />
           </div>
 
           <div className="cardContainer">
-            <CampusSafety school={props.school} />
+            <CampusSafety school={school} />
           </div>
         </div>
 
@@ -124,7 +127,8 @@ const BackToTop = (props: any) => {
 };
 
 const InfluentialContainer = (props: any) => {
-  const { name, people } = props.school;
+  const { school } = props;
+  const { name, people } = school;
   const LoremIpsum =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
