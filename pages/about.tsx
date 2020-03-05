@@ -12,6 +12,7 @@ import Subscribe from "../components/Subscribe";
 type AboutProps = PageResponse;
 
 const About: NextPage<AboutProps> = (props: AboutProps) => {
+  console.log(props);
   return(
     <div>
     <title>About | Academic Influence</title>
