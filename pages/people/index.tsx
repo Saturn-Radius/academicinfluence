@@ -9,9 +9,20 @@ import React from "react";
 import Autocomplete from "react-autocomplete";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
-import { apiCountries, apiDisciplines, apiInfluentialPeoplePage, apiPersonSearch } from "../../api";
+import {
+  apiCountries,
+  apiDisciplines,
+  apiInfluentialPeoplePage,
+  apiPersonSearch
+} from "../../api";
 import { lookupDiscipline } from "../../disciplines";
-import { CountriesResponse, DisciplinesResponse, Identifiable, InfluentialPeoplePageRequest, InfluentialPeoplePageResponse } from "../../schema";
+import {
+  CountriesResponse,
+  DisciplinesResponse,
+  Identifiable,
+  InfluentialPeoplePageRequest,
+  InfluentialPeoplePageResponse
+} from "../../schema";
 import { GRAY_MID } from "../../styles";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
@@ -59,7 +70,7 @@ type FilterProps = {
   disciplines: DisciplinesResponse;
   countries: CountriesResponse;
   updateRequest: (request: InfluentialPeoplePageRequest) => void;
-}
+};
 
 function Discipline(props: FilterProps) {
   const onChange = React.useCallback(
@@ -75,8 +86,7 @@ function Discipline(props: FilterProps) {
   let discipline = props.request.discipline;
   let supertopic: string | null;
   let subtopic: string | null;
- 
-  
+
   if (
     discipline === null ||
     lookupDiscipline(props.disciplines, discipline).level === 1
@@ -114,13 +124,11 @@ function Discipline(props: FilterProps) {
       .map(item => ({
         value: item.slug,
         label: item.name
-
       }))
   ];
 
   const sub_selected =
     find(suboptions, option => option.value === subtopic) || suboptions[0];
-
 
   return (
     <>
@@ -209,11 +217,10 @@ function Country(props: FilterProps) {
       value: null,
       label: "All"
     },
-    ...props.countries
-      .map(item => ({
-        value: item.name,
-        label: item.name
-      }))
+    ...props.countries.map(item => ({
+      value: item.name,
+      label: item.name
+    }))
   ];
 
   const selected =
@@ -264,8 +271,6 @@ function RangeHandle(sliderProps: RangeHandleProps, props: any) {
   );
 }
 
-
-
 function YearsFilter(props: FilterProps) {
   const onChange = React.useCallback(
     n =>
@@ -287,7 +292,7 @@ function YearsFilter(props: FilterProps) {
         max={2020}
         handle={RangeHandle.bind(null, {
           label: "Years",
-          format: year => year < 0 ? year + " BC" : year + " AD"
+          format: year => (year < 0 ? year + " BC" : year + " AD")
         })}
         onChange={onChange}
       />
@@ -295,47 +300,52 @@ function YearsFilter(props: FilterProps) {
   );
 }
 
-type InfluentialPeopleProps = InfluentialPeoplePageResponse  & {
-  countries: CountriesResponse,
-  disciplines: DisciplinesResponse,
-  request: InfluentialPeoplePageRequest
-}
+type InfluentialPeopleProps = InfluentialPeoplePageResponse & {
+  countries: CountriesResponse;
+  disciplines: DisciplinesResponse;
+  request: InfluentialPeoplePageRequest;
+};
 
 function PersonSearchBox() {
-
-  const [value, setValue] = React.useState('')
-  const [items, setItems] = React.useState([] as Identifiable[])
+  const [value, setValue] = React.useState("");
+  const [items, setItems] = React.useState([] as Identifiable[]);
 
   const onChange = React.useCallback(
     async text => {
-      setItems([])
-      setValue(text.target.value)
-      const items = await apiPersonSearch(text.target.value)
-      setItems(items.people)
+      setItems([]);
+      setValue(text.target.value);
+      const items = await apiPersonSearch(text.target.value);
+      setItems(items.people);
     },
     [setValue, setItems]
-  )
+  );
 
-  const router = useRouter()
+  const router = useRouter();
 
   const onSelect = React.useCallback(
     slug => {
-      router.push('/people/' + slug)
+      router.push("/people/" + slug);
     },
     [router]
-  )
+  );
 
-  return <Autocomplete value={value} items={items}  onChange={onChange} onSelect={onSelect}
-
-          getItemValue={item => item.slug}
-           renderItem={(item, isHighlighted) => (
-            <div
-              key={item.slug}
-              style={{ background: isHighlighted ? "lightgray" : "white" }}
-            >
-              {item.name}
-            </div>
-          )}/>
+  return (
+    <Autocomplete
+      value={value}
+      items={items}
+      onChange={onChange}
+      onSelect={onSelect}
+      getItemValue={item => item.slug}
+      renderItem={(item, isHighlighted) => (
+        <div
+          key={item.slug}
+          style={{ background: isHighlighted ? "lightgray" : "white" }}
+        >
+          {item.name}
+        </div>
+      )}
+    />
+  );
 }
 function asHref(request: InfluentialPeoplePageRequest) {
   return {
@@ -345,13 +355,12 @@ function asHref(request: InfluentialPeoplePageRequest) {
       minYear: request.years.min,
       maxYear: request.years.max,
       country: request.country,
-      gender: request.gender === null ?undefined : 
-      request.gender ? "m" : "f"
+      gender: request.gender === null ? undefined : request.gender ? "m" : "f"
     }
   };
 }
 const InfluentialPeople: NextPage<InfluentialPeopleProps> = props => {
-  const router = useRouter()
+  const router = useRouter();
   const [request, setRequest] = React.useState(props.request);
 
   const updateRequest = React.useCallback(
@@ -366,19 +375,16 @@ const InfluentialPeople: NextPage<InfluentialPeopleProps> = props => {
     ...props,
     request,
     updateRequest
-  }
+  };
   return (
-      <div>
-          <PersonSearchBox />
-          <Discipline {...filterProps}/>
-          <YearsFilter {...filterProps}/>
-          <Country {...filterProps}/>
-          <Gender {...filterProps}/>
+    <div>
+      <PersonSearchBox />
+      <Discipline {...filterProps} />
+      <YearsFilter {...filterProps} />
+      <Country {...filterProps} />
+      <Gender {...filterProps} />
 
-          
-          <pre>
-              {JSON.stringify(props.people, null, 4)}
-          </pre>
+      <pre>{JSON.stringify(props.people, null, 4)}</pre>
     </div>
   );
 };
@@ -387,27 +393,29 @@ InfluentialPeople.getInitialProps = async function(context: NextPageContext) {
   
 
   const request = {
-    country: context.query.country as string || null,
+    country: (context.query.country as string) || null,
     years: {
       min: parseInt((context.query.minYear as string) || "1900"),
-      max: parseInt((context.query.maxYear as string) || "2020"),
+      max: parseInt((context.query.maxYear as string) || "2020")
     },
-    gender: context.query.gender === "m" ? true :
-        context.query.gender === "f" ? false : null,
+    gender:
+      context.query.gender === "m"
+        ? true
+        : context.query.gender === "f"
+        ? false
+        : null,
     discipline: (context.query.discipline as string) || null
-  }
+  };
 
-
-  const schools = apiInfluentialPeoplePage(request)
-  const disciplines = apiDisciplines({})
-  const countries = apiCountries({})
+  const schools = apiInfluentialPeoplePage(request);
+  const disciplines = apiDisciplines({});
+  const countries = apiCountries({});
   return {
     ...(await schools),
     disciplines: await disciplines,
     countries: await countries,
     request
-  }
-
+  };
 };
 
 export default InfluentialPeople;
