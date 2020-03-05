@@ -2,18 +2,10 @@ import { NextPage, NextPageContext } from "next";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
-import {
-  apiDiscipline,
-  apiDisciplines,
-  apiInfluentialSchoolsPage
-} from "../../../api";
+import { apiDiscipline, apiDisciplines, apiInfluentialSchoolsPage } from "../../../api";
 import HtmlContent from "../../../components/HtmlContent";
 import { DisciplineLink } from "../../../links";
-import {
-  DisciplineResponse,
-  DisciplinesResponse,
-  InfluentialSchoolsPageResponse
-} from "../../../schema";
+import { DisciplineResponse, DisciplinesResponse, InfluentialSchoolsPageResponse } from "../../../schema";
 
 type DisciplinesProps = {
   discipline: string;

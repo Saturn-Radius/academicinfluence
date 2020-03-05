@@ -3,25 +3,12 @@ import { useMediaQuery } from "react-responsive";
 import { apiSchoolPage } from "../../../api";
 import ContentCard from "../../../components/ContentCard";
 import Description from "../../../components/Description";
-import {
-  Accreditation,
-  Admissions,
-  AfterGrad,
-  CampusSafety,
-  CollegeHeader,
-  Cost,
-  InfluentialCard,
-  Sidebar,
-  Weather
-} from "../../../components/school";
+import { Accreditation, Admissions, AfterGrad, CampusSafety, CollegeHeader, Cost, InfluentialCard, Sidebar, Weather } from "../../../components/school";
+import ContactInfo from "../../../components/school/ContactInfo";
 import DisciplineContainer from "../../../components/school/Discipline";
 import Rankings from "../../../components/school/Rankings";
 import { SchoolData } from "../../../schema";
-import {
-  PRIMARY_DARK,
-  SectionTitle,
-  SectionDescription
-} from "../../../styles";
+import { SectionDescription, SectionTitle } from "../../../styles";
 
 type SchoolProps = {
   school: SchoolData;
@@ -81,22 +68,23 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
 
         <InfluentialContainer school={school} />
 
-        <section style={{ display: "flex", flexWrap: "wrap" }}>
+        <section>
           <SectionTitle>{name} Admissions & ROI Stats</SectionTitle>
-          <Cost school={school} />
-          <Admissions school={school} />
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            <Cost school={school} />
+            <Admissions school={school} />
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            <Accreditation />
+            <AfterGrad school={school} />
+          </div>
         </section>
 
+        <section>
+          <SectionTitle>{name} Contact & Location</SectionTitle>
+          <ContactInfo school={school} />
+        </section>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
-          <Accreditation />
-          <AfterGrad school={school} />
-        </div>
-
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
-          <div className="cardContainer" style={{ marginRight: 0 }}>
-            <NotableAlumni />
-          </div>
-
           <div className="cardContainer">
             <Weather data={weather} />
           </div>
@@ -154,27 +142,6 @@ const InfluentialContainer = (props: any) => {
       </div>
     </section>
   );
-};
-
-const NotableAlumni = (props: any) => {
-  return (
-    <div style={{ minWidth: 300 }}>
-      <h4 style={styles.subheaderText}>Notable Alumni</h4>
-      <ContentCard style={{ padding: 20 }}>
-        <div>Bill Gates</div>
-        <div>Bill Gates</div>
-        <div>Bill Gates</div>
-        <div>Bill Gates</div>
-      </ContentCard>
-    </div>
-  );
-};
-
-const styles = {
-  subheaderText: {
-    color: PRIMARY_DARK,
-    fontSize: 22
-  }
 };
 
 School.getInitialProps = async function(context: NextPageContext) {

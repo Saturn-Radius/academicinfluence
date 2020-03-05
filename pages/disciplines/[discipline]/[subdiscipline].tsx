@@ -4,10 +4,7 @@ import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
 import { apiDisciplines, apiInfluentialSchoolsPage } from "../../../api";
 import { DisciplineLink } from "../../../links";
-import {
-  DisciplinesResponse,
-  InfluentialSchoolsPageResponse
-} from "../../../schema";
+import { DisciplinesResponse, InfluentialSchoolsPageResponse } from "../../../schema";
 
 type DisciplinesProps = {
   discipline: string;
