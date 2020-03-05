@@ -12,7 +12,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run format"
+      "pre-commit": "lint-staged"
     }
   },
   "keywords": [],
@@ -45,7 +45,6 @@
     "html-entities": "^1.2.1",
     "html-react-parser": "^0.10.1",
     "htmlparser2": "^4.0.0",
-    "husky": "^4.2.3",
     "isomorphic-unfetch": "^3.0.0",
     "json-schema-to-typescript": "^8.0.0",
     "lodash": "^4.17.15",
@@ -82,8 +81,16 @@
   "devDependencies": {
     "@types/node": "^12.12.3",
     "@types/react": "^16.9.11",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
     "typescript": "^3.6.4"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write",
+      "organize-imports-cli"
+    ]
   }
 }
