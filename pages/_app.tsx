@@ -8,7 +8,7 @@ import CookieConsent from "react-cookie-consent";
 import ReactGA from "react-ga";
 import "typeface-montserrat/index.css";
 import "../public/fonts/sfui_font.css";
-import { PRIMARY_DARK, GRAY_MID, PAGE_WIDTH_STYLE } from "../styles";
+import { GRAY_MID, PAGE_WIDTH_STYLE } from "../styles";
 
 function HamburgerIcon() {
   return (
