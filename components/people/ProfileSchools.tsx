@@ -9,7 +9,7 @@ const ProfileSchools = (props: SchoolsData) => {
         <div style={{ display: 'flex', flexDirection: 'column', width: 450 }}>
             <div style={styles.sidebarText}>Schools Associated With:</div>
             <div style={styles.bodyText}>
-                {props.schools.map((school, i) =><li key={i}>- {school.name}</li>)}
+                {props.schools.map((school, i) =><li key={i}>{school.name}</li>)}
             </div>
         </div>
     )
@@ -25,7 +25,7 @@ const styles = {
     bodyText: {
         color: PRIMARY_DARK,
         fontSize:24,
-        listStyleType: "none",
+        listStyleType: "disc",
         fontWeight: 600
     }
 }

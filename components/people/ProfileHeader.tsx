@@ -13,7 +13,7 @@ const ProfileHeader = (props: any) =>{
         <div>
             <div style={{ display: "flex" }}>
                 <ProfileInfo name={ props.name } image_url={props.image_url} birth_year={props.birth_year} death_year={props.death_year} short_description={props.short_description} />
-                <AddToLocker />
+                {/* <AddToLocker /> */}
             </div>
         </div>
     )
@@ -37,7 +37,7 @@ const ProfileInfo = (props: any) => {
                 <h3 style={styles.name}>{props.name}</h3>
                 <div style={styles.lifePeriod}>
                     <div style={styles.profileTitle}>{props.short_description}</div>
-                    <div style= {{ marginBottom: 10 }}> ( {formatYear(props.birth_year)}-{formatYear(props.death_year)})</div>
+                    <div style= {{ marginBottom: 10 }}> ( {formatYear(props.birth_year)} – {formatYear(props.death_year)})</div>
                 </div>
             </div>
         </div>
