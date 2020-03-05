@@ -13,6 +13,9 @@ const DisciplineContainer = (props: SchoolProps) => {
   const { school } = props;
   const { disciplines, name } = school;
 
+  const LoremIpsum =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
   const generateCards = () =>
     Object.entries(disciplines)
       .filter(([discipline, data]) => discipline != "")
@@ -33,11 +36,11 @@ const DisciplineContainer = (props: SchoolProps) => {
   const [cards, setCards] = useState(allCards.slice(0, 9));
 
   return (
-    <>
-      <SectionTitle>
+    <section>
+      <SectionTitle id="subjects">
         What subject is {props.school.name} best known for?
       </SectionTitle>
-      <SectionDescription>{props.school.description}</SectionDescription>
+      <SectionDescription>{LoremIpsum}</SectionDescription>
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
@@ -51,7 +54,7 @@ const DisciplineContainer = (props: SchoolProps) => {
           MORE <img src="/images/arrow-down.png" />
         </div>
       )}
-    </>
+    </section>
   );
 };
 
