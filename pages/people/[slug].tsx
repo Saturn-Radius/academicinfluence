@@ -1,8 +1,9 @@
 import { NextPage, NextPageContext } from "next";
 import { useMediaQuery } from 'react-responsive';
 import { apiPersonPage } from "../../api";
-import { InfluenceScore, InfluentialWorks, OtherResources, ProfileDescription, ProfileDiscipline, ProfileHeader, ProfileSchools } from "../../components/people";
+import { InfluenceScore, InfluentialWorks, OtherResources, ProfileDescription, ProfileDiscipline, ProfileHeader, ProfileSchools, TopSidebar } from "../../components/people";
 import { Sidebar } from "../../components/school";
+import BacktotopButton from "../../components/BacktotopButton";
 import { PersonData } from "../../schema";
 import { GRAY_MID } from "../../styles";
 
@@ -86,7 +87,7 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
 
         </div>
       </div>
-      <BackToTop />
+      <BacktotopButton />
     </div>
   )
 };
@@ -103,35 +104,7 @@ const styles = {
     maxWidth: "100vw",
     minWidth: 320,
     marginRight: 40
-  },
-  TopSidebarStyle: {
-    display: 'flex',
-    alignItems: 'center',
-    boxShadow: "0 4px 4px 0 rgba(0, 0, 0, 0.25)",
-    padding: "12px 17px",
-    marginLeft: 30,
-    marginBottom: 13,
-    width: 300,
-    height: 38,
-    background: 'white'
   }
-}
-
-const TopSidebar = (props: any) => {
-  return(
-    <div style={ styles.TopSidebarStyle }>
-      <img style={{ width:20, height:20, paddingRight:10 }} src="/images/my-locker.png" />
-      <span style= {{ fontSize: 14, color: GRAY_MID }}>My Locker</span>
-      <img style={{ width:20, height:10, marginLeft: 173 }} src="/images/arrow-down.png" />
-    </div>
-  )
-}
-
-const BackToTop = (props: any) => {
-  return (
-      <div style={{ padding: "20px 0px", textAlign: 'center' }} onClick={() => window.scrollTo(0, 0)}>
-          BACK TO TOP <img style={{ width: 20 }} src="/images/arrow-up.png" /></div>
-  )
 }
 
 Person.getInitialProps = async function (context: NextPageContext) {
