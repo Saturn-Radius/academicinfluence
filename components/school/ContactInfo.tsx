@@ -1,16 +1,11 @@
 import styled from "@emotion/styled";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { faFacebookSquare, faLinkedinIn, faPinterestP, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 config.autoAddCss = false;
 
-import {
-  faTwitter,
-  faFacebookSquare,
-  faPinterestP,
-  faLinkedinIn
-} from "@fortawesome/free-brands-svg-icons";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ContactInfoContainer = styled.div``;
 

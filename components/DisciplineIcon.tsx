@@ -4,8 +4,8 @@ import {
   faBook,
   faBrain,
   faBriefcase,
-  faChalkboard,
-  faCircle,
+  faChalkboardTeacher,
+  faCogs,
   faCoins,
   faComments,
   faDesktop,
@@ -13,21 +13,16 @@ import {
   faFlask,
   faGavel,
   faGlobeAmericas,
-  faHdd,
-  faInfinity,
   faLandmark,
+  faLightbulb,
   faMonument,
   faPeopleCarry,
   faPrayingHands,
+  faSquareRootAlt,
   faUserFriends,
   faUserMd,
   faUserNurse,
-  faUsers,
-  faSquareRootAlt,
-  faCog,
-  faCogs,
-  faChalkboardTeacher,
-  faLightbulb
+  faUsers
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dictionary } from "lodash";

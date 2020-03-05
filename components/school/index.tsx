@@ -9,15 +9,4 @@ import CampusSafety from "./Safety";
 import Sidebar from "./Sidebar";
 import Weather from "./Weather";
 
-export {
-  Accreditation,
-  Admissions,
-  AfterGrad,
-  Cost,
-  DisciplineContainer,
-  Sidebar,
-  InfluentialCard,
-  CollegeHeader,
-  Weather,
-  CampusSafety
-};
+export { Accreditation, Admissions, AfterGrad, Cost, DisciplineContainer, Sidebar, InfluentialCard, CollegeHeader, Weather, CampusSafety };

@@ -9,20 +9,9 @@ import React from "react";
 import Autocomplete from "react-autocomplete";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
-import {
-  apiCountries,
-  apiDisciplines,
-  apiInfluentialSchoolsPage,
-  apiSchoolSearch
-} from "../../api";
+import { apiCountries, apiDisciplines, apiInfluentialSchoolsPage, apiSchoolSearch } from "../../api";
 import { lookupDiscipline } from "../../disciplines";
-import {
-  CountriesResponse,
-  DisciplinesResponse,
-  Identifiable,
-  InfluentialSchoolsPageRequest,
-  InfluentialSchoolsPageResponse
-} from "../../schema";
+import { CountriesResponse, DisciplinesResponse, Identifiable, InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../../schema";
 import { GRAY_MID } from "../../styles";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
