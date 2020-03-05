@@ -16,6 +16,7 @@ import {
 } from "../../../components/school";
 import DisciplineContainer from "../../../components/school/Discipline";
 import Rankings from "../../../components/school/Rankings";
+import ContactInfo from "../../../components/school/ContactInfo";
 import { SchoolData } from "../../../schema";
 import {
   PRIMARY_DARK,
@@ -93,6 +94,10 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
           </div>
         </section>
 
+        <section>
+          <SectionTitle>{name} Contact & Location</SectionTitle>
+          <ContactInfo school={school} />
+        </section>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           <div className="cardContainer">
             <Weather data={weather} />
