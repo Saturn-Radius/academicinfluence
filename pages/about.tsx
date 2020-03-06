@@ -84,18 +84,6 @@ const About: NextPage<AboutProps> = (props: AboutProps) => {
             </div>
           </div>
         </div>
-        <div className="subscribe">
-          <div style={{ textAlign: "center" }}>
-            <h3 className="head">Subscribe</h3>
-            <p style={{ fontSize: 12 }}>
-              Receive updates and latest news direct from our team
-            </p>
-            <p style={{ fontSize: 12 }}>Simply enter your email below</p>
-          </div>
-          <div>
-            <Subscribe />
-          </div>
-        </div>
         <div className="righSideBar">
           {/* <div className="topSidebar"><TopSidebar/></div> */}
           <div className="sidebar">
