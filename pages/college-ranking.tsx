@@ -36,6 +36,7 @@ import {
   TERTIARY_DARK
 } from "../styles";
 import ToolPage from "../ToolPage";
+import QuerySchema, { RangeParameter } from "../QuerySchema";
 
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
@@ -74,30 +75,45 @@ function BasicCell(props: BasicCellProps) {
   );
 }
 
+const QUERY_SCHEMA = QuerySchema({
+  sort: {
+    toQuery: (value: CollegeRankingSort) => value,
+    fromQuery: (value) => value as CollegeRankingSort,
+    default: "influence" as CollegeRankingSort
+  },
+  reversed: {
+    toQuery: (value) => '',
+    fromQuery: (value) => true,
+    default: false
+  },
+  tuition: RangeParameter(0, 57),
+  median_sat: RangeParameter(79, 156),
+  acceptance_rate: RangeParameter(4, 100),
+  total_students: RangeParameter(0, 77),
+  years: RangeParameter(1800, 2020),
+  states: {
+    toQuery: value => value === null ? undefined : value.join(","),
+    fromQuery: value => value.split(","),
+    default: null as null | string[]
+  },
+  location: {
+    toQuery: value => JSON.stringify(value),
+    fromQuery: value => JSON.parse(value),
+    default: null as CollegeRankingsRequest['location']
+  },
+  discipline: {
+    toQuery: (value) => value,
+    fromQuery: (value) => value,
+    default: null as null | string
+  },
+})
+
+ 
+
 function asHref(request: CollegeRankingsRequest) {
   return {
     pathname: "/college-ranking",
-    query: {
-      sort: request.sort,
-      reversed: request.reversed,
-      minTuition: request.tuition.min,
-      maxTuition: request.tuition.max,
-      minSat: request.median_sat.min,
-      maxSat: request.median_sat.max,
-      minStudents: request.total_students.min,
-      maxStudents: request.total_students.max,
-      minAccept: request.acceptance_rate.min,
-      maxAccept: request.acceptance_rate.max,
-      states: request.states === null ? undefined : request.states.join(","),
-      lat: request.location && request.location.lat,
-      long: request.location && request.location.long,
-      minDistance: request.location && request.location.distance.min,
-      maxDistance: request.location && request.location.distance.max,
-      locationName: request.location && request.location.name,
-      discipline: request.discipline,
-      minYear: request.years.min,
-      maxYear: request.years.max
-    }
+    query: QUERY_SCHEMA.toQuery(request)
   };
 }
 
@@ -1119,7 +1135,9 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
 };
 
 CollegeRanking.getInitialProps = async function(context: NextPageContext) {
-  const request = {
+  const request = QUERY_SCHEMA.fromQuery(context.query)
+  
+  /*{
     sort: (context.query.sort || "influence") as CollegeRankingSort,
     reversed: context.query.reversed === "true",
     tuition: {
@@ -1161,7 +1179,7 @@ CollegeRanking.getInitialProps = async function(context: NextPageContext) {
           }
         : null,
     discipline: (context.query.discipline as string) || null
-  };
+  }*/;
 
   const disciplinesPromise = apiDisciplines({});
   const data = await apiCollegeRankings(request);
