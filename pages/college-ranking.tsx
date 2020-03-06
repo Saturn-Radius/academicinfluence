@@ -37,6 +37,8 @@ import {
 } from "../styles";
 import ToolPage from "../ToolPage";
 import QuerySchema, { RangeParameter } from "../QuerySchema";
+import { NextSeo } from "next-seo";
+import {format} from "url"
 
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
@@ -94,7 +96,8 @@ const QUERY_SCHEMA = QuerySchema({
   states: {
     toQuery: value => value === null ? undefined : value.join(","),
     fromQuery: value => value.split(","),
-    default: null as null | string[]
+    default: null as null | string[],
+    canonical: true
   },
   location: {
     toQuery: value => JSON.stringify(value),
@@ -104,7 +107,8 @@ const QUERY_SCHEMA = QuerySchema({
   discipline: {
     toQuery: (value) => value,
     fromQuery: (value) => value,
-    default: null as null | string
+    default: null as null | string,
+    canonical: true
   },
 })
 
@@ -1012,6 +1016,10 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
   );
 
   return (
+    <>
+    <NextSeo
+      canonical={format(asHref(QUERY_SCHEMA.canonical(props.request)))}
+    />
     <ToolPage tool="COLLEGE RANKINGS">
       <Filter
         request={request}
@@ -1131,56 +1139,12 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
         </tbody>
       </table>
     </ToolPage>
+    </>
   );
 };
 
 CollegeRanking.getInitialProps = async function(context: NextPageContext) {
   const request = QUERY_SCHEMA.fromQuery(context.query)
-  
-  /*{
-    sort: (context.query.sort || "influence") as CollegeRankingSort,
-    reversed: context.query.reversed === "true",
-    tuition: {
-      min: parseInt((context.query.minTuition as string) || "0", 10),
-      max: parseInt((context.query.maxTuition as string) || "100", 10)
-    },
-    median_sat: {
-      min: parseInt((context.query.minSat as string) || "0", 10),
-      max: parseInt((context.query.maxSat as string) || "160", 10)
-    },
-    acceptance_rate: {
-      min: parseInt((context.query.minAccept as string) || "0", 10),
-      max: parseInt((context.query.maxAccept as string) || "100", 10)
-    },
-    total_students: {
-      min: parseInt((context.query.minStudents as string) || "0", 10),
-      max: parseInt((context.query.maxStudents as string) || "80", 10)
-    },
-    years: {
-      min: parseInt((context.query.minYear as string) || "-3000", 10),
-      max: parseInt((context.query.maxYear as string) || "2020", 10)
-    },
-    states: context.query.states
-      ? (context.query.states as string).split(",")
-      : null,
-    location:
-      context.query.lat &&
-      context.query.long &&
-      context.query.minDistance &&
-      context.query.maxDistance
-        ? {
-            lat: context.query.lat as string,
-            long: context.query.long as string,
-            name: context.query.locationName as string,
-            distance: {
-              min: parseInt(context.query.minDistance as string, 10),
-              max: parseInt(context.query.maxDistance as string, 10)
-            }
-          }
-        : null,
-    discipline: (context.query.discipline as string) || null
-  }*/;
-
   const disciplinesPromise = apiDisciplines({});
   const data = await apiCollegeRankings(request);
   const disciplines = await disciplinesPromise;

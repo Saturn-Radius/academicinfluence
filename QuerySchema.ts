@@ -5,6 +5,7 @@ export type FieldSchema<T> = {
   toQuery(value: T): string;
   fromQuery(value: string): T;
   default: T;
+  canonical?: boolean;
 };
 
 export type Data<P extends { [k: string]: FieldSchema<any> }> = {
@@ -33,6 +34,16 @@ export default function QuerySchema<
         }
       }
       return query;
+    },
+    canonical(obj: Data<P>): Data<P> {
+      const result: Data<P> = { ...obj };
+
+      for (const [key, value] of Object.entries(properties)) {
+        if (!value.canonical) {
+          result[key as keyof Data<P>] = value.default;
+        }
+      }
+      return result;
     }
   };
 }
