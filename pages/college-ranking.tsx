@@ -16,29 +16,11 @@ import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
 import { format } from "url";
 import USAStates from "usa-states";
-import {
-  apiCollegeRankings,
-  apiDisciplines,
-  apiLocationAutocomplete
-} from "../api";
+import { apiCollegeRankings, apiDisciplines, apiLocationAutocomplete } from "../api";
 import { lookupDiscipline } from "../disciplines";
 import QuerySchema, { RangeParameter } from "../QuerySchema";
-import {
-  CollegeRankingSort,
-  CollegeRankingsRequest,
-  CollegeRankingsResponse,
-  DisciplinesResponse,
-  LocationAutocompleteResponse,
-  SchoolPartialData
-} from "../schema";
-import {
-  GRAY_DARK,
-  GRAY_LIGHT,
-  GRAY_MID,
-  PRIMARY_DARK,
-  SECONDARY_DARK,
-  TERTIARY_DARK
-} from "../styles";
+import { CollegeRankingSort, CollegeRankingsRequest, CollegeRankingsResponse, DisciplinesResponse, LocationAutocompleteResponse, SchoolPartialData } from "../schema";
+import { GRAY_DARK, GRAY_LIGHT, GRAY_MID, PRIMARY_DARK, SECONDARY_DARK, TERTIARY_DARK } from "../styles";
 import ToolPage from "../ToolPage";
 
 type CollegeRankingProps = {
@@ -1030,7 +1012,6 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
 
   const updateRequest = React.useCallback(
     request => {
-      console.log("hI", request);
       setRequest(request);
       Router.replace(asHref(request));
     },
