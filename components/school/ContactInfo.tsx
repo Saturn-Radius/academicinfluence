@@ -1,13 +1,17 @@
 import styled from "@emotion/styled";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { faFacebookSquare, faLinkedinIn, faPinterestP, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import {
+  faFacebookSquare,
+  faLinkedinIn,
+  faPinterestP,
+  faTwitter
+} from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ContentCard from "../ContentCard";
 config.autoAddCss = false;
 
-const ContactInfoContainer = styled.div`
-  margin-top: 10px;
-`;
+const ContactInfoContainer = styled.div``;
 
 const ContactInfoRow = styled.div`
   width: 100%;
@@ -48,53 +52,55 @@ const ContactInfo = (props: any) => {
   const { city, state } = school;
 
   return (
-    <ContactInfoContainer>
-      <ContactInfoRow>
-        <InfoLabel>Campus:</InfoLabel>
-        <InfoCol>
-          <span>
-            {city}, {state}
-          </span>
-        </InfoCol>
-      </ContactInfoRow>
-      <ContactInfoRow>
-        <InfoLabel>Mailing Address:</InfoLabel>
-        <InfoCol>
-          <span>
-            Street, {city}, {state}
-          </span>
-        </InfoCol>
-      </ContactInfoRow>
-      <ContactInfoRow>
-        <InfoLabel>Contact Admissions:</InfoLabel>
-        <InfoCol>
-          <span>Admissions Email, Phone Number</span>
-        </InfoCol>
-      </ContactInfoRow>
-      <ContactInfoRow>
-        <InfoLabel>Website:</InfoLabel>
-        <InfoCol>
-          <span>school.edu</span>
-        </InfoCol>
-      </ContactInfoRow>
-      <ContactInfoRow>
-        <InfoLabel>Social Media:</InfoLabel>
-        <InfoCol>
-          <SocialIcon color="#3b5998" fillColor="#fff">
-            <FontAwesomeIcon icon={faFacebookSquare} />
-          </SocialIcon>
-          <SocialIcon color="#38A1F3" fillColor="#fff">
-            <FontAwesomeIcon icon={faTwitter} />
-          </SocialIcon>
-          <SocialIcon color="#c8232c" fillColor="#fff">
-            <FontAwesomeIcon icon={faPinterestP} />
-          </SocialIcon>
-          <SocialIcon color="#006192" fillColor="#fff">
-            <FontAwesomeIcon icon={faLinkedinIn} />
-          </SocialIcon>
-        </InfoCol>
-      </ContactInfoRow>
-    </ContactInfoContainer>
+    <ContentCard>
+      <ContactInfoContainer>
+        <ContactInfoRow>
+          <InfoLabel>Campus:</InfoLabel>
+          <InfoCol>
+            <span>
+              {city}, {state}
+            </span>
+          </InfoCol>
+        </ContactInfoRow>
+        <ContactInfoRow>
+          <InfoLabel>Mailing Address:</InfoLabel>
+          <InfoCol>
+            <span>
+              Street, {city}, {state}
+            </span>
+          </InfoCol>
+        </ContactInfoRow>
+        <ContactInfoRow>
+          <InfoLabel>Contact Admissions:</InfoLabel>
+          <InfoCol>
+            <span>Admissions Email, Phone Number</span>
+          </InfoCol>
+        </ContactInfoRow>
+        <ContactInfoRow>
+          <InfoLabel>Website:</InfoLabel>
+          <InfoCol>
+            <span>school.edu</span>
+          </InfoCol>
+        </ContactInfoRow>
+        <ContactInfoRow>
+          <InfoLabel>Social Media:</InfoLabel>
+          <InfoCol>
+            <SocialIcon color="#3b5998" fillColor="#fff">
+              <FontAwesomeIcon icon={faFacebookSquare} />
+            </SocialIcon>
+            <SocialIcon color="#38A1F3" fillColor="#fff">
+              <FontAwesomeIcon icon={faTwitter} />
+            </SocialIcon>
+            <SocialIcon color="#c8232c" fillColor="#fff">
+              <FontAwesomeIcon icon={faPinterestP} />
+            </SocialIcon>
+            <SocialIcon color="#006192" fillColor="#fff">
+              <FontAwesomeIcon icon={faLinkedinIn} />
+            </SocialIcon>
+          </InfoCol>
+        </ContactInfoRow>
+      </ContactInfoContainer>
+    </ContentCard>
   );
 };
 
