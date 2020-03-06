@@ -3,12 +3,11 @@ import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
 import { apiDisciplines } from "../../api";
-import { DisciplineLink } from "../../links";
-import { DisciplinesResponse } from "../../schema";
+import BacktotopButton from "../../components/BacktotopButton";
 import { DropdownButton } from "../../components/disciplines";
 import { Sidebar } from "../../components/school";
-import BacktotopButton from "../../components/BacktotopButton";
-import { PRIMARY_DARK } from "../../styles";
+import { DisciplineLink } from "../../links";
+import { DisciplinesResponse } from "../../schema";
 
 type DisciplinesProps = {
   disciplines: DisciplinesResponse;

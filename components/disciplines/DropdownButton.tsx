@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { GRAY_MID, PRIMARY_DARK } from "../../styles";
 
 const DropdownButton = React.forwardRef(({ onClick, href, ...props }: any, ref) => {

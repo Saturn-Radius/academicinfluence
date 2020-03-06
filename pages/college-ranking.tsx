@@ -1,6 +1,7 @@
 import { InterpolationWithTheme } from "@emotion/core";
 import { find } from "lodash";
 import { NextPage, NextPageContext } from "next";
+import { NextSeo } from "next-seo";
 import Link from "next/link";
 import Router from "next/router";
 import { ReactElementLike } from "prop-types";
@@ -9,10 +10,11 @@ import "rc-slider/assets/index.css";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
 import React from "react";
-import Autocomplete from "react-autocomplete";
+import Autosuggest from "react-autosuggest";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
+import { format } from "url";
 import USAStates from "usa-states";
 import {
   apiCollegeRankings,
@@ -20,11 +22,13 @@ import {
   apiLocationAutocomplete
 } from "../api";
 import { lookupDiscipline } from "../disciplines";
+import QuerySchema, { RangeParameter } from "../QuerySchema";
 import {
   CollegeRankingSort,
   CollegeRankingsRequest,
   CollegeRankingsResponse,
   DisciplinesResponse,
+  LocationAutocompleteResponse,
   SchoolPartialData
 } from "../schema";
 import {
@@ -36,9 +40,6 @@ import {
   TERTIARY_DARK
 } from "../styles";
 import ToolPage from "../ToolPage";
-import QuerySchema, { RangeParameter } from "../QuerySchema";
-import { NextSeo } from "next-seo";
-import {format} from "url"
 
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
@@ -80,12 +81,12 @@ function BasicCell(props: BasicCellProps) {
 const QUERY_SCHEMA = QuerySchema({
   sort: {
     toQuery: (value: CollegeRankingSort) => value,
-    fromQuery: (value) => value as CollegeRankingSort,
+    fromQuery: value => value as CollegeRankingSort,
     default: "influence" as CollegeRankingSort
   },
   reversed: {
-    toQuery: (value) => '',
-    fromQuery: (value) => true,
+    toQuery: value => "",
+    fromQuery: value => true,
     default: false
   },
   tuition: RangeParameter(0, 57),
@@ -94,7 +95,7 @@ const QUERY_SCHEMA = QuerySchema({
   total_students: RangeParameter(0, 77),
   years: RangeParameter(1800, 2020),
   states: {
-    toQuery: value => value === null ? undefined : value.join(","),
+    toQuery: value => (value === null ? undefined : value.join(",")),
     fromQuery: value => value.split(","),
     default: null as null | string[],
     canonical: true
@@ -102,17 +103,15 @@ const QUERY_SCHEMA = QuerySchema({
   location: {
     toQuery: value => JSON.stringify(value),
     fromQuery: value => JSON.parse(value),
-    default: null as CollegeRankingsRequest['location']
+    default: null as CollegeRankingsRequest["location"]
   },
   discipline: {
-    toQuery: (value) => value,
-    fromQuery: (value) => value,
+    toQuery: value => value,
+    fromQuery: value => value,
     default: null as null | string,
     canonical: true
-  },
-})
-
- 
+  }
+});
 
 function asHref(request: CollegeRankingsRequest) {
   return {
@@ -642,13 +641,9 @@ const SAT_TO_ACT = [
 ];
 
 function LocationFilter(props: FilterProps) {
-  const [lookups, updateLookups] = React.useReducer(
-    (lookups, [text, lookup]) => ({
-      ...lookups,
-      [text]: lookup
-    }),
-    {}
-  );
+  const [suggestions, setSuggestions] = React.useState<
+    LocationAutocompleteResponse["cities"]
+  >([]);
 
   const location = props.request.location || {
     lat: "0",
@@ -684,11 +679,8 @@ function LocationFilter(props: FilterProps) {
           location: null
         });
       } else {
-        let response = lookups[text];
-        if (!response) {
-          response = await apiLocationAutocomplete(text);
-          updateLookups([text, response]);
-        }
+        const response = await apiLocationAutocomplete(text);
+        setSuggestions(response.cities);
 
         if (response.cities.length > 0) {
           const location = props.request.location || {
@@ -706,38 +698,56 @@ function LocationFilter(props: FilterProps) {
             location: {
               ...location,
               name: text,
-              lat: response.cities[0].lat,
-              long: response.cities[0].long
+              lat: response.cities[0].lat + "",
+              long: response.cities[0].long + ""
             }
           });
         }
       }
     },
-    [location, updateLookups, lookups]
+    [location, setSuggestions]
   );
 
   const onSelect = React.useCallback(
-    text => {
+    (event, { suggestion }) => {
       props.updateRequest({
         ...props.request,
         states: null,
         location: {
           ...location,
-          name: text
+          name: suggestion.name,
+          lat: suggestion.lat + "",
+          long: suggestion.long + ""
         }
       });
-
-      lookupLocation(text);
     },
     [lookupLocation, props.request, props.updateRequest]
   );
 
   const onChange = React.useCallback(
-    event => {
-      onSelect(event.target.value);
+    (event, { newValue }) => {
+      props.updateRequest({
+        ...props.request,
+        states: null,
+        location: {
+          ...location,
+          name: newValue
+        }
+      });
     },
     [onSelect]
   );
+
+  const onSuggestionsFetchRequested = React.useCallback(
+    ({ value }) => {
+      lookupLocation(value);
+    },
+    [lookupLocation]
+  );
+
+  const onSuggestionsClearRequested = React.useCallback(() => {
+    setSuggestions([]);
+  }, [setSuggestions]);
 
   const geolocate = React.useCallback(() => {
     navigator.geolocation.getCurrentPosition(position => {
@@ -763,10 +773,18 @@ function LocationFilter(props: FilterProps) {
           alignItems: "center",
           "& .rc-slider": {
             marginLeft: "20px"
+          },
+          "& .react-autosuggest__container": {
+            position: "relative"
+          },
+          "& .react-autosuggest__suggestions-container": {
+            position: "absolute",
+            top: "25px",
+            zIndex: 1000
           }
         }}
       >
-        <Autocomplete
+        <Autosuggest
           inputProps={{
             style: {
               borderRadius: "4px",
@@ -776,13 +794,15 @@ function LocationFilter(props: FilterProps) {
               minHeight: "34px",
               fontSize: "16px",
               fontWeight: 500
-            }
+            },
+            onChange,
+            value: text
           }}
-          value={text}
-          onChange={onChange}
-          items={lookups[text] ? lookups[text].cities : []}
-          getItemValue={item => item.name}
-          renderItem={(item, isHighlighted) => (
+          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={onSuggestionsClearRequested}
+          suggestions={suggestions}
+          getSuggestionValue={item => item.name}
+          renderSuggestion={(item, { isHighlighted }) => (
             <div
               key={item.name}
               style={{ background: isHighlighted ? "lightgray" : "white" }}
@@ -790,7 +810,8 @@ function LocationFilter(props: FilterProps) {
               {item.name}
             </div>
           )}
-          onSelect={onSelect}
+          onSuggestionSelected={onSelect}
+          multiSection={false}
         />
         <button
           css={{
@@ -1009,6 +1030,7 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
 
   const updateRequest = React.useCallback(
     request => {
+      console.log("hI", request);
       setRequest(request);
       Router.replace(asHref(request));
     },
@@ -1017,134 +1039,134 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
 
   return (
     <>
-    <NextSeo
-      canonical={format(asHref(QUERY_SCHEMA.canonical(props.request)))}
-    />
-    <ToolPage tool="COLLEGE RANKINGS">
-      <Filter
-        request={request}
-        disciplines={props.disciplines}
-        updateRequest={updateRequest}
-        limits={props.data.limits}
+      <NextSeo
+        canonical={format(asHref(QUERY_SCHEMA.canonical(props.request)))}
       />
+      <ToolPage tool="COLLEGE RANKINGS">
+        <Filter
+          request={request}
+          disciplines={props.disciplines}
+          updateRequest={updateRequest}
+          limits={props.data.limits}
+        />
 
-      <table
-        css={{
-          borderCollapse: "collapse",
-          borderSpacing: "0px",
-          width: "100%",
-          "@media(max-width: 1024px)": {
-            table: {
-              display: "block"
-            },
-            thead: {
-              display: "none"
-            },
-            tbody: {
-              display: "block"
-            },
-            tr: {
-              display: "grid",
-              marginBottom: "13px",
-              boxShadow: "0 6px 5px 0 rgba(0, 0, 0, 0.25)"
-            },
-            td: {
-              display: "block"
-            },
-            "td:nth-of-type(1)": {
-              gridRowStart: 1,
-              gridRowEnd: 1,
-              gridColumnStart: 1,
-              gridColumnEnd: 5
-            },
-            "td:nth-of-type(2)": {
-              paddingLeft: "50px",
-              paddingTop: "10px",
-              gridRowStart: 1,
-              gridRowEnd: 1,
-              gridColumnStart: 1,
-              gridColumnEnd: 5,
-              borderBottomStyle: "solid",
-              borderBottomColor: GRAY_DARK,
-              borderBottomWidth: ".5px"
-            },
-            ...STYLES
-          }
-        }}
-      >
-        <thead>
-          <tr>
-            {COLUMNS.map((column, index) => (
-              <th
-                key={index}
-                css={{
-                  color: GRAY_DARK,
-                  fontSize: "12px",
-                  lineHeight: "14px",
-                  textTransform: "uppercase",
-                  textAlign: "left"
-                }}
-              >
-                <div css={{ display: "flex", "& a": { flexGrow: 1 } }}>
-                  {column.sort ? (
-                    <>
-                      <RankingLink
-                        request={{
-                          ...props.request,
-                          sort: column.sort,
-                          reversed:
-                            column.sort === props.request.sort &&
-                            !props.request.reversed
-                        }}
-                      >
-                        <a css={{ textDecoration: "none" }}>
-                          {column.label.split(" ").map((word, index) => (
-                            <React.Fragment key={index}>
-                              {word}
-                              <br />
-                            </React.Fragment>
-                          ))}
-                        </a>
-                      </RankingLink>
-                      <Arrows
-                        active={column.sort === props.request.sort}
-                        reversed={props.request.reversed}
-                      />
-                    </>
-                  ) : (
-                    column.label
-                  )}
-                </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {props.data.schools.map((school, schoolIndex) => (
-            <tr
-              key={school.slug}
-              css={{
-                background: "white",
-                borderWidth: "0.5px",
-                borderStyle: "solid",
-                borderColor: GRAY_DARK,
-                boxSizing: "border-box"
-              }}
-            >
+        <table
+          css={{
+            borderCollapse: "collapse",
+            borderSpacing: "0px",
+            width: "100%",
+            "@media(max-width: 1024px)": {
+              table: {
+                display: "block"
+              },
+              thead: {
+                display: "none"
+              },
+              tbody: {
+                display: "block"
+              },
+              tr: {
+                display: "grid",
+                marginBottom: "13px",
+                boxShadow: "0 6px 5px 0 rgba(0, 0, 0, 0.25)"
+              },
+              td: {
+                display: "block"
+              },
+              "td:nth-of-type(1)": {
+                gridRowStart: 1,
+                gridRowEnd: 1,
+                gridColumnStart: 1,
+                gridColumnEnd: 5
+              },
+              "td:nth-of-type(2)": {
+                paddingLeft: "50px",
+                paddingTop: "10px",
+                gridRowStart: 1,
+                gridRowEnd: 1,
+                gridColumnStart: 1,
+                gridColumnEnd: 5,
+                borderBottomStyle: "solid",
+                borderBottomColor: GRAY_DARK,
+                borderBottomWidth: ".5px"
+              },
+              ...STYLES
+            }
+          }}
+        >
+          <thead>
+            <tr>
               {COLUMNS.map((column, index) => (
-                <td key={index}>{column.value(school, schoolIndex)}</td>
+                <th
+                  key={index}
+                  css={{
+                    color: GRAY_DARK,
+                    fontSize: "12px",
+                    lineHeight: "14px",
+                    textTransform: "uppercase",
+                    textAlign: "left"
+                  }}
+                >
+                  <div css={{ display: "flex", "& a": { flexGrow: 1 } }}>
+                    {column.sort ? (
+                      <>
+                        <RankingLink
+                          request={{
+                            ...props.request,
+                            sort: column.sort,
+                            reversed:
+                              column.sort === props.request.sort &&
+                              !props.request.reversed
+                          }}
+                        >
+                          <a css={{ textDecoration: "none" }}>
+                            {column.label.split(" ").map((word, index) => (
+                              <React.Fragment key={index}>
+                                {word}
+                                <br />
+                              </React.Fragment>
+                            ))}
+                          </a>
+                        </RankingLink>
+                        <Arrows
+                          active={column.sort === props.request.sort}
+                          reversed={props.request.reversed}
+                        />
+                      </>
+                    ) : (
+                      column.label
+                    )}
+                  </div>
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </ToolPage>
+          </thead>
+          <tbody>
+            {props.data.schools.map((school, schoolIndex) => (
+              <tr
+                key={school.slug}
+                css={{
+                  background: "white",
+                  borderWidth: "0.5px",
+                  borderStyle: "solid",
+                  borderColor: GRAY_DARK,
+                  boxSizing: "border-box"
+                }}
+              >
+                {COLUMNS.map((column, index) => (
+                  <td key={index}>{column.value(school, schoolIndex)}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </ToolPage>
     </>
   );
 };
 
 CollegeRanking.getInitialProps = async function(context: NextPageContext) {
-  const request = QUERY_SCHEMA.fromQuery(context.query)
+  const request = QUERY_SCHEMA.fromQuery(context.query);
   const disciplinesPromise = apiDisciplines({});
   const data = await apiCollegeRankings(request);
   const disciplines = await disciplinesPromise;
