@@ -59,7 +59,7 @@ type FilterProps = {
   disciplines: DisciplinesResponse;
   countries: CountriesResponse;
   updateRequest: (request: InfluentialSchoolsPageRequest) => void;
-}
+};
 
 function Discipline(props: FilterProps) {
   const onChange = React.useCallback(
@@ -74,9 +74,9 @@ function Discipline(props: FilterProps) {
 
   let discipline = props.request.discipline;
 
- let supertopic: string | null;
+  let supertopic: string | null;
   let subtopic: string | null;
- 
+
   if (
     discipline === null ||
     lookupDiscipline(props.disciplines, discipline).level === 1
@@ -114,14 +114,11 @@ function Discipline(props: FilterProps) {
       .map(item => ({
         value: item.slug,
         label: item.name
-
       }))
   ];
 
   const sub_selected =
     find(suboptions, option => option.value === subtopic) || suboptions[0];
-
-
 
   return (
     <>
@@ -165,11 +162,10 @@ function Country(props: FilterProps) {
       value: null,
       label: "All"
     },
-    ...props.countries
-      .map(item => ({
-        value: item.name,
-        label: item.name
-      }))
+    ...props.countries.map(item => ({
+      value: item.name,
+      label: item.name
+    }))
   ];
 
   const selected =
@@ -220,8 +216,6 @@ function RangeHandle(sliderProps: RangeHandleProps, props: any) {
   );
 }
 
-
-
 function YearsFilter(props: FilterProps) {
   const onChange = React.useCallback(
     n =>
@@ -243,7 +237,7 @@ function YearsFilter(props: FilterProps) {
         max={2020}
         handle={RangeHandle.bind(null, {
           label: "Years",
-          format: year => year < 0 ? year + " BC" : year + " AD"
+          format: year => (year < 0 ? year + " BC" : year + " AD")
         })}
         onChange={onChange}
       />
@@ -251,47 +245,52 @@ function YearsFilter(props: FilterProps) {
   );
 }
 
-type InfluentialSchoolsProps = InfluentialSchoolsPageResponse  & {
-  countries: CountriesResponse,
-  disciplines: DisciplinesResponse,
-  request: InfluentialSchoolsPageRequest
-}
+type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
+  countries: CountriesResponse;
+  disciplines: DisciplinesResponse;
+  request: InfluentialSchoolsPageRequest;
+};
 
 function SchoolSearchBox() {
-
-  const [value, setValue] = React.useState('')
-  const [items, setItems] = React.useState([] as Identifiable[])
+  const [value, setValue] = React.useState("");
+  const [items, setItems] = React.useState([] as Identifiable[]);
 
   const onChange = React.useCallback(
     async text => {
-      setItems([])
-      setValue(text.target.value)
-      const items = await apiSchoolSearch(text.target.value)
-      setItems(items.schools)
+      setItems([]);
+      setValue(text.target.value);
+      const items = await apiSchoolSearch(text.target.value);
+      setItems(items.schools);
     },
     [setValue, setItems]
-  )
+  );
 
-  const router = useRouter()
+  const router = useRouter();
 
   const onSelect = React.useCallback(
     slug => {
-      router.push('/schools/' + slug)
+      router.push("/schools/" + slug);
     },
     [router]
-  )
+  );
 
-  return <Autocomplete value={value} items={items}  onChange={onChange} onSelect={onSelect}
-
-          getItemValue={item => item.slug}
-           renderItem={(item, isHighlighted) => (
-            <div
-              key={item.slug}
-              style={{ background: isHighlighted ? "lightgray" : "white" }}
-            >
-              {item.name}
-            </div>
-          )}/>
+  return (
+    <Autocomplete
+      value={value}
+      items={items}
+      onChange={onChange}
+      onSelect={onSelect}
+      getItemValue={item => item.slug}
+      renderItem={(item, isHighlighted) => (
+        <div
+          key={item.slug}
+          style={{ background: isHighlighted ? "lightgray" : "white" }}
+        >
+          {item.name}
+        </div>
+      )}
+    />
+  );
 }
 function asHref(request: InfluentialSchoolsPageRequest) {
   return {
@@ -305,7 +304,7 @@ function asHref(request: InfluentialSchoolsPageRequest) {
   };
 }
 const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
-  const router = useRouter()
+  const router = useRouter();
   const [request, setRequest] = React.useState(props.request);
 
   const updateRequest = React.useCallback(
@@ -320,45 +319,38 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
     ...props,
     request,
     updateRequest
-  }
+  };
   return (
-      <div>
-          <SchoolSearchBox />
-          <Discipline {...filterProps}/>
-          <YearsFilter {...filterProps}/>
-          <Country {...filterProps}/>
+    <div>
+      <SchoolSearchBox />
+      <Discipline {...filterProps} />
+      <YearsFilter {...filterProps} />
+      <Country {...filterProps} />
 
-          
-          <pre>
-              {JSON.stringify(props.schools, null, 4)}
-          </pre>
+      <pre>{JSON.stringify(props.schools, null, 4)}</pre>
     </div>
   );
 };
 
 InfluentialSchools.getInitialProps = async function(context: NextPageContext) {
-
-
   const request = {
-    country: context.query.country as string || null,
+    country: (context.query.country as string) || null,
     years: {
       min: parseInt((context.query.minYear as string) || "1900"),
-      max: parseInt((context.query.maxYear as string) || "2020"),
+      max: parseInt((context.query.maxYear as string) || "2020")
     },
     discipline: (context.query.discipline as string) || null
-  }
+  };
 
-
-  const schools = apiInfluentialSchoolsPage(request)
-  const disciplines = apiDisciplines({})
-  const countries = apiCountries({})
+  const schools = apiInfluentialSchoolsPage(request);
+  const disciplines = apiDisciplines({});
+  const countries = apiCountries({});
   return {
     ...(await schools),
     disciplines: await disciplines,
     countries: await countries,
     request
-  }
-
+  };
 };
 
 export default InfluentialSchools;

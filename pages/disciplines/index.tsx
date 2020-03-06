@@ -11,8 +11,8 @@ import BacktotopButton from "../../components/BacktotopButton";
 import { PRIMARY_DARK } from "../../styles";
 
 type DisciplinesProps = {
-  disciplines: DisciplinesResponse,
-}
+  disciplines: DisciplinesResponse;
+};
 
 const Disciplines: NextPage<DisciplinesProps> = props => {
   return (
@@ -135,13 +135,10 @@ const Disciplines: NextPage<DisciplinesProps> = props => {
 };
 
 Disciplines.getInitialProps = async function(context: NextPageContext) {
-
-
-  const disciplines = apiDisciplines({})
+  const disciplines = apiDisciplines({});
   return {
-    disciplines: await disciplines,
-  }
-
+    disciplines: await disciplines
+  };
 };
 
 export default Disciplines;

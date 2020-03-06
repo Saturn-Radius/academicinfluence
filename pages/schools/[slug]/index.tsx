@@ -4,16 +4,19 @@ import { apiSchoolPage } from "../../../api";
 import ContentCard from "../../../components/ContentCard";
 import Description from "../../../components/Description";
 import { Accreditation, Admissions, AfterGrad, CampusSafety, CollegeHeader, Cost, InfluentialCard, Sidebar, Weather } from "../../../components/school";
+import ContactInfo from "../../../components/school/ContactInfo";
 import DisciplineContainer from "../../../components/school/Discipline";
+import LocationMap from "../../../components/school/LocationMap";
 import Rankings from "../../../components/school/Rankings";
 import { SchoolData } from "../../../schema";
-import { PRIMARY_DARK } from "../../../styles";
+import { SectionDescription, SectionTitle } from "../../../styles";
 
 type SchoolProps = {
   school: SchoolData;
 };
 
 const School: NextPage<SchoolProps> = (props: SchoolProps) => {
+  const { school } = props;
   let {
     logo_url,
     name,
@@ -21,9 +24,9 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
     state,
     description,
     acceptance_rate,
-    graduation_rate
-  } = props.school;
-
+    graduation_rate,
+    weather
+  } = school;
   const isBigScreen = useMediaQuery({ query: "(min-width: 1069px)" });
 
   return (
@@ -52,7 +55,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
           />
 
           <ContentCard style={{ marginBottom: 40 }}>
-            <Description entity={props.school}/>
+            <Description entity={school} />
           </ContentCard>
 
           <Rankings
@@ -61,36 +64,34 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
           />
         </section>
 
-        <DisciplineContainer school={props.school} />
+        <DisciplineContainer school={school} />
 
-        <h4 style={styles.subheaderText}>Most Influential People</h4>
+        <InfluentialContainer school={school} />
 
-        <InfluentialContainer people={props.school.people} />
+        <section>
+          <SectionTitle>{name} Admissions & ROI Stats</SectionTitle>
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            <Cost school={school} />
+            <Admissions school={school} />
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            <Accreditation />
+            <AfterGrad school={school} />
+          </div>
+        </section>
 
-        <h4 style={styles.subheaderText}>Influence Over Time</h4>
-        <InfluenceOverTime data={props.school.influence_over_time} />
-
+        <section>
+          <SectionTitle>{name} Contact & Location</SectionTitle>
+          <ContactInfo school={school} />
+          <LocationMap />
+        </section>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
-          <Cost school={props.school} />
-          <Admissions school={props.school} />
-        </div>
-
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
-          <Accreditation />
-          <AfterGrad school={props.school} />
-        </div>
-
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
-          <div className="cardContainer" style={{ marginRight: 0 }}>
-            <NotableAlumni />
+          <div className="cardContainer">
+            <Weather data={weather} />
           </div>
 
           <div className="cardContainer">
-            <Weather data={props.school.weather} />
-          </div>
-
-          <div className="cardContainer">
-            <CampusSafety school={props.school} />
+            <CampusSafety school={school} />
           </div>
         </div>
 
@@ -114,61 +115,40 @@ const BackToTop = (props: any) => {
   );
 };
 
-const InfluenceOverTime = (props: any) => {
-  return (
-    <div style={{ backgroundColor: "white", height: 305, width: "100%" }}></div>
-  );
-  //        <VictoryChart>
-  //            <VictoryArea data={props.data} x="year" y="value"/>
-  //        </VictoryChart>
-};
-
 const InfluentialContainer = (props: any) => {
-  return (
-    <div
-      style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
-    >
-      {props.people.map((person: any, index: number) => (
-        <InfluentialCard
-          key={index}
-          name={person.name}
-          description={person.description}
-          short_description={person.short_description}
-          ir_score={person.overall.influence}
-          slug={person.slug}
-        />
-      ))}
-    </div>
-  );
-};
+  const { school } = props;
+  const { name, people } = school;
+  const LoremIpsum =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-const NotableAlumni = (props: any) => {
   return (
-    <div style={{ minWidth: 300 }}>
-      <h4 style={styles.subheaderText}>Notable Alumni</h4>
-      <ContentCard style={{ padding: 20 }}>
-        <div>Bill Gates</div>
-        <div>Bill Gates</div>
-        <div>Bill Gates</div>
-        <div>Bill Gates</div>
-      </ContentCard>
-    </div>
+    <section>
+      <SectionTitle id="alumni">
+        Who are {name}'s Most influential alumni?
+      </SectionTitle>
+      <SectionDescription>{LoremIpsum}</SectionDescription>
+      <div
+        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+      >
+        {people.map((person: any, index: number) => (
+          <InfluentialCard
+            key={index}
+            name={person.name}
+            description={person.description}
+            short_description={person.short_description}
+            ir_score={person.overall.influence}
+            slug={person.slug}
+          />
+        ))}
+      </div>
+    </section>
   );
-};
-
-const styles = {
-  subheaderText: {
-    color: PRIMARY_DARK,
-    fontSize: 22
-  }
 };
 
 School.getInitialProps = async function(context: NextPageContext) {
   const data = await apiSchoolPage({
     slug: context.query.slug as string
   });
-
-  console.log(data);
 
   return {
     school: data.school
