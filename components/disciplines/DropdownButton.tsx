@@ -1,15 +1,23 @@
 import React from 'react';
-import { GRAY_MID } from "../../styles";
+import { useState } from 'react';
+import { GRAY_MID, PRIMARY_DARK } from "../../styles";
 
 const DropdownButton = React.forwardRef(({ onClick, href, ...props }: any, ref) => {
-    let style = {
-        color: props.color
+    const [isMore, setIsMore] = useState(true);
+
+    const clickButton = () => {
+        setIsMore(!isMore);
     }
+
     return (
-        <div onClick={onClick} style={{ ...styles.button , ...style, ...props.style}}>
-            <img src='/images/humanities.svg' style={{ width: 75 }} />
-            <span>{props.text}</span>
-            <img src="/images/arrow-down.png" />
+        <div>
+            <div onClick={() => clickButton() } style={{ ...styles.button, ...props.style}}>
+                <img src={props.image_url} style={{ width: 75 }} />
+                <span>{props.text}</span>
+                {isMore && <img src="/images/arrow-down.png" />}
+                {!isMore && <img src="/images/small-arrow-up.png" />}
+            </div>
+            {!isMore && <div>{props.disciplines}</div>}
         </div>
     )
 })
@@ -18,13 +26,14 @@ const styles = {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        color:'white',
-        padding: 8,
-        fontWeight: "bold",
-        textAlign:'center',
+        height: 120,
+        padding: 12,
+        fontSize: 29,
+        color: PRIMARY_DARK,
+        fontWeight: 'bold',
         borderBottomColor: GRAY_MID,
-        borderBottomStyle: "solid",
-        borderBottomWidth: "thin"
+        borderBottomStyle: 'solid',
+        borderBottomWidth: 'thin'
     }
 }
 

@@ -2,7 +2,7 @@ import { PRIMARY_DARK } from "../../styles";
 
 const Sidebar = (props: any) => {
     return (
-        <div style={{ ...{ maxWidth: 311, width: "100%", marginLeft: 30, background: 'white', padding: 12 }, ...props.style }}>
+        <div style={{ ...{ maxWidth: 311, marginLeft: 30, background: 'white', padding: 12 }, ...props.style }}>
             <SidebarButton img="/images/ranking-icon.png" text="College Rankings" />
            {/* <SidebarButton img="/images/match-icon.png" text="College Match" /> */}
            {/* <SidebarButton img="/images/compare-icon.png" text="College Compare" /> */}
