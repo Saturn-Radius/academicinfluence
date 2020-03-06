@@ -94,16 +94,16 @@
   },
   "lint-staged": {
     "*.ts": [
-      "prettier --write",
-      "organize-imports-cli"
+      "organize-imports-cli",
+      "prettier --write"
     ],
     "*.tsx": [
-      "prettier --write",
-      "organize-imports-cli"
+      "organize-imports-cli",
+      "prettier --write"
     ],
     "*.js": [
-      "prettier --write",
-      "organize-imports-cli"
+      "organize-imports-cli",
+      "prettier --write"
     ]
   }
 }
