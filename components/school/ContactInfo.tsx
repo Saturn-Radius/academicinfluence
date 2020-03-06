@@ -5,9 +5,9 @@ import { faFacebookSquare, faLinkedinIn, faPinterestP, faTwitter } from "@fortaw
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 config.autoAddCss = false;
 
-
-
-const ContactInfoContainer = styled.div``;
+const ContactInfoContainer = styled.div`
+  margin-top: 10px;
+`;
 
 const ContactInfoRow = styled.div`
   width: 100%;
