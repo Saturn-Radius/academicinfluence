@@ -9,6 +9,7 @@ import { DisciplineResponse, DisciplinesResponse, InfluentialSchoolsPageResponse
 
 type DisciplinesProps = {
   discipline: string;
+  subdiscipline: string;
   disciplines: DisciplinesResponse;
   schools: InfluentialSchoolsPageResponse;
 } & DisciplineResponse;
@@ -35,16 +36,18 @@ const Discipline: NextPage<DisciplinesProps> = props => {
 };
 
 Discipline.getInitialProps = async function(context: NextPageContext) {
+  console.log("HEY")
   const disciplines = apiDisciplines({});
   const schools = apiInfluentialSchoolsPage({
     country: null,
-    discipline: context.query.discipline as string,
+    discipline: (context.query.subdiscipline || context.query.discipline) as string,
     years: { min: 1900, max: 2020 }
   });
   const discipline = apiDiscipline(context.query.discipline as string);
   return {
     disciplines: await disciplines,
     discipline: context.query.discipline as string,
+    subdiscipline: context.query.subdiscipline as string,
     schools: await schools,
     ...(await discipline)
   };
