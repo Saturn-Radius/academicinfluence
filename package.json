@@ -96,6 +96,14 @@
     "*.ts": [
       "prettier --write",
       "organize-imports-cli"
+    ],
+    "*.tsx": [
+      "prettier --write",
+      "organize-imports-cli"
+    ],
+    "*.js": [
+      "prettier --write",
+      "organize-imports-cli"
     ]
   }
 }
