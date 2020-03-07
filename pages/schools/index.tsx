@@ -23,8 +23,9 @@ import {
   InfluentialSchoolsPageRequest,
   InfluentialSchoolsPageResponse
 } from "../../schema";
-import { GRAY_MID } from "../../styles";
 import PageLayout from "../../templates/PageLayout";
+import { LoremIpsumText } from "../../utils/const";
+import { GRAY_MID, PageTitle, PageDescription } from "../../styles";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
 // refactoring is encouraged
@@ -332,8 +333,11 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
     request,
     updateRequest
   };
+
   return (
     <PageLayout>
+      <PageTitle>Influential Schools</PageTitle>
+      <PageDescription>{LoremIpsumText}</PageDescription>
       <SchoolSearchBox />
       <Discipline {...filterProps} />
       <YearsFilter {...filterProps} />
