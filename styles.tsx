@@ -26,6 +26,25 @@ export const PAGE_WIDTH_STYLE = css({
   }
 });
 
+export const PageTitle = styled.h2`
+  font-family: "SF UI Display Bold";
+  font-size: 20px;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+  color: #000000;
+`;
+
+export const PageDescription = styled.p`
+  font-family: "SF UI Display Medium";
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  color: ${GRAY_MID};
+`;
+
 export const Header1 = styled.h1({
   color: SECONDARY_DARK,
   fontSize: "24px",

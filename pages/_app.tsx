@@ -66,14 +66,20 @@ function SiteHeader(props: { currentSection?: string }) {
       css={[
         PAGE_WIDTH_STYLE,
         {
-          borderBottom: "0.5px solid #666666",
-
-          paddingTop: "27px",
           display: "flex",
           flexDirection: "column",
+          borderBottom: "0.5px solid #666666",
 
-          "@media(max-width: 700px)": {
-            paddingTop: "10.5px"
+          "@media (min-width: 992px)": {
+            padding: "27px 80px"
+          },
+
+          "@media (max-width: 991px)": {
+            padding: "20px 40px"
+          },
+
+          "@media (max-width: 767px)": {
+            padding: "10px 20px"
           }
         }
       ]}
