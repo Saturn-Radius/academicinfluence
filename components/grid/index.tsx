@@ -71,3 +71,7 @@ export const Col = styled.div`
       padding: 0;
     `}
 `;
+
+export const Spacer = styled.div`
+  flex: 1;
+`;
