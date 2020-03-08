@@ -10,7 +10,6 @@ const StyledButton = styled.button`
   justify-content: space-between;
   align-items: center;
   padding: 12px;
-  color: ${PRIMARY_DARK};
   font-size: 29px;
   font-weight: bold;
   border: none;
@@ -18,13 +17,16 @@ const StyledButton = styled.button`
   outline: none;
 `;
 
-const Title = styled.span`
+interface TitleProps {
+  readonly isMore: boolean;
+}
+const Title = styled.span<TitleProps>`
   font-family: "Montserrat Bold";
   font-size: 20px;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY_MID};
+  color: ${props => (props.isMore ? GRAY_MID : PRIMARY_DARK)};
   margin-left: 10px;
 `;
 
@@ -58,7 +60,7 @@ const DropdownButton = React.forwardRef(
         <StyledButton onClick={() => clickButton()}>
           {isMore && <PrependIcon src="/images/arrow-down.png" />}
           {!isMore && <PrependIcon src="/images/small-arrow-up.png" />}
-          <Title>{props.title}</Title>
+          <Title isMore={isMore}>{props.title}</Title>
           <Spacer />
         </StyledButton>
         {!isMore &&
