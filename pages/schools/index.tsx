@@ -23,9 +23,12 @@ import {
   InfluentialSchoolsPageRequest,
   InfluentialSchoolsPageResponse
 } from "../../schema";
-import PageLayout from "../../templates/PageLayout";
 import { LoremIpsumText } from "../../utils/const";
+import DropdownButton from "../../components/Dropdown";
+import PageLayout from "../../templates/PageLayout";
+import { Row } from "../../components/grid";
 import { GRAY_MID, PageTitle, PageDescription } from "../../styles";
+import { LeftCol, RightCol } from "../../components/schools/styles";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
 // refactoring is encouraged
@@ -316,6 +319,7 @@ function asHref(request: InfluentialSchoolsPageRequest) {
     }
   };
 }
+
 const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   const router = useRouter();
   const [request, setRequest] = React.useState(props.request);
@@ -334,16 +338,34 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
     updateRequest
   };
 
+  const items: any[] = props.schools;
+
   return (
     <PageLayout>
-      <PageTitle>Influential Schools</PageTitle>
-      <PageDescription>{LoremIpsumText}</PageDescription>
-      <SchoolSearchBox />
-      <Discipline {...filterProps} />
-      <YearsFilter {...filterProps} />
-      <Country {...filterProps} />
+      <Row>
+        <LeftCol>
+          <PageTitle>Influential Schools</PageTitle>
+          <PageDescription>{LoremIpsumText}</PageDescription>
+        </LeftCol>
+        <RightCol>
+          <DropdownButton
+            image_url="/images/my_locker.png"
+            text="My Locker"
+            items={items}
+          />
+        </RightCol>
+      </Row>
+      <Row>
+        <LeftCol>
+          <SchoolSearchBox />
+          <Discipline {...filterProps} />
+          <YearsFilter {...filterProps} />
+          <Country {...filterProps} />
 
-      <pre>{JSON.stringify(props.schools, null, 4)}</pre>
+          <pre>{JSON.stringify(props.schools, null, 4)}</pre>
+        </LeftCol>
+        <RightCol></RightCol>
+      </Row>
     </PageLayout>
   );
 };
