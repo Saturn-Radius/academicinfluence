@@ -24,10 +24,13 @@ const PrependIcon = styled.img`
   height: 100%;
 `;
 
-const Title = styled.span`
-  color: ${props => GRAY_MID};
+interface TitleProps {
+  readonly isMore: boolean;
+}
+const Title = styled.span<TitleProps>`
+  color: ${props => (props.isMore ? GRAY_MID : PRIMARY_DARK)};
   font-family: "SF UI Display Bold";
-  font-size: 14px;
+  font-size: 20px;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
@@ -56,7 +59,7 @@ const MyLockerButton = React.forwardRef(
       <>
         <StyledButton onClick={() => clickButton()}>
           <PrependIcon src={props.image_url} />
-          <Title>{props.title}</Title>
+          <Title isMore={isMore}>{props.title}</Title>
           <Spacer />
           {isMore && <AppendIcon src="/images/arrow-down.png" />}
           {!isMore && <CloseIcon icon={faTimes} />}
