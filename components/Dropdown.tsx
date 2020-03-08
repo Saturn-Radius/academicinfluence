@@ -37,7 +37,7 @@ const DropdownButton = React.forwardRef(
       <>
         <StyledButton onClick={() => clickButton()}>
           <PrependIcon src={props.image_url} />
-          <span>{props.text}</span>
+          <span>{props.title}</span>
           {isMore && <AppendIcon src="/images/arrow-down.png" />}
           {!isMore && <AppendIcon src="/images/small-arrow-up.png" />}
         </StyledButton>
