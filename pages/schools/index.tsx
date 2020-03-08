@@ -357,9 +357,9 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
 
   return (
     <PageLayout>
+      <PageTitle>Influential Schools</PageTitle>
       <Row>
         <LeftCol>
-          <PageTitle>Influential Schools</PageTitle>
           <PageDescription>{LoremIpsumText}</PageDescription>
         </LeftCol>
         <RightCol>
