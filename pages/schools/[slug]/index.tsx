@@ -3,24 +3,14 @@ import { useMediaQuery } from "react-responsive";
 import { apiSchoolPage } from "../../../api";
 import ContentCard from "../../../components/ContentCard";
 import Description from "../../../components/Description";
-import {
-  Accreditation,
-  Admissions,
-  AfterGrad,
-  CampusSafety,
-  CollegeHeader,
-  Cost,
-  InfluentialCard,
-  Sidebar,
-  Weather
-} from "../../../components/school";
+import { Accreditation, Admissions, AfterGrad, CampusSafety, CollegeHeader, Cost, InfluentialCard, Sidebar, Weather } from "../../../components/school";
 import ContactInfo from "../../../components/school/ContactInfo";
 import DisciplineContainer from "../../../components/school/Discipline";
 import LocationMap from "../../../components/school/LocationMap";
 import Rankings from "../../../components/school/Rankings";
 import { SchoolData } from "../../../schema";
-import { LoremIpsumText } from "../../../utils/const";
 import { SectionDescription, SectionTitle } from "../../../styles";
+import { LoremIpsumText } from "../../../utils/const";
 
 type SchoolProps = {
   school: SchoolData;

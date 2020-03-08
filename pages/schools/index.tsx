@@ -9,27 +9,15 @@ import React from "react";
 import Autocomplete from "react-autocomplete";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
-import {
-  apiCountries,
-  apiDisciplines,
-  apiInfluentialSchoolsPage,
-  apiSchoolSearch
-} from "../../api";
-import { lookupDiscipline } from "../../disciplines";
-import {
-  CountriesResponse,
-  DisciplinesResponse,
-  Identifiable,
-  InfluentialSchoolsPageRequest,
-  InfluentialSchoolsPageResponse
-} from "../../schema";
-import { LoremIpsumText } from "../../utils/const";
-import DropdownButton from "../../components/Dropdown";
-import PageLayout from "../../templates/PageLayout";
+import { apiCountries, apiDisciplines, apiInfluentialSchoolsPage, apiSchoolSearch } from "../../api";
 import { Row } from "../../components/grid";
-import { GRAY_MID, PageTitle, PageDescription } from "../../styles";
-import { LeftCol, RightCol } from "../../components/schools/styles";
 import MyLockerButton from "../../components/schools/MyLockerButton";
+import { LeftCol, RightCol } from "../../components/schools/styles";
+import { lookupDiscipline } from "../../disciplines";
+import { CountriesResponse, DisciplinesResponse, Identifiable, InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../../schema";
+import { GRAY_MID, PageDescription, PageTitle } from "../../styles";
+import PageLayout from "../../templates/PageLayout";
+import { LoremIpsumText } from "../../utils/const";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
 // refactoring is encouraged

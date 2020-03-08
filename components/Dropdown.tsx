@@ -1,7 +1,7 @@
-import React, { useState } from "react";
 import styled from "@emotion/styled";
+import React, { useState } from "react";
+import { GRAY_MID, PRIMARY_DARK } from "../styles";
 import { Spacer } from "./grid";
-import { PRIMARY_DARK, GRAY_MID } from "../styles";
 
 const StyledButton = styled.button`
   width: 100%;

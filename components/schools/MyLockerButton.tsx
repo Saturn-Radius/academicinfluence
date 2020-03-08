@@ -1,10 +1,10 @@
-import React, { useState } from "react";
 import styled from "@emotion/styled";
-import { PRIMARY_DARK, GRAY_MID, GRAY_DARK } from "../../styles";
-import DropdownButton from "../Dropdown";
-import { Spacer } from "../grid";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from "react";
+import { GRAY_DARK, GRAY_MID, PRIMARY_DARK } from "../../styles";
+import DropdownButton from "../Dropdown";
+import { Spacer } from "../grid";
 
 const StyledButton = styled.button`
   width: 100%;
