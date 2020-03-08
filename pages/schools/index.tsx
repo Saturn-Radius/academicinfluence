@@ -29,6 +29,7 @@ import PageLayout from "../../templates/PageLayout";
 import { Row } from "../../components/grid";
 import { GRAY_MID, PageTitle, PageDescription } from "../../styles";
 import { LeftCol, RightCol } from "../../components/schools/styles";
+import MyLockerButton from "../../components/schools/MyLockerButton";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
 // refactoring is encouraged
@@ -338,7 +339,21 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
     updateRequest
   };
 
-  const items: any[] = props.schools;
+  const { schools, disciplines, countries } = props;
+  const lockerItems: any[] = [
+    {
+      name: "My Schools",
+      items: schools
+    },
+    {
+      name: "My Discilines",
+      items: disciplines
+    },
+    {
+      name: "My Countries",
+      items: countries
+    }
+  ];
 
   return (
     <PageLayout>
@@ -348,10 +363,10 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
           <PageDescription>{LoremIpsumText}</PageDescription>
         </LeftCol>
         <RightCol>
-          <DropdownButton
-            image_url="/images/my_locker.png"
-            text="My Locker"
-            items={items}
+          <MyLockerButton
+            items={lockerItems}
+            title="My Locker"
+            image_url="/images/my-locker.png"
           />
         </RightCol>
       </Row>
