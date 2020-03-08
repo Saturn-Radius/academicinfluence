@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
+import { Spacer } from "./grid";
 import { PRIMARY_DARK, GRAY_MID } from "../styles";
 
 const StyledButton = styled.button`
   width: 100%;
-  height: 120px;
+  height: 66px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,12 +18,31 @@ const StyledButton = styled.button`
   outline: none;
 `;
 
-const PrependIcon = styled.img`
-  height: 80%;
+const Title = styled.span`
+  font-family: "Montserrat Bold";
+  font-size: 20px;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: ${GRAY_MID};
+  margin-left: 10px;
 `;
 
-const AppendIcon = styled.img`
+const PrependIcon = styled.img`
   width: 20px;
+`;
+
+const ListItem = styled.li`
+  padding: 12px;
+  font-family: "SF UI Display Medium";
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: ${GRAY_MID};
+  list-style: none;
+  border-bottom: thin solid ${GRAY_MID};
 `;
 
 const DropdownButton = React.forwardRef(
@@ -36,14 +56,14 @@ const DropdownButton = React.forwardRef(
     return (
       <>
         <StyledButton onClick={() => clickButton()}>
-          <PrependIcon src={props.image_url} />
-          <span>{props.title}</span>
-          {isMore && <AppendIcon src="/images/arrow-down.png" />}
-          {!isMore && <AppendIcon src="/images/small-arrow-up.png" />}
+          {isMore && <PrependIcon src="/images/arrow-down.png" />}
+          {!isMore && <PrependIcon src="/images/small-arrow-up.png" />}
+          <Title>{props.title}</Title>
+          <Spacer />
         </StyledButton>
         {!isMore &&
           props.items.map((item: any, index: number) => (
-            <li key={index}>{item.name}</li>
+            <ListItem key={index}>{item.name}</ListItem>
           ))}
       </>
     );
