@@ -9,23 +9,15 @@ import React from "react";
 import Autocomplete from "react-autocomplete";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
-import {
-  apiCountries,
-  apiDisciplines,
-  apiInfluentialSchoolsPage,
-  apiSchoolSearch
-} from "../../api";
+import { apiCountries, apiDisciplines, apiInfluentialSchoolsPage, apiSchoolSearch } from "../../api";
+import { Row } from "../../components/grid";
+import MyLockerButton from "../../components/schools/MyLockerButton";
+import { LeftCol, RightCol } from "../../components/schools/styles";
 import { lookupDiscipline } from "../../disciplines";
-import {
-  CountriesResponse,
-  DisciplinesResponse,
-  Identifiable,
-  InfluentialSchoolsPageRequest,
-  InfluentialSchoolsPageResponse
-} from "../../schema";
+import { CountriesResponse, DisciplinesResponse, Identifiable, InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../../schema";
+import { GRAY_MID, PageDescription, PageTitle } from "../../styles";
 import PageLayout from "../../templates/PageLayout";
 import { LoremIpsumText } from "../../utils/const";
-import { GRAY_MID, PageTitle, PageDescription } from "../../styles";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
 // refactoring is encouraged
@@ -316,6 +308,7 @@ function asHref(request: InfluentialSchoolsPageRequest) {
     }
   };
 }
+
 const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   const router = useRouter();
   const [request, setRequest] = React.useState(props.request);
@@ -334,16 +327,48 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
     updateRequest
   };
 
+  const { schools, disciplines, countries } = props;
+  const lockerItems: any[] = [
+    {
+      name: "My Schools",
+      items: schools
+    },
+    {
+      name: "My Discilines",
+      items: disciplines
+    },
+    {
+      name: "My Countries",
+      items: countries
+    }
+  ];
+
   return (
     <PageLayout>
       <PageTitle>Influential Schools</PageTitle>
-      <PageDescription>{LoremIpsumText}</PageDescription>
-      <SchoolSearchBox />
-      <Discipline {...filterProps} />
-      <YearsFilter {...filterProps} />
-      <Country {...filterProps} />
+      <Row>
+        <LeftCol>
+          <PageDescription>{LoremIpsumText}</PageDescription>
+        </LeftCol>
+        <RightCol>
+          <MyLockerButton
+            items={lockerItems}
+            title="My Locker"
+            image_url="/images/my-locker.png"
+          />
+        </RightCol>
+      </Row>
+      <Row>
+        <LeftCol>
+          <SchoolSearchBox />
+          <Discipline {...filterProps} />
+          <YearsFilter {...filterProps} />
+          <Country {...filterProps} />
 
-      <pre>{JSON.stringify(props.schools, null, 4)}</pre>
+          <pre>{JSON.stringify(props.schools, null, 4)}</pre>
+        </LeftCol>
+        <RightCol></RightCol>
+      </Row>
     </PageLayout>
   );
 };

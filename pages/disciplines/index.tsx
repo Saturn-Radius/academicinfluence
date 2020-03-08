@@ -85,47 +85,89 @@ const Disciplines: NextPage<DisciplinesProps> = props => {
       <div className="leftSidebar">
         <div className="scienceContent">
           <div className="humanContent">
-            <DropdownButton image_url="/images/humanities.svg" text="Humanities" disciplines={
-              props.disciplines.filter(item => item.level === 1 && item.parent === "humanities").map(
-                (discipline) => (
-                  <li className="liStyle" key={discipline.name}><DisciplineLink discipline={discipline}><a className="linkStyle">{discipline.name}</a></DisciplineLink></li>
+            <DropdownButton
+              image_url="/images/humanities.svg"
+              text="Humanities"
+              disciplines={props.disciplines
+                .filter(
+                  item => item.level === 1 && item.parent === "humanities"
                 )
-              )
-            } />
-            <DropdownButton image_url="/images/social-sciences.svg" text="Social Sciences" disciplines={
-              props.disciplines.filter(item => item.level === 1 && item.parent === "social-sciences").map(
-                (discipline) => (
-                  <li className="liStyle" key={discipline.name}><DisciplineLink discipline={discipline}><a className="linkStyle">{discipline.name}</a></DisciplineLink></li>
+                .map(discipline => (
+                  <li className="liStyle" key={discipline.name}>
+                    <DisciplineLink discipline={discipline}>
+                      <a className="linkStyle">{discipline.name}</a>
+                    </DisciplineLink>
+                  </li>
+                ))}
+            />
+            <DropdownButton
+              image_url="/images/social-sciences.svg"
+              text="Social Sciences"
+              disciplines={props.disciplines
+                .filter(
+                  item => item.level === 1 && item.parent === "social-sciences"
                 )
-              )
-            } />
+                .map(discipline => (
+                  <li className="liStyle" key={discipline.name}>
+                    <DisciplineLink discipline={discipline}>
+                      <a className="linkStyle">{discipline.name}</a>
+                    </DisciplineLink>
+                  </li>
+                ))}
+            />
           </div>
           <div className="naturalContent">
-            <DropdownButton image_url="/images/natural-sciences.svg" text="Natural Sciences" disciplines={
-              props.disciplines.filter(item => item.level === 1 && item.parent === "natural-sciences").map(
-                (discipline) => (
-                  <li className="liStyle" key={discipline.name}><DisciplineLink discipline={discipline}><a className="linkStyle">{discipline.name}</a></DisciplineLink></li>
+            <DropdownButton
+              image_url="/images/natural-sciences.svg"
+              text="Natural Sciences"
+              disciplines={props.disciplines
+                .filter(
+                  item => item.level === 1 && item.parent === "natural-sciences"
                 )
-              )
-            } />
-            <DropdownButton image_url="/images/formal-sciences.svg" text="Formal Sciences" disciplines={
-              props.disciplines.filter(item => item.level === 1 && item.parent === "formal-sciences").map(
-                (discipline) => (
-                  <li className="liStyle" key={discipline.name}><DisciplineLink discipline={discipline}><a className="linkStyle">{discipline.name}</a></DisciplineLink></li>
+                .map(discipline => (
+                  <li className="liStyle" key={discipline.name}>
+                    <DisciplineLink discipline={discipline}>
+                      <a className="linkStyle">{discipline.name}</a>
+                    </DisciplineLink>
+                  </li>
+                ))}
+            />
+            <DropdownButton
+              image_url="/images/formal-sciences.svg"
+              text="Formal Sciences"
+              disciplines={props.disciplines
+                .filter(
+                  item => item.level === 1 && item.parent === "formal-sciences"
                 )
-              )
-            } />
-            <DropdownButton image_url="/images/applied-sciences.svg" text="Applied Sciences" disciplines={
-              props.disciplines.filter(item => item.level === 1 && item.parent === "applied-sciences").map(
-                (discipline) => (
-                  <li className="liStyle" key={discipline.name}><DisciplineLink discipline={discipline}><a className="linkStyle">{discipline.name}</a></DisciplineLink></li>
+                .map(discipline => (
+                  <li className="liStyle" key={discipline.name}>
+                    <DisciplineLink discipline={discipline}>
+                      <a className="linkStyle">{discipline.name}</a>
+                    </DisciplineLink>
+                  </li>
+                ))}
+            />
+            <DropdownButton
+              image_url="/images/applied-sciences.svg"
+              text="Applied Sciences"
+              disciplines={props.disciplines
+                .filter(
+                  item => item.level === 1 && item.parent === "applied-sciences"
                 )
-              )
-            } />
+                .map(discipline => (
+                  <li className="liStyle" key={discipline.name}>
+                    <DisciplineLink discipline={discipline}>
+                      <a className="linkStyle">{discipline.name}</a>
+                    </DisciplineLink>
+                  </li>
+                ))}
+            />
           </div>
         </div>
         <div className="rightSidebar">
-          <div className="sidebar"><Sidebar /></div>
+          <div className="sidebar">
+            <Sidebar />
+          </div>
         </div>
       </div>
       <BacktotopButton />

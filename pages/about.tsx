@@ -3,7 +3,6 @@ import { apiPage } from "../api";
 import BacktotopButton from "../components/BacktotopButton";
 import HtmlContent from "../components/HtmlContent";
 import { Sidebar } from "../components/school";
-import Subscribe from "../components/Subscribe";
 import { PageResponse } from "../schema";
 import "../styles/features.css";
 
