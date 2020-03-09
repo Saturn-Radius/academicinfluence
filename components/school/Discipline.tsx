@@ -2,7 +2,6 @@ import { useState } from "react";
 import { SchoolData } from "../../schema";
 import { SectionDescription, SectionTitle } from "../../styles";
 import { LoremIpsumText } from "../../utils/const";
-import CheckBox from "../Checkbox";
 import CircularProgress from "../CircularProgress";
 import ContentCard from "../ContentCard";
 
@@ -82,7 +81,7 @@ const DisciplineCard = (props: any) => {
         <h4 title={titleTag} style={styles.cardHeader}>
           {props.title}
         </h4>
-        <CheckBox />
+        {/* <CheckBox /> */}
       </div>
       <div>
         <CircularProgress
