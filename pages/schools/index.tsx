@@ -73,6 +73,10 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
     }
   ];
 
+  const onDisplayModeSelectHandler = (mode: string) => {
+    //
+  };
+
   return (
     <PageLayout>
       <PageTitle>Influential Schools</PageTitle>
@@ -90,7 +94,10 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
       </Row>
       <Row>
         <LeftCol>
-          <ListTopMenu {...filterProps} />
+          <ListTopMenu
+            {...filterProps}
+            onDisplayModeSelect={onDisplayModeSelectHandler}
+          />
           <pre>{JSON.stringify(props.schools, null, 4)}</pre>
         </LeftCol>
         <RightCol></RightCol>
