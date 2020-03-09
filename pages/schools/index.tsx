@@ -6,18 +6,28 @@ import "rc-slider/assets/index.css";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
 import React from "react";
-import Autocomplete from "react-autocomplete";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
-import { apiCountries, apiDisciplines, apiInfluentialSchoolsPage, apiSchoolSearch } from "../../api";
+import {
+  apiCountries,
+  apiDisciplines,
+  apiInfluentialSchoolsPage
+} from "../../api";
 import { Row } from "../../components/grid";
 import MyLockerButton from "../../components/schools/MyLockerButton";
 import { LeftCol, RightCol } from "../../components/schools/styles";
 import { lookupDiscipline } from "../../disciplines";
-import { CountriesResponse, DisciplinesResponse, Identifiable, InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../../schema";
-import { GRAY_MID, PageDescription, PageTitle } from "../../styles";
+import {
+  CountriesResponse,
+  DisciplinesResponse,
+  InfluentialSchoolsPageRequest,
+  InfluentialSchoolsPageResponse
+} from "../../schema";
 import PageLayout from "../../templates/PageLayout";
 import { LoremIpsumText } from "../../utils/const";
+import SchoolSearchBox from "../../components/schools/SchoolSearchBox";
+import ListTopMenu from "../../components/schools/ListTopMenu";
+import { GRAY_MID, PageDescription, PageTitle } from "../../styles";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
 // refactoring is encouraged
@@ -256,47 +266,6 @@ type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
   request: InfluentialSchoolsPageRequest;
 };
 
-function SchoolSearchBox() {
-  const [value, setValue] = React.useState("");
-  const [items, setItems] = React.useState([] as Identifiable[]);
-
-  const onChange = React.useCallback(
-    async text => {
-      setItems([]);
-      setValue(text.target.value);
-      const items = await apiSchoolSearch(text.target.value);
-      setItems(items.schools);
-    },
-    [setValue, setItems]
-  );
-
-  const router = useRouter();
-
-  const onSelect = React.useCallback(
-    slug => {
-      router.push("/schools/" + slug);
-    },
-    [router]
-  );
-
-  return (
-    <Autocomplete
-      value={value}
-      items={items}
-      onChange={onChange}
-      onSelect={onSelect}
-      getItemValue={item => item.slug}
-      renderItem={(item, isHighlighted) => (
-        <div
-          key={item.slug}
-          style={{ background: isHighlighted ? "lightgray" : "white" }}
-        >
-          {item.name}
-        </div>
-      )}
-    />
-  );
-}
 function asHref(request: InfluentialSchoolsPageRequest) {
   return {
     pathname: "/schools",
@@ -360,11 +329,10 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
       </Row>
       <Row>
         <LeftCol>
-          <SchoolSearchBox />
+          <ListTopMenu />
           <Discipline {...filterProps} />
           <YearsFilter {...filterProps} />
           <Country {...filterProps} />
-
           <pre>{JSON.stringify(props.schools, null, 4)}</pre>
         </LeftCol>
         <RightCol></RightCol>
