@@ -1,152 +1,30 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { NextPage, NextPageContext } from "next";
-import { find } from "lodash";
-import { Handle, Range } from "rc-slider";
-import "rc-slider/assets/index.css";
-import Tooltip from "rc-tooltip";
-import "rc-tooltip/assets/bootstrap.css";
-import "react-circular-progressbar/dist/styles.css";
-import Select from "react-select";
 import {
   apiCountries,
   apiDisciplines,
   apiInfluentialSchoolsPage
 } from "../../api";
-import { Row } from "../../components/grid";
-import MyLockerButton from "../../components/schools/MyLockerButton";
-import { LeftCol, RightCol } from "../../components/schools/styles";
 import {
   CountriesResponse,
   DisciplinesResponse,
   InfluentialSchoolsPageRequest,
   InfluentialSchoolsPageResponse
 } from "../../schema";
-import { LoremIpsumText } from "../../utils/const";
 import PageLayout from "../../templates/PageLayout";
+import { Row } from "../../components/grid";
+import { LeftCol, RightCol } from "../../components/schools/styles";
+import { LoremIpsumText } from "../../utils/const";
+import MyLockerButton from "../../components/schools/MyLockerButton";
+import { FilterProps } from "../../components/schools/types";
 import ListTopMenu from "../../components/schools/ListTopMenu";
-import FilterLabel from "../../components/schools/FilterLabel";
 import Discipline from "../../components/schools/Discipline";
+import YearsFilter from "../../components/schools/YearsFilter";
+import Country from "../../components/schools/Country";
 import { PageDescription, PageTitle } from "../../styles";
 
-// I have sloppily copy-pasted bits from college-ranking.tsx
-// refactoring is encouraged
-
-type FilterProps = {
-  request: InfluentialSchoolsPageRequest;
-  disciplines: DisciplinesResponse;
-  countries: CountriesResponse;
-  updateRequest: (request: InfluentialSchoolsPageRequest) => void;
-};
-
-function Country(props: FilterProps) {
-  const onChange = React.useCallback(
-    event => {
-      props.updateRequest({
-        ...props.request,
-        country: event.value
-      });
-    },
-    [props.updateRequest, props.request]
-  );
-
-  let country = props.request.country;
-
-  const options = [
-    {
-      value: null,
-      label: "All"
-    },
-    ...props.countries.map(item => ({
-      value: item.name,
-      label: item.name
-    }))
-  ];
-
-  const selected =
-    find(options, option => option.value === country) || options[0];
-
-  return (
-    <>
-      <FilterLabel label="Country">
-        <Select
-          instanceId="country-filter"
-          value={selected}
-          options={options}
-          onChange={onChange}
-        />
-      </FilterLabel>
-    </>
-  );
-}
-
-type RangeHandleProps = {
-  label: string;
-  format: (value: number) => string;
-};
-
-function RangeHandle(sliderProps: RangeHandleProps, props: any) {
-  const { value, dragging, index, ...restProps } = props;
-
-  let formatted = sliderProps.format(value);
-  return (
-    <Tooltip
-      prefixCls="rc-slider-tooltip"
-      overlay={formatted}
-      visible={dragging}
-      placement="top"
-      key={index}
-    >
-      <Handle
-        value={value}
-        {...restProps}
-        aria-label={
-          index == 0
-            ? "Minimum " + sliderProps.label
-            : "Maximum " + sliderProps.label
-        }
-        aria-valuetext={formatted}
-      />
-    </Tooltip>
-  );
-}
-
-function YearsFilter(props: FilterProps) {
-  const onChange = React.useCallback(
-    n =>
-      props.updateRequest({
-        ...props.request,
-        years: {
-          min: n[0],
-          max: n[1]
-        }
-      }),
-    [props.request, props.updateRequest]
-  );
-
-  return (
-    <FilterLabel label="Years">
-      <Range
-        value={[props.request.years.min, props.request.years.max]}
-        min={-2000}
-        max={2020}
-        handle={RangeHandle.bind(null, {
-          label: "Years",
-          format: year => (year < 0 ? year + " BC" : year + " AD")
-        })}
-        onChange={onChange}
-      />
-    </FilterLabel>
-  );
-}
-
-type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
-  countries: CountriesResponse;
-  disciplines: DisciplinesResponse;
-  request: InfluentialSchoolsPageRequest;
-};
-
-function asHref(request: InfluentialSchoolsPageRequest) {
+const asHref = (request: InfluentialSchoolsPageRequest) => {
   return {
     pathname: "/schools",
     query: {
@@ -156,7 +34,13 @@ function asHref(request: InfluentialSchoolsPageRequest) {
       country: request.country
     }
   };
-}
+};
+
+type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
+  countries: CountriesResponse;
+  disciplines: DisciplinesResponse;
+  request: InfluentialSchoolsPageRequest;
+};
 
 const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   const router = useRouter();
