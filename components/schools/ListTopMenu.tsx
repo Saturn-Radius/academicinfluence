@@ -18,16 +18,21 @@ const AdvancedSearch = styled.div`
 `;
 
 const ListTopMenu = (props: any) => {
+  const { onDisplayModeSelect } = props;
   const [isAdvancedMode, setIsAdvanced] = useState(false);
 
   const onSearchModeHandler = (isAdvanced: boolean) => {
     setIsAdvanced(isAdvanced);
   };
 
+  const onMenuModeSelectHandler = (menuMode: string) => {
+    onDisplayModeSelect(menuMode);
+  };
+
   return (
     <>
       <MenuRow>
-        <DisplayModes />
+        <DisplayModes onMenuModeSelect={onMenuModeSelectHandler} />
         <SchoolSearchBox onAdvancedSearchClick={onSearchModeHandler} />
       </MenuRow>
       {isAdvancedMode && (
