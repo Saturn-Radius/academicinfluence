@@ -1,11 +1,11 @@
-import { find } from "lodash";
-import { NextPage, NextPageContext } from "next";
+import React from "react";
 import { useRouter } from "next/router";
+import { NextPage, NextPageContext } from "next";
+import { find } from "lodash";
 import { Handle, Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
-import React from "react";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
 import {
@@ -16,58 +16,21 @@ import {
 import { Row } from "../../components/grid";
 import MyLockerButton from "../../components/schools/MyLockerButton";
 import { LeftCol, RightCol } from "../../components/schools/styles";
-import { lookupDiscipline } from "../../disciplines";
 import {
   CountriesResponse,
   DisciplinesResponse,
   InfluentialSchoolsPageRequest,
   InfluentialSchoolsPageResponse
 } from "../../schema";
-import PageLayout from "../../templates/PageLayout";
 import { LoremIpsumText } from "../../utils/const";
-import SchoolSearchBox from "../../components/schools/SchoolSearchBox";
+import PageLayout from "../../templates/PageLayout";
 import ListTopMenu from "../../components/schools/ListTopMenu";
-import { GRAY_MID, PageDescription, PageTitle } from "../../styles";
+import FilterLabel from "../../components/schools/FilterLabel";
+import Discipline from "../../components/schools/Discipline";
+import { PageDescription, PageTitle } from "../../styles";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
 // refactoring is encouraged
-
-function FilterSep() {
-  return (
-    <div
-      css={{
-        width: "25px"
-      }}
-    />
-  );
-}
-
-type FilterLabelProps = {
-  label: string;
-  children: React.ReactNode;
-};
-function FilterLabel(props: FilterLabelProps) {
-  return (
-    <label
-      css={{
-        display: "block",
-        flexGrow: 1,
-        marginTop: "10px"
-      }}
-    >
-      <div
-        css={{
-          fontSize: "20px",
-          lineHeight: "28px",
-          color: GRAY_MID
-        }}
-      >
-        {props.label}
-      </div>
-      {props.children}
-    </label>
-  );
-}
 
 type FilterProps = {
   request: InfluentialSchoolsPageRequest;
@@ -75,89 +38,6 @@ type FilterProps = {
   countries: CountriesResponse;
   updateRequest: (request: InfluentialSchoolsPageRequest) => void;
 };
-
-function Discipline(props: FilterProps) {
-  const onChange = React.useCallback(
-    event => {
-      props.updateRequest({
-        ...props.request,
-        discipline: event.value
-      });
-    },
-    [props.updateRequest, props.request]
-  );
-
-  let discipline = props.request.discipline;
-
-  let supertopic: string | null;
-  let subtopic: string | null;
-
-  if (
-    discipline === null ||
-    lookupDiscipline(props.disciplines, discipline).level === 1
-  ) {
-    supertopic = discipline;
-    subtopic = null;
-  } else {
-    supertopic = lookupDiscipline(props.disciplines, discipline).parent;
-    subtopic = discipline;
-  }
-
-  const options = [
-    {
-      value: null,
-      label: "Overall"
-    },
-    ...props.disciplines
-      .filter(item => item.level === 1)
-      .map(item => ({
-        value: item.slug,
-        label: item.name
-      }))
-  ];
-
-  const selected =
-    find(options, option => option.value === supertopic) || options[0];
-
-  const suboptions = [
-    {
-      value: null,
-      label: "Overall"
-    },
-    ...props.disciplines
-      .filter(item => item.parent === supertopic)
-      .map(item => ({
-        value: item.slug,
-        label: item.name
-      }))
-  ];
-
-  const sub_selected =
-    find(suboptions, option => option.value === subtopic) || suboptions[0];
-
-  return (
-    <>
-      <FilterLabel label="Discipline">
-        <Select
-          instanceId="discipline-filter"
-          value={selected}
-          options={options}
-          onChange={onChange}
-        />
-      </FilterLabel>
-      <FilterSep />
-      <FilterLabel label="Subdiscipline">
-        <Select
-          instanceId="subdiscipline-filter"
-          value={sub_selected}
-          options={suboptions}
-          onChange={onChange}
-          isDisabled={supertopic === null}
-        />
-      </FilterLabel>
-    </>
-  );
-}
 
 function Country(props: FilterProps) {
   const onChange = React.useCallback(
