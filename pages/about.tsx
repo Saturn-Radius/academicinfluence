@@ -3,7 +3,6 @@ import { apiPage } from "../api";
 import BacktotopButton from "../components/BacktotopButton";
 import HtmlContent from "../components/HtmlContent";
 import { Sidebar } from "../components/school";
-import Subscribe from "../components/Subscribe";
 import { PageResponse } from "../schema";
 import "../styles/features.css";
 
@@ -22,7 +21,7 @@ const About: NextPage<AboutProps> = (props: AboutProps) => {
           .aboutContent {
             margin-left: 8%;
             padding-right: 30px;
-            max-width: 900px
+            max-width: 900px;
           }
           .righSideBar {
             margin-right: 5%;
@@ -83,18 +82,6 @@ const About: NextPage<AboutProps> = (props: AboutProps) => {
                 <br /> connect@academicinfluence.com
               </p>
             </div>
-          </div>
-        </div>
-        <div className="subscribe">
-          <div style={{ textAlign: "center" }}>
-            <h3 className="head">Subscribe</h3>
-            <p style={{ fontSize: 12 }}>
-              Receive updates and latest news direct from our team
-            </p>
-            <p style={{ fontSize: 12 }}>Simply enter your email below</p>
-          </div>
-          <div>
-            <Subscribe />
           </div>
         </div>
         <div className="righSideBar">

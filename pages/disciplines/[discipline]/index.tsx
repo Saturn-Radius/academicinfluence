@@ -3,15 +3,16 @@ import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
 import { apiDiscipline, apiDisciplines, apiInfluentialSchoolsPage } from "../../../api";
-import HtmlContent from "../../../components/HtmlContent";
-import { DisciplineResponse, DisciplinesResponse, InfluentialSchoolsPageResponse } from "../../../schema";
-import { Sidebar } from "../../../components/school";
 import BacktotopButton from "../../../components/BacktotopButton";
 import CheckBox from "../../../components/Checkbox";
 import { SubdisciplineList } from "../../../components/disciplines";
+import HtmlContent from "../../../components/HtmlContent";
+import { Sidebar } from "../../../components/school";
+import { DisciplineResponse, DisciplinesResponse, InfluentialSchoolsPageResponse } from "../../../schema";
 
 type DisciplinesProps = {
   discipline: string;
+  subdiscipline: string;
   disciplines: DisciplinesResponse;
   schools: InfluentialSchoolsPageResponse;
 } & DisciplineResponse;
@@ -99,16 +100,18 @@ const AddToLocker = (props: any) => (
 )
 
 Discipline.getInitialProps = async function(context: NextPageContext) {
+  console.log("HEY")
   const disciplines = apiDisciplines({});
   const schools = apiInfluentialSchoolsPage({
     country: null,
-    discipline: context.query.discipline as string,
+    discipline: (context.query.subdiscipline || context.query.discipline) as string,
     years: { min: 1900, max: 2020 }
   });
   const discipline = apiDiscipline(context.query.discipline as string);
   return {
     disciplines: await disciplines,
     discipline: context.query.discipline as string,
+    subdiscipline: context.query.subdiscipline as string,
     schools: await schools,
     ...(await discipline)
   };
