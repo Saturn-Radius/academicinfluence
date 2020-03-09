@@ -5,10 +5,16 @@ import SchoolSearchBox from "./SchoolSearchBox";
 import Discipline from "./Discipline";
 import YearsFilter from "./YearsFilter";
 import Country from "./Country";
+import DisplayModes from "./DisplayModes";
 
-const Wrapper = styled.div`
-  min-width: 100%;
+const MenuRow = styled.div`
+  display: flex;
+  width: 100%;
   min-height: 40px;
+`;
+
+const AdvancedSearch = styled.div`
+  width: 100%;
 `;
 
 const ListTopMenu = (props: any) => {
@@ -19,16 +25,19 @@ const ListTopMenu = (props: any) => {
   };
 
   return (
-    <Wrapper>
-      <SchoolSearchBox onAdvancedSearchClick={onSearchModeHandler} />
+    <>
+      <MenuRow>
+        <DisplayModes />
+        <SchoolSearchBox onAdvancedSearchClick={onSearchModeHandler} />
+      </MenuRow>
       {isAdvancedMode && (
-        <>
+        <AdvancedSearch>
           <Discipline {...props} />
           <YearsFilter {...props} />
           <Country {...props} />
-        </>
+        </AdvancedSearch>
       )}
-    </Wrapper>
+    </>
   );
 };
 

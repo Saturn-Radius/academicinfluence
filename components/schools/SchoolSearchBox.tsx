@@ -6,7 +6,10 @@ import { apiSchoolSearch } from "../../api";
 import { Identifiable } from "../../schema";
 import { GRAY_DARK, GRAY_MID } from "../../styles";
 
-const SearchWrapper = styled.div``;
+const SearchWrapper = styled.div`
+  flex: 1;
+  flex-direction: column;
+`;
 
 const Search = styled(Autocomplete)`
   input {
@@ -45,7 +48,7 @@ const menuStyle = {
 
 const inputStyle = {
   width: "100%",
-  height: "100%",
+  height: "39px",
   maxHeight: "50%",
   backgroundColor: "#ffffff",
   borderRadius: "3px",
