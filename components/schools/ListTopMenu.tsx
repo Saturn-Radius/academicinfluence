@@ -3,7 +3,8 @@ import { Col } from "../grid";
 import SchoolSearchBox from "./SchoolSearchBox";
 
 const Wrapper = styled.div`
-  width: 100%;
+  min-width: 100%;
+  min-height: 40px;
 `;
 
 const ListTopMenu = () => (
