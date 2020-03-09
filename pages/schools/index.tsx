@@ -19,9 +19,6 @@ import { LoremIpsumText } from "../../utils/const";
 import MyLockerButton from "../../components/schools/MyLockerButton";
 import { FilterProps } from "../../components/schools/types";
 import ListTopMenu from "../../components/schools/ListTopMenu";
-import Discipline from "../../components/schools/Discipline";
-import YearsFilter from "../../components/schools/YearsFilter";
-import Country from "../../components/schools/Country";
 import { PageDescription, PageTitle } from "../../styles";
 
 const asHref = (request: InfluentialSchoolsPageRequest) => {
@@ -93,10 +90,7 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
       </Row>
       <Row>
         <LeftCol>
-          <ListTopMenu />
-          <Discipline {...filterProps} />
-          <YearsFilter {...filterProps} />
-          <Country {...filterProps} />
+          <ListTopMenu {...filterProps} />
           <pre>{JSON.stringify(props.schools, null, 4)}</pre>
         </LeftCol>
         <RightCol></RightCol>
