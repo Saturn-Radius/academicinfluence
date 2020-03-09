@@ -1,20 +1,9 @@
 import { useCallback } from "react";
 import _ from "lodash";
 import Select from "react-select";
-import {
-  InfluentialSchoolsPageRequest,
-  DisciplinesResponse,
-  CountriesResponse
-} from "../../schema";
 import { lookupDiscipline } from "../../disciplines";
 import FilterLabel from "./FilterLabel";
-
-type FilterProps = {
-  request: InfluentialSchoolsPageRequest;
-  disciplines: DisciplinesResponse;
-  countries: CountriesResponse;
-  updateRequest: (request: InfluentialSchoolsPageRequest) => void;
-};
+import { FilterProps } from "./types";
 
 const Discipline = (props: FilterProps) => {
   const onChange = useCallback(
