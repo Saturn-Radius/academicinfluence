@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import { NextPage, NextPageContext } from "next";
 import {
@@ -12,6 +12,7 @@ import {
   InfluentialSchoolsPageRequest,
   InfluentialSchoolsPageResponse
 } from "../../schema";
+import DISPLAY_MODES from "../../components/schools/constants";
 import PageLayout from "../../templates/PageLayout";
 import { Row } from "../../components/grid";
 import { LeftCol, RightCol } from "../../components/schools/styles";
@@ -19,6 +20,7 @@ import { LoremIpsumText } from "../../utils/const";
 import MyLockerButton from "../../components/schools/MyLockerButton";
 import { FilterProps } from "../../components/schools/types";
 import ListTopMenu from "../../components/schools/ListTopMenu";
+import SchoolList from "../../components/schools/SchoolList";
 import { PageDescription, PageTitle } from "../../styles";
 
 const asHref = (request: InfluentialSchoolsPageRequest) => {
@@ -41,9 +43,10 @@ type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
 
 const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   const router = useRouter();
-  const [request, setRequest] = React.useState(props.request);
+  const [request, setRequest] = useState(props.request);
+  const [listMode, setListMode] = useState(DISPLAY_MODES.thMode);
 
-  const updateRequest = React.useCallback(
+  const updateRequest = useCallback(
     request => {
       setRequest(request);
       router.replace(asHref(request));
@@ -74,7 +77,7 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   ];
 
   const onDisplayModeSelectHandler = (mode: string) => {
-    //
+    setListMode(mode);
   };
 
   return (
@@ -98,6 +101,7 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
             {...filterProps}
             onDisplayModeSelect={onDisplayModeSelectHandler}
           />
+          <SchoolList mode={listMode} schools={schools} />
           <pre>{JSON.stringify(props.schools, null, 4)}</pre>
         </LeftCol>
         <RightCol></RightCol>
