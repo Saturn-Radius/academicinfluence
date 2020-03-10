@@ -1,5 +1,13 @@
 import styled from "@emotion/styled";
-import { BACKGROUND_1, GRAY_DARK, GRAY_LIGHT, GRAY_LIGHTER, GRAY_MID, GREEN_DARK, GREEN_MID } from "../../styles";
+import {
+  BACKGROUND_1,
+  GRAY_DARK,
+  GRAY_LIGHT,
+  GRAY_LIGHTER,
+  GRAY_MID,
+  GREEN_DARK,
+  GREEN_MID
+} from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -56,8 +64,15 @@ const RankText = styled.span`
 const Body = styled.div`
   flex: 1;
   display: flex;
+  flex-direction: column;
   background: #ffffff;
   padding: 18px 27px;
+`;
+
+const Row = styled.div``;
+
+const BodyRow = styled.div`
+  display: flex;
 `;
 
 const BodyLeftCol = styled.div`
@@ -70,7 +85,6 @@ const BodyRightCol = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 40px;
 `;
 
 const SchoolName = styled.h2`
@@ -184,23 +198,27 @@ const SchoolListItem = (props: SchoolListItemProps) => {
         <RankText>#{world_rank}</RankText>
       </Header>
       <Body>
-        <BodyLeftCol>
+        <Row>
           <SchoolName>{name}</SchoolName>
           <Location>
             {city}, {state}
           </Location>
-          <SchoolStatus
-            graduationRate={graduation_rate}
-            acceptanceRate={acceptance_rate}
-          />
-          <SchoolDescription>{short_description}</SchoolDescription>
-        </BodyLeftCol>
-        <BodyRightCol>
-          <LawImage src={``} />
-          <LawRank>#1 for Law</LawRank>
-          <InfoValue label="Tuition" value={undergrad_tuition_in_state} />
-          <InfoValue label="Avg. Earnings" value={average_earnings} />
-        </BodyRightCol>
+        </Row>
+        <BodyRow>
+          <BodyLeftCol>
+            <SchoolStatus
+              graduationRate={graduation_rate}
+              acceptanceRate={acceptance_rate}
+            />
+            <SchoolDescription>{short_description}</SchoolDescription>
+          </BodyLeftCol>
+          <BodyRightCol>
+            <LawImage src={``} />
+            <LawRank>#1 for Law</LawRank>
+            <InfoValue label="Tuition" value={undergrad_tuition_in_state} />
+            <InfoValue label="Avg. Earnings" value={average_earnings} />
+          </BodyRightCol>
+        </BodyRow>
       </Body>
     </Wrapper>
   );
