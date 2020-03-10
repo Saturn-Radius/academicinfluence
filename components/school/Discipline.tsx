@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SchoolData } from "../../schema";
 import { SectionDescription, SectionTitle } from "../../styles";
-import CheckBox from "../Checkbox";
+import { LoremIpsumText } from "../../utils/const";
 import CircularProgress from "../CircularProgress";
 import ContentCard from "../ContentCard";
 
@@ -12,9 +12,6 @@ type SchoolProps = {
 const DisciplineContainer = (props: SchoolProps) => {
   const { school } = props;
   const { disciplines, name } = school;
-
-  const LoremIpsum =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
   const generateCards = () =>
     Object.entries(disciplines)
@@ -40,7 +37,7 @@ const DisciplineContainer = (props: SchoolProps) => {
       <SectionTitle id="subjects">
         What subject is {props.school.name} best known for?
       </SectionTitle>
-      <SectionDescription>{LoremIpsum}</SectionDescription>
+      <SectionDescription>{LoremIpsumText}</SectionDescription>
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
@@ -84,7 +81,7 @@ const DisciplineCard = (props: any) => {
         <h4 title={titleTag} style={styles.cardHeader}>
           {props.title}
         </h4>
-        <CheckBox />
+        {/* <CheckBox /> */}
       </div>
       <div>
         <CircularProgress

@@ -10,6 +10,7 @@ import LocationMap from "../../../components/school/LocationMap";
 import Rankings from "../../../components/school/Rankings";
 import { SchoolData } from "../../../schema";
 import { SectionDescription, SectionTitle } from "../../../styles";
+import { LoremIpsumText } from "../../../utils/const";
 
 type SchoolProps = {
   school: SchoolData;
@@ -118,15 +119,13 @@ const BackToTop = (props: any) => {
 const InfluentialContainer = (props: any) => {
   const { school } = props;
   const { name, people } = school;
-  const LoremIpsum =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
   return (
     <section>
       <SectionTitle id="alumni">
         Who are {name}'s Most influential alumni?
       </SectionTitle>
-      <SectionDescription>{LoremIpsum}</SectionDescription>
+      <SectionDescription>{LoremIpsumText}</SectionDescription>
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
@@ -134,10 +133,12 @@ const InfluentialContainer = (props: any) => {
           <InfluentialCard
             key={index}
             name={person.name}
+            image_url={person.image_url}
             description={person.description}
             short_description={person.short_description}
             ir_score={person.overall.influence}
             slug={person.slug}
+            birth_year={person.birth_year}
           />
         ))}
       </div>

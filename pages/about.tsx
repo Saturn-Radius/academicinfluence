@@ -3,7 +3,6 @@ import { apiPage } from "../api";
 import BacktotopButton from "../components/BacktotopButton";
 import HtmlContent from "../components/HtmlContent";
 import { Sidebar } from "../components/school";
-import Subscribe from "../components/Subscribe";
 import { PageResponse } from "../schema";
 import "../styles/features.css";
 
@@ -22,6 +21,7 @@ const About: NextPage<AboutProps> = (props: AboutProps) => {
           .aboutContent {
             margin-left: 8%;
             padding-right: 30px;
+            max-width: 900px;
           }
           .righSideBar {
             margin-right: 5%;

@@ -2,11 +2,7 @@ import databasePool from "../databasePool";
 import { CollegeRankingsRequest, CollegeRankingsResponse } from "../schema";
 import * as squel from "../squel";
 import { extractOverall, lookupAll } from "./entityDatabase";
-import {
-  addPartialSchoolFields,
-  extractPartialSchoolFields,
-  SCHOOL_ENTITY_TYPE
-} from "./schoolDatabase";
+import { addPartialSchoolFields, extractPartialSchoolFields, SCHOOL_ENTITY_TYPE } from "./schoolDatabase";
 
 export default async function serveCollegeRankings(
   request: CollegeRankingsRequest
@@ -43,7 +39,7 @@ export default async function serveCollegeRankings(
     )
     .order(request.sort, request.reversed)
     .where(request.sort + " is not null")
-    .limit(25);
+    .limit(50);
   if (request.states !== null) {
     query.where("state in ?", request.states);
   }
