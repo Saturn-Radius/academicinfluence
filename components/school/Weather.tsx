@@ -44,8 +44,8 @@ const Season = (props: any) => {
       <div style={styles.seasonName}>{props.name}</div>
 
       <div style={styles.tempContainer}>
-        <div style={{ marginRight: 30 }}>{high}</div>
-        <div>{low}</div>
+        <div style={{ marginRight: 30 }}>{low}</div>
+        <div>{high}</div>
       </div>
     </div>
   );

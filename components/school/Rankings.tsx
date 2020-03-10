@@ -1,5 +1,4 @@
 import { Desktop, TabletOrMobile } from "../../utils/responsive";
-import CheckBox from "../Checkbox";
 import CircularProgress from "../CircularProgress";
 
 const AddToLocker = (props: any) => (
@@ -9,8 +8,8 @@ const AddToLocker = (props: any) => (
       ...props.style
     }}
   >
-    <span style={{ color: "#666666", marginRight: 10 }}>Add to My Locker</span>
-    <CheckBox />
+    {/* <span style={{ color: "#666666", marginRight: 10 }}>Add to My Locker</span>
+    <CheckBox /> */}
   </div>
 );
 

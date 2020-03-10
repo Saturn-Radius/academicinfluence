@@ -1,7 +1,6 @@
 import { PersonLink } from "../../links";
 import { GREEN_MID, PRIMARY_DARK } from "../../styles";
 import Button from "../Button";
-import CheckBox from "../Checkbox";
 import ContentCard from "../ContentCard";
 
 const InfluentialCard = (props: any) => {
@@ -19,14 +18,14 @@ const InfluentialCard = (props: any) => {
           justifyContent: "flex-end"
         }}
       >
-        <span style={{ paddingRight: 20, fontSize: 12 }}>Add to My Locker</span>{" "}
-        <CheckBox />
+        {/* <span style={{ paddingRight: 20, fontSize: 12 }}>Add to My Locker</span>{" "}
+        <CheckBox /> */}
       </div>
 
       <div style={{ width: "100%" }}>
         <img
           style={{ float: "left", marginRight: 20, height: 60, width: 60 }}
-          src="//placehold.it/60x60"
+          src={props.image_url}
         />
         <div style={styles.influentialName}>{props.name}</div>
         <div style={{ paddingBottom: 6 }}>(1955-Present)</div>

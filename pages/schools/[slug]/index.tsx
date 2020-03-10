@@ -133,10 +133,12 @@ const InfluentialContainer = (props: any) => {
           <InfluentialCard
             key={index}
             name={person.name}
+            image_url={person.image_url}
             description={person.description}
             short_description={person.short_description}
             ir_score={person.overall.influence}
             slug={person.slug}
+            birth_year={person.birth_year}
           />
         ))}
       </div>

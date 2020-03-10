@@ -1,5 +1,6 @@
 import React from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
+import { ACCENT, MAIN, MAIN_DARKER } from "../styles";
 
 const CircularProgress = (props: any) => {
   let pathColor;
@@ -7,13 +8,13 @@ const CircularProgress = (props: any) => {
   const percentage = props.percentage || 0;
 
   if (percentage >= 0 && percentage <= 30) {
-    pathColor = "#eb5857";
+    pathColor = ACCENT;
   }
   if (percentage >= 30 && percentage <= 90) {
-    pathColor = "#37c2ab";
+    pathColor = MAIN;
   }
   if (percentage >= 90) {
-    pathColor = "#1e988a";
+    pathColor = MAIN_DARKER;
   }
 
   return (
