@@ -4,10 +4,12 @@ import styled from "@emotion/styled";
 export const PRIMARY_DARK = "#038C8C";
 
 export const GREEN_MID = "#37c2ab";
+export const GREEN_DARK = "#1e988a";
 
 export const GRAY_DARK = "#999999";
 export const GRAY_MID = "#666666";
 export const GRAY_LIGHT = "#333333";
+export const GRAY_LIGHTER = "#ededed";
 
 export const TERTIARY_DARK = "#08526D";
 
