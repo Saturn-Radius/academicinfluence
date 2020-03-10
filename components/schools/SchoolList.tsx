@@ -7,8 +7,8 @@ interface SchoolListProps {
 const SchoolList = (props: SchoolListProps) => {
   const { mode, schools } = props;
 
-  return schools.map((item: any) => (
-    <SchoolListItem mode={mode} school={item} />
+  return schools.map((item: any, index: number) => (
+    <SchoolListItem key={index} mode={mode} school={item} />
   ));
 };
 
