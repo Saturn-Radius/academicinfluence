@@ -2,11 +2,7 @@ import databasePool from "../databasePool";
 import { CollegeRankingsRequest, CollegeRankingsResponse } from "../schema";
 import * as squel from "../squel";
 import { extractOverall, lookupAll } from "./entityDatabase";
-import {
-  addPartialSchoolFields,
-  extractPartialSchoolFields,
-  SCHOOL_ENTITY_TYPE
-} from "./schoolDatabase";
+import { addPartialSchoolFields, extractPartialSchoolFields, SCHOOL_ENTITY_TYPE } from "./schoolDatabase";
 
 export default async function serveCollegeRankings(
   request: CollegeRankingsRequest

@@ -21,6 +21,7 @@ const About: NextPage<AboutProps> = (props: AboutProps) => {
           .aboutContent {
             margin-left: 8%;
             padding-right: 30px;
+            max-width: 900px;
           }
           .righSideBar {
             margin-right: 5%;

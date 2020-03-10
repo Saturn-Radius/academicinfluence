@@ -1,3 +1,4 @@
 import DropdownButton from "./DropdownButton";
+import SubdisciplineList from "./SubdisciplineList";
 
-export { DropdownButton };
+export { DropdownButton, SubdisciplineList };
