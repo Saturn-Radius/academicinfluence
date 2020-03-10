@@ -11,16 +11,16 @@ import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
 import React from "react";
 import Autosuggest from "react-autosuggest";
-import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
 import { format } from "url";
 import USAStates from "usa-states";
 import { apiCollegeRankings, apiDisciplines, apiLocationAutocomplete } from "../api";
+import CircularProgress from "../components/CircularProgress";
 import { lookupDiscipline } from "../disciplines";
 import QuerySchema, { RangeParameter } from "../QuerySchema";
 import { CollegeRankingSort, CollegeRankingsRequest, CollegeRankingsResponse, DisciplinesResponse, LocationAutocompleteResponse, SchoolPartialData } from "../schema";
-import { GRAY_DARK, GRAY_LIGHT, GRAY_MID, PRIMARY_DARK, SECONDARY_DARK, TERTIARY_DARK } from "../styles";
+import { GRAY_DARK, GRAY_MID, MAIN, MAIN_DARKER, MAIN_DARKEST, MAIN_LIGHTER, PRIMARY_DARK } from "../styles";
 import ToolPage from "../ToolPage";
 
 type CollegeRankingProps = {
@@ -235,7 +235,7 @@ const COLUMNS: COLUMN[] = [
     row: 2,
     column: 1,
     value: school => (
-      <BasicCell color={GRAY_LIGHT}>
+      <BasicCell color={MAIN}>
         {school.median_sat}/{school.median_act}
       </BasicCell>
     )
@@ -246,7 +246,7 @@ const COLUMNS: COLUMN[] = [
     row: 2,
     column: 2,
     value: school => (
-      <BasicCell color={TERTIARY_DARK}>
+      <BasicCell color={MAIN_DARKER}>
         {school.undergrad_tuition_in_state &&
           "$" + school.undergrad_tuition_in_state.toLocaleString()}
       </BasicCell>
@@ -258,7 +258,7 @@ const COLUMNS: COLUMN[] = [
     row: 2,
     column: 3,
     value: school => (
-      <BasicCell color={SECONDARY_DARK}>
+      <BasicCell color={MAIN_DARKEST}>
         {school.average_earnings &&
           "$" + school.average_earnings.toLocaleString()}
       </BasicCell>
@@ -280,24 +280,10 @@ const COLUMNS: COLUMN[] = [
           css={{
             width: "50px",
             height: "50px",
-            ".CircularProgressbar-trail": {
-              strokeWidth: "4px"
-            },
-            ".CircularProgressbar-path": {
-              strokeWidth: "10px",
-              stroke: "#EB5857"
-            },
-            ".CircularProgressbar-text": {
-              fill: "black",
-              fontSize: "28px",
-              fontWeight: "bold"
-            }
+            padding: "7px"
           }}
         >
-          <CircularProgressbar
-            value={percentage}
-            text={percentage.toFixed() + "%"}
-          />
+          <CircularProgress percentage={percentage} size={60} />
         </div>
       );
     }
@@ -318,24 +304,10 @@ const COLUMNS: COLUMN[] = [
           css={{
             width: "50px",
             height: "50px",
-            ".CircularProgressbar-trail": {
-              strokeWidth: "4px"
-            },
-            ".CircularProgressbar-path": {
-              strokeWidth: "10px",
-              stroke: "#EB5857"
-            },
-            ".CircularProgressbar-text": {
-              fill: "black",
-              fontSize: "28px",
-              fontWeight: "bold"
-            }
+            padding: "7px"
           }}
         >
-          <CircularProgressbar
-            value={percentage}
-            text={percentage.toFixed() + "%"}
-          />
+          <CircularProgress percentage={percentage} size={60} />
         </div>
       );
     }
@@ -1082,7 +1054,8 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
                 <th
                   key={index}
                   css={{
-                    color: GRAY_DARK,
+                    paddingTop: "30px",
+                    color: MAIN_LIGHTER,
                     fontSize: "12px",
                     lineHeight: "14px",
                     textTransform: "uppercase",
