@@ -1,5 +1,5 @@
-import { useCallback } from "react";
 import _ from "lodash";
+import { useCallback } from "react";
 import Select from "react-select";
 import { lookupDiscipline } from "../../disciplines";
 import FilterLabel from "./FilterLabel";

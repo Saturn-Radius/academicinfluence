@@ -1,8 +1,4 @@
-import {
-  InfluentialSchoolsPageRequest,
-  DisciplinesResponse,
-  CountriesResponse
-} from "../../schema";
+import { CountriesResponse, DisciplinesResponse, InfluentialSchoolsPageRequest } from "../../schema";
 
 export type FilterProps = {
   request: InfluentialSchoolsPageRequest;

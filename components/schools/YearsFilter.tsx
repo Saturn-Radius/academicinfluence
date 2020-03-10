@@ -1,9 +1,9 @@
-import { useCallback } from "react";
 import { Range } from "rc-slider";
-import { FilterProps } from "./types";
+import "rc-slider/assets/index.css";
+import { useCallback } from "react";
 import FilterLabel from "./FilterLabel";
 import RangeHandle from "./RangeHandle";
-import "rc-slider/assets/index.css";
+import { FilterProps } from "./types";
 
 const YearsFilter = (props: FilterProps) => {
   const onChange = useCallback(

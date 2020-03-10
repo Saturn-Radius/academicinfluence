@@ -15,12 +15,31 @@ import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
 import { format } from "url";
 import USAStates from "usa-states";
-import { apiCollegeRankings, apiDisciplines, apiLocationAutocomplete } from "../api";
+import {
+  apiCollegeRankings,
+  apiDisciplines,
+  apiLocationAutocomplete
+} from "../api";
 import CircularProgress from "../components/CircularProgress";
 import { lookupDiscipline } from "../disciplines";
 import QuerySchema, { RangeParameter } from "../QuerySchema";
-import { CollegeRankingSort, CollegeRankingsRequest, CollegeRankingsResponse, DisciplinesResponse, LocationAutocompleteResponse, SchoolPartialData } from "../schema";
-import { GRAY_DARK, GRAY_MID, MAIN, MAIN_DARKER, MAIN_DARKEST, MAIN_LIGHTER, PRIMARY_DARK } from "../styles";
+import {
+  CollegeRankingSort,
+  CollegeRankingsRequest,
+  CollegeRankingsResponse,
+  DisciplinesResponse,
+  LocationAutocompleteResponse,
+  SchoolPartialData
+} from "../schema";
+import {
+  GRAY_DARK,
+  GRAY_MID,
+  MAIN,
+  MAIN_DARKER,
+  MAIN_DARKEST,
+  MAIN_LIGHTER,
+  PRIMARY_DARK
+} from "../styles";
 import ToolPage from "../ToolPage";
 
 type CollegeRankingProps = {

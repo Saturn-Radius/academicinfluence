@@ -1,11 +1,10 @@
-import { useState } from "react";
 import styled from "@emotion/styled";
-import { Col } from "../grid";
-import SchoolSearchBox from "./SchoolSearchBox";
-import Discipline from "./Discipline";
-import YearsFilter from "./YearsFilter";
+import { useState } from "react";
 import Country from "./Country";
+import Discipline from "./Discipline";
 import DisplayModes from "./DisplayModes";
+import SchoolSearchBox from "./SchoolSearchBox";
+import YearsFilter from "./YearsFilter";
 
 const MenuRow = styled.div`
   display: flex;

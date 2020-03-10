@@ -1,8 +1,8 @@
-import { useCallback } from "react";
 import _ from "lodash";
+import { useCallback } from "react";
 import Select from "react-select";
-import { FilterProps } from "./types";
 import FilterLabel from "./FilterLabel";
+import { FilterProps } from "./types";
 
 const Country = (props: FilterProps) => {
   const onChange = useCallback(

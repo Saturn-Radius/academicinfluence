@@ -1,6 +1,6 @@
-import { useState, useCallback } from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
 import Autocomplete from "react-autocomplete";
 import { apiSchoolSearch } from "../../api";
 import { Identifiable } from "../../schema";
