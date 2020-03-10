@@ -3,12 +3,11 @@ import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
 import { apiDisciplines, apiInfluentialSchoolsPage } from "../../../api";
-import { DisciplineLink } from "../../../links";
-import { DisciplinesResponse, InfluentialSchoolsPageResponse } from "../../../schema";
-import { Sidebar } from "../../../components/school";
 import BacktotopButton from "../../../components/BacktotopButton";
 import CheckBox from "../../../components/Checkbox";
 import { SubdisciplineList } from "../../../components/disciplines";
+import { CollegeHeader, Sidebar } from "../../../components/school";
+import { InfluentialSchoolsPageResponse } from "../../../schema";
 
 type DisciplinesProps = {
   discipline: string;
@@ -18,15 +17,16 @@ type DisciplinesProps = {
 };
 
 const Discipline: NextPage<DisciplinesProps> = props => {
+  console.log(props);
+  let discipline = props.discipline.charAt(0).toUpperCase() + props.discipline.slice(1);
   let disciplines = props.disciplines;
   disciplines.map((discipline: any, key: number) =>
   {
     discipline.id = key;
-
     return discipline;
   })
-
   var selectedSubdiscipline = disciplines.filter((discipline: any) => discipline.slug == props.subdiscipline)
+  const { schools } = props.schools;
 
   return (
     <div>
@@ -48,6 +48,9 @@ const Discipline: NextPage<DisciplinesProps> = props => {
           display: flex;
           flex-direction: column;
           margin-top: 35px;
+        }
+        .disciplineTitle {
+          color: #038C8C;
         }
         @media (max-width: 970px) {
           .rightSidebar {
@@ -72,12 +75,20 @@ const Discipline: NextPage<DisciplinesProps> = props => {
       <div className="mainContent">
         <div className="leftSidebar">
           <div className="descriptionTitle">
-            <h1>{props.discipline}</h1>
+            <h1>{discipline}</h1>
             <div className="addtoLocker"><AddToLocker /></div>
           </div>
           <div className="subdisciplinesBar">
             <div><h3 style={{ fontWeight: 800, marginBottom: 0 }}>Sub-Disciplines</h3></div>
             <SubdisciplineList disciplines={props.disciplines} discipline={props.discipline} id={selectedSubdiscipline[0].id} />
+          </div>
+          <div>
+            <div className="disciplineTitle">
+              <h1>{discipline} / {selectedSubdiscipline[0].name}</h1>
+            </div>
+            <div></div>
+            <CollegeHeader logo_url={schools[0].logo_url} name={schools[0].name} city={schools[0].city} state={schools[0].state} />
+            <pre>{JSON.stringify(props.schools, undefined, 4)}</pre>
           </div>
         </div>
         <div className="rightSidebar">
