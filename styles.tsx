@@ -33,9 +33,9 @@ export const TERTIARY_DARK = MAIN_DARKEST;
 export const GREEN_MID = MAIN_DARKER;
 export const GREEN_DARK = "#1e988a";
 
-export const GRAY_DARK = LIGHT_GRAY;
+export const GRAY_DARK = "#999999";
 export const GRAY_MID = "#666666";
-export const GRAY_LIGHT = DARK_GRAY;
+export const GRAY_LIGHT = "#333333";
 export const GRAY_LIGHTER = "#ededed";
 
 export const BACKGROUND_1 = BG_PAGE;

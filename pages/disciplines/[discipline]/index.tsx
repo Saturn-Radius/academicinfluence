@@ -44,6 +44,7 @@ const Discipline: NextPage<DisciplinesProps> = props => {
           display: flex;
           flex-direction: column;
           margin-top: 35px;
+          max-width: 940px;
         }
         .leftSidebar {
           display: flex;

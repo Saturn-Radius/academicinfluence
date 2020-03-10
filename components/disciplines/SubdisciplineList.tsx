@@ -65,18 +65,14 @@ const SubdisciplineList = React.forwardRef(
               transform: rotate(45deg);
             }
             .tableList {
-              column-count: 3;
               padding-left: 0px;
-              column-gap: 0px;
-            }
-            @media (max-width: 700px) {
-              .tableList {
-                column-count: 1;
-              }
+              display: flex;
+              flex-direction: row;
+              flex-wrap: wrap;
             }
           `}
         </style>
-        <ul className="tableList" style={{ listStyleType: "none" }}>
+        <ul className="tableList">
           {props.disciplines
             .filter((discipline: any) => discipline.parent === props.discipline)
             .map((discipline: any) => (
@@ -126,7 +122,8 @@ const styles = {
     paddingBottom: 5,
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
+    width: 265
   },
   liStyle: {
     backgroundColor: "rgba(55, 194, 171, 0.2)",
@@ -140,7 +137,8 @@ const styles = {
     paddingBottom: 5,
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
+    width: 265
   },
   defaultlinkStyle: {
     textDecoration: "none",

@@ -6,7 +6,8 @@ import { apiDisciplines, apiInfluentialSchoolsPage } from "../../../api";
 import BacktotopButton from "../../../components/BacktotopButton";
 import CheckBox from "../../../components/Checkbox";
 import { SubdisciplineList } from "../../../components/disciplines";
-import { CollegeHeader, Sidebar } from "../../../components/school";
+import { Sidebar } from "../../../components/school";
+import { DISPLAY_MODES, SchoolList } from "../../../components/schools";
 import { InfluentialSchoolsPageResponse } from "../../../schema";
 
 type DisciplinesProps = {
@@ -48,6 +49,7 @@ const Discipline: NextPage<DisciplinesProps> = props => {
           display: flex;
           flex-direction: column;
           margin-top: 35px;
+          max-width: 940px;
         }
         .disciplineTitle {
           color: #038C8C;
@@ -69,6 +71,12 @@ const Discipline: NextPage<DisciplinesProps> = props => {
             min-width: 300px;
             font-size: 12px;
           }
+          .disciplineTitle {
+            display: none;
+          }
+          .schoolList {
+            display: none;
+          }
         }
       `}
       </style>
@@ -86,9 +94,9 @@ const Discipline: NextPage<DisciplinesProps> = props => {
             <div className="disciplineTitle">
               <h1>{discipline} / {selectedSubdiscipline[0].name}</h1>
             </div>
-            <div></div>
-            <CollegeHeader logo_url={schools[0].logo_url} name={schools[0].name} city={schools[0].city} state={schools[0].state} />
-            <pre>{JSON.stringify(props.schools, undefined, 4)}</pre>
+            <div className="schoolList">
+              <SchoolList mode={DISPLAY_MODES.thMode} schools={schools} />
+            </div>
           </div>
         </div>
         <div className="rightSidebar">
