@@ -4,7 +4,8 @@ import { ACCENT, MAIN, MAIN_DARKER } from "../styles";
 
 const CircularProgress = (props: any) => {
   let pathColor;
-  let { percentage, text } = props;
+  let { text } = props;
+  const percentage = props.percentage || 0;
 
   if (percentage >= 0 && percentage <= 30) {
     pathColor = ACCENT;

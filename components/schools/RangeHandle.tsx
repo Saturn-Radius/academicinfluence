@@ -1,6 +1,6 @@
-import Tooltip from "rc-tooltip";
 import { Handle } from "rc-slider";
 import "rc-slider/assets/index.css";
+import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
 
 type RangeHandleProps = {

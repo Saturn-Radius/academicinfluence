@@ -1,15 +1,30 @@
-import { useState, useCallback } from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
 import Autocomplete from "react-autocomplete";
 import { apiSchoolSearch } from "../../api";
 import { Identifiable } from "../../schema";
 import { GRAY_DARK, GRAY_MID } from "../../styles";
 
+const SearchWrapper = styled.div`
+  flex: 1;
+  flex-direction: column;
+`;
+
 const Search = styled(Autocomplete)`
   input {
     width: 100%;
   }
+`;
+
+const AdvancedSearchButton = styled.button`
+  float: right;
+  font-family: "SF UI Display Medium";
+  font-size: 12px;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: ${GRAY_DARK};
 `;
 
 interface SearchListItemProps {
@@ -33,7 +48,7 @@ const menuStyle = {
 
 const inputStyle = {
   width: "100%",
-  height: "100%",
+  height: "39px",
   maxHeight: "50%",
   backgroundColor: "#ffffff",
   borderRadius: "3px",
@@ -49,9 +64,14 @@ const inputStyle = {
   color: `${GRAY_MID}`
 };
 
-const SchoolSearchBox = () => {
+interface SchoolSearchBoxProps {
+  readonly onAdvancedSearchClick: any;
+}
+const SchoolSearchBox = (props: SchoolSearchBoxProps) => {
   const [value, setValue] = useState("");
   const [items, setItems] = useState([] as Identifiable[]);
+  const [isAdvanced, setIsAdvanced] = useState(false);
+  const { onAdvancedSearchClick } = props;
 
   const onChange = useCallback(
     async (text: any) => {
@@ -72,24 +92,34 @@ const SchoolSearchBox = () => {
     [router]
   );
 
+  const switchSearchMode = () => {
+    setIsAdvanced(!isAdvanced);
+    onAdvancedSearchClick(!isAdvanced);
+  };
+
   return (
-    <Search
-      value={value}
-      items={items}
-      onChange={onChange}
-      onSelect={onSelect}
-      getItemValue={item => item.slug}
-      wrapperStyle={wrapperStyle}
-      menuStyle={menuStyle}
-      inputProps={{
-        style: inputStyle
-      }}
-      renderItem={(item, isHighlighted) => (
-        <SearchListItem key={item.slug} isHighlighted={isHighlighted}>
-          {item.name}
-        </SearchListItem>
-      )}
-    />
+    <SearchWrapper>
+      <Search
+        value={value}
+        items={items}
+        onChange={onChange}
+        onSelect={onSelect}
+        getItemValue={item => item.slug}
+        wrapperStyle={wrapperStyle}
+        menuStyle={menuStyle}
+        inputProps={{
+          style: inputStyle
+        }}
+        renderItem={(item, isHighlighted) => (
+          <SearchListItem key={item.slug} isHighlighted={isHighlighted}>
+            {item.name}
+          </SearchListItem>
+        )}
+      />
+      <AdvancedSearchButton onClick={() => switchSearchMode()}>
+        Advanced Search
+      </AdvancedSearchButton>
+    </SearchWrapper>
   );
 };
 

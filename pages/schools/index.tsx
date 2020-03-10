@@ -1,28 +1,18 @@
-import React from "react";
-import { useRouter } from "next/router";
 import { NextPage, NextPageContext } from "next";
-import {
-  apiCountries,
-  apiDisciplines,
-  apiInfluentialSchoolsPage
-} from "../../api";
-import {
-  CountriesResponse,
-  DisciplinesResponse,
-  InfluentialSchoolsPageRequest,
-  InfluentialSchoolsPageResponse
-} from "../../schema";
-import PageLayout from "../../templates/PageLayout";
+import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
+import { apiCountries, apiDisciplines, apiInfluentialSchoolsPage } from "../../api";
 import { Row } from "../../components/grid";
-import { LeftCol, RightCol } from "../../components/schools/styles";
-import { LoremIpsumText } from "../../utils/const";
-import MyLockerButton from "../../components/schools/MyLockerButton";
-import { FilterProps } from "../../components/schools/types";
+import DISPLAY_MODES from "../../components/schools/constants";
 import ListTopMenu from "../../components/schools/ListTopMenu";
-import Discipline from "../../components/schools/Discipline";
-import YearsFilter from "../../components/schools/YearsFilter";
-import Country from "../../components/schools/Country";
+import MyLockerButton from "../../components/schools/MyLockerButton";
+import SchoolList from "../../components/schools/SchoolList";
+import { LeftCol, RightCol } from "../../components/schools/styles";
+import { FilterProps } from "../../components/schools/types";
+import { CountriesResponse, DisciplinesResponse, InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../../schema";
 import { PageDescription, PageTitle } from "../../styles";
+import PageLayout from "../../templates/PageLayout";
+import { LoremIpsumText } from "../../utils/const";
 
 const asHref = (request: InfluentialSchoolsPageRequest) => {
   return {
@@ -44,9 +34,10 @@ type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
 
 const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   const router = useRouter();
-  const [request, setRequest] = React.useState(props.request);
+  const [request, setRequest] = useState(props.request);
+  const [listMode, setListMode] = useState(DISPLAY_MODES.thMode);
 
-  const updateRequest = React.useCallback(
+  const updateRequest = useCallback(
     request => {
       setRequest(request);
       router.replace(asHref(request));
@@ -76,6 +67,10 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
     }
   ];
 
+  const onDisplayModeSelectHandler = (mode: string) => {
+    setListMode(mode);
+  };
+
   return (
     <PageLayout>
       <PageTitle>Influential Schools</PageTitle>
@@ -93,10 +88,11 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
       </Row>
       <Row>
         <LeftCol>
-          <ListTopMenu />
-          <Discipline {...filterProps} />
-          <YearsFilter {...filterProps} />
-          <Country {...filterProps} />
+          <ListTopMenu
+            {...filterProps}
+            onDisplayModeSelect={onDisplayModeSelectHandler}
+          />
+          <SchoolList mode={listMode} schools={schools} />
           <pre>{JSON.stringify(props.schools, null, 4)}</pre>
         </LeftCol>
         <RightCol></RightCol>
