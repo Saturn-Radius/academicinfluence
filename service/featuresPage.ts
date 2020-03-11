@@ -115,6 +115,7 @@ export default async function serveFeaturesPage(
   }));
 
   const article = articleQuery && (await articleQuery).rows[0];
+  console.log("HEY", article);
 
   return {
     category:

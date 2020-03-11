@@ -4,17 +4,18 @@ import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
 import { apiDiscipline, apiDisciplines, apiInfluentialSchoolsPage } from "../../../api";
 import BacktotopButton from "../../../components/BacktotopButton";
-import CheckBox from "../../../components/Checkbox";
 import { SubdisciplineList } from "../../../components/disciplines";
 import HtmlContent from "../../../components/HtmlContent";
 import { Sidebar } from "../../../components/school";
-import { DisciplineResponse, DisciplinesResponse, InfluentialSchoolsPageResponse } from "../../../schema";
+import { DISPLAY_MODES, SchoolList } from "../../../components/schools";
+import { disciplineName } from "../../../disciplines";
+import { DisciplineResponse, DisciplinesResponse, SchoolPartialData } from "../../../schema";
 
 type DisciplinesProps = {
   discipline: string;
   subdiscipline: string;
   disciplines: DisciplinesResponse;
-  schools: InfluentialSchoolsPageResponse;
+  schools: SchoolPartialData[];
 } & DisciplineResponse;
 
 const Discipline: NextPage<DisciplinesProps> = props => {
@@ -68,20 +69,22 @@ const Discipline: NextPage<DisciplinesProps> = props => {
           <div className="descriptionBar">
             <div className="descriptionTitle">
               <h1>{props.name}</h1>
-              <div className="addtoLocker"><AddToLocker /></div>
             </div>
             <div className="descriptionContent">
               <HtmlContent html={props.description} />
-              <p style={{ maxWidth: 940 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                 eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                 nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                 reprehenderit in voluptate velit esse cillum dolore.</p>
             </div>
           </div>
           <div className="subdisciplinesBar">
             <div><h3 style={{ fontWeight: 800, marginBottom: 0 }}>Sub-Disciplines</h3></div>
-            <SubdisciplineList disciplines={disciplines} discipline={props.discipline} />
+            <SubdisciplineList disciplines={disciplines} discipline={props.discipline} subdiscipline={props.subdiscipline} />
+          </div>
+          <div>
+            <div className="disciplineTitle">
+              <h1>{disciplineName(props.disciplines, props.discipline)}{props.subdiscipline ? ' / ' + disciplineName(props.disciplines, props.subdiscipline) : ''}</h1>
+            </div>
+            <div className="schoolList">
+              <SchoolList mode={DISPLAY_MODES.thMode} schools={props.schools} />
+            </div>
           </div>
         </div>
         <div className="rightSidebar">
@@ -93,15 +96,7 @@ const Discipline: NextPage<DisciplinesProps> = props => {
   );
 };
 
-const AddToLocker = (props: any) => (
-  <div style={{ ...{ display: 'flex', marginLeft: 'auto', paddingBottom: 20, paddingTop: 10 }, ...props.style }}>
-      <span style={{ color: '#666666', marginRight: 10, fontSize: 12, paddingTop: 2 }}>Add to My Locker</span>
-      <CheckBox />
-  </div>
-)
-
 Discipline.getInitialProps = async function(context: NextPageContext) {
-  console.log("HEY")
   const disciplines = apiDisciplines({});
   const schools = apiInfluentialSchoolsPage({
     country: null,
@@ -113,7 +108,7 @@ Discipline.getInitialProps = async function(context: NextPageContext) {
     disciplines: await disciplines,
     discipline: context.query.discipline as string,
     subdiscipline: context.query.subdiscipline as string,
-    schools: await schools,
+    schools: (await schools).schools,
     ...(await discipline)
   };
 };
