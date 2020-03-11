@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import DISPLAY_MODES from "./constants";
-import SchoolThListItem from "./SchoolThListItem";
 import SchoolGridItem from "./SchoolGridItem";
 import SchoolListItem from "./SchoolListItem";
+import SchoolThListItem from "./SchoolThListItem";
 
 const ListWrapper = styled.div`
   display: flex;
