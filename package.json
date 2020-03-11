@@ -61,6 +61,7 @@
     "node-html-parser": "^1.1.16",
     "organize-imports-cli": "^0.7.0",
     "pg": "^7.14.0",
+    "postcss-font-display": "^0.1.2",
     "rc-slider": "^8.7.1",
     "react": "^16.11.0",
     "react-autocomplete": "^1.8.1",
