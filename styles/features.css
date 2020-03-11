@@ -112,7 +112,7 @@ article .black {color: var(--black); }
 
 
 /* SETTING UP DEFAULTS */
-article, article aside, article details, article figcaption, article figure, article footer, article header, article hgroup, article nav, article section, article summary { display: block; font-family: "Montserrat", "Open Sans", Helvetica, Arial, sans-serif; }
+article, article aside, article details, article figcaption, article figure, article footer, article header, article hgroup, article nav, article section, article summary { display: block; font-family: Montserrat, "Open Sans", Verdana, Helvetica, Arial, sans-serif; }
 article audio, article canvas, article video { display: inline-block; }
 article abbr[title] { border-bottom: none; }
 article hr { -webkit-box-sizing: content-box; box-sizing: content-box; height: 0; }
