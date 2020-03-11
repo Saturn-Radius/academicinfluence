@@ -1,6 +1,6 @@
-import SchoolThListItem from "./SchoolThListItem";
 import { DISPLAY_MODES } from ".";
 import SchoolListItem from "./SchoolListItem";
+import SchoolThListItem from "./SchoolThListItem";
 
 interface SchoolListProps {
   mode: string;

@@ -1,13 +1,5 @@
 import styled from "@emotion/styled";
-import {
-  BACKGROUND_1,
-  GRAY_DARK,
-  GRAY_LIGHT,
-  GRAY_LIGHTER,
-  GRAY_MID,
-  GREEN_DARK,
-  GREEN_LIGHT
-} from "../../styles";
+import { BACKGROUND_1, GRAY_DARK, GRAY_LIGHT, GRAY_LIGHTER, GRAY_MID, GREEN_DARK, GREEN_LIGHT } from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`

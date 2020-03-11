@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { faBars, faThList, faTh } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faTh, faThList } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DISPLAY_MODES from "./constants";
 

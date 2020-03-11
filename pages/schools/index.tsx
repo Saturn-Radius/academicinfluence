@@ -1,11 +1,7 @@
 import { NextPage, NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
-import {
-  apiCountries,
-  apiDisciplines,
-  apiInfluentialSchoolsPage
-} from "../../api";
+import { apiCountries, apiDisciplines, apiInfluentialSchoolsPage } from "../../api";
 import { Row } from "../../components/grid";
 import DISPLAY_MODES from "../../components/schools/constants";
 import ListTopMenu from "../../components/schools/ListTopMenu";
@@ -13,12 +9,7 @@ import MyLockerButton from "../../components/schools/MyLockerButton";
 import SchoolList from "../../components/schools/SchoolList";
 import { LeftCol, RightCol } from "../../components/schools/styles";
 import { FilterProps } from "../../components/schools/types";
-import {
-  CountriesResponse,
-  DisciplinesResponse,
-  InfluentialSchoolsPageRequest,
-  InfluentialSchoolsPageResponse
-} from "../../schema";
+import { CountriesResponse, DisciplinesResponse, InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../../schema";
 import { PageDescription, PageTitle } from "../../styles";
 import PageLayout from "../../templates/PageLayout";
 import { LoremIpsumText } from "../../utils/const";
