@@ -45,7 +45,7 @@
 
 /* BACKGROUND AND TEXT STYLES BASED ON VARIABLES ABOVE */
 article .page_bg {background-color: var(--page_bg); }
-article .page_bg_darker {background-color: var(--page_bg_darker);  }
+article .page_bg_darker {background-color: var(--page_bg_darker); }
 article .heading_bg {background-color: var(--heading_bg); }
 
 article .gray_bg {background-color: var(--gray); }
@@ -156,8 +156,8 @@ article .subhead { color: var(--main); font-size: 1.2rem; line-height: 1.5rem; f
 /* Adds an angle bracket before element */
 article .angle::before { content: "\276D "; color: var(--main); font-weight: bold; }
 
-@media screen and (max-width: 1000px) { article .subhead  { font-size: 1.1rem; line-height: 1.3rem; } }
-@media screen and (max-width: 800px) { article .subhead  { font-size: 1rem; line-height: 1.1rem; } }
+@media screen and (max-width: 1000px) { article .subhead { font-size: 1.1rem; line-height: 1.3rem; } }
+@media screen and (max-width: 800px) { article .subhead { font-size: 1rem; line-height: 1.1rem; } }
 
 article .byline { font-size: .9rem; font-weight: bold; color: var(--main); }
 
@@ -226,7 +226,6 @@ article small, article .small { font-size:.9rem; }
 article .col2 { -webkit-column-count: 2; -moz-column-count: 2; column-count: 2; margin-bottom: 26px; margin-top: 1.3rem; }
 article .col2line { -webkit-column-count: 2; -moz-column-count: 2; column-count: 2; -webkit-column-rule: 2px dotted var(--heading_bg); -moz-column-rule: 2px dotted var(--heading_bg); column-rule: 2px dotted var(--heading_bg) }
 article .col2 p:first-of-type {padding-top: 0; margin-top:-.01rem; }
-
 article .col2 li { margin-right: 1em; }
 article .col3 { -webkit-column-count: 3; -moz-column-count: 3; column-count: 3; }
 article .col3line { -webkit-column-count: 3; -moz-column-count: 3; column-count: 3; -webkit-column-rule: 2px dotted var(--heading_bg); -moz-column-rule: 2px dotted var(--heading_bg); column-rule: 2px dotted var(--heading_bg) }
@@ -300,13 +299,6 @@ article details[open]>summary::before { text-decoration:none!important; content:
 
 /* TEXTAREA for CODE */
 article textarea {width:100%; height: 6em; font-family: monospace; font-size: 12px; padding: 4pt; color: darkred; }
-article pre code {
-  background-color: var(--page_bg_darker);
-  border: 1px solid var(--gray_darker);
-  display: block;
-  padding: 1rem;
-}
+article pre code { background-color: var(--page_bg_darker); border: 1px solid var(--gray_darker); display: block; padding: 1rem; }
 
-.head {
-  color: #1E988A;
-}
+.head { color: #1E988A; }
