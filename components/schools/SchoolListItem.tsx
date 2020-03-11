@@ -1,29 +1,30 @@
 import styled from "@emotion/styled";
 import {
-  BACKGROUND_1,
   GRAY_DARK,
-  GRAY_LIGHT,
-  GRAY_LIGHTER,
-  GRAY_MID,
   GREEN_DARK,
-  GREEN_MID
+  GRAY_MID,
+  GRAY_LIGHT,
+  GREEN_LIGHT,
+  BACKGROUND_1
 } from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  margin-top: 17px;
+  margin-top: 18px;
+  border-radius: 4px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  background-color: #ffffff;
 `;
 
 const Header = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  justify-content: center;
   border: solid 0.5px ${GRAY_DARK};
-  background-color: ${GRAY_LIGHTER};
-  padding: 21px 44px;
+  background-color: #ededed;
+  padding: 21px;
 `;
 
 const Logo = styled.img`
@@ -31,60 +32,39 @@ const Logo = styled.img`
   height: 122px;
 `;
 
-const FullDetailsButton = styled.button`
-  width: 111px;
-  height: 27px;
-  border-radius: 30px;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
-  background-color: ${GREEN_MID};
-  margin-top: 23px;
-  color: ${BACKGROUND_1};
-`;
-
-const RankingLabel = styled.span`
-  font-family: "SF UI Display Medium";
-  font-size: 20px;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: ${GRAY_MID};
-  margin-top: 44px;
-`;
-
-const RankText = styled.span`
-  font-family: "Montserrat";
-  font-size: 40px;
-  font-weight: 600;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: ${GREEN_DARK};
-`;
-
 const Body = styled.div`
   flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   background: #ffffff;
   padding: 18px 27px;
 `;
 
-const Row = styled.div``;
-
-const BodyRow = styled.div`
-  display: flex;
-`;
-
-const BodyLeftCol = styled.div`
-  flex: 1;
-`;
-
-const BodyRightCol = styled.div`
-  flex: 0.5;
+const BodyCol = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: start;
+  justify-content: start;
+`;
+
+const BodyLeftCol = styled(BodyCol)`
+  flex: 4;
+`;
+
+const BodyMidCol = styled(BodyCol)`
+  flex: 5;
+  padding: 0 48px;
+`;
+
+const BodyRightCol = styled(BodyCol)`
+  flex: 3;
+  padding-top: 20px;
+`;
+
+const Row = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const SchoolName = styled.h2`
@@ -105,7 +85,93 @@ const Location = styled.p`
   line-height: normal;
   letter-spacing: normal;
   color: ${GRAY_MID};
+  margin: 5px 0;
+`;
+
+const LawImage = styled.img`
+  width: 51px;
+  height: 51px;
+`;
+
+const LawRank = styled.p`
+  font-family: "SF UI Display Bold";
+  font-size: 8px;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000000;
   margin-top: 5px;
+  text-align: center;
+`;
+
+const LawBadgeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+`;
+
+const InfoValueWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-top: 5px;
+  margin-bottom: 0;
+`;
+
+const InfoLabel = styled.span`
+  font-family: "SF UI Display Light";
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.67;
+  letter-spacing: normal;
+  color: ${GRAY_MID};
+`;
+
+const Value = styled.span`
+  font-family: "SF UI Display Medium";
+  font-size: 20px;
+  font-style: normal;
+  line-height: 1.67;
+  letter-spacing: normal;
+  color: ${GREEN_DARK};
+`;
+
+interface InfoValueProps {
+  readonly label: string;
+  readonly value: number;
+}
+const InfoValue = (props: InfoValueProps) => (
+  <InfoValueWrapper>
+    <InfoLabel>{props.label}</InfoLabel>
+    <Value>${props.value}</Value>
+  </InfoValueWrapper>
+);
+
+const LawBadge = () => (
+  <LawBadgeWrapper>
+    <LawImage src={``} />
+    <LawRank>#1 for Law</LawRank>
+  </LawBadgeWrapper>
+);
+
+const RankingLabel = styled.span`
+  font-family: "SF UI Display Medium";
+  font-size: 15x;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: ${GRAY_MID};
+`;
+
+const RankText = styled.span`
+  font-family: "Montserrat";
+  font-size: 20px;
+  font-weight: 600;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: ${GREEN_DARK};
 `;
 
 const SchoolDescription = styled.p`
@@ -117,57 +183,15 @@ const SchoolDescription = styled.p`
   color: ${GRAY_LIGHT};
 `;
 
-const LawImage = styled.img`
-  width: 91px;
-  height: 82px;
+const FullDetailsButton = styled.button`
+  width: 111px;
+  height: 27px;
+  border-radius: 30px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+  background-color: ${GREEN_LIGHT};
+  margin-top: 4px;
+  color: ${BACKGROUND_1};
 `;
-
-const RightColLabel = styled.span`
-  font-family: "SF UI Display Light";
-  font-size: 12px;
-  font-style: normal;
-  line-height: 1.67;
-  letter-spacing: normal;
-  color: ${GRAY_MID};
-`;
-
-const RightColValue = styled.span`
-  font-family: "SF UI Display Medium";
-  font-size: 20px;
-  font-style: normal;
-  line-height: 1.67;
-  letter-spacing: normal;
-  color: ${GREEN_DARK};
-`;
-
-const LawRank = styled.p`
-  font-family: "SF UI Display Bold";
-  font-size: 12px;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #000000;
-  margin-top: 10px;
-`;
-
-const InfoValueWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  margin-top: 5px;
-  margin-bottom: 0;
-`;
-
-interface InfoValueProps {
-  readonly label: string;
-  readonly value: number;
-}
-const InfoValue = (props: InfoValueProps) => (
-  <InfoValueWrapper>
-    <RightColLabel>Tuition</RightColLabel>
-    <RightColValue>{props.value}</RightColValue>
-  </InfoValueWrapper>
-);
 
 interface SchoolListItemProps {
   mode: string;
@@ -193,32 +217,33 @@ const SchoolListItem = (props: SchoolListItemProps) => {
     <Wrapper>
       <Header>
         <Logo src={logo_url} />
-        <FullDetailsButton>Full Details</FullDetailsButton>
-        <RankingLabel>Ranking</RankingLabel>
-        <RankText>#{world_rank}</RankText>
       </Header>
       <Body>
-        <Row>
+        <BodyLeftCol>
           <SchoolName>{name}</SchoolName>
           <Location>
             {city}, {state}
           </Location>
-        </Row>
-        <BodyRow>
-          <BodyLeftCol>
+          <Row>
             <SchoolStatus
               graduationRate={graduation_rate}
               acceptanceRate={acceptance_rate}
+              size={51}
+              fontSize={7}
             />
-            <SchoolDescription>{short_description}</SchoolDescription>
-          </BodyLeftCol>
-          <BodyRightCol>
-            <LawImage src={``} />
-            <LawRank>#1 for Law</LawRank>
-            <InfoValue label="Tuition" value={undergrad_tuition_in_state} />
-            <InfoValue label="Avg. Earnings" value={average_earnings} />
-          </BodyRightCol>
-        </BodyRow>
+            <LawBadge />
+          </Row>
+        </BodyLeftCol>
+        <BodyMidCol>
+          <RankingLabel>Ranking</RankingLabel>
+          <RankText>#{world_rank}</RankText>
+          <SchoolDescription>{short_description}</SchoolDescription>
+        </BodyMidCol>
+        <BodyRightCol>
+          <InfoValue label="Tuition" value={undergrad_tuition_in_state} />
+          <InfoValue label="Avg. Earnings" value={average_earnings} />
+          <FullDetailsButton>Full Details</FullDetailsButton>
+        </BodyRightCol>
       </Body>
     </Wrapper>
   );
