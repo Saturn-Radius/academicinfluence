@@ -1,18 +1,15 @@
 import { NextPage, NextPageContext } from "next";
-import { NextSeo } from "next-seo";
 import { apiPage } from "../api";
-import BacktotopButton from "../components/BacktotopButton";
 import HtmlContent from "../components/HtmlContent";
-import { Sidebar } from "../components/school";
 import { PageResponse } from "../schema";
 import "../styles/features.css";
+import StandardPage from "../templates/StandardPage";
 
 type AboutProps = PageResponse;
 
 const About: NextPage<AboutProps> = (props: AboutProps) => {
   return (
-    <div>
-      <NextSeo title={props.title} />
+    <StandardPage title={props.title}>
       <style jsx>
         {`
           .aboutPage {
@@ -66,18 +63,11 @@ const About: NextPage<AboutProps> = (props: AboutProps) => {
           }
         `}
       </style>
-      <div className="aboutPage">
-        <div className="aboutContent">
-          <HtmlContent html={props.content} />
-        </div>
-        <div className="righSideBar">
-          <div className="sidebar">
-            <Sidebar />
-          </div>
-        </div>
+
+      <div className="aboutContent">
+        <HtmlContent html={props.content} />
       </div>
-      <BacktotopButton />
-    </div>
+    </StandardPage>
   );
 };
 
