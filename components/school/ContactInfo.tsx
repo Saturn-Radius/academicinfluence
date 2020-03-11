@@ -1,12 +1,7 @@
 import styled from "@emotion/styled";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import {
-  faFacebookSquare,
-  faLinkedinIn,
-  faPinterestP,
-  faTwitter
-} from "@fortawesome/free-brands-svg-icons";
+import { faFacebookSquare, faLinkedinIn, faPinterestP, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ContentCard from "../ContentCard";
 config.autoAddCss = false;

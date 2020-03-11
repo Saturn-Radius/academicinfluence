@@ -9,20 +9,24 @@ const Wrapper = styled.div`
 interface SchoolStatusProps {
   graduationRate: number;
   acceptanceRate: number;
+  size: number;
+  fontSize: number;
 }
 const SchoolStatus = (props: SchoolStatusProps) => {
-  const { graduationRate, acceptanceRate } = props;
+  const { graduationRate, acceptanceRate, size, fontSize } = props;
 
   return (
     <Wrapper>
       <CircularProgress
         percentage={graduationRate * 100}
-        size={95}
+        size={size}
+        fontSize={fontSize}
         text="Graduation Rate"
       />
       <CircularProgress
         percentage={acceptanceRate * 100}
-        size={95}
+        size={size}
+        fontSize={fontSize}
         text="Acceptance Rate"
       />
     </Wrapper>
