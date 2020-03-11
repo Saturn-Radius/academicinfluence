@@ -1,0 +1,254 @@
+import styled from "@emotion/styled";
+import SchoolStatus from "./SchoolStatus";
+import {
+  BACKGROUND_1,
+  GRAY_DARK,
+  GRAY_LIGHT,
+  GRAY_LIGHTER,
+  GRAY_MID,
+  GREEN_DARK,
+  GREEN_LIGHT
+} from "../../styles";
+
+const Wrapper = styled.div`
+  margin: 10px;
+  width: 31%;
+  height: 300px;
+`;
+
+const InnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 4px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  background-color: #ffffff;
+  padding: 32px 12px 12px 12px;
+  height: 90%;
+`;
+
+const HeaderWrapper = styled.div`
+  display: flex;
+`;
+
+const Logo = styled.img`
+  width: 50px;
+  height: 59px;
+`;
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-left: 6px;
+`;
+
+const SchoolName = styled.h2`
+  font-family: "Montserrat";
+  font-size: 16px;
+  font-weight: bold;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: ${GREEN_DARK};
+  margin: 0;
+`;
+
+const Location = styled.p`
+  font-family: "SF UI Display Medium";
+  font-size: 12px;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: ${GRAY_MID};
+  margin-top: 1px;
+  margin-bottom: 0;
+`;
+
+const FullDetailsButton = styled.button`
+  width: 110px;
+  height: 19px;
+  border-radius: 30px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+  background-color: ${GREEN_LIGHT};
+  margin-top: 7px;
+  color: ${BACKGROUND_1};
+`;
+
+const SchoolDescription = styled.p`
+  font-family: "SF UI Display Medium";
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  color: ${GRAY_LIGHT};
+  margin-top: 8px;
+`;
+
+const Body = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Row = styled.div`
+  display: flex;
+  margin-top: 10px;
+`;
+
+const LawImage = styled.img`
+  width: 51px;
+  height: 51px;
+`;
+
+const LawRank = styled.p`
+  font-family: "SF UI Display Bold";
+  font-size: 8px;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000000;
+  margin-top: 8px;
+  text-align: center;
+`;
+
+const LawBadgeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+`;
+
+const LawBadge = () => (
+  <LawBadgeWrapper>
+    <LawImage src={``} />
+    <LawRank>#1 for Law</LawRank>
+  </LawBadgeWrapper>
+);
+
+const RankingWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+`;
+
+const RankingLabel = styled.span`
+  font-family: "SF UI Display Medium";
+  font-size: 12x;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: ${GRAY_MID};
+`;
+
+const RankText = styled.span`
+  font-family: "Montserrat";
+  font-size: 20px;
+  font-weight: 600;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: ${GREEN_DARK};
+`;
+
+const InfoValueWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-left: 20px;
+  margin-bottom: 0;
+`;
+
+const InfoLabel = styled.span`
+  font-family: "SF UI Display Light";
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  color: ${GRAY_MID};
+`;
+
+const Value = styled.span`
+  font-family: "SF UI Display Medium";
+  font-size: 16px;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  color: ${GREEN_DARK};
+`;
+
+const HSpacer = styled.div`
+  flex: 1;
+`;
+
+interface InfoValueProps {
+  readonly label: string;
+  readonly value: number;
+}
+const InfoValue = (props: InfoValueProps) => (
+  <InfoValueWrapper>
+    <InfoLabel>{props.label}</InfoLabel>
+    <Value>${props.value}</Value>
+  </InfoValueWrapper>
+);
+
+interface SchoolGridItemProps {
+  mode: string;
+  school: any;
+}
+const SchoolGridItem = (props: SchoolGridItemProps) => {
+  const { school } = props;
+  const {
+    logo_url,
+    overall,
+    name,
+    city,
+    state,
+    graduation_rate,
+    acceptance_rate,
+    short_description,
+    undergrad_tuition_in_state,
+    average_earnings
+  } = school || {};
+  const { world_rank } = overall || 1;
+
+  return (
+    <Wrapper>
+      <InnerWrapper>
+        <HeaderWrapper>
+          <Logo src={logo_url} />
+          <Header>
+            <SchoolName>{name}</SchoolName>
+            <Location>
+              {city}, {state}
+            </Location>
+            <FullDetailsButton>Full Details</FullDetailsButton>
+          </Header>
+        </HeaderWrapper>
+        <Body>
+          <SchoolDescription>{short_description}</SchoolDescription>
+          <Row>
+            <SchoolStatus
+              graduationRate={graduation_rate}
+              acceptanceRate={acceptance_rate}
+              size={51}
+              fontSize={8}
+            />
+            <LawBadge />
+          </Row>
+          <Row>
+            <RankingWrapper>
+              <RankingLabel>Ranking</RankingLabel>
+              <RankText>#{world_rank}</RankText>
+            </RankingWrapper>
+            <HSpacer />
+            <InfoValue label="Tuition" value={undergrad_tuition_in_state} />
+            <InfoValue label="Avg. Earnings" value={average_earnings} />
+          </Row>
+        </Body>
+      </InnerWrapper>
+    </Wrapper>
+  );
+};
+
+export default SchoolGridItem;
