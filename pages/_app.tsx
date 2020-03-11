@@ -8,7 +8,7 @@ import CookieConsent from "react-cookie-consent";
 import ReactGA from "react-ga";
 import "typeface-montserrat/index.css";
 import "../public/fonts/sfui_font.css";
-import { BG_PAGE, GRAY_MID, PAGE_WIDTH_STYLE } from "../styles";
+import { BG_PAGE, GRAY, PAGE_WIDTH_STYLE } from "../styles";
 import "../styles/colors.css";
 
 function HamburgerIcon() {
@@ -49,7 +49,7 @@ function SectionLink(props: {
           textAlign: "center",
           textDecoration: "none",
           display: "block",
-          color: active ? "white" : GRAY_MID,
+          color: active ? "white" : GRAY,
           padding: "5px",
           backgroundColor: active ? "#eb5857" : BG_PAGE,
           cursor: "pointer"

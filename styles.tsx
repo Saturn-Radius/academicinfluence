@@ -13,8 +13,8 @@ export const MAIN_DARKEST = "var(--main_darkest)";
 export const SECONDARY_LIGHTEST = "var(--secondary_lightest)";
 export const SECONDARY_LIGHTER = "var(--secondary_lighter)";
 export const SECONDARY = "var(--secondary)";
-export const SECONDARY_DARKER = "var(--secondary_darker)";
-export const SECONDARY_DARKEST = "var(--secondary_darkest)";
+export const MAIN_DARKERER = "var(--MAIN_DARKERer)";
+export const MAIN_DARKEREST = "var(--MAIN_DARKERest)";
 
 export const ACCENT_LIGHTEST = "var(--accent_lightest)";
 export const ACCENT_LIGHTER = "var(--accent_lighter)";
@@ -28,44 +28,14 @@ export const SECONDARY_ACCENT = "var(--secondary_accent)";
 export const SECONDARY_ACCENT_DARKER = "var(--secondary_accent_darker)";
 export const SECONDARY_ACCENT_DARKEST = "var(--secondary_accent_darkest)";
 
-export const GRAY_LIGHTEST = "var(--gray_lightest)";
-export const GRAY_LIGHTER = "var(--gray_lighter)";
+export const GRAY_LIGHTEST = "var(--GRAY_LIGHTEST)";
+export const GRAY_LIGHTER = "var(--GRAY_LIGHTER)";
 export const GRAY = "var(--gray)";
-export const GRAY_DARKER = "var(--gray_darker)";
-export const GRAY_DARKEST = "var(--gray_darkest)";
+export const GRAY_DARKER = "var(--GRAY_DARKER)";
+export const GRAY_DARKEST = "var(--GRAY_DARKEST)";
 
 export const BG_PAGE = "var(--bg_page)";
 export const BG_PAGE_DARKER = "var(--bg_page_darker)";
-
-{
-  /* LEGACY STYLE SECTION - TO BE REMOVED */
-}
-export const HEADING_BG = "#EEF0EE";
-export const YELLOW = "#FEFE76";
-
-export const PRIMARY_DARK = MAIN;
-export const SECONDARY_DARK = MAIN_DARKER;
-export const TERTIARY_DARK = MAIN_DARKEST;
-
-export const GREEN_MID = MAIN_DARKER;
-export const GRAY_MEDI = MAIN;
-export const GREEN_DARK = MAIN_DARKER;
-export const GREEN_LIGHT = MAIN_LIGHTER;
-
-export const GRAY_DARK = GRAY_DARKEST;
-export const GRAY_MID = GRAY;
-export const GRAY_LIGHT = GRAY_LIGHTEST;
-
-export const BACKGROUND_1 = BG_PAGE;
-
-export const ACTION_COLOR = ACCENT;
-
-export const LIGHT_GRAY = GRAY_LIGHTER;
-export const DARK_GRAY = GRAY_DARKER;
-
-{
-  /* END SECTION TO BE REMOVED */
-}
 
 export const PAGE_WIDTH_STYLE = css({
   paddingLeft: "20px",
@@ -92,11 +62,11 @@ export const PageDescription = styled.p`
   font-style: normal;
   line-height: 1.25;
   letter-spacing: normal;
-  color: ${GRAY_MID};
+  color: ${GRAY};
 `;
 
 export const Header1 = styled.h1({
-  color: SECONDARY_DARK,
+  color: MAIN_DARKER,
   fontSize: "24px",
   lineHeight: "30px",
   "@media(min-width: 1248px)": {
@@ -108,14 +78,14 @@ export const Header1 = styled.h1({
 });
 
 export const DescriptionText = styled.p({
-  color: GRAY_MID,
+  color: GRAY,
   fontSize: "24px",
   fontWeight: "bold",
   lineHeight: "30px"
 });
 
 export const SectionTitle = styled.h2({
-  color: PRIMARY_DARK,
+  color: MAIN,
   fontSize: "20px",
   "@media(min-width: 1248px)": {
     fontSize: "22px",
@@ -125,7 +95,7 @@ export const SectionTitle = styled.h2({
 });
 
 export const SectionDescription = styled.p({
-  color: GRAY_MID,
+  color: GRAY,
   fontSize: "16px",
   fontWeight: "normal",
   lineHeight: "20px"

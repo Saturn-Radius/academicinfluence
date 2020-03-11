@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GRAY_MID, PRIMARY_DARK } from "../../styles";
+import { GRAY, MAIN } from "../../styles";
 import ContentCard from "../ContentCard";
 
 interface InfulentialData {
@@ -49,7 +49,7 @@ const InfluentialWorks = (props: InfulentialData) => {
 
 const styles = {
   subheaderText: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 22,
     marginTop: 10,
     marginBottom: 10
@@ -59,7 +59,7 @@ const styles = {
     lineHeight: 1.78,
     padding: 20,
     minHeight: 234,
-    color: GRAY_MID,
+    color: GRAY,
     listStyleType: "none"
   }
 };

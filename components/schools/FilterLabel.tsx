@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { GRAY_MID } from "../../styles";
+import { GRAY } from "../../styles";
 
 const StyledLabel = styled.label`
   display: block;
@@ -10,7 +10,7 @@ const StyledLabel = styled.label`
 const StyledLabelText = styled.span`
   font-size: 20px;
   line-height: 28px;
-  color: ${GRAY_MID};
+  color: ${GRAY};
 `;
 
 type FilterLabelProps = {

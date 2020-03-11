@@ -1,4 +1,4 @@
-import { SECONDARY_DARK } from "../styles";
+import { MAIN_DARKER } from "../styles";
 
 const Subscribe = (props: any) => {
   return (
@@ -23,7 +23,7 @@ const Subscribe = (props: any) => {
 
 const styles = {
   buttonStyle: {
-    backgroundColor: SECONDARY_DARK,
+    backgroundColor: MAIN_DARKER,
     border: "none",
     color: "white",
     textDecoration: "none"

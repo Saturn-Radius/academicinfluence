@@ -1,6 +1,6 @@
 import { DisciplineLink } from "../../links";
 import { DisciplinesResponse } from "../../schema";
-import { GRAY_DARK, GRAY_MEDI, GRAY_MID, PRIMARY_DARK } from "../../styles";
+import { GRAY, GRAY_DARKEST, MAIN } from "../../styles";
 
 type SubdisciplineListProps = {
   discipline: string;
@@ -52,10 +52,10 @@ export default function SubdisciplineList(props: SubdisciplineListProps) {
 
 const styles = {
   defaultliStyle: {
-    backgroundColor: GRAY_MEDI,
+    backgroundColor: MAIN,
     border: 1,
     borderStyle: "solid",
-    borderColor: GRAY_DARK,
+    borderColor: GRAY_DARKEST,
     height: 32,
     paddingTop: 5,
     paddingLeft: 20,
@@ -70,7 +70,7 @@ const styles = {
     backgroundColor: "rgba(55, 194, 171, 0.2)",
     border: 1,
     borderStyle: "solid",
-    borderColor: GRAY_DARK,
+    borderColor: GRAY_DARKEST,
     height: 32,
     paddingTop: 5,
     paddingLeft: 20,
@@ -83,13 +83,13 @@ const styles = {
   },
   defaultlinkStyle: {
     textDecoration: "none",
-    color: GRAY_MID,
+    color: GRAY,
     fontSize: 12,
     fontWeight: 500
   },
   linkStyle: {
     textDecoration: "none",
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 12,
     fontWeight: 600
   }

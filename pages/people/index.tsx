@@ -9,10 +9,21 @@ import React from "react";
 import Autocomplete from "react-autocomplete";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
-import { apiCountries, apiDisciplines, apiInfluentialPeoplePage, apiPersonSearch } from "../../api";
+import {
+  apiCountries,
+  apiDisciplines,
+  apiInfluentialPeoplePage,
+  apiPersonSearch
+} from "../../api";
 import { lookupDiscipline } from "../../disciplines";
-import { CountriesResponse, DisciplinesResponse, Identifiable, InfluentialPeoplePageRequest, InfluentialPeoplePageResponse } from "../../schema";
-import { GRAY_MID } from "../../styles";
+import {
+  CountriesResponse,
+  DisciplinesResponse,
+  Identifiable,
+  InfluentialPeoplePageRequest,
+  InfluentialPeoplePageResponse
+} from "../../schema";
+import { GRAY } from "../../styles";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
 // refactoring is encouraged
@@ -44,7 +55,7 @@ function FilterLabel(props: FilterLabelProps) {
         css={{
           fontSize: "20px",
           lineHeight: "28px",
-          color: GRAY_MID
+          color: GRAY
         }}
       >
         {props.label}
@@ -379,8 +390,6 @@ const InfluentialPeople: NextPage<InfluentialPeopleProps> = props => {
 };
 
 InfluentialPeople.getInitialProps = async function(context: NextPageContext) {
-  
-
   const request = {
     country: (context.query.country as string) || null,
     years: {

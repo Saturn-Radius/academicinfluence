@@ -32,13 +32,12 @@ import {
   SchoolPartialData
 } from "../schema";
 import {
-  GRAY_DARK,
-  GRAY_MID,
+  GRAY,
+  GRAY_DARKEST,
   MAIN,
   MAIN_DARKER,
   MAIN_DARKEST,
-  MAIN_LIGHTER,
-  PRIMARY_DARK
+  MAIN_LIGHTER
 } from "../styles";
 import ToolPage from "../ToolPage";
 
@@ -199,7 +198,7 @@ const COLUMNS: COLUMN[] = [
           fontSize: "32px",
           lineHeight: "80px",
           textAlign: "center",
-          color: GRAY_MID,
+          color: GRAY,
           width: "64px"
         }}
       >
@@ -230,7 +229,7 @@ const COLUMNS: COLUMN[] = [
               fontSize: "16px",
               lineHeight: "20px",
               fontWeight: "bold",
-              color: PRIMARY_DARK
+              color: MAIN
             }}
           >
             {school.name}
@@ -239,7 +238,7 @@ const COLUMNS: COLUMN[] = [
             css={{
               fontSize: "12px",
               lineHeight: "14px",
-              color: GRAY_MID
+              color: GRAY
             }}
           >
             {school.city}, {school.state}
@@ -432,7 +431,7 @@ function FilterLabel(props: FilterLabelProps) {
         css={{
           fontSize: "20px",
           lineHeight: "28px",
-          color: GRAY_MID
+          color: GRAY
         }}
       >
         {props.label}
@@ -982,7 +981,7 @@ for (let index = 2; index < COLUMNS.length; index++) {
   let column = COLUMNS[index];
   STYLES[`td:nth-of-type(${index + 1})::before`] = {
     content: '"' + column.label + '"',
-    color: GRAY_MID,
+    color: GRAY,
     fontSize: "12px",
     lineHeight: "20px"
   };
@@ -1059,7 +1058,7 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
                 gridColumnStart: 1,
                 gridColumnEnd: 5,
                 borderBottomStyle: "solid",
-                borderBottomColor: GRAY_DARK,
+                borderBottomColor: GRAY_DARKEST,
                 borderBottomWidth: ".5px"
               },
               ...STYLES
@@ -1122,7 +1121,7 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
                   background: "white",
                   borderWidth: "0.5px",
                   borderStyle: "solid",
-                  borderColor: GRAY_DARK,
+                  borderColor: GRAY_DARKEST,
                   boxSizing: "border-box"
                 }}
               >
