@@ -1,5 +1,4 @@
 import { NextPage, NextPageContext } from "next";
-import { useMediaQuery } from "react-responsive";
 import { apiPersonPage } from "../../api";
 import {
   InfluenceScore,
@@ -32,8 +31,6 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
     links,
     works
   } = props.person;
-
-  const isBigScreen = useMediaQuery({ query: "(min-width: 1069px)" });
 
   return (
     <StandardPage title={name}>
