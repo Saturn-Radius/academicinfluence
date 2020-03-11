@@ -1,11 +1,12 @@
 import { MAIN } from "../../styles";
 
-const Sidebar = (props: any) => {
+const Sidebar = () => {
   return (
     <div
-      style={{
-        ...{ maxWidth: 311, marginLeft: 30, background: "white", padding: 12 },
-        ...props.style
+      css={{
+        width: 311,
+        background: "white",
+        padding: 12
       }}
     >
       <SidebarButton img="/images/ranking-icon.png" text="College Rankings" />
