@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import Link from "next/link";
+import { SchoolLink } from "../../links";
 import { GRAY, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
@@ -217,9 +217,9 @@ const SchoolGridItem = (props: SchoolGridItemProps) => {
             <Location>
               {city}, {state}
             </Location>
-            <Link href={`/schools/${slug}`}>
+            <SchoolLink school={school}>
               <FullDetailsButton>Full Details</FullDetailsButton>
-            </Link>
+            </SchoolLink>
           </Header>
         </HeaderWrapper>
         <Body>
