@@ -12,7 +12,7 @@ type AboutProps = PageResponse;
 const About: NextPage<AboutProps> = (props: AboutProps) => {
   return (
     <div>
-      <NextSeo title="About" />
+      <NextSeo title={props.title} />
       <style jsx>
         {`
           .aboutPage {
