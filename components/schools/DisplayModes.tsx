@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { faBars, faThList } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faThList, faTh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DISPLAY_MODES from "./constants";
 
@@ -25,11 +25,14 @@ const ModeButton = (props: ModeButtonProps) => {
   let iconName = faBars;
 
   switch (mode) {
-    case DISPLAY_MODES.listMode:
-      iconName = faBars;
+    case DISPLAY_MODES.grid:
+      iconName = faTh;
       break;
     case DISPLAY_MODES.thMode:
       iconName = faThList;
+      break;
+    case DISPLAY_MODES.listMode:
+      iconName = faBars;
       break;
     default:
       break;
@@ -55,11 +58,15 @@ const DisplayModes = (props: DisplayModesProps) => {
   return (
     <Wrapper>
       <ModeButton
-        mode={DISPLAY_MODES.listMode}
+        mode={DISPLAY_MODES.grid}
         onModeSelect={onModeSelectHandler}
       />
       <ModeButton
         mode={DISPLAY_MODES.thMode}
+        onModeSelect={onModeSelectHandler}
+      />
+      <ModeButton
+        mode={DISPLAY_MODES.listMode}
         onModeSelect={onModeSelectHandler}
       />
     </Wrapper>
