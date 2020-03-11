@@ -6,13 +6,9 @@ import {
   apiDisciplines,
   apiInfluentialSchoolsPage
 } from "../../api";
-import { Row } from "../../components/grid";
-import { Sidebar } from "../../components/school";
 import DISPLAY_MODES from "../../components/schools/constants";
 import ListTopMenu from "../../components/schools/ListTopMenu";
-import MyLockerButton from "../../components/schools/MyLockerButton";
 import SchoolList from "../../components/schools/SchoolList";
-import { LeftCol, RightCol } from "../../components/schools/styles";
 import { FilterProps } from "../../components/schools/types";
 import {
   CountriesResponse,
@@ -21,7 +17,7 @@ import {
   InfluentialSchoolsPageResponse
 } from "../../schema";
 import { PageDescription, PageTitle } from "../../styles";
-import PageLayout from "../../templates/PageLayout";
+import StandardPage from "../../templates/StandardPage";
 import { LoremIpsumText } from "../../utils/const";
 
 const asHref = (request: InfluentialSchoolsPageRequest) => {
@@ -82,39 +78,15 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   };
 
   return (
-    <PageLayout>
+    <StandardPage title="Influential Schools">
       <PageTitle>Influential Schools</PageTitle>
-      <Row>
-        <LeftCol>
-          <PageDescription>{LoremIpsumText}</PageDescription>
-        </LeftCol>
-        <RightCol>
-          <MyLockerButton
-            items={lockerItems}
-            title="My Locker"
-            image_url="/images/my-locker.png"
-          />
-        </RightCol>
-      </Row>
-      <Row>
-        <LeftCol>
-          <ListTopMenu
-            {...filterProps}
-            mode={displayMode}
-            onDisplayModeSelect={onDisplayModeSelectHandler}
-          />
-        </LeftCol>
-        <RightCol />
-      </Row>
-      <Row>
-        <LeftCol>
-          <SchoolList mode={displayMode} schools={schools} />
-        </LeftCol>
-        <RightCol>
-          <Sidebar />
-        </RightCol>
-      </Row>
-    </PageLayout>
+      <PageDescription>{LoremIpsumText}</PageDescription>
+      <ListTopMenu
+        {...filterProps}
+        onDisplayModeSelect={onDisplayModeSelectHandler}
+      />
+      <SchoolList mode={displayMode} schools={schools} />
+    </StandardPage>
   );
 };
 

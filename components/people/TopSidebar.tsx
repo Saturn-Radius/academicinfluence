@@ -1,4 +1,4 @@
-import { GRAY_MID } from "../../styles";
+import { GRAY } from "../../styles";
 
 const TopSidebar = (props: any) => {
   return (
@@ -7,7 +7,7 @@ const TopSidebar = (props: any) => {
         style={{ width: 20, height: 20, paddingRight: 10 }}
         src="/images/my-locker.png"
       />
-      <span style={{ fontSize: 14, color: GRAY_MID }}>My Locker</span>
+      <span style={{ fontSize: 14, color: GRAY }}>My Locker</span>
       <img
         style={{ width: 20, height: 10, marginLeft: 173 }}
         src="/images/arrow-down.png"

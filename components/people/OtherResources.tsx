@@ -1,4 +1,4 @@
-import { GRAY_LIGHT, PRIMARY_DARK } from "../../styles";
+import { GRAY_LIGHTEST, MAIN } from "../../styles";
 import ContentCard from "../ContentCard";
 
 interface ResourceData {
@@ -33,7 +33,7 @@ const OtherResources = (props: ResourceData) => {
 
 const styles = {
   subheaderText: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 22,
     marginTop: 10,
     marginBottom: 10
@@ -43,7 +43,7 @@ const styles = {
     lineHeight: 1.78,
     height: 234,
     padding: 20,
-    color: GRAY_LIGHT,
+    color: GRAY_LIGHTEST,
     listStyleType: "none"
   },
   link: {
@@ -51,7 +51,7 @@ const styles = {
     lineHeight: 1.78,
     height: 234,
     textDecoration: "underline",
-    color: GRAY_LIGHT,
+    color: GRAY_LIGHTEST,
     listStyleType: "none"
   }
 };

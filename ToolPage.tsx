@@ -1,4 +1,4 @@
-import { PAGE_WIDTH_STYLE, PRIMARY_DARK } from "./styles";
+import { MAIN, PAGE_WIDTH_STYLE } from "./styles";
 
 type Props = {
   tool: string;
@@ -11,7 +11,7 @@ export default function ToolPage(props: Props) {
       <div
         css={{
           display: "inline-block",
-          backgroundColor: PRIMARY_DARK,
+          backgroundColor: MAIN,
           color: "white",
           paddingLeft: "10px",
           paddingRight: "10px",

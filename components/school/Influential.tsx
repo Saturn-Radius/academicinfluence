@@ -1,5 +1,5 @@
 import { PersonLink } from "../../links";
-import { GREEN_MID, PRIMARY_DARK } from "../../styles";
+import { MAIN, MAIN_DARKER } from "../../styles";
 import Button from "../Button";
 import ContentCard from "../ContentCard";
 
@@ -60,9 +60,7 @@ const InfluentialCard = (props: any) => {
       </div>
 
       <div>
-        <div style={{ color: PRIMARY_DARK, fontWeight: "bold" }}>
-          Influential Works
-        </div>
+        <div style={{ color: MAIN, fontWeight: "bold" }}>Influential Works</div>
         <div style={{ paddingBottom: 8 }}>
           Educated: A Memoir, The Body: A Guide for Occupants, Outliers: The
           Story of Success
@@ -70,7 +68,7 @@ const InfluentialCard = (props: any) => {
 
         <div style={{ float: "right" }}>
           <PersonLink person={{ name: props.name, slug: props.slug }}>
-            <Button color={GREEN_MID} text="See Profile" />
+            <Button color={MAIN_DARKER} text="See Profile" />
           </PersonLink>
         </div>
       </div>
@@ -97,12 +95,12 @@ const styles = {
     //textAlign:'center'
   } as React.CSSProperties,
   influentialName: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 20,
     fontWeight: "bold"
   } as React.CSSProperties,
   influentialRowText: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 14,
     fontWeight: "bold"
   } as React.CSSProperties

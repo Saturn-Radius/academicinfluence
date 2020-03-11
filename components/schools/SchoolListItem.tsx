@@ -1,5 +1,12 @@
 import styled from "@emotion/styled";
-import { BACKGROUND_1, GRAY_DARK, GRAY_LIGHT, GRAY_MID, GREEN_DARK, GREEN_LIGHT } from "../../styles";
+import {
+  BG_PAGE,
+  GRAY,
+  GRAY_DARKEST,
+  GRAY_LIGHTEST,
+  MAIN_DARKER,
+  MAIN_LIGHTER
+} from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -15,7 +22,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid 0.5px ${GRAY_DARK};
+  border: solid 0.5px ${GRAY_DARKEST};
   background-color: #ededed;
   padding: 21px;
 `;
@@ -67,7 +74,7 @@ const SchoolName = styled.h2`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GREEN_DARK};
+  color: ${MAIN_DARKER};
   margin: 0;
 `;
 
@@ -77,7 +84,7 @@ const Location = styled.p`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY_MID};
+  color: ${GRAY};
   margin: 5px 0;
 `;
 
@@ -118,7 +125,7 @@ const InfoLabel = styled.span`
   font-style: normal;
   line-height: 1.67;
   letter-spacing: normal;
-  color: ${GRAY_MID};
+  color: ${GRAY};
 `;
 
 const Value = styled.span`
@@ -127,7 +134,7 @@ const Value = styled.span`
   font-style: normal;
   line-height: 1.67;
   letter-spacing: normal;
-  color: ${GREEN_DARK};
+  color: ${MAIN_DARKER};
 `;
 
 interface InfoValueProps {
@@ -154,7 +161,7 @@ const RankingLabel = styled.span`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY_MID};
+  color: ${GRAY};
 `;
 
 const RankText = styled.span`
@@ -164,7 +171,7 @@ const RankText = styled.span`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GREEN_DARK};
+  color: ${MAIN_DARKER};
 `;
 
 const SchoolDescription = styled.p`
@@ -173,7 +180,7 @@ const SchoolDescription = styled.p`
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: ${GRAY_LIGHT};
+  color: ${GRAY_LIGHTEST};
 `;
 
 const FullDetailsButton = styled.button`
@@ -181,9 +188,9 @@ const FullDetailsButton = styled.button`
   height: 27px;
   border-radius: 30px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
-  background-color: ${GREEN_LIGHT};
+  background-color: ${MAIN_LIGHTER};
   margin-top: 4px;
-  color: ${BACKGROUND_1};
+  color: ${BG_PAGE};
 `;
 
 interface SchoolListItemProps {

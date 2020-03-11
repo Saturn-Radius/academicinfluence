@@ -1,4 +1,4 @@
-import { PRIMARY_DARK } from "../../styles";
+import { MAIN } from "../../styles";
 import { Desktop, TabletOrMobile } from "../../utils/responsive";
 
 const CollegeHeader = (props: any) => {
@@ -52,7 +52,7 @@ const CollegeInfo = (props: any) => {
 
 const styles = {
   name: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 28,
     margin: 0
   },
