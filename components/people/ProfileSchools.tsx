@@ -1,4 +1,4 @@
-import { GRAY_MID, PRIMARY_DARK } from "../../styles";
+import { GRAY, MAIN } from "../../styles";
 
 interface SchoolsData {
   schools: { name: string; slug: string }[];
@@ -23,13 +23,13 @@ const ProfileSchools = (props: SchoolsData) => {
 
 const styles = {
   sidebarText: {
-    color: GRAY_MID,
+    color: GRAY,
     lineHeight: 1,
     fontSize: 16,
     fontWeight: 500
   },
   bodyText: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 24,
     listStyleType: "disc",
     fontWeight: 600

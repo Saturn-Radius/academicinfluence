@@ -1,4 +1,4 @@
-import { PRIMARY_DARK } from "../../styles";
+import { MAIN } from "../../styles";
 import ContentCard from "../ContentCard";
 
 const Accreditation = (props: any) => {
@@ -30,7 +30,7 @@ const Accreditation = (props: any) => {
 
 const styles = {
   subheaderText: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 22
   },
   container: {

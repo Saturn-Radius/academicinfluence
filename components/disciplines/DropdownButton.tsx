@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { GRAY_MID, PRIMARY_DARK } from "../../styles";
+import { GRAY, MAIN } from "../../styles";
 
 const DropdownButton = React.forwardRef(
   ({ onClick, href, ...props }: any, ref) => {
@@ -33,9 +33,9 @@ const styles = {
     height: 120,
     padding: 12,
     fontSize: 29,
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontWeight: "bold",
-    borderBottomColor: GRAY_MID,
+    borderBottomColor: GRAY,
     borderBottomStyle: "solid",
     borderBottomWidth: "thin"
   }

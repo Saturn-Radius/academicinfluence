@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import { BACKGROUND_1, GRAY_LIGHT, GRAY_MID, GREEN_DARK, GREEN_LIGHT } from "../../styles";
+import { SchoolLink } from "../../links";
+import { GRAY, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -42,7 +43,7 @@ const SchoolName = styled.h2`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GREEN_DARK};
+  color: ${MAIN_DARKER};
   margin: 0;
 `;
 
@@ -52,7 +53,7 @@ const Location = styled.p`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY_MID};
+  color: ${GRAY};
   margin-top: 1px;
   margin-bottom: 0;
 `;
@@ -62,9 +63,10 @@ const FullDetailsButton = styled.button`
   height: 19px;
   border-radius: 30px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
-  background-color: ${GREEN_LIGHT};
+  background-color: ${MAIN_LIGHTER};
   margin-top: 7px;
-  color: ${BACKGROUND_1};
+  color: #ffffff;
+  outline: none;
 `;
 
 const SchoolDescription = styled.p`
@@ -73,7 +75,7 @@ const SchoolDescription = styled.p`
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: ${GRAY_LIGHT};
+  color: ${GRAY_LIGHTEST};
   margin-top: 8px;
 `;
 
@@ -130,7 +132,7 @@ const RankingLabel = styled.span`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY_MID};
+  color: ${GRAY};
 `;
 
 const RankText = styled.span`
@@ -140,7 +142,7 @@ const RankText = styled.span`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GREEN_DARK};
+  color: ${MAIN_DARKER};
 `;
 
 const InfoValueWrapper = styled.div`
@@ -157,7 +159,7 @@ const InfoLabel = styled.span`
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: ${GRAY_MID};
+  color: ${GRAY};
 `;
 
 const Value = styled.span`
@@ -166,7 +168,7 @@ const Value = styled.span`
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: ${GREEN_DARK};
+  color: ${MAIN_DARKER};
 `;
 
 const HSpacer = styled.div`
@@ -191,6 +193,7 @@ interface SchoolGridItemProps {
 const SchoolGridItem = (props: SchoolGridItemProps) => {
   const { school } = props;
   const {
+    slug,
     logo_url,
     overall,
     name,
@@ -214,7 +217,9 @@ const SchoolGridItem = (props: SchoolGridItemProps) => {
             <Location>
               {city}, {state}
             </Location>
-            <FullDetailsButton>Full Details</FullDetailsButton>
+            <SchoolLink school={school}>
+              <FullDetailsButton>Full Details</FullDetailsButton>
+            </SchoolLink>
           </Header>
         </HeaderWrapper>
         <Body>

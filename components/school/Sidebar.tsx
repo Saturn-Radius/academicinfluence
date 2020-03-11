@@ -1,13 +1,19 @@
-import { PRIMARY_DARK } from "../../styles";
+import { MAIN } from "../../styles";
 
-const Sidebar = (props: any) => {
-    return (
-        <div style={{ ...{ maxWidth: 311, marginLeft: 30, background: 'white', padding: 12 }, ...props.style }}>
-            <SidebarButton img="/images/ranking-icon.png" text="College Rankings" />
-           {/* <SidebarButton img="/images/match-icon.png" text="College Match" /> */}
-           {/* <SidebarButton img="/images/compare-icon.png" text="College Compare" /> */}
-        </div>
-    );
+const Sidebar = () => {
+  return (
+    <div
+      css={{
+        width: 311,
+        background: "white",
+        padding: 12
+      }}
+    >
+      <SidebarButton img="/images/ranking-icon.png" text="College Rankings" />
+      {/* <SidebarButton img="/images/match-icon.png" text="College Match" /> */}
+      {/* <SidebarButton img="/images/compare-icon.png" text="College Compare" /> */}
+    </div>
+  );
 };
 
 const SidebarButton = (props: any) => {
@@ -29,7 +35,7 @@ const SidebarButton = (props: any) => {
 
 const styles = {
   sidebarText: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 20,
     fontWeight: 500,
     paddingLeft: 8

@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { GRAY_MID, PRIMARY_DARK } from "../../styles";
+import { GRAY, MAIN } from "../../styles";
 import ContentCard from "../ContentCard";
+import useMoreButton from "../useMoreButton";
 
 interface InfulentialData {
   style: any;
@@ -8,12 +8,9 @@ interface InfulentialData {
 }
 
 const InfluentialWorks = (props: InfulentialData) => {
-  const [isMore, setIsMore] = useState(true);
-  const displayWorks = isMore ? props.works.slice(0, 7) : props.works;
+  const { isMore, moreButton } = useMoreButton();
+  const displayWorks = !isMore ? props.works.slice(0, 7) : props.works;
 
-  const clickButton = () => {
-    setIsMore(!isMore);
-  };
   return (
     <div style={props.style}>
       <h2 style={styles.subheaderText}>Notable Books</h2>
@@ -23,25 +20,7 @@ const InfluentialWorks = (props: InfulentialData) => {
             <li key={i}>{work.label}</li>
           ))}
         </div>
-        {props.works.length > 8 && (
-          <div
-            onClick={() => clickButton()}
-            style={{ fontWeight: "bold", textAlign: "center", fontSize: 16 }}
-          >
-            {isMore && (
-              <div>
-                More
-                <img src="/images/arrow-down.png" />
-              </div>
-            )}
-            {!isMore && (
-              <div>
-                Less
-                <img src="/images/small-arrow-up.png" />
-              </div>
-            )}
-          </div>
-        )}
+        {props.works.length > 8 && moreButton}
       </ContentCard>
     </div>
   );
@@ -49,7 +28,7 @@ const InfluentialWorks = (props: InfulentialData) => {
 
 const styles = {
   subheaderText: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 22,
     marginTop: 10,
     marginBottom: 10
@@ -59,7 +38,7 @@ const styles = {
     lineHeight: 1.78,
     padding: 20,
     minHeight: 234,
-    color: GRAY_MID,
+    color: GRAY,
     listStyleType: "none"
   }
 };

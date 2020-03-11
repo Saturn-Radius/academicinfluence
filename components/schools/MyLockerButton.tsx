@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { GRAY_DARK, GRAY_MID, PRIMARY_DARK } from "../../styles";
+import { GRAY, GRAY_DARKEST, MAIN } from "../../styles";
 import DropdownButton from "../Dropdown";
 import { Spacer } from "../grid";
 
@@ -14,7 +14,7 @@ const StyledButton = styled.button`
   align-items: center;
   border-radius: 2px;
   box-shadow: 0 3px 2px 0 rgba(0, 0, 0, 0.25);
-  border: solid 0.5px ${GRAY_DARK};
+  border: solid 0.5px ${GRAY_DARKEST};
   background-color: #ffffff;
   padding: 12px;
   outline: none;
@@ -28,7 +28,7 @@ interface TitleProps {
   readonly isMore: boolean;
 }
 const Title = styled.span<TitleProps>`
-  color: ${props => (props.isMore ? GRAY_MID : PRIMARY_DARK)};
+  color: ${props => (props.isMore ? GRAY : MAIN)};
   font-family: "SF UI Display Bold";
   font-size: 20px;
   font-style: normal;
@@ -44,7 +44,7 @@ const AppendIcon = styled.img`
 const CloseIcon = styled(FontAwesomeIcon)`
   width: 20px !important;
   height: 20px !important;
-  color: ${GRAY_MID};
+  color: ${GRAY};
 `;
 
 const MyLockerButton = React.forwardRef(

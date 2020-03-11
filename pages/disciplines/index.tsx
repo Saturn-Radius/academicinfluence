@@ -3,11 +3,10 @@ import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
 import { apiDisciplines } from "../../api";
-import BacktotopButton from "../../components/BacktotopButton";
 import { DropdownButton } from "../../components/disciplines";
-import { Sidebar } from "../../components/school";
 import { DisciplineLink } from "../../links";
 import { DisciplinesResponse } from "../../schema";
+import StandardPage from "../../templates/StandardPage";
 
 type DisciplinesProps = {
   disciplines: DisciplinesResponse;
@@ -15,74 +14,74 @@ type DisciplinesProps = {
 
 const Disciplines: NextPage<DisciplinesProps> = props => {
   return (
-    <div>
-      <style jsx>
-        {`
-          .leftSidebar {
-            display: flex;
-            justify-content: center;
-            margin-top: 65px;
-            margin-bottom: 150px;
-            flex-wrap: wrap;
-          }
-          .scienceContent {
-            display: flex;
-            flex-wrap: wrap;
-          }
-          .humanContent {
-            display: flex;
-            flex-direction: column;
-            flex-wrap: wrap;
-            width: 420px;
-          }
-          .naturalContent {
-            margin-left: 30px;
-            width: 420px;
-          }
-          .rightSidebar {
-            margin-left: 10px;
-            margin-top: 30px;
-          }
-          .liStyle {
-            list-style-type: none;
-            background-color: #dfdede;
-            border-bottom: 1px solid #999999;
-            padding-top: 23.5px;
-            padding-bottom: 23.5px;
-            padding-left: 25px;
-          }
-          .linkStyle {
-            text-decoration: none;
-            color: #1e988a;
-            font-size: 20px;
-            font-weight: 600;
-          }
-          @media (max-width: 920px) {
-            .naturalContent {
-              margin-left: 0px;
-              width: auto;
-            }
-            .humanContent {
-              width: auto;
-            }
+    <StandardPage title="Disciplines">
+      <div>
+        <style jsx>
+          {`
             .leftSidebar {
-              flex-direction: column;
+              display: flex;
+              justify-content: center;
+              margin-top: 65px;
+              margin-bottom: 150px;
+              flex-wrap: wrap;
             }
             .scienceContent {
               display: flex;
-              flex-direction: column;
+              flex-wrap: wrap;
             }
-            .sidebar {
+            .humanContent {
               display: flex;
-              justify-content: center;
+              flex-direction: column;
+              flex-wrap: wrap;
+              width: 420px;
+            }
+            .naturalContent {
+              margin-left: 30px;
+              width: 420px;
             }
             .rightSidebar {
-              margin-left: 0px;
+              margin-left: 10px;
+              margin-top: 30px;
             }
-          }
-        `}
-      </style>
-      <div className="leftSidebar">
+            .liStyle {
+              list-style-type: none;
+              background-color: #dfdede;
+              border-bottom: 1px solid #999999;
+              padding-top: 23.5px;
+              padding-bottom: 23.5px;
+              padding-left: 25px;
+            }
+            .linkStyle {
+              text-decoration: none;
+              color: #1e988a;
+              font-size: 20px;
+              font-weight: 600;
+            }
+            @media (max-width: 920px) {
+              .naturalContent {
+                margin-left: 0px;
+                width: auto;
+              }
+              .humanContent {
+                width: auto;
+              }
+              .leftSidebar {
+                flex-direction: column;
+              }
+              .scienceContent {
+                display: flex;
+                flex-direction: column;
+              }
+              .sidebar {
+                display: flex;
+                justify-content: center;
+              }
+              .rightSidebar {
+                margin-left: 0px;
+              }
+            }
+          `}
+        </style>
         <div className="scienceContent">
           <div className="humanContent">
             <DropdownButton
@@ -164,14 +163,8 @@ const Disciplines: NextPage<DisciplinesProps> = props => {
             />
           </div>
         </div>
-        <div className="rightSidebar">
-          <div className="sidebar">
-            <Sidebar />
-          </div>
-        </div>
       </div>
-      <BacktotopButton />
-    </div>
+    </StandardPage>
   );
 };
 

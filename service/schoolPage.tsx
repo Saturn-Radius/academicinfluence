@@ -10,6 +10,7 @@ import {
   PERSON_ENTITY_TYPE
 } from "./databasePerson";
 import { extractEntityFields, lookupBySlug } from "./entityDatabase";
+import processHtml from "./processHtml";
 import {
   addPartialSchoolFields,
   extractPartialSchoolFields,
@@ -205,6 +206,8 @@ export default async function serveSchoolPage(
     .field("campus_violent_crime_rate")
     .field("city_property_crime_rate")
     .field("city_violent_crime_rate")
+    .field("disciplines_text")
+    .field("influential_alumni_text")
     .execute();
 
   const disciplineQuery = disciplineBreakdownQuery(
@@ -266,7 +269,9 @@ export default async function serveSchoolPage(
       ...extractDisciplineBreakdownWithYears(await disciplineQuery),
       people: (await personQuery).rows.map(extractPartialPersonWithOverall),
       alumni: (await alumniQuery).rows.map(extractPartialPersonWithOverall),
-      weather: calcWeather(school.weather_maximums, school.weather_minimums)
+      weather: calcWeather(school.weather_maximums, school.weather_minimums),
+      disciplines_text: await processHtml(school.disciplines_text),
+      influential_alumni_text: await processHtml(school.influential_alumni_text)
     }
   };
 }

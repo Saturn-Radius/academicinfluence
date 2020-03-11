@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { SchoolData } from "../../schema";
 import { SectionDescription, SectionTitle } from "../../styles";
-import { LoremIpsumText } from "../../utils/const";
 import CircularProgress from "../CircularProgress";
 import ContentCard from "../ContentCard";
+import HtmlContent from "../HtmlContent";
 
 type SchoolProps = {
   school: SchoolData;
@@ -37,7 +37,9 @@ const DisciplineContainer = (props: SchoolProps) => {
       <SectionTitle id="subjects">
         What subject is {props.school.name} best known for?
       </SectionTitle>
-      <SectionDescription>{LoremIpsumText}</SectionDescription>
+      <SectionDescription>
+        <HtmlContent html={props.school.disciplines_text} />
+      </SectionDescription>
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
