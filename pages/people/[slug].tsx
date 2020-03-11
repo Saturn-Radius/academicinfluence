@@ -1,15 +1,7 @@
 import { NextPage, NextPageContext } from "next";
 import { useMediaQuery } from "react-responsive";
 import { apiPersonPage } from "../../api";
-import {
-  InfluenceScore,
-  InfluentialWorks,
-  OtherResources,
-  ProfileDescription,
-  ProfileDiscipline,
-  ProfileHeader,
-  ProfileSchools
-} from "../../components/people";
+import { InfluenceScore, InfluentialWorks, OtherResources, ProfileDescription, ProfileDiscipline, ProfileHeader, ProfileSchools } from "../../components/people";
 import { PersonData } from "../../schema";
 import StandardPage from "../../templates/StandardPage";
 

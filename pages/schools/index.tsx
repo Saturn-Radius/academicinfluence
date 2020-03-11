@@ -1,21 +1,12 @@
 import { NextPage, NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
-import {
-  apiCountries,
-  apiDisciplines,
-  apiInfluentialSchoolsPage
-} from "../../api";
+import { apiCountries, apiDisciplines, apiInfluentialSchoolsPage } from "../../api";
 import DISPLAY_MODES from "../../components/schools/constants";
 import ListTopMenu from "../../components/schools/ListTopMenu";
 import SchoolList from "../../components/schools/SchoolList";
 import { FilterProps } from "../../components/schools/types";
-import {
-  CountriesResponse,
-  DisciplinesResponse,
-  InfluentialSchoolsPageRequest,
-  InfluentialSchoolsPageResponse
-} from "../../schema";
+import { CountriesResponse, DisciplinesResponse, InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../../schema";
 import { PageDescription, PageTitle } from "../../styles";
 import StandardPage from "../../templates/StandardPage";
 import { LoremIpsumText } from "../../utils/const";

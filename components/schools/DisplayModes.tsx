@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { faBars, faTh, faThList } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DISPLAY_MODES from "./constants";
-import { GRAY } from "../../styles";
 
 const Wrapper = styled.div`
   flex: 1;
