@@ -83,6 +83,7 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
       <PageDescription>{LoremIpsumText}</PageDescription>
       <ListTopMenu
         {...filterProps}
+        mode={displayMode}
         onDisplayModeSelect={onDisplayModeSelectHandler}
       />
       <SchoolList mode={displayMode} schools={schools} />

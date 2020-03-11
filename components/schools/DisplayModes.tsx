@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { faBars, faTh, faThList } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DISPLAY_MODES from "./constants";
+import { GRAY } from "../../styles";
 
 const Wrapper = styled.div`
   flex: 1;
@@ -10,23 +11,19 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-interface ModeIconProps {
-  isactive: boolean;
-}
-const ModeIcon = styled(FontAwesomeIcon)<ModeIconProps>`
+const ModeIcon = styled(FontAwesomeIcon)`
   width: 17px;
   height: 17px;
   margin-right: 5px;
-  color: ${props => (props.isactive ? "black" : "gray")};
 `;
 
 interface ModeButtonProps {
-  readonly isactive: boolean;
+  readonly color: string;
   readonly mode: string;
   readonly onModeSelect: any;
 }
 const ModeButton = (props: ModeButtonProps) => {
-  const { isactive, mode, onModeSelect } = props;
+  const { color, mode, onModeSelect } = props;
   let iconName = faBars;
 
   switch (mode) {
@@ -49,7 +46,7 @@ const ModeButton = (props: ModeButtonProps) => {
 
   return (
     <ModeIcon
-      isactive={isactive}
+      color={color}
       icon={iconName}
       onClick={() => onModeSelectHandler()}
     />
@@ -70,17 +67,17 @@ const DisplayModes = (props: DisplayModesProps) => {
   return (
     <Wrapper>
       <ModeButton
-        isactive={mode === DISPLAY_MODES.grid}
+        color={mode === DISPLAY_MODES.grid ? "black" : "gray"}
         mode={DISPLAY_MODES.grid}
         onModeSelect={onModeSelectHandler}
       />
       <ModeButton
-        isactive={mode === DISPLAY_MODES.thMode}
+        color={mode === DISPLAY_MODES.thMode ? "black" : "gray"}
         mode={DISPLAY_MODES.thMode}
         onModeSelect={onModeSelectHandler}
       />
       <ModeButton
-        isactive={mode === DISPLAY_MODES.listMode}
+        color={mode === DISPLAY_MODES.listMode ? "black" : "gray"}
         mode={DISPLAY_MODES.listMode}
         onModeSelect={onModeSelectHandler}
       />
