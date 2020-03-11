@@ -1,6 +1,6 @@
 import React from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
-import { ACCENT, MAIN, MAIN_DARKER } from "../styles";
+import { ACCENT, GRAY_DARKEST, MAIN, MAIN_DARKER } from "../styles";
 
 const CircularProgress = (props: any) => {
   let pathColor;
@@ -38,7 +38,7 @@ const CircularProgress = (props: any) => {
               strokeLinecap: "butt"
             },
             text: {
-              fill: props.textColor || "#666666",
+              fill: props.textColor || GRAY_DARKEST,
               transformOrigin: "center center"
             },
             trail: { strokeWidth: 4, stroke: "#999999" }
@@ -61,7 +61,7 @@ const styles = {
     textAlign: "center"
   } as React.CSSProperties,
   text: {
-    color: "black",
+    color: GRAY_DARKEST,
     fontWeight: "bold"
   } as React.CSSProperties
 };
