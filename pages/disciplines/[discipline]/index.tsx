@@ -19,13 +19,6 @@ type DisciplinesProps = {
 } & DisciplineResponse;
 
 const Discipline: NextPage<DisciplinesProps> = props => {
-  let disciplines = props.disciplines;
-  disciplines.map((discipline: any, key: number) =>
-  {
-    discipline.id = key;
-    return discipline;
-  })
-
   return (
     <div>
       <style jsx>
@@ -76,7 +69,7 @@ const Discipline: NextPage<DisciplinesProps> = props => {
           </div>
           <div className="subdisciplinesBar">
             <div><h3 style={{ fontWeight: 800, marginBottom: 0 }}>Sub-Disciplines</h3></div>
-            <SubdisciplineList disciplines={disciplines} discipline={props.discipline} subdiscipline={props.subdiscipline} />
+            <SubdisciplineList disciplines={props.disciplines} discipline={props.discipline} subdiscipline={props.subdiscipline} />
           </div>
           <div>
             <div className="disciplineTitle">
