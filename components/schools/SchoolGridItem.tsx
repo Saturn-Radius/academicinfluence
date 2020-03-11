@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
+import { SchoolLink } from "../../links";
 import { GRAY, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
 import SchoolStatus from "./SchoolStatus";
-import { SchoolLink } from "../../links";
 
 const Wrapper = styled.div`
   margin: 10px;
