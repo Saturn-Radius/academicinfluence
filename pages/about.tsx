@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import { NextSeo } from "next-seo";
 import { apiPage } from "../api";
 import BacktotopButton from "../components/BacktotopButton";
 import HtmlContent from "../components/HtmlContent";
@@ -11,7 +12,7 @@ type AboutProps = PageResponse;
 const About: NextPage<AboutProps> = (props: AboutProps) => {
   return (
     <div>
-      <title>About | Academic Influence</title>
+      <NextSeo title="About" />
       <style jsx>
         {`
           .aboutPage {

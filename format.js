@@ -10,7 +10,7 @@ for (const filename of process.argv.slice(2)) {
   writeFileSync(
     filename,
     format(source, {
-      parser: "babel"
+      parser: "typescript"
     })
   );
 }

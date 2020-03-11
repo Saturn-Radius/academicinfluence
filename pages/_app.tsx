@@ -415,7 +415,10 @@ function Footer() {
 function AddSeo() {
   const router = useRouter();
   return (
-    <DefaultSeo canonical={"https://academicinfluence.com" + router.pathname} />
+    <DefaultSeo
+      canonical={"https://academicinfluence.com" + router.pathname}
+      titleTemplate="%s | Academic Influence"
+    />
   );
 }
 
