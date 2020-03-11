@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { apiCountries, apiDisciplines, apiInfluentialSchoolsPage } from "../../api";
 import { Row } from "../../components/grid";
+import { Sidebar } from "../../components/school";
 import DISPLAY_MODES from "../../components/schools/constants";
 import ListTopMenu from "../../components/schools/ListTopMenu";
 import MyLockerButton from "../../components/schools/MyLockerButton";
@@ -92,9 +93,16 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
             {...filterProps}
             onDisplayModeSelect={onDisplayModeSelectHandler}
           />
+        </LeftCol>
+        <RightCol />
+      </Row>
+      <Row>
+        <LeftCol>
           <SchoolList mode={listMode} schools={schools} />
         </LeftCol>
-        <RightCol></RightCol>
+        <RightCol>
+          <Sidebar />
+        </RightCol>
       </Row>
     </PageLayout>
   );
