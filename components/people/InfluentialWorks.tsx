@@ -9,7 +9,7 @@ interface InfulentialData {
 
 const InfluentialWorks = (props: InfulentialData) => {
   const { isMore, moreButton } = useMoreButton();
-  const displayWorks = isMore ? props.works.slice(0, 7) : props.works;
+  const displayWorks = !isMore ? props.works.slice(0, 7) : props.works;
 
   return (
     <div style={props.style}>

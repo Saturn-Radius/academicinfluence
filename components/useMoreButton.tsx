@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
 export default function useMoreButton() {
-  const [isMore, setIsMore] = useState(true);
+  const [isMore, setIsMore] = useState(false);
   const clickButton = useCallback(() => {
     setIsMore(!isMore);
   }, [setIsMore, isMore]);
@@ -11,13 +11,13 @@ export default function useMoreButton() {
       onClick={() => clickButton()}
       style={{ fontWeight: "bold", textAlign: "center", fontSize: 16 }}
     >
-      {isMore && (
+      {!isMore && (
         <div>
           More
           <img src="/images/arrow-down.png" />
         </div>
       )}
-      {!isMore && (
+      {isMore && (
         <div>
           Less
           <img src="/images/small-arrow-up.png" />
