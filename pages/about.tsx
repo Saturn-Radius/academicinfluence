@@ -67,25 +67,9 @@ const About: NextPage<AboutProps> = (props: AboutProps) => {
       </style>
       <div className="aboutPage">
         <div className="aboutContent">
-          <div>
-            <HtmlContent html={props.content} />
-          </div>
-          <div className="locationContact">
-            <div>
-              <h2 className="head">Location</h2>
-              <p>Our company is headquartered in Pella, Iowa</p>
-            </div>
-            <div className="contact">
-              <h2 className="head">Contact</h2>
-              <p>
-                682.302.4945
-                <br /> connect@academicinfluence.com
-              </p>
-            </div>
-          </div>
+          <HtmlContent html={props.content} />
         </div>
         <div className="righSideBar">
-          {/* <div className="topSidebar"><TopSidebar/></div> */}
           <div className="sidebar">
             <Sidebar />
           </div>

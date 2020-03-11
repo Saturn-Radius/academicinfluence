@@ -114,8 +114,6 @@ export default async function serveFeaturesPage(
     }
   }));
 
-  console.log("ART", articles);
-
   const article = articleQuery && (await articleQuery).rows[0];
 
   return {
