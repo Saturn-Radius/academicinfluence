@@ -1,18 +1,28 @@
 import { NextPage, NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
-import { apiCountries, apiDisciplines, apiInfluentialSchoolsPage } from "../../api";
+import {
+  apiCountries,
+  apiDisciplines,
+  apiInfluentialSchoolsPage
+} from "../../api";
 import { Row } from "../../components/grid";
+import { Sidebar } from "../../components/school";
 import DISPLAY_MODES from "../../components/schools/constants";
 import ListTopMenu from "../../components/schools/ListTopMenu";
 import MyLockerButton from "../../components/schools/MyLockerButton";
 import SchoolList from "../../components/schools/SchoolList";
 import { LeftCol, RightCol } from "../../components/schools/styles";
 import { FilterProps } from "../../components/schools/types";
-import { CountriesResponse, DisciplinesResponse, InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../../schema";
-import { PageDescription, PageTitle } from "../../styles";
+import {
+  CountriesResponse,
+  DisciplinesResponse,
+  InfluentialSchoolsPageRequest,
+  InfluentialSchoolsPageResponse
+} from "../../schema";
 import PageLayout from "../../templates/PageLayout";
 import { LoremIpsumText } from "../../utils/const";
+import { PageDescription, PageTitle } from "../../styles";
 
 const asHref = (request: InfluentialSchoolsPageRequest) => {
   return {
@@ -92,9 +102,16 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
             {...filterProps}
             onDisplayModeSelect={onDisplayModeSelectHandler}
           />
+        </LeftCol>
+        <RightCol />
+      </Row>
+      <Row>
+        <LeftCol>
           <SchoolList mode={listMode} schools={schools} />
         </LeftCol>
-        <RightCol></RightCol>
+        <RightCol>
+          <Sidebar />
+        </RightCol>
       </Row>
     </PageLayout>
   );
