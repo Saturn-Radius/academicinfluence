@@ -311,5 +311,6 @@ export interface DisciplineResponse {
 
 export type PageRequest = string;
 export interface PageResponse {
+  title: string;
   content: Html[];
 }

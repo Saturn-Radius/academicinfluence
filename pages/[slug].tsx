@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { NextPage, NextPageContext } from "next";
 import { NextSeo } from "next-seo";
 import { apiPage } from "../api";
 import BacktotopButton from "../components/BacktotopButton";
@@ -81,8 +81,8 @@ const About: NextPage<AboutProps> = (props: AboutProps) => {
   );
 };
 
-About.getInitialProps = async function({ req }) {
-  const aboutPage = apiPage("about");
+About.getInitialProps = async function(context: NextPageContext) {
+  const aboutPage = apiPage(context.query.slug as string);
 
   return await aboutPage;
 };
