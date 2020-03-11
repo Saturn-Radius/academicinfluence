@@ -4,38 +4,38 @@ import styled from "@emotion/styled";
 {
   /* STYLE COLOR SECTION TO MATCH styles/features.css */
 }
-export const MAIN_LIGHTEST = "#95C3CB";
-export const MAIN_LIGHTER = "#5997A2";
-export const MAIN = "#367D8A";
-export const MAIN_DARKER = "#1D6E7D";
-export const MAIN_DARKEST = "#0D55461";
+export const MAIN_LIGHTEST = "var(--main_lightest)";
+export const MAIN_LIGHTER = "var(--main_lighter)";
+export const MAIN = "var(--main)";
+export const MAIN_DARKER = "var(--main_darker)";
+export const MAIN_DARKEST = "var(--main_darkest)";
 
-export const SECONDARY_LIGHTEST = "#7398A6";
-export const SECONDARY_LIGHTER = "#437588";
-export const SECONDARY = "#265D71";
-export const SECONDARY_DARKER = "#12475B";
-export const SECONDARY_DARKEST = "#033041";
+export const SECONDARY_LIGHTEST = "var(--secondary_lightest)";
+export const SECONDARY_LIGHTER = "var(--secondary_lighter)";
+export const SECONDARY = "var(--secondary)";
+export const SECONDARY_DARKER = "var(--secondary_darker)";
+export const SECONDARY_DARKEST = "var(--secondary_darkest)";
 
-export const ACCENT_LIGHTEST = "#FFBBA2";
-export const ACCENT_LIGHTER = "#FF9872";
-export const ACCENT = "#E57045";
-export const ACCENT_DARKER = "#CC4C1C";
-export const ACCENT_DARKEST = "#A13208";
+export const ACCENT_LIGHTEST = "var(--accent_lightest)";
+export const ACCENT_LIGHTER = "var(--accent_lighter)";
+export const ACCENT = "var(--accent)";
+export const ACCENT_DARKER = "var(--accent_darker)";
+export const ACCENT_DARKEST = "var(--accent_darkest)";
 
-export const SECONDARY_ACCENT_LIGHTEST = "#FFB99F";
-export const SECONDARY_ACCENT_LIGHTER = "#DA7F5D";
-export const SECONDARY_ACCENT = "#BE5732";
-export const SECONDARY_ACCENT_DARKER = "#993A16";
-export const SECONDARY_ACCENT_DARKEST = "#711E00";
+export const SECONDARY_ACCENT_LIGHTEST = "var(--secondary_accent_lightest)";
+export const SECONDARY_ACCENT_LIGHTER = "var(--secondary_accent_lighter)";
+export const SECONDARY_ACCENT = "var(--secondary_accent)";
+export const SECONDARY_ACCENT_DARKER = "var(--secondary_accent_darker)";
+export const SECONDARY_ACCENT_DARKEST = "var(--secondary_accent_darkest)";
 
-export const GRAY_LIGHTEST = "#F5F5F5";
-export const GRAY_LIGHTER = "#E6E6E6";
-export const GRAY = "#CDCDCD";
-export const GRAY_DARKER = "#9B9B9B";
-export const GRAY_DARKEST = "#696969";
+export const GRAY_LIGHTEST = "var(--gray_lightest)";
+export const GRAY_LIGHTER = "var(--gray_lighter)";
+export const GRAY = "var(--gray)";
+export const GRAY_DARKER = "var(--gray_darker)";
+export const GRAY_DARKEST = "var(--gray_darkest)";
 
-export const BG_PAGE = "#F9FBFA";
-export const BG_PAGE_DARKER = "#EFF1F0";
+export const BG_PAGE = "var(--bg_page)";
+export const BG_PAGE_DARKER = "var(--bg_page_darker)";
 
 {
   /* LEGACY STYLE SECTION - TO BE REMOVED */

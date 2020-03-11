@@ -9,6 +9,7 @@ import ReactGA from "react-ga";
 import "typeface-montserrat/index.css";
 import "../public/fonts/sfui_font.css";
 import { BG_PAGE, GRAY_MID, PAGE_WIDTH_STYLE } from "../styles";
+import "../styles/colors.css";
 
 function HamburgerIcon() {
   return (

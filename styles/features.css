@@ -1,48 +1,4 @@
-﻿/* DEFAULT COLORS */
-
-/* M-D SET */
-:root {
-
---page_bg:#F9FBFA;
---page_bg_darker:#eff1f0;
---heading_bg:#F5F5F5;
-
---gray: #CDCDCD;
---gray_lighter: #E6E6E6;
---gray_lightest:#F5F5F5;
---gray_darker: #9B9B9B;
---gray_darkest:#696969;
-
---main:#367D8A;
---main_lighter:#5997A2;
---main_lightest:#95C3CB;
---main_darker:#1D6E7D;
---main_darkest:#0D5461;
-
---secondary:#265D71;
---secondary_lighter:#437588;
---secondary_lightest:#7398A6;
---secondary_darker:#12475B;
---secondary_darkest:#033041;
-
---accent:#E57045;
---accent_lighter:#FF9872;
---accent_lightest:#FFBBA2;
---accent_darker:#CC4C1C;
---accent_darkest:#A13208;
-
---secondary_accent :#BE5732;
---secondary_accent_lighter:#DA7F5D;
---secondary_accent_lightest:#FFB99F;
---secondary_accent_darker:#993A16;
---secondary_accent_darkest:#711E00;
-
---yellow:#FEFE76;
---white: #FFFFFF;
---black: #000000;
-}
-
-
+﻿
 /* BACKGROUND AND TEXT STYLES BASED ON VARIABLES ABOVE */
 article .page_bg {background-color: var(--page_bg); }
 article .page_bg_darker {background-color: var(--page_bg_darker); }
