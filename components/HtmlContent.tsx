@@ -4,7 +4,6 @@ import useMoreButton from "./useMoreButton";
 
 function More(props: { children: React.ReactNode }) {
   const { isMore, moreButton } = useMoreButton();
-  console.log("TRIED", isMore, props.children);
 
   return (
     <>
