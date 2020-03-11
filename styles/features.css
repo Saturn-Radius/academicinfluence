@@ -6,14 +6,14 @@ article .heading_bg {background-color: var(--heading_bg); }
 
 article .gray_bg {background-color: var(--gray); }
 article .gray {color: var(--gray); }
-article .GRAY_LIGHTER_bg {background-color: var(--GRAY_LIGHTER);}
-article .GRAY_LIGHTER {color: var(--GRAY_LIGHTER); }
-article .GRAY_LIGHTEST_bg {background-color: var(--GRAY_LIGHTEST);}
-article .GRAY_LIGHTEST {color: var(--GRAY_LIGHTEST); }
-article .GRAY_DARKER_bg {background-color: var(--GRAY_DARKER);}
-article .GRAY_DARKER {color: var(--GRAY_DARKER); }
-article .GRAY_DARKEST_bg {background-color: var(--GRAY_DARKEST);}
-article .GRAY_DARKEST {color: var(--GRAY_DARKEST); }
+article .gray_lighter_bg {background-color: var(--gray_lighter);}
+article .gray_lighter {color: var(--gray_lighter); }
+article .gray_lightest_bg {background-color: var(--gray_lightest);}
+article .gray_lightest {color: var(--gray_lightest); }
+article .gray_darker_bg {background-color: var(--gray_darker);}
+article .gray_darker {color: var(--gray_darker); }
+article .gray_darkest_bg {background-color: var(--gray_darkest);}
+article .gray_darkest {color: var(--gray_darkest); }
 
 article .secondary_bg {background-color: var(--secondary);}
 article .secondary {color: var(--secondary); }
@@ -21,10 +21,10 @@ article .secondary_lighter_bg {background-color: var(--secondary_lighter);}
 article .secondary_lighter {color: var(--secondary_lighter); }
 article .secondary_lightest_bg {background-color: var(--secondary_lightest);}
 article .secondary_lightest {color: var(--secondary_lightest); }
-article .MAIN_DARKERer_bg {background-color: var(--MAIN_DARKERer);}
-article .MAIN_DARKERer {color: var(--MAIN_DARKERer); }
-article .MAIN_DARKERest_bg {background-color: var(--MAIN_DARKERest);}
-article .MAIN_DARKERest {color: var(--MAIN_DARKERest); }
+article .secondary_darker_bg {background-color: var(--secondary_darker);}
+article .secondary_darker {color: var(--secondary_darker); }
+article .secondary_darkest_bg {background-color: var(--secondary_darkest);}
+article .secondary_darkest {color: var(--secondary_darkest); }
 
 article .main_bg {background-color: var(--main);}
 article .main {color: var(--main); }
@@ -170,11 +170,11 @@ article .spaceafter li { margin-bottom: .8rem; }
 article .nospaceafter { margin-bottom: 0; padding-bottom: 0; }
 article .nospaceafter + p, .nospaceafter + ol, .nospaceafter + ul { margin-top: 0; padding-top: 0; }
 
-article .bordertop {border-top: 1.5px solid var(--GRAY_LIGHTEST); }
+article .bordertop {border-top: 1.5px solid var(--gray_lightest); }
 article .borderbottom {border-bottom: 1.5px solid var(--heading_bg_darker); }
-article .borderleft {border-left: 1.5px solid var(--GRAY_LIGHTEST); }
-article .borderright {border-right: 1.5px solid var(--GRAY_LIGHTEST); }
-article .border {border: 1.5px solid var(--GRAY_LIGHTEST); }
+article .borderleft {border-left: 1.5px solid var(--gray_lightest); }
+article .borderright {border-right: 1.5px solid var(--gray_lightest); }
+article .border {border: 1.5px solid var(--gray_lightest); }
 
 article small, article .small { font-size:.9rem; }
 
@@ -255,6 +255,6 @@ article details[open]>summary::before { text-decoration:none!important; content:
 
 /* TEXTAREA for CODE */
 article textarea {width:100%; height: 6em; font-family: monospace; font-size: 12px; padding: 4pt; color: darkred; }
-article pre code { background-color: var(--page_bg_darker); border: 1px solid var(--GRAY_DARKER); display: block; padding: 1rem; }
+article pre code { background-color: var(--page_bg_darker); border: 1px solid var(--gray_darker); display: block; padding: 1rem; }
 
 .head { color: #1E988A; }
