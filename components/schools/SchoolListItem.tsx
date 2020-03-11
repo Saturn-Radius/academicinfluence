@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import { BG_PAGE, GRAY, GRAY_DARKEST, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
+import Link from "next/link";
+import { GRAY, GRAY_DARKEST, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -183,7 +184,8 @@ const FullDetailsButton = styled.button`
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
   background-color: ${MAIN_LIGHTER};
   margin-top: 4px;
-  color: ${BG_PAGE};
+  color: #ffffff;
+  outline: none;
 `;
 
 interface SchoolListItemProps {
@@ -193,6 +195,7 @@ interface SchoolListItemProps {
 const SchoolListItem = (props: SchoolListItemProps) => {
   const { school } = props;
   const {
+    slug,
     logo_url,
     overall,
     name,
@@ -235,7 +238,9 @@ const SchoolListItem = (props: SchoolListItemProps) => {
         <BodyRightCol>
           <InfoValue label="Tuition" value={undergrad_tuition_in_state} />
           <InfoValue label="Avg. Earnings" value={average_earnings} />
-          <FullDetailsButton>Full Details</FullDetailsButton>
+          <Link href={`/schools/${slug}`}>
+            <FullDetailsButton>Full Details</FullDetailsButton>
+          </Link>
         </BodyRightCol>
       </Body>
     </Wrapper>

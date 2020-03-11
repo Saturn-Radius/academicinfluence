@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import { BG_PAGE, GRAY, GRAY_DARKEST, GRAY_LIGHTER, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
+import Link from "next/link";
+import { GRAY, GRAY_DARKEST, GRAY_LIGHTER, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -33,7 +34,8 @@ const FullDetailsButton = styled.button`
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
   background-color: ${MAIN_LIGHTER};
   margin-top: 23px;
-  color: ${BG_PAGE};
+  color: #ffffff;
+  outline: none;
 `;
 
 const RankingLabel = styled.span`
@@ -171,6 +173,7 @@ interface SchoolThListItemProps {
 const SchoolThListItem = (props: SchoolThListItemProps) => {
   const { school } = props;
   const {
+    slug,
     logo_url,
     overall,
     name,
@@ -188,7 +191,9 @@ const SchoolThListItem = (props: SchoolThListItemProps) => {
     <Wrapper>
       <Header>
         <Logo src={logo_url} />
-        <FullDetailsButton>Full Details</FullDetailsButton>
+        <Link href={`/schools/${slug}`}>
+          <FullDetailsButton>Full Details</FullDetailsButton>
+        </Link>
         <RankingLabel>Ranking</RankingLabel>
         <RankText>#{world_rank}</RankText>
       </Header>

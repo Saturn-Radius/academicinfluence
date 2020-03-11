@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import { BG_PAGE, GRAY, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
+import Link from "next/link";
+import { GRAY, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -64,7 +65,8 @@ const FullDetailsButton = styled.button`
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
   background-color: ${MAIN_LIGHTER};
   margin-top: 7px;
-  color: ${BG_PAGE};
+  color: #ffffff;
+  outline: none;
 `;
 
 const SchoolDescription = styled.p`
@@ -191,6 +193,7 @@ interface SchoolGridItemProps {
 const SchoolGridItem = (props: SchoolGridItemProps) => {
   const { school } = props;
   const {
+    slug,
     logo_url,
     overall,
     name,
@@ -214,7 +217,9 @@ const SchoolGridItem = (props: SchoolGridItemProps) => {
             <Location>
               {city}, {state}
             </Location>
-            <FullDetailsButton>Full Details</FullDetailsButton>
+            <Link href={`/schools/${slug}`}>
+              <FullDetailsButton>Full Details</FullDetailsButton>
+            </Link>
           </Header>
         </HeaderWrapper>
         <Body>
