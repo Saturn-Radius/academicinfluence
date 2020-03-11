@@ -1,21 +1,12 @@
 import { NextPage, NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
-import {
-  apiCountries,
-  apiDisciplines,
-  apiInfluentialSchoolsPage
-} from "../../api";
+import { apiCountries, apiDisciplines, apiInfluentialSchoolsPage } from "../../api";
 import DISPLAY_MODES from "../../components/schools/constants";
 import ListTopMenu from "../../components/schools/ListTopMenu";
 import SchoolList from "../../components/schools/SchoolList";
 import { FilterProps } from "../../components/schools/types";
-import {
-  CountriesResponse,
-  DisciplinesResponse,
-  InfluentialSchoolsPageRequest,
-  InfluentialSchoolsPageResponse
-} from "../../schema";
+import { CountriesResponse, DisciplinesResponse, InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../../schema";
 import { PageDescription, PageTitle } from "../../styles";
 import StandardPage from "../../templates/StandardPage";
 import { LoremIpsumText } from "../../utils/const";
@@ -41,7 +32,7 @@ type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
 const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   const router = useRouter();
   const [request, setRequest] = useState(props.request);
-  const [listMode, setListMode] = useState(DISPLAY_MODES.grid);
+  const [displayMode, setDisplayMode] = useState(DISPLAY_MODES.grid);
 
   const updateRequest = useCallback(
     request => {
@@ -74,7 +65,7 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   ];
 
   const onDisplayModeSelectHandler = (mode: string) => {
-    setListMode(mode);
+    setDisplayMode(mode);
   };
 
   return (
@@ -83,9 +74,10 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
       <PageDescription>{LoremIpsumText}</PageDescription>
       <ListTopMenu
         {...filterProps}
+        mode={displayMode}
         onDisplayModeSelect={onDisplayModeSelectHandler}
       />
-      <SchoolList mode={listMode} schools={schools} />
+      <SchoolList mode={displayMode} schools={schools} />
     </StandardPage>
   );
 };
