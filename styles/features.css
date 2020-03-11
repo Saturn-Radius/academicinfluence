@@ -7,8 +7,8 @@
 --page_bg_darker:#eff1f0;
 --heading_bg:#F5F5F5;
 
---gray: #D2D2D2;
---gray_lighter: #B9B9B9;
+--gray: #CDCDCD;
+--gray_lighter: #E6E6E6;
 --gray_lightest:#F5F5F5;
 --gray_darker: #9B9B9B;
 --gray_darkest:#696969;
@@ -30,6 +30,12 @@
 --accent_lightest:#FFBBA2;
 --accent_darker:#CC4C1C;
 --accent_darkest:#A13208;
+
+--secondary_accent :#BE5732;
+--secondary_accent_lighter:#DA7F5D;
+--secondary_accent_lightest:#FFB99F;
+--secondary_accent_darker:#993A16;
+--secondary_accent_darkest:#711E00;
 
 --yellow:#FEFE76;
 --white: #FFFFFF;
@@ -86,6 +92,17 @@ article .accent_darker {color: var(--accent_darker); }
 article .accent_darkest_bg {background-color: var(--accent_darkest);}
 article .accent_darkest {color: var(--accent_darkest); }
 
+article .secondary_accent_bg {background-color: var(--secondary_accent);}
+article .secondary_accent {color: var(--secondary_accent); }
+article .secondary_accent_lighter_bg {background-color: var(--secondary_accent_lighter);}
+article .secondary_accent_lighter {color: var(--secondary_accent_lighter); }
+article .secondary_accent_lightest_bg {background-color: var(--secondary_accent_lightest);}
+article .secondary_accent_lightest {color: var(--secondary_accent_lightest); }
+article .secondary_accent_darker_bg {background-color: var(--secondary_accent_darker);}
+article .secondary_accent_darker {color: var(--secondary_accent_darker); }
+article .secondary_accent_darkest_bg {background-color: var(--secondary_accent_darkest);}
+article .secondary_accent_darkest {color: var(--secondary_accent_darkest); }
+
 article .yellow_bg {background-color: var(--yellow);}
 article .yellow {color: var(--yellow); }
 article .white_bg {background-color: var(--white);}
@@ -124,7 +141,7 @@ article { padding: 0 5vw 0 5vw; }
 @media screen and (min-width: 1300px) { article article { padding: 0 5vw 0 5vw; } }
 
 
-article h1, article h2, article h3, article h4, article h5, article h6 { page-break-after: avoid; page-break-inside: avoid; color: var(--secondary); font-weight: 600; margin: 1.25rem 0 1.25rem 0; box-sizing: border-box; }
+article h1, article h2, article h3, article h4, article h5, article h6 { page-break-after: avoid; page-break-inside: avoid; color: var(--main); font-weight: 600; margin: 1.25rem 0 1.25rem 0; box-sizing: border-box; }
 
 article h1 { font-size: 1.912em; line-height: 1.69em; font-weight: 800; }
 article h2 { font-size: 1.616em; line-height: 1.471em; font-weight: 700; }
@@ -134,22 +151,22 @@ article h5 { font-size: 1.243em; line-height: 1.132em; }
 article h6 { font-size: 1.132em; line-height: 1em; }
 
 /* Styles for head and subhead */
-article .head {color: var(--secondary); background-color: var(--heading_bg); border-top: 1px solid var(--heading_bg_darker); margin-top: 3rem; }
-article .subhead { color: var(--secondary); font-size: 1.2rem; line-height: 1.5rem; font-weight: 300; letter-spacing: -1px; margin-bottom: .33rem; }
+article .head {color: var(--main); background-color: var(--heading_bg); border-top: 1px solid var(--heading_bg_darker); margin-top: 3rem; }
+article .subhead { color: var(--main); font-size: 1.2rem; line-height: 1.5rem; font-weight: 300; letter-spacing: -1px; margin-bottom: .33rem; }
 /* Adds an angle bracket before element */
-article .angle::before { content: "\276D "; color: var(--secondary); font-weight: bold; }
+article .angle::before { content: "\276D "; color: var(--main); font-weight: bold; }
 
 @media screen and (max-width: 1000px) { article .subhead  { font-size: 1.1rem; line-height: 1.3rem; } }
 @media screen and (max-width: 800px) { article .subhead  { font-size: 1rem; line-height: 1.1rem; } }
 
-article .byline { font-size: .9rem; font-weight: bold; color: var(--secondary); }
+article .byline { font-size: .9rem; font-weight: bold; color: var(--main); }
 
 article p { margin: 1.3rem 0 1.3rem 0; }
 
 /* Adds an arrow icon to external anchors */
 /* COLOR LINK ARROW */
 article a[href^="http://"]:after, article a[href^="https://"]:after { content: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTJwdCIgaGVpZ2h0PSIxMnB0IiB2aWV3Qm94PSIwIDAgMTIgMTIiIHZlcnNpb249IjEuMSI+CjxnIGlkPSJzdXJmYWNlOTQxODEyMyI+CjxwYXRoIHN0eWxlPSIgc3Ryb2tlOm5vbmU7ZmlsbC1ydWxlOm5vbnplcm87ZmlsbDpyZ2IoMy4xMzcyNTUlLDQ5LjQxMTc2NSUsNTQuNTA5ODA0JSk7ZmlsbC1vcGFjaXR5OjE7IiBkPSJNIDYuNzUgMS44NzUgTCA2Ljc1IDIuNjI1IEwgOC44MzU5MzggMi42MjUgTCA0LjIzMDQ2OSA3LjIzMDQ2OSBMIDQuNzY5NTMxIDcuNzY5NTMxIEwgOS4zNzUgMy4xNjQwNjIgTCA5LjM3NSA1LjI1IEwgMTAuMTI1IDUuMjUgTCAxMC4xMjUgMS44NzUgWiBNIDEuODc1IDMuMzc1IEwgMS44NzUgMTAuMTI1IEwgOC42MjUgMTAuMTI1IEwgOC42MjUgNS4yNSBMIDcuODc1IDYgTCA3Ljg3NSA5LjM3NSBMIDIuNjI1IDkuMzc1IEwgMi42MjUgNC4xMjUgTCA2IDQuMTI1IEwgNi43NSAzLjM3NSBaIE0gMS44NzUgMy4zNzUgIi8+CjwvZz4KPC9zdmc+Cg=='); margin-left: 2px; padding: 0; line-height: 0; vertical-align: middle; }
-article a, article a:link { color: var(--secondary); background: 0 0; }
+article a, article a:link { color: var(--main); background: 0 0; }
 article a:visited { color: var(--secondary); border: .5px red dotted; }
 article a:hover { outline: 1px; color: var(--accent_darker); }
 article a:active { outline: 1px; color: var(--accent); }
@@ -159,7 +176,7 @@ article a:active { outline: 1px; color: var(--accent); }
 article figure { width: -webkit-min-content; width: -moz-min-content; width: min-content; height: auto; margin: 0; padding: 0; text-align: center; }
 article figure.alignleft { margin: 0 1.25rem 0 0; }
 article figure.alignright { margin: 0 0 0 1.25rem; }
-article figcaption { font-size: 0.8rem; color: var(--secondary); font-weight: 600; text-align: center; line-height: 1rem; padding: 0; margin: .25rem 0; }
+article figcaption { font-size: 0.8rem; color: var(--main); font-weight: 600; text-align: center; line-height: 1rem; padding: 0; margin: .25rem 0; }
 
 @media screen and (max-width: 610px) { article figure, article figure.alignleft, article figure.alignright {display: block; min-width:100%; margin-bottom: 1em; margin-right: 0 auto; margin-left: 0 auto; } }
 
@@ -171,11 +188,11 @@ article .amazonimg.alignright { float:right; margin-left: 1rem; }
 article .amazonimg.alignleft { float:left; margin-right: 1rem; }
 
 /* SUBSCRIPT / SUPERSCRIPT */
-article sub, article sup { font-size:.8rem; line-height: 0; position: relative; vertical-align: baseline; top: -0.4em; font-weight: 500; color: var(--secondary); }
+article sub, article sup { font-size:.8rem; line-height: 0; position: relative; vertical-align: baseline; top: -0.4em; font-weight: 500; color: var(--main); }
 article sub { top: 0.4em; }
 
 /*INITIAL DROP CAP*/
-article .dropcap:first-letter { color: var(--secondary); float: left; font-size: calc(5rem + .15vw); line-height: calc(3rem + .15vw); padding: 0 .1rem .0 0; margin: .35rem 0 -.1rem 0; font-weight: 500; text-transform: uppercase; }
+article .dropcap:first-letter { color: var(--main); float: left; font-size: calc(5rem + .15vw); line-height: calc(3rem + .15vw); padding: 0 .1rem .0 0; margin: .35rem 0 -.1rem 0; font-weight: 500; text-transform: uppercase; }
 
 
 /*Use to highlight numbers or other leading characters in .head or headings*/
@@ -273,9 +290,9 @@ article details summary { margin-left: -1.35rem; }
 article details>details { margin-left:15px; }
 article details table { width:90% }
 article summary { display:block; cursor:pointer; font-size: 1.3em; line-height: 1.243em; font-weight: 600; border: 0; }
-article details>summary { -webkit-transition:color .1s; -o-transition:color .1s; transition:color .1s; color: var(--secondary); }
+article details>summary { -webkit-transition:color .1s; -o-transition:color .1s; transition:color .1s; color: var(--main); }
 article details[open] { display:block; }
-article details[open]>summary { color: var(--secondary); }
+article details[open]>summary { color: var(--main); }
 article summary::-webkit-details-marker { text-decoration:none!important; }
 article summary::-webkit-details-marker { display:none; text-decoration:none!important }
 article summary:before { text-decoration:none!important; content:"\002B"; color: var(--accent); margin-right:5px; font-weight:700 }
