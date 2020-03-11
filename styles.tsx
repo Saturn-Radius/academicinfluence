@@ -32,6 +32,7 @@ export const TERTIARY_DARK = MAIN_DARKEST;
 
 export const GREEN_MID = MAIN_DARKER;
 export const GREEN_DARK = "#1e988a";
+export const GREEN_LIGHT = "#37c2ab";
 
 export const GRAY_DARK = "#999999";
 export const GRAY_MID = "#666666";

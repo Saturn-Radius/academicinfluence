@@ -22,7 +22,6 @@ const CircularProgress = (props: any) => {
       <div
         style={{
           ...styles.container,
-          ...{ maxWidth: props.size },
           ...props.style
         }}
       >

@@ -35,7 +35,7 @@ type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
 const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   const router = useRouter();
   const [request, setRequest] = useState(props.request);
-  const [listMode, setListMode] = useState(DISPLAY_MODES.thMode);
+  const [listMode, setListMode] = useState(DISPLAY_MODES.listMode);
 
   const updateRequest = useCallback(
     request => {
