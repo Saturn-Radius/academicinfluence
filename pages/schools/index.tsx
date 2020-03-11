@@ -35,7 +35,7 @@ type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
 const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   const router = useRouter();
   const [request, setRequest] = useState(props.request);
-  const [listMode, setListMode] = useState(DISPLAY_MODES.thMode);
+  const [listMode, setListMode] = useState(DISPLAY_MODES.grid);
 
   const updateRequest = useCallback(
     request => {
@@ -93,7 +93,6 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
             onDisplayModeSelect={onDisplayModeSelectHandler}
           />
           <SchoolList mode={listMode} schools={schools} />
-          <pre>{JSON.stringify(props.schools, null, 4)}</pre>
         </LeftCol>
         <RightCol></RightCol>
       </Row>
