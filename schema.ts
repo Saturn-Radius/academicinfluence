@@ -88,6 +88,9 @@ export interface SchoolData extends SchoolPartialData, EntityFullData {
     summer: WeatherData;
     fall: WeatherData;
   } | null;
+
+  disciplines_text: Html[];
+  influential_alumni_text: Html[];
 }
 
 export interface PersonData extends PersonPartialData, EntityFullData {

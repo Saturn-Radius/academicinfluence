@@ -2,7 +2,16 @@ import { NextPage, NextPageContext } from "next";
 import { apiSchoolPage } from "../../../api";
 import ContentCard from "../../../components/ContentCard";
 import Description from "../../../components/Description";
-import { Accreditation, Admissions, AfterGrad, CampusSafety, CollegeHeader, Cost, InfluentialCard, Weather } from "../../../components/school";
+import HtmlContent from "../../../components/HtmlContent";
+import {
+  Admissions,
+  AfterGrad,
+  CampusSafety,
+  CollegeHeader,
+  Cost,
+  InfluentialCard,
+  Weather
+} from "../../../components/school";
 import ContactInfo from "../../../components/school/ContactInfo";
 import DisciplineContainer from "../../../components/school/Discipline";
 import LocationMap from "../../../components/school/LocationMap";
@@ -10,7 +19,6 @@ import Rankings from "../../../components/school/Rankings";
 import { SchoolData } from "../../../schema";
 import { SectionDescription, SectionTitle } from "../../../styles";
 import StandardPage from "../../../templates/StandardPage";
-import { LoremIpsumText } from "../../../utils/const";
 
 type SchoolProps = {
   school: SchoolData;
@@ -74,7 +82,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
           <Admissions school={school} />
         </div>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
-          <Accreditation />
+          {/*TODO <Accreditation /> */}
           <AfterGrad school={school} />
         </div>
       </section>
@@ -97,18 +105,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
   );
 };
 
-const BackToTop = (props: any) => {
-  return (
-    <div
-      style={{ padding: "20px 0px", textAlign: "center" }}
-      onClick={() => window.scrollTo(0, 0)}
-    >
-      BACK TO TOP <img style={{ width: 20 }} src="/images/arrow-up.png" />
-    </div>
-  );
-};
-
-const InfluentialContainer = (props: any) => {
+const InfluentialContainer = (props: { school: SchoolData }) => {
   const { school } = props;
   const { name, people } = school;
 
@@ -117,21 +114,14 @@ const InfluentialContainer = (props: any) => {
       <SectionTitle id="alumni">
         Who are {name}'s Most influential alumni?
       </SectionTitle>
-      <SectionDescription>{LoremIpsumText}</SectionDescription>
+      <SectionDescription>
+        <HtmlContent html={props.school.influential_alumni_text} />
+      </SectionDescription>
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
-        {people.map((person: any, index: number) => (
-          <InfluentialCard
-            key={index}
-            name={person.name}
-            image_url={person.image_url}
-            description={person.description}
-            short_description={person.short_description}
-            ir_score={person.overall.influence}
-            slug={person.slug}
-            birth_year={person.birth_year}
-          />
+        {people.map((person, index) => (
+          <InfluentialCard key={index} person={person} />
         ))}
       </div>
     </section>

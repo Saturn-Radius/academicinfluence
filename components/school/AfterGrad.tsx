@@ -7,13 +7,12 @@ const AfterGrad = (props: any) => {
     <div style={{ display: "inline-block", width: 460 }}>
       <h4 style={styles.subheaderText}>After Graduation</h4>
       <ContentCard style={{ height: 234, padding: 20 }}>
-        <div>
-          <b>Overall NECHE - Since 1929</b>
-        </div>
-
+        {/* TODO
         <div style={styles.afterGradRow}>
           <b>Alumni</b> <p>70,000</p>
         </div>
+
+        */}
 
         <div style={{ ...styles.afterGradRow, ...{ paddingTop: 0 } }}>
           <b>10 Years Employment</b>{" "}

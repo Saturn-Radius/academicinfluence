@@ -6,7 +6,7 @@ const CampusSafety = (props: any) => {
     <div style={{ minWidth: 300 }}>
       <h4 style={styles.subheaderText}>Campus Safety</h4>
       <ContentCard style={{ padding: 20 }}>
-        <p style={styles.crimeHeader}>CRIME: LOW</p>
+        {/* TODO <p style={styles.crimeHeader}>CRIME: LOW</p>*/}
 
         <div style={styles.crimeSubheader}>On Campus</div>
         <CrimeRate

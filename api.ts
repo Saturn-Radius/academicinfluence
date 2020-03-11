@@ -618,6 +618,14 @@ validator.compile({
             },
             { type: "null" }
           ]
+        },
+        disciplines_text: {
+          type: "array",
+          items: { $ref: "#/definitions/Html" }
+        },
+        influential_alumni_text: {
+          type: "array",
+          items: { $ref: "#/definitions/Html" }
         }
       },
       required: [
@@ -634,6 +642,7 @@ validator.compile({
         "desirability",
         "desirability_rank",
         "disciplines",
+        "disciplines_text",
         "employed_10_years",
         "grad_fees_in_state",
         "grad_fees_out_of_state",
@@ -641,6 +650,7 @@ validator.compile({
         "grad_tuition_out_of_state",
         "graduation_rate",
         "influence_over_time",
+        "influential_alumni_text",
         "logo_url",
         "median_act",
         "median_sat",
