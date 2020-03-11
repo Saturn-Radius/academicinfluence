@@ -1,7 +1,13 @@
 import styled from "@emotion/styled";
-import Link from "next/link";
-import { GRAY, GRAY_DARKEST, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
+import {
+  GRAY,
+  GRAY_DARKEST,
+  GRAY_LIGHTEST,
+  MAIN_DARKER,
+  MAIN_LIGHTER
+} from "../../styles";
 import SchoolStatus from "./SchoolStatus";
+import { SchoolLink } from "../../links";
 
 const Wrapper = styled.div`
   display: flex;
@@ -238,9 +244,9 @@ const SchoolListItem = (props: SchoolListItemProps) => {
         <BodyRightCol>
           <InfoValue label="Tuition" value={undergrad_tuition_in_state} />
           <InfoValue label="Avg. Earnings" value={average_earnings} />
-          <Link href={`/schools/${slug}`}>
+          <SchoolLink school={school}>
             <FullDetailsButton>Full Details</FullDetailsButton>
-          </Link>
+          </SchoolLink>
         </BodyRightCol>
       </Body>
     </Wrapper>
