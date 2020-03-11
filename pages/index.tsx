@@ -1,21 +1,11 @@
 import { NextPage } from "next";
-import {
-  apiDisciplines,
-  apiFeaturesPage,
-  apiHomePage,
-  apiInfluentialPeoplePage
-} from "../api";
-import DisciplineIcon from "../components/DisciplineIcon";
+import { apiDisciplines, apiFeaturesPage, apiHomePage, apiInfluentialPeoplePage } from "../api";
+import BacktotopButton from "../components/BacktotopButton";
 import { Article } from "../components/FeaturePage";
-import { ArticleLink, DisciplineLink, PersonLink } from "../links";
-import {
-  ArticlePartialData,
-  DisciplinesResponse,
-  FeaturesPageResponse,
-  HomePageResponse,
-  PersonPartialData
-} from "../schema";
-import { ACTION_COLOR, SECONDARY_DARK } from "../styles";
+import { CollegeList } from "../components/home";
+import { ArticleLink } from "../links";
+import { ArticlePartialData, DisciplinesResponse, FeaturesPageResponse, HomePageResponse, PersonPartialData } from "../schema";
+import { SECONDARY_DARK } from "../styles";
 
 type IndexProps = {
   homePage: HomePageResponse;
@@ -84,94 +74,92 @@ function FeatureGrid(props: { articles: ArticlePartialData[] }) {
 }
 
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
+  console.log("11111", props);
   return (
     <div>
-      <div
-        css={{
-          backgroundImage: `url(${props.homePage.currentFeature.bannerUrl})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "contain",
-          width: "100%",
-          height: "394px",
-          display: "flex",
-          flexDirection: "column"
-        }}
-      >
-        <div css={{ flexGrow: 1 }} />
-        <div
-          css={{
-            fontSize: "16px",
-            lineHeight: "18px",
-            color: "white",
-            paddingLeft: "20px",
-            paddingRight: "75%",
-            fontWeight: "bold",
-            justifyContent: "end"
-          }}
-        >
-          {props.homePage.currentFeature.name}
+      <style jsx>
+        {`
+          .maincontent {
+            display: flex;
+            flex-direction: column;
+          }
+          .logo {
+            background-image: url(${props.homePage.currentFeature.bannerUrl});
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 100%;
+            height: 394px;
+          }
+          .logoContent {
+            margin-left: 13%;
+            margin-top: 175px;
+            max-width: 400px;
+          }
+          .logoText {
+            color: white;
+          }
+          .exploreBtn {
+            border-radius: 30px;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+            background-color: #eb5857;
+            height: 36px;
+            line-height: 36px;
+            font-size: 20px;
+            color: white;
+            border-width: 0px;
+            width: 189px;
+          }
+          .sidebarSection {
+            text-align: center;
+            padding-bottom: 55px;
+            border-bottom: 0.5px solid black;
+          }
+          .collegeTitle {
+            color: #1e988a;
+            margin-top: 27px;
+            margin-bottom: 48px;
+          }
+          .feature {
+            text-align: center;
+          }
+          .featureTitle {
+            color: #1e988a;
+            margin-top: 25px;
+            margin-bottom: 32px;
+          }
+          @media (max-width: 700px) {
+            .logoContent {
+              margin-left: 13%;
+              margin-top: 210px;
+              max-width: 200px;
+            }
+            .logoText {
+              font-size: 20px;
+            }
+            .collegeTitle {
+              font-size: 20px;
+            }
+          }
+        `}
+      </style>
+      <div className="maincontent">
+        <div className="logo">
+          <div className="logoContent">
+            <h1 className="logoText">{props.homePage.currentFeature.name}</h1>
+            <ArticleLink article={props.homePage.currentFeature}>
+              <button className="exploreBtn">Explore</button>
+            </ArticleLink>
+          </div>
         </div>
-        <ArticleLink article={props.homePage.currentFeature}>
-          <button
-            css={{
-              borderRadius: "30px",
-              boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.25)",
-              backgroundColor: ACTION_COLOR,
-              paddingLeft: "56px",
-              paddingRight: "56px",
-              height: "36px",
-              lineHeight: "36px",
-              marginLeft: "20px",
-              marginTop: "20px",
-              fontSize: "20px",
-              color: "white",
-              borderWidth: "0px",
-              width: "189px",
-              margin: "20px"
-            }}
-          >
-            Explore
-          </button>
-        </ArticleLink>
+        <div className="sidebarSection">
+          <h1 className="collegeTitle">FIND YOUR SCHOOL</h1>
+          <CollegeList />
+        </div>
+        <div className="feature">
+          <h1 className="featureTitle">FEATURE</h1>
+        </div>
       </div>
-      <Section label="FEATURE ARTICLES">
-        <FeatureGrid articles={props.features.articles.slice(0, 3)} />
-      </Section>
-      {props.disciplines
-        .filter(discipline => discipline.level == 1)
-        .map((discipline, index) => (
-          <DisciplineLink key={index} discipline={discipline}>
-            <a
-              css={{
-                display: "inline-block",
-                width: "1in",
-                height: "1in",
-                margin: ".5in",
-                "& svg": {
-                  fontSize: "48pt",
-                  display: "block"
-                }
-              }}
-            >
-              <DisciplineIcon discipline={discipline} />
-              {discipline.name}
-            </a>
-          </DisciplineLink>
-        ))}
-
-      <ul>
-        {props.people.map(person => (
-          <li key={person.slug}>
-            {person.image_url && <img width="100" src={person.image_url} />}
-            {person.image_source_url && (
-              <a href={person.image_source_url}>Source</a>
-            )}
-            <PersonLink person={person}>
-              <a>{person.name}</a>
-            </PersonLink>
-          </li>
-        ))}
-      </ul>
+      <BacktotopButton />
     </div>
   );
 };
