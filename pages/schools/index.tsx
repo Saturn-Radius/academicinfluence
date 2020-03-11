@@ -1,7 +1,11 @@
 import { NextPage, NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
-import { apiCountries, apiDisciplines, apiInfluentialSchoolsPage } from "../../api";
+import {
+  apiCountries,
+  apiDisciplines,
+  apiInfluentialSchoolsPage
+} from "../../api";
 import { Row } from "../../components/grid";
 import { Sidebar } from "../../components/school";
 import DISPLAY_MODES from "../../components/schools/constants";
@@ -10,7 +14,12 @@ import MyLockerButton from "../../components/schools/MyLockerButton";
 import SchoolList from "../../components/schools/SchoolList";
 import { LeftCol, RightCol } from "../../components/schools/styles";
 import { FilterProps } from "../../components/schools/types";
-import { CountriesResponse, DisciplinesResponse, InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../../schema";
+import {
+  CountriesResponse,
+  DisciplinesResponse,
+  InfluentialSchoolsPageRequest,
+  InfluentialSchoolsPageResponse
+} from "../../schema";
 import { PageDescription, PageTitle } from "../../styles";
 import PageLayout from "../../templates/PageLayout";
 import { LoremIpsumText } from "../../utils/const";
@@ -36,7 +45,7 @@ type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
 const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   const router = useRouter();
   const [request, setRequest] = useState(props.request);
-  const [listMode, setListMode] = useState(DISPLAY_MODES.grid);
+  const [displayMode, setDisplayMode] = useState(DISPLAY_MODES.grid);
 
   const updateRequest = useCallback(
     request => {
@@ -69,7 +78,7 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   ];
 
   const onDisplayModeSelectHandler = (mode: string) => {
-    setListMode(mode);
+    setDisplayMode(mode);
   };
 
   return (
@@ -91,6 +100,7 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
         <LeftCol>
           <ListTopMenu
             {...filterProps}
+            mode={displayMode}
             onDisplayModeSelect={onDisplayModeSelectHandler}
           />
         </LeftCol>
@@ -98,7 +108,7 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
       </Row>
       <Row>
         <LeftCol>
-          <SchoolList mode={listMode} schools={schools} />
+          <SchoolList mode={displayMode} schools={schools} />
         </LeftCol>
         <RightCol>
           <Sidebar />
