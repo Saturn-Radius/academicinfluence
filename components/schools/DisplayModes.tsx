@@ -17,11 +17,12 @@ const ModeIcon = styled(FontAwesomeIcon)`
 `;
 
 interface ModeButtonProps {
+  readonly color: string;
   readonly mode: string;
   readonly onModeSelect: any;
 }
 const ModeButton = (props: ModeButtonProps) => {
-  const { mode, onModeSelect } = props;
+  const { color, mode, onModeSelect } = props;
   let iconName = faBars;
 
   switch (mode) {
@@ -42,14 +43,21 @@ const ModeButton = (props: ModeButtonProps) => {
     onModeSelect(mode);
   };
 
-  return <ModeIcon icon={iconName} onClick={() => onModeSelectHandler()} />;
+  return (
+    <ModeIcon
+      color={color}
+      icon={iconName}
+      onClick={() => onModeSelectHandler()}
+    />
+  );
 };
 
 interface DisplayModesProps {
+  readonly mode: string;
   readonly onMenuModeSelect: any;
 }
 const DisplayModes = (props: DisplayModesProps) => {
-  const { onMenuModeSelect } = props;
+  const { mode, onMenuModeSelect } = props;
 
   const onModeSelectHandler = (mode: string) => {
     onMenuModeSelect(mode);
@@ -58,14 +66,17 @@ const DisplayModes = (props: DisplayModesProps) => {
   return (
     <Wrapper>
       <ModeButton
+        color={mode === DISPLAY_MODES.grid ? "black" : "gray"}
         mode={DISPLAY_MODES.grid}
         onModeSelect={onModeSelectHandler}
       />
       <ModeButton
+        color={mode === DISPLAY_MODES.thMode ? "black" : "gray"}
         mode={DISPLAY_MODES.thMode}
         onModeSelect={onModeSelectHandler}
       />
       <ModeButton
+        color={mode === DISPLAY_MODES.listMode ? "black" : "gray"}
         mode={DISPLAY_MODES.listMode}
         onModeSelect={onModeSelectHandler}
       />

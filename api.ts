@@ -1163,9 +1163,10 @@ validator.compile({
     PageResponse: {
       type: "object",
       properties: {
+        title: { type: "string" },
         content: { type: "array", items: { $ref: "#/definitions/Html" } }
       },
-      required: ["content"],
+      required: ["title", "content"],
       additionalProperties: false
     }
   }

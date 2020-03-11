@@ -19,6 +19,10 @@ export function lookupDiscipline(
   return disciplineLookup(disciplines)[slug];
 }
 
+export function disciplineName(disciplines: DisciplineDetail[], slug: string) {
+  return lookupDiscipline(disciplines, slug).name;
+}
+
 export function disciplineNameToSlug(name: string) {
   return name.replace(/ /g, "-").toLowerCase();
 }

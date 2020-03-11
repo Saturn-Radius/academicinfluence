@@ -15,7 +15,7 @@ import {
   HomePageResponse,
   PersonPartialData
 } from "../schema";
-import { ACTION_COLOR, SECONDARY_DARK } from "../styles";
+import { ACCENT, MAIN_DARKER } from "../styles";
 
 type IndexProps = {
   homePage: HomePageResponse;
@@ -33,7 +33,7 @@ function Section(props: SectionProps) {
     <section>
       <h1
         css={{
-          color: SECONDARY_DARK,
+          color: MAIN_DARKER,
           fontSize: "15px",
           fontWeight: "bold",
           textAlign: "center",
@@ -116,7 +116,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
             css={{
               borderRadius: "30px",
               boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.25)",
-              backgroundColor: ACTION_COLOR,
+              backgroundColor: ACCENT,
               paddingLeft: "56px",
               paddingRight: "56px",
               height: "36px",

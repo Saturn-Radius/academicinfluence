@@ -1,4 +1,4 @@
-import { PRIMARY_DARK } from "../../styles";
+import { MAIN } from "../../styles";
 import ContentCard from "../ContentCard";
 
 const CampusSafety = (props: any) => {
@@ -45,7 +45,7 @@ const CrimeRate = (props: any) => {
 
 const styles = {
   subheaderText: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 22
   },
   crimeSubheader: {
@@ -54,7 +54,7 @@ const styles = {
     paddingBottom: 10
   } as React.CSSProperties,
   crimeHeader: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 22,
     fontWeight: "bold",
     paddingBottom: 20,

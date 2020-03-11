@@ -1,4 +1,4 @@
-import { GRAY_LIGHT, GRAY_MID, PRIMARY_DARK } from "../../styles";
+import { GRAY, GRAY_LIGHTEST, MAIN } from "../../styles";
 import CheckBox from "../Checkbox";
 
 const AddToLocker = (props: any) => (
@@ -64,12 +64,12 @@ const ProfileInfo = (props: any) => {
 
 const styles = {
   name: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 28,
     margin: 0
   },
   lifePeriod: {
-    color: GRAY_MID,
+    color: GRAY,
     fontSize: 20
   },
   headerImg: {
@@ -79,7 +79,7 @@ const styles = {
   },
   profileTitle: {
     fontSize: 20,
-    color: GRAY_LIGHT,
+    color: GRAY_LIGHTEST,
     fontWeight: 600
   }
 };

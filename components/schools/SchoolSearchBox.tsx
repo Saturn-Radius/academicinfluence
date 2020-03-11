@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import Autocomplete from "react-autocomplete";
 import { apiSchoolSearch } from "../../api";
 import { Identifiable } from "../../schema";
-import { GRAY_DARK, GRAY_MID } from "../../styles";
+import { GRAY, GRAY_DARKEST } from "../../styles";
 
 const SearchWrapper = styled.div`
   flex: 1;
@@ -24,7 +24,7 @@ const AdvancedSearchButton = styled.button`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY_DARK};
+  color: ${GRAY_DARKEST};
 `;
 
 interface SearchListItemProps {
@@ -42,7 +42,7 @@ const wrapperStyle = {
 
 const menuStyle = {
   zIndex: 1,
-  border: `solid 1px ${GRAY_DARK}`,
+  border: `solid 1px ${GRAY_DARKEST}`,
   borderRadius: "3px"
 };
 
@@ -61,7 +61,7 @@ const inputStyle = {
   fontStyle: "normal",
   lineHeight: "normal",
   letterSpacing: "normal",
-  color: `${GRAY_MID}`
+  color: `${GRAY}`
 };
 
 interface SchoolSearchBoxProps {

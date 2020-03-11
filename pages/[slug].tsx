@@ -1,17 +1,15 @@
-import { NextPage } from "next";
+import { NextPage, NextPageContext } from "next";
 import { apiPage } from "../api";
-import BacktotopButton from "../components/BacktotopButton";
 import HtmlContent from "../components/HtmlContent";
-import { Sidebar } from "../components/school";
 import { PageResponse } from "../schema";
 import "../styles/features.css";
+import StandardPage from "../templates/StandardPage";
 
 type AboutProps = PageResponse;
 
 const About: NextPage<AboutProps> = (props: AboutProps) => {
   return (
-    <div>
-      <title>About | Academic Influence</title>
+    <StandardPage title={props.title}>
       <style jsx>
         {`
           .aboutPage {
@@ -65,23 +63,16 @@ const About: NextPage<AboutProps> = (props: AboutProps) => {
           }
         `}
       </style>
-      <div className="aboutPage">
-        <div className="aboutContent">
-          <HtmlContent html={props.content} />
-        </div>
-        <div className="righSideBar">
-          <div className="sidebar">
-            <Sidebar />
-          </div>
-        </div>
+
+      <div className="aboutContent">
+        <HtmlContent html={props.content} />
       </div>
-      <BacktotopButton />
-    </div>
+    </StandardPage>
   );
 };
 
-About.getInitialProps = async function({ req }) {
-  const aboutPage = apiPage("about");
+About.getInitialProps = async function(context: NextPageContext) {
+  const aboutPage = apiPage(context.query.slug as string);
 
   return await aboutPage;
 };

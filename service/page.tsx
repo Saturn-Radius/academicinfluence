@@ -14,12 +14,14 @@ export default async function servePage(
       .from("editor.ai_pages")
       .where("key = ?", request)
       .field("text", "content")
+      .field("title")
       .toParam()
   );
 
   const row = data.rows[0];
 
   return {
+    title: row.title,
     content: await processHtml(row.content)
   };
 }

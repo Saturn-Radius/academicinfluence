@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import { BACKGROUND_1, GRAY_DARK, GRAY_LIGHT, GRAY_LIGHTER, GRAY_MID, GREEN_DARK, GREEN_LIGHT } from "../../styles";
+import { SchoolLink } from "../../links";
+import { GRAY, GRAY_DARKEST, GRAY_LIGHTER, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -16,7 +17,7 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border: solid 0.5px ${GRAY_DARK};
+  border: solid 0.5px ${GRAY_DARKEST};
   background-color: ${GRAY_LIGHTER};
   padding: 21px 44px;
 `;
@@ -31,9 +32,10 @@ const FullDetailsButton = styled.button`
   height: 27px;
   border-radius: 30px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
-  background-color: ${GREEN_LIGHT};
+  background-color: ${MAIN_LIGHTER};
   margin-top: 23px;
-  color: ${BACKGROUND_1};
+  color: #ffffff;
+  outline: none;
 `;
 
 const RankingLabel = styled.span`
@@ -42,7 +44,7 @@ const RankingLabel = styled.span`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY_MID};
+  color: ${GRAY};
   margin-top: 44px;
 `;
 
@@ -53,7 +55,7 @@ const RankText = styled.span`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GREEN_DARK};
+  color: ${MAIN_DARKER};
 `;
 
 const Body = styled.div`
@@ -89,7 +91,7 @@ const SchoolName = styled.h2`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GREEN_DARK};
+  color: ${MAIN_DARKER};
   margin: 0;
 `;
 
@@ -99,7 +101,7 @@ const Location = styled.p`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY_MID};
+  color: ${GRAY};
   margin-top: 5px;
 `;
 
@@ -109,7 +111,7 @@ const SchoolDescription = styled.p`
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: ${GRAY_LIGHT};
+  color: ${GRAY_LIGHTEST};
 `;
 
 const LawImage = styled.img`
@@ -123,7 +125,7 @@ const RightColLabel = styled.span`
   font-style: normal;
   line-height: 1.67;
   letter-spacing: normal;
-  color: ${GRAY_MID};
+  color: ${GRAY};
 `;
 
 const RightColValue = styled.span`
@@ -132,7 +134,7 @@ const RightColValue = styled.span`
   font-style: normal;
   line-height: 1.67;
   letter-spacing: normal;
-  color: ${GREEN_DARK};
+  color: ${MAIN_DARKER};
 `;
 
 const LawRank = styled.p`
@@ -171,6 +173,7 @@ interface SchoolThListItemProps {
 const SchoolThListItem = (props: SchoolThListItemProps) => {
   const { school } = props;
   const {
+    slug,
     logo_url,
     overall,
     name,
@@ -188,7 +191,9 @@ const SchoolThListItem = (props: SchoolThListItemProps) => {
     <Wrapper>
       <Header>
         <Logo src={logo_url} />
-        <FullDetailsButton>Full Details</FullDetailsButton>
+        <SchoolLink school={school}>
+          <FullDetailsButton>Full Details</FullDetailsButton>
+        </SchoolLink>
         <RankingLabel>Ranking</RankingLabel>
         <RankText>#{world_rank}</RankText>
       </Header>

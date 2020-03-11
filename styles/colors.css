@@ -1,0 +1,44 @@
+/* DEFAULT COLORS */
+
+/* M-D SET */
+:root {
+
+--page_bg:#F9FBFA;
+--page_bg_darker:#eff1f0;
+--heading_bg:#F5F5F5;
+
+--gray: #CDCDCD;
+--gray_lighter: #e6e6e6;
+--gray_lightest:#f5f5f5;
+--gray_darker: #9b9b9b;
+--gray_darkest:#696969;
+
+--main:#367D8A;
+--main_lighter:#5997A2;
+--main_lightest:#95C3CB;
+--main_darker:#1D6E7D;
+--main_darkest:#0D5461;
+
+--secondary:#265D71;
+--secondary_lighter:#437588;
+--secondary_lightest:#7398A6;
+--main_darker:#12475b;
+--main_darker:#033041;
+
+--accent:#E57045;
+--accent_lighter:#FF9872;
+--accent_lightest:#FFBBA2;
+--accent_darker:#CC4C1C;
+--accent_darkest:#A13208;
+
+--secondary_accent :#BE5732;
+--secondary_accent_lighter:#DA7F5D;
+--secondary_accent_lightest:#FFB99F;
+--secondary_accent_darker:#993A16;
+--secondary_accent_darkest:#711E00;
+
+--yellow:#FEFE76;
+--white: #FFFFFF;
+--black: #000000;
+}
+
