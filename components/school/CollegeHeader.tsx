@@ -1,32 +1,26 @@
-import { PRIMARY_DARK } from "../../styles";
-import { Desktop, TabletOrMobile } from "../../utils/responsive";
+import { MAIN } from "../../styles";
+import { DESKTOP_MEDIA } from "../../utils/responsive";
 
 const CollegeHeader = (props: any) => {
   return (
-    <>
-      <Desktop>
-        <div style={{ display: "flex" }}>
-          <CollegeInfo
-            name={props.name}
-            logo_url={props.logo_url}
-            city={props.city}
-            state={props.state}
-          />
-        </div>
-      </Desktop>
-
-      <TabletOrMobile>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <CollegeInfo
-            style={{ paddingBottom: 10 }}
-            name={props.name}
-            logo_url={props.logo_url}
-            city={props.city}
-            state={props.state}
-          />
-        </div>
-      </TabletOrMobile>
-    </>
+    <div
+      css={{
+        display: "flex",
+        justifyContent: "center",
+        paddingBottom: 10,
+        [DESKTOP_MEDIA]: {
+          justifyContent: "inherit",
+          paddingBottom: "inherit"
+        }
+      }}
+    >
+      <CollegeInfo
+        name={props.name}
+        logo_url={props.logo_url}
+        city={props.city}
+        state={props.state}
+      />
+    </div>
   );
 };
 
@@ -52,7 +46,7 @@ const CollegeInfo = (props: any) => {
 
 const styles = {
   name: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 28,
     margin: 0
   },

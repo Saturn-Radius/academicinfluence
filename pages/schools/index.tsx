@@ -1,17 +1,23 @@
 import { NextPage, NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
-import { apiCountries, apiDisciplines, apiInfluentialSchoolsPage } from "../../api";
-import { Row } from "../../components/grid";
+import {
+  apiCountries,
+  apiDisciplines,
+  apiInfluentialSchoolsPage
+} from "../../api";
 import DISPLAY_MODES from "../../components/schools/constants";
 import ListTopMenu from "../../components/schools/ListTopMenu";
-import MyLockerButton from "../../components/schools/MyLockerButton";
 import SchoolList from "../../components/schools/SchoolList";
-import { LeftCol, RightCol } from "../../components/schools/styles";
 import { FilterProps } from "../../components/schools/types";
-import { CountriesResponse, DisciplinesResponse, InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../../schema";
+import {
+  CountriesResponse,
+  DisciplinesResponse,
+  InfluentialSchoolsPageRequest,
+  InfluentialSchoolsPageResponse
+} from "../../schema";
 import { PageDescription, PageTitle } from "../../styles";
-import PageLayout from "../../templates/PageLayout";
+import StandardPage from "../../templates/StandardPage";
 import { LoremIpsumText } from "../../utils/const";
 
 const asHref = (request: InfluentialSchoolsPageRequest) => {
@@ -35,7 +41,7 @@ type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
 const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   const router = useRouter();
   const [request, setRequest] = useState(props.request);
-  const [listMode, setListMode] = useState(DISPLAY_MODES.thMode);
+  const [displayMode, setDisplayMode] = useState(DISPLAY_MODES.grid);
 
   const updateRequest = useCallback(
     request => {
@@ -68,36 +74,20 @@ const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
   ];
 
   const onDisplayModeSelectHandler = (mode: string) => {
-    setListMode(mode);
+    setDisplayMode(mode);
   };
 
   return (
-    <PageLayout>
+    <StandardPage title="Influential Schools">
       <PageTitle>Influential Schools</PageTitle>
-      <Row>
-        <LeftCol>
-          <PageDescription>{LoremIpsumText}</PageDescription>
-        </LeftCol>
-        <RightCol>
-          <MyLockerButton
-            items={lockerItems}
-            title="My Locker"
-            image_url="/images/my-locker.png"
-          />
-        </RightCol>
-      </Row>
-      <Row>
-        <LeftCol>
-          <ListTopMenu
-            {...filterProps}
-            onDisplayModeSelect={onDisplayModeSelectHandler}
-          />
-          <SchoolList mode={listMode} schools={schools} />
-          <pre>{JSON.stringify(props.schools, null, 4)}</pre>
-        </LeftCol>
-        <RightCol></RightCol>
-      </Row>
-    </PageLayout>
+      <PageDescription>{LoremIpsumText}</PageDescription>
+      <ListTopMenu
+        {...filterProps}
+        mode={displayMode}
+        onDisplayModeSelect={onDisplayModeSelectHandler}
+      />
+      <SchoolList mode={displayMode} schools={schools} />
+    </StandardPage>
   );
 };
 

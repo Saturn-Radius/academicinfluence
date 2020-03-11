@@ -1,4 +1,4 @@
-import { GREEN_MID, PRIMARY_DARK } from "../../styles";
+import { MAIN, MAIN_DARKER } from "../../styles";
 import Button from "../Button";
 import CircularProgress from "../CircularProgress";
 import ContentCard from "../ContentCard";
@@ -39,12 +39,12 @@ const Admissions = (props: any) => {
         <div style={{ display: "flex", justifyContent: "space-evenly" }}>
           <Button
             style={{ width: 190, marginRight: 24 }}
-            color={GREEN_MID}
+            color={MAIN_DARKER}
             text={`SAT - ${props.school.median_sat}`}
           />
           <Button
             style={{ width: 190 }}
-            color={GREEN_MID}
+            color={MAIN_DARKER}
             text={`ACT - ${props.school.median_act}`}
           />
         </div>
@@ -55,7 +55,7 @@ const Admissions = (props: any) => {
 
 const styles = {
   subheaderText: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 22
   }
 };

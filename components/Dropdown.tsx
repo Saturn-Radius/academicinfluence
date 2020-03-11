@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import React, { useState } from "react";
-import { GRAY_MID, PRIMARY_DARK } from "../styles";
+import { GRAY, MAIN } from "../styles";
 import { Spacer } from "./grid";
 
 const StyledButton = styled.button`
@@ -13,7 +13,7 @@ const StyledButton = styled.button`
   font-size: 29px;
   font-weight: bold;
   border: none;
-  border-bottom: thin solid ${GRAY_MID};
+  border-bottom: thin solid ${GRAY};
   outline: none;
 `;
 
@@ -26,7 +26,7 @@ const Title = styled.span<TitleProps>`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${props => (props.isMore ? GRAY_MID : PRIMARY_DARK)};
+  color: ${props => (props.isMore ? GRAY : MAIN)};
   margin-left: 10px;
 `;
 
@@ -42,9 +42,9 @@ const ListItem = styled.li`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY_MID};
+  color: ${GRAY};
   list-style: none;
-  border-bottom: thin solid ${GRAY_MID};
+  border-bottom: thin solid ${GRAY};
 `;
 
 const DropdownButton = React.forwardRef(

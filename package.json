@@ -93,17 +93,9 @@
     "typescript": "^3.6.4"
   },
   "lint-staged": {
-    "*.ts": [
-      "prettier --write",
-      "organize-imports-cli"
-    ],
-    "*.tsx": [
-      "prettier --write",
-      "organize-imports-cli"
-    ],
-    "*.js": [
-      "prettier --write",
-      "organize-imports-cli"
+    "*.{ts,tsx,js,jsx}": [
+      "organize-imports-cli",
+      "node format.js"
     ]
   }
 }

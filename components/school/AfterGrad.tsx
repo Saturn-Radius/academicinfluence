@@ -1,4 +1,4 @@
-import { PRIMARY_DARK } from "../../styles";
+import { MAIN } from "../../styles";
 import CircularProgress from "../CircularProgress";
 import ContentCard from "../ContentCard";
 
@@ -36,7 +36,7 @@ const AfterGrad = (props: any) => {
 
 const styles = {
   subheaderText: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 22
   },
   afterGradRow: {

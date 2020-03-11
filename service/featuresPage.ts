@@ -21,9 +21,10 @@ export default async function serveFeaturesPage(
         "exists ?",
         squel
           .select()
-          .from("editor.ai_features")
-          .where("ai_features.category = ai_categories.id")
-          .where("ai_features.status = ?", "PUBLISHED")
+          .from("editor.ai_articles")
+          .where("ai_articles.kind = 'feature'")
+          .where("ai_articles.category = ai_categories.id")
+          .where("ai_articles.status = ?", "PUBLISHED")
       )
 
       .toParam()
@@ -45,10 +46,10 @@ export default async function serveFeaturesPage(
 
   const articlesQueryBuilder = squel
     .select()
-    .from("editor.ai_features")
+    .from("editor.ai_articles")
     .field("title")
     .field("excerpt")
-    .field("ai_features.slug", "slug")
+    .field("ai_articles.slug", "slug")
     .field("modified_date_time")
     .field("users.name", "username")
     .field("ai_categories.slug", "category_slug")
@@ -56,11 +57,11 @@ export default async function serveFeaturesPage(
     .field("hero_image_banner_url")
     .field("hero_image_thumbnail_url")
     .order("added_date_time", true)
-    .join("editor.users", undefined, "users.id = ai_features.added_by")
+    .join("editor.users", undefined, "users.id = ai_articles.added_by")
     .join(
       "editor.ai_categories",
       undefined,
-      "editor.ai_categories.id = ai_features.category"
+      "editor.ai_categories.id = ai_articles.category"
     )
     .where("status = ?", "PUBLISHED")
     .limit(6);
@@ -77,21 +78,21 @@ export default async function serveFeaturesPage(
       : pool.query(
           squel
             .select()
-            .from("editor.ai_features")
+            .from("editor.ai_articles")
             .field("title")
-            .field("ai_features.slug")
+            .field("ai_articles.slug")
             .field("content")
             .field("excerpt")
             .field("hero_image_banner_url")
             .field("hero_image_thumbnail_url")
             .field("modified_date_time")
             .field("users.name", "username")
-            .join("editor.users", undefined, "users.id = ai_features.added_by")
-            .where("ai_features.slug = ?", request.article)
+            .join("editor.users", undefined, "users.id = ai_articles.added_by")
+            .where("ai_articles.slug = ?", request.article)
             .join(
               "editor.ai_categories",
               undefined,
-              "editor.ai_categories.id = ai_features.category"
+              "editor.ai_categories.id = ai_articles.category"
             )
             .field("ai_categories.slug", "category_slug")
             .field("ai_categories.name", "category_name")
@@ -113,11 +114,8 @@ export default async function serveFeaturesPage(
     }
   }));
 
-  while (articles.length < 6) {
-    articles.push(articles[0]);
-  }
-
   const article = articleQuery && (await articleQuery).rows[0];
+  console.log("HEY", article);
 
   return {
     category:

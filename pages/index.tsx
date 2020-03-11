@@ -1,11 +1,23 @@
 import { NextPage } from "next";
-import { apiDisciplines, apiFeaturesPage, apiHomePage, apiInfluentialPeoplePage } from "../api";
+import {
+  apiDisciplines,
+  apiFeaturesPage,
+  apiHomePage,
+  apiInfluentialPeoplePage
+} from "../api";
 import BacktotopButton from "../components/BacktotopButton";
+import DisciplineIcon from "../components/DisciplineIcon";
 import { Article } from "../components/FeaturePage";
 import { CollegeList } from "../components/home";
-import { ArticleLink } from "../links";
-import { ArticlePartialData, DisciplinesResponse, FeaturesPageResponse, HomePageResponse, PersonPartialData } from "../schema";
-import { SECONDARY_DARK } from "../styles";
+import { ArticleLink, DisciplineLink, PersonLink } from "../links";
+import {
+  ArticlePartialData,
+  DisciplinesResponse,
+  FeaturesPageResponse,
+  HomePageResponse,
+  PersonPartialData
+} from "../schema";
+import { MAIN_DARKER } from "../styles";
 
 type IndexProps = {
   homePage: HomePageResponse;
@@ -23,7 +35,7 @@ function Section(props: SectionProps) {
     <section>
       <h1
         css={{
-          color: SECONDARY_DARK,
+          color: MAIN_DARKER,
           fontSize: "15px",
           fontWeight: "bold",
           textAlign: "center",
@@ -139,6 +151,9 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
             .collegeTitle {
               font-size: 20px;
             }
+            .featureTitle {
+              font-size: 20px;
+            }
           }
         `}
       </style>
@@ -157,6 +172,45 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
         </div>
         <div className="feature">
           <h1 className="featureTitle">FEATURE</h1>
+        </div>
+        <div>
+          <Section label="FEATURE ARTICLES">
+            <FeatureGrid articles={props.features.articles.slice(0, 3)} />
+          </Section>
+          {props.disciplines
+            .filter(discipline => discipline.level == 1)
+            .map((discipline, index) => (
+              <DisciplineLink key={index} discipline={discipline}>
+                <a
+                  css={{
+                    display: "inline-block",
+                    width: "1in",
+                    height: "1in",
+                    margin: ".5in",
+                    "& svg": {
+                      fontSize: "48pt",
+                      display: "block"
+                    }
+                  }}
+                >
+                  <DisciplineIcon discipline={discipline} />
+                  {discipline.name}
+                </a>
+              </DisciplineLink>
+            ))}
+          <ul>
+            {props.people.map(person => (
+              <li key={person.slug}>
+                {person.image_url && <img width="100" src={person.image_url} />}
+                {person.image_source_url && (
+                  <a href={person.image_source_url}>Source</a>
+                )}
+                <PersonLink person={person}>
+                  <a>{person.name}</a>
+                </PersonLink>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       <BacktotopButton />

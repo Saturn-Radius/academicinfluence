@@ -10,6 +10,22 @@ import SchoolList from "./SchoolList";
 import SchoolListItem from "./SchoolListItem";
 import SchoolSearchBox from "./SchoolSearchBox";
 import SchoolStatus from "./SchoolStatus";
+import SchoolThListItem from "./SchoolThListItem";
 import YearsFilter from "./YearsFilter";
 
-export { DISPLAY_MODES, Country, Discipline, DisplayModes, FilterLabel, ListTopMenu, MyLockerButton, RangeHandle, SchoolList, SchoolListItem, SchoolSearchBox, SchoolStatus, YearsFilter };
+export {
+  DISPLAY_MODES,
+  Country,
+  Discipline,
+  DisplayModes,
+  FilterLabel,
+  ListTopMenu,
+  MyLockerButton,
+  RangeHandle,
+  SchoolList,
+  SchoolListItem,
+  SchoolThListItem,
+  SchoolSearchBox,
+  SchoolStatus,
+  YearsFilter
+};

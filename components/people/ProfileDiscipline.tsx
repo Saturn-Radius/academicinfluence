@@ -1,4 +1,4 @@
-import { GRAY_MID, PRIMARY_DARK } from "../../styles";
+import { GRAY, MAIN } from "../../styles";
 
 const ProfileDiscipline = (props: any) => {
   if (props.disciplines && Object.keys(props.disciplines).length > 0) {
@@ -19,13 +19,13 @@ const ProfileDiscipline = (props: any) => {
 
 const styles = {
   sidebarText: {
-    color: GRAY_MID,
+    color: GRAY,
     lineHeight: 1,
     fontSize: 16,
     fontWeight: 500
   },
   bodyText: {
-    color: PRIMARY_DARK,
+    color: MAIN,
     fontSize: 24,
     listStyleType: "disc",
     fontWeight: 600
