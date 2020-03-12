@@ -64,14 +64,10 @@ const inputStyle = {
   color: `${GRAY}`
 };
 
-interface SchoolSearchBoxProps {
-  readonly onAdvancedSearchClick: any;
-}
+interface SchoolSearchBoxProps {}
 const SchoolSearchBox = (props: SchoolSearchBoxProps) => {
   const [value, setValue] = useState("");
   const [items, setItems] = useState([] as Identifiable[]);
-  const [isAdvanced, setIsAdvanced] = useState(false);
-  const { onAdvancedSearchClick } = props;
 
   const onChange = useCallback(
     async (text: any) => {
@@ -92,11 +88,6 @@ const SchoolSearchBox = (props: SchoolSearchBoxProps) => {
     [router]
   );
 
-  const switchSearchMode = () => {
-    setIsAdvanced(!isAdvanced);
-    onAdvancedSearchClick(!isAdvanced);
-  };
-
   return (
     <SearchWrapper>
       <Search
@@ -116,9 +107,6 @@ const SchoolSearchBox = (props: SchoolSearchBoxProps) => {
           </SearchListItem>
         )}
       />
-      <AdvancedSearchButton onClick={() => switchSearchMode()}>
-        Advanced Search
-      </AdvancedSearchButton>
     </SearchWrapper>
   );
 };

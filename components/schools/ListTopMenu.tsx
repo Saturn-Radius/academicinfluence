@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
 import Country from "./Country";
 import Discipline from "./Discipline";
 import DisplayModes from "./DisplayModes";
@@ -18,11 +17,6 @@ const AdvancedSearch = styled.div`
 
 const ListTopMenu = (props: any) => {
   const { mode, onDisplayModeSelect } = props;
-  const [isAdvancedMode, setIsAdvanced] = useState(false);
-
-  const onSearchModeHandler = (isAdvanced: boolean) => {
-    setIsAdvanced(isAdvanced);
-  };
 
   const onMenuModeSelectHandler = (menuMode: string) => {
     onDisplayModeSelect(menuMode);
@@ -32,15 +26,14 @@ const ListTopMenu = (props: any) => {
     <>
       <MenuRow>
         <DisplayModes mode={mode} onMenuModeSelect={onMenuModeSelectHandler} />
-        <SchoolSearchBox onAdvancedSearchClick={onSearchModeHandler} />
+        <SchoolSearchBox />
       </MenuRow>
-      {isAdvancedMode && (
-        <AdvancedSearch>
-          <Discipline {...props} />
-          <YearsFilter {...props} />
-          <Country {...props} />
-        </AdvancedSearch>
-      )}
+
+      <AdvancedSearch>
+        <Discipline {...props} />
+        <YearsFilter {...props} />
+        <Country {...props} />
+      </AdvancedSearch>
     </>
   );
 };
