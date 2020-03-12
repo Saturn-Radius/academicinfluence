@@ -97,6 +97,11 @@ export interface SchoolData extends SchoolPartialData, EntityFullData {
 
   website: string | null;
   admissions_website: string | null;
+
+  facebook_id: string | null;
+  twitter_username: string | null;
+  instagram_username: string | null;
+  youtube_channel: string | null;
 }
 
 export interface PersonData extends PersonPartialData, EntityFullData {

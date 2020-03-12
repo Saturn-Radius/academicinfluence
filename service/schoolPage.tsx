@@ -212,6 +212,10 @@ export default async function serveSchoolPage(
     .field("zip")
     .field("website")
     .field("admissions_website")
+    .field("facebook_id")
+    .field("twitter_username")
+    .field("instagram_username")
+    .field("youtube_channel")
     .execute();
 
   const disciplineQuery = disciplineBreakdownQuery(
@@ -256,6 +260,11 @@ export default async function serveSchoolPage(
       address: school.address,
       zip: school.zip,
       website: school.website,
+      facebook_id: school.facebook_id,
+      twitter_username: school.twitter_username,
+      instagram_username: school.instagram_username,
+      youtube_channel: school.youtube_channel,
+
       admissions_website: school.admissions_website,
       employed_10_years: school.employed_10_years,
       desirability_rank: school.desirability_rank,

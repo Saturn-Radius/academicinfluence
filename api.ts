@@ -630,7 +630,11 @@ validator.compile({
         address: { type: ["string", "null"] },
         zip: { type: ["string", "null"] },
         website: { type: ["string", "null"] },
-        admissions_website: { type: ["string", "null"] }
+        admissions_website: { type: ["string", "null"] },
+        facebook_id: { type: ["string", "null"] },
+        twitter_username: { type: ["string", "null"] },
+        instagram_username: { type: ["string", "null"] },
+        youtube_channel: { type: ["string", "null"] }
       },
       required: [
         "acceptance_rate",
@@ -650,6 +654,7 @@ validator.compile({
         "disciplines",
         "disciplines_text",
         "employed_10_years",
+        "facebook_id",
         "grad_fees_in_state",
         "grad_fees_out_of_state",
         "grad_tuition_in_state",
@@ -657,6 +662,7 @@ validator.compile({
         "graduation_rate",
         "influence_over_time",
         "influential_alumni_text",
+        "instagram_username",
         "logo_url",
         "median_act",
         "median_sat",
@@ -670,6 +676,7 @@ validator.compile({
         "test_competitiveness",
         "top_discipline",
         "total_students",
+        "twitter_username",
         "undergrad_fees_in_state",
         "undergrad_fees_out_of_state",
         "undergrad_tuition_in_state",
@@ -677,6 +684,7 @@ validator.compile({
         "weather",
         "website",
         "wikipedia_description",
+        "youtube_channel",
         "zip"
       ],
       additionalProperties: false

@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
-import { config } from "@fortawesome/fontawesome-svg-core";
+import { config, IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import {
   faFacebookSquare,
-  faLinkedinIn,
-  faPinterestP,
-  faTwitter
+  faInstagramSquare,
+  faTwitter,
+  faYoutubeSquare
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SchoolData } from "../../schema";
@@ -47,6 +47,25 @@ const SocialIcon: any = styled.div`
     }
   }
 `;
+
+function SocialMediaIcon(props: {
+  prefix: string;
+  username: string | null;
+  color: string;
+  icon: IconDefinition;
+}) {
+  if (props.username) {
+    return (
+      <a href={props.prefix + props.username}>
+        <SocialIcon color={props.color} fillColor="#fff">
+          <FontAwesomeIcon icon={props.icon} />
+        </SocialIcon>
+      </a>
+    );
+  } else {
+    return null;
+  }
+}
 
 const ContactInfo = (props: { school: SchoolData }) => {
   const { school } = props;
@@ -100,18 +119,30 @@ const ContactInfo = (props: { school: SchoolData }) => {
         <ContactInfoRow>
           <InfoLabel>Social Media:</InfoLabel>
           <InfoCol>
-            <SocialIcon color="#3b5998" fillColor="#fff">
-              <FontAwesomeIcon icon={faFacebookSquare} />
-            </SocialIcon>
-            <SocialIcon color="#38A1F3" fillColor="#fff">
-              <FontAwesomeIcon icon={faTwitter} />
-            </SocialIcon>
-            <SocialIcon color="#c8232c" fillColor="#fff">
-              <FontAwesomeIcon icon={faPinterestP} />
-            </SocialIcon>
-            <SocialIcon color="#006192" fillColor="#fff">
-              <FontAwesomeIcon icon={faLinkedinIn} />
-            </SocialIcon>
+            <SocialMediaIcon
+              color="#3b5998"
+              icon={faFacebookSquare}
+              prefix="https://www.facebook.com/"
+              username={school.facebook_id}
+            />
+            <SocialMediaIcon
+              color="#38A1F3"
+              icon={faTwitter}
+              prefix="https://twitter.com/"
+              username={school.twitter_username}
+            />
+            <SocialMediaIcon
+              color="#405de6"
+              icon={faInstagramSquare}
+              prefix="https://www.instagram.com/"
+              username={school.instagram_username}
+            />
+            <SocialMediaIcon
+              color="#c4302b"
+              prefix="https://youtube.com/channel/"
+              username={school.youtube_channel}
+              icon={faYoutubeSquare}
+            />
           </InfoCol>
         </ContactInfoRow>
       </ContactInfoContainer>
