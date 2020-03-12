@@ -1,10 +1,10 @@
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import * as React from "react";
+import { useAsyncAbortable } from "react-async-hook";
 import Autosuggest from "react-autosuggest";
-export const Cow = 2;
 
 export default function Autocomplete<T extends { name: string }>(props: {
-  api: (text: string) => Promise<T[]>;
+  api: (text: string, abort: AbortSignal) => Promise<T[]>;
   text: string;
   textChange?: (text: string) => void;
   clearSelection?: () => void;
@@ -12,27 +12,24 @@ export default function Autocomplete<T extends { name: string }>(props: {
   onSelect?: (item: T) => void;
 }) {
   const debouncedApi = React.useMemo(
-    () => AwesomeDebouncePromise(props.api, 1000),
+    () =>
+      AwesomeDebouncePromise(
+        (details: { text: string; abortSignal: AbortSignal }) =>
+          props.api(details.text, details.abortSignal),
+        1000
+      ),
     [props.api]
   );
 
-  const [suggestions, setSuggestions] = React.useState<T[]>([]);
-  const [currentSuggestion, setCurrentSuggestion] = React.useState<T | null>(
-    null
+  const suggestionsLookup = useAsyncAbortable(
+    (abortSignal, text) => debouncedApi({ text, abortSignal }),
+    [props.text]
   );
 
-  const lookupLocation = React.useCallback(
-    async function lookupLocation(text: string) {
-      if (text === "") {
-        if (props.clearSelection) {
-          props.clearSelection();
-        }
-      } else {
-        const response = await debouncedApi(text);
-        setSuggestions(response);
-      }
-    },
-    [setSuggestions, props.updateCurrent, debouncedApi]
+  const suggestions = suggestionsLookup.result || [];
+
+  const [currentSuggestion, setCurrentSuggestion] = React.useState<T | null>(
+    null
   );
 
   const onSelect = React.useCallback(
@@ -53,16 +50,9 @@ export default function Autocomplete<T extends { name: string }>(props: {
     [props.textChange]
   );
 
-  const onSuggestionsFetchRequested = React.useCallback(
-    ({ value }) => {
-      lookupLocation(value);
-    },
-    [lookupLocation]
-  );
+  const onSuggestionsFetchRequested = React.useCallback(() => {}, []);
 
-  const onSuggestionsClearRequested = React.useCallback(() => {
-    setSuggestions([]);
-  }, [setSuggestions]);
+  const onSuggestionsClearRequested = React.useCallback(() => {}, []);
 
   const targetCurrentSuggestion =
     suggestions.length > 0 ? suggestions[0] : null;

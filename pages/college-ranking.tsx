@@ -611,8 +611,8 @@ const SAT_TO_ACT = [
   11
 ];
 
-async function lookupCities(text: string) {
-  return (await apiLocationAutocomplete(text)).cities;
+async function lookupCities(text: string, abort: AbortSignal) {
+  return (await apiLocationAutocomplete(text, abort)).cities;
 }
 
 function LocationFilter(props: FilterProps) {
