@@ -66,11 +66,14 @@ const InfluentialCard = (props: { person: PersonPartialData }) => {
       </div>
 
       <div>
+        {/* 
+        TODO
         <div style={{ color: MAIN, fontWeight: "bold" }}>Influential Works</div>
         <div style={{ paddingBottom: 8 }}>
           Educated: A Memoir, The Body: A Guide for Occupants, Outliers: The
           Story of Success
         </div>
+        */}
 
         <div style={{ float: "right" }}>
           <PersonLink person={props.person}>

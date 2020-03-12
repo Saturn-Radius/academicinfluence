@@ -599,10 +599,6 @@ validator.compile({
           type: "array",
           items: { $ref: "#/definitions/PersonPartialData" }
         },
-        people: {
-          type: "array",
-          items: { $ref: "#/definitions/PersonPartialData" }
-        },
         weather: {
           anyOf: [
             {
@@ -673,7 +669,6 @@ validator.compile({
         "meta_description",
         "name",
         "overall",
-        "people",
         "short_description",
         "slug",
         "state",

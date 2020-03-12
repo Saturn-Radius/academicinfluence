@@ -81,7 +81,6 @@ export interface SchoolData extends SchoolPartialData, EntityFullData {
   };
 
   alumni: PersonPartialData[];
-  people: PersonPartialData[];
   weather: {
     winter: WeatherData;
     spring: WeatherData;

@@ -4,8 +4,6 @@ import { LatLng } from "../schema";
 const MapContainer = (props: { google: GoogleAPI; location: LatLng }) => {
   const { google } = props;
 
-  console.log("HEY", props.location);
-
   return (
     <Map
       google={google}

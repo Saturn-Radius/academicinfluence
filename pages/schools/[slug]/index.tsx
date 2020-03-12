@@ -107,7 +107,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
 
 const InfluentialContainer = (props: { school: SchoolData }) => {
   const { school } = props;
-  const { name, people } = school;
+  const { name } = school;
 
   return (
     <section>
@@ -120,7 +120,7 @@ const InfluentialContainer = (props: { school: SchoolData }) => {
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
-        {people.map((person, index) => (
+        {school.alumni.map((person, index) => (
           <InfluentialCard key={index} person={person} />
         ))}
       </div>
