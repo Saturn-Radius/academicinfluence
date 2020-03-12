@@ -28,7 +28,6 @@ export default async function serve(
         width: size,
         height: size
       });
-      console.log(shape);
       const resized = image
         .extract({
           width: size,

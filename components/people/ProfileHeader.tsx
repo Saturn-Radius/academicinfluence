@@ -1,6 +1,6 @@
 import { PersonData } from "../../schema";
 import { GRAY, GRAY_LIGHTEST, MAIN } from "../../styles";
-import { formatYear } from "../../utils/years";
+import { YearRange } from "../../utils/years";
 
 const ProfileHeader = (props: { person: PersonData }) => {
   const { person } = props;
@@ -27,8 +27,7 @@ const ProfileHeader = (props: { person: PersonData }) => {
             <div css={styles.profileTitle}>{person.short_description}</div>
             <div css={{ marginBottom: 10 }}>
               {" "}
-              ( {formatYear(person.birth_year)} –{" "}
-              {formatYear(person.death_year)})
+              <YearRange person={person} />
             </div>
           </div>
         </div>
