@@ -752,7 +752,18 @@ function LocationFilter(props: FilterProps) {
           "& .react-autosuggest__suggestions-container": {
             position: "absolute",
             top: "25px",
-            zIndex: 1000
+            width: "100%",
+            zIndex: 1000,
+            "& ul": {
+              listStyle: "none",
+              padding: 0,
+              background: "white",
+              border: "solid 1px black"
+            }
+          },
+          "& input": {
+            paddingLeft: "8px",
+            paddingRight: "8px"
           }
         }}
       >
@@ -777,7 +788,10 @@ function LocationFilter(props: FilterProps) {
           renderSuggestion={(item, { isHighlighted }) => (
             <div
               key={item.name}
-              style={{ background: isHighlighted ? "lightgray" : "white" }}
+              css={{
+                background: isHighlighted ? "lightgray" : "white",
+                padding: "5px"
+              }}
             >
               {item.name}
             </div>
