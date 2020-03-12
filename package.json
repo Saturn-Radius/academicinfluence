@@ -32,7 +32,6 @@
     "@types/lodash-es": "^4.17.3",
     "@types/pg": "^7.11.2",
     "@types/rc-slider": "^8.6.5",
-    "@types/react-autocomplete": "^1.8.5",
     "@types/react-autosuggest": "^9.3.13",
     "@types/react-html-parser": "^2.0.1",
     "@types/react-responsive": "^8.0.2",
