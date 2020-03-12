@@ -341,7 +341,9 @@ const COLUMNS: COLUMN[] = [
     column: 1,
 
     value: school => (
-      <BasicCell color="black">{school.overall.influence}</BasicCell>
+      <BasicCell color="black">
+        {(school.overall.influence * 100).toFixed()}
+      </BasicCell>
     )
   },
   {
