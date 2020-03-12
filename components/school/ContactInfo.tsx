@@ -79,7 +79,11 @@ const ContactInfo = (props: { school: SchoolData }) => {
           <ContactInfoRow>
             <InfoLabel>Contact Admissions:</InfoLabel>
             <InfoCol>
-              <span>{school.admissions_website}</span>
+              <span>
+                <a href={school.admissions_website}>
+                  {school.admissions_website}
+                </a>
+              </span>
             </InfoCol>
           </ContactInfoRow>
         )}
@@ -87,7 +91,9 @@ const ContactInfo = (props: { school: SchoolData }) => {
           <ContactInfoRow>
             <InfoLabel>Website:</InfoLabel>
             <InfoCol>
-              <span>{school.website}</span>
+              <span>
+                <a href={school.website}>{school.website}</a>
+              </span>
             </InfoCol>
           </ContactInfoRow>
         )}
