@@ -1,106 +1,79 @@
-import { NextPage, NextPageContext } from "next";
-import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
-import { apiCountries, apiDisciplines, apiInfluentialSchoolsPage } from "../../api";
+import { useState } from "react";
+import {
+  apiCountries,
+  apiDisciplines,
+  apiInfluentialSchoolsPage
+} from "../../api";
 import DISPLAY_MODES from "../../components/schools/constants";
 import ListTopMenu from "../../components/schools/ListTopMenu";
 import SchoolList from "../../components/schools/SchoolList";
-import { FilterProps } from "../../components/schools/types";
-import { CountriesResponse, DisciplinesResponse, InfluentialSchoolsPageRequest, InfluentialSchoolsPageResponse } from "../../schema";
+import QuerySchema, { RangeParameter } from "../../QuerySchema";
+import {
+  CountriesResponse,
+  DisciplinesResponse,
+  InfluentialSchoolsPageRequest,
+  InfluentialSchoolsPageResponse
+} from "../../schema";
 import { PageDescription, PageTitle } from "../../styles";
 import StandardPage from "../../templates/StandardPage";
 import { LoremIpsumText } from "../../utils/const";
+import QueryPage from "../../utils/QueryPage";
 
-const asHref = (request: InfluentialSchoolsPageRequest) => {
-  return {
-    pathname: "/schools",
-    query: {
-      discipline: request.discipline,
-      minYear: request.years.min,
-      maxYear: request.years.max,
-      country: request.country
-    }
-  };
-};
+const QUERY_SCHEMA = QuerySchema("/schools", {
+  discipline: {
+    toQuery: value => value,
+    fromQuery: value => value,
+    default: null as null | string,
+    canonical: true
+  },
+  years: RangeParameter(-4000, 2020),
+  country: {
+    toQuery: value => value,
+    fromQuery: value => value,
+    default: null as null | string,
+    canonical: true
+  }
+});
 
 type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
   countries: CountriesResponse;
   disciplines: DisciplinesResponse;
   request: InfluentialSchoolsPageRequest;
+  updateRequest: (request: InfluentialSchoolsPageRequest) => void;
 };
 
-const InfluentialSchools: NextPage<InfluentialSchoolsProps> = props => {
-  const router = useRouter();
-  const [request, setRequest] = useState(props.request);
+const InfluentialSchools: React.SFC<InfluentialSchoolsProps> = props => {
   const [displayMode, setDisplayMode] = useState(DISPLAY_MODES.grid);
-
-  const updateRequest = useCallback(
-    request => {
-      setRequest(request);
-      router.replace(asHref(request));
-    },
-    [setRequest, router]
-  );
-
-  const filterProps: FilterProps = {
-    ...props,
-    request,
-    updateRequest
-  };
-
-  const { schools, disciplines, countries } = props;
-  const lockerItems: any[] = [
-    {
-      name: "My Schools",
-      items: schools
-    },
-    {
-      name: "My Discilines",
-      items: disciplines
-    },
-    {
-      name: "My Countries",
-      items: countries
-    }
-  ];
-
-  const onDisplayModeSelectHandler = (mode: string) => {
-    setDisplayMode(mode);
-  };
 
   return (
     <StandardPage title="Influential Schools">
       <PageTitle>Influential Schools</PageTitle>
       <PageDescription>{LoremIpsumText}</PageDescription>
       <ListTopMenu
-        {...filterProps}
+        {...props}
         mode={displayMode}
-        onDisplayModeSelect={onDisplayModeSelectHandler}
+        onDisplayModeSelect={setDisplayMode}
       />
-      <SchoolList mode={displayMode} schools={schools} />
+      <SchoolList mode={displayMode} schools={props.schools} />
     </StandardPage>
   );
 };
 
-InfluentialSchools.getInitialProps = async function(context: NextPageContext) {
-  const request = {
-    country: (context.query.country as string) || null,
-    years: {
-      min: parseInt((context.query.minYear as string) || "1900"),
-      max: parseInt((context.query.maxYear as string) || "2020")
-    },
-    discipline: (context.query.discipline as string) || null
-  };
-
-  const schools = apiInfluentialSchoolsPage(request);
-  const disciplines = apiDisciplines({});
-  const countries = apiCountries({});
-  return {
-    ...(await schools),
-    disciplines: await disciplines,
-    countries: await countries,
-    request
-  };
-};
-
-export default InfluentialSchools;
+export default QueryPage(
+  InfluentialSchools,
+  QUERY_SCHEMA,
+  {
+    title: "Influential Schools"
+  },
+  async (request, signal) => {
+    const schools = apiInfluentialSchoolsPage(request, signal);
+    const disciplines = apiDisciplines({}, signal);
+    const countries = apiCountries({}, signal);
+    return {
+      ...(await schools),
+      disciplines: await disciplines,
+      countries: await countries,
+      request
+    };
+  }
+);
