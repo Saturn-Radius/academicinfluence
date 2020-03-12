@@ -626,10 +626,13 @@ validator.compile({
         influential_alumni_text: {
           type: "array",
           items: { $ref: "#/definitions/Html" }
-        }
+        },
+        address: { type: ["string", "null"] },
+        zip: { type: ["string", "null"] }
       },
       required: [
         "acceptance_rate",
+        "address",
         "alumni",
         "average_earnings",
         "average_net_price",
@@ -669,7 +672,8 @@ validator.compile({
         "undergrad_tuition_in_state",
         "undergrad_tuition_out_of_state",
         "weather",
-        "wikipedia_description"
+        "wikipedia_description",
+        "zip"
       ],
       additionalProperties: false
     },

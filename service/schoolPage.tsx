@@ -208,6 +208,8 @@ export default async function serveSchoolPage(
     .field("city_violent_crime_rate")
     .field("disciplines_text")
     .field("influential_alumni_text")
+    .field("address")
+    .field("zip")
     .execute();
 
   const disciplineQuery = disciplineBreakdownQuery(
@@ -249,6 +251,8 @@ export default async function serveSchoolPage(
     school: {
       ...extractPartialSchoolFields(school),
       ...(await extractEntityFields(school)),
+      address: school.address,
+      zip: school.zip,
       employed_10_years: school.employed_10_years,
       desirability_rank: school.desirability_rank,
       undergrad_tuition_out_of_state: school.undergrad_tuition_out_of_state,
