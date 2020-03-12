@@ -57,6 +57,9 @@ const ICONS: Dictionary<any> = {
 
 export default function DisciplineIcon(props: {
   discipline: DisciplineDetail;
+  style: Object;
 }) {
-  return <FontAwesomeIcon icon={ICONS[props.discipline.slug]} />;
+  return (
+    <FontAwesomeIcon style={props.style} icon={ICONS[props.discipline.slug]} />
+  );
 }
