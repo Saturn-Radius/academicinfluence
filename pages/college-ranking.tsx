@@ -1104,10 +1104,22 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
 };
 
 CollegeRanking.getInitialProps = async function(context: NextPageContext) {
+  const controller =
+    typeof window === undefined
+      ? new AbortController()
+      : {
+          signal: undefined,
+          abort: () => {}
+        };
+  const onRouteChange = () => {
+    controller.abort();
+  };
+  Router.events.on("routeChangeError", onRouteChange);
   const request = QUERY_SCHEMA.fromQuery(context.query);
-  const disciplinesPromise = apiDisciplines({});
-  const data = await apiCollegeRankings(request);
+  const disciplinesPromise = apiDisciplines({}, controller.signal);
+  const data = await apiCollegeRankings(request, controller.signal);
   const disciplines = await disciplinesPromise;
+  Router.events.off("routeChangeError", onRouteChange);
 
   return { data, disciplines, request };
 };
