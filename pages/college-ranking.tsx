@@ -10,7 +10,6 @@ import "rc-slider/assets/index.css";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
 import React from "react";
-import Autosuggest from "react-autosuggest";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
 import { format } from "url";
@@ -20,6 +19,7 @@ import {
   apiDisciplines,
   apiLocationAutocomplete
 } from "../api";
+import Autocomplete from "../components/Autocomplete";
 import CircularProgress from "../components/CircularProgress";
 import { lookupDiscipline } from "../disciplines";
 import QuerySchema, { RangeParameter } from "../QuerySchema";
@@ -28,7 +28,6 @@ import {
   CollegeRankingsRequest,
   CollegeRankingsResponse,
   DisciplinesResponse,
-  LocationAutocompleteResponse,
   SchoolPartialData
 } from "../schema";
 import {
@@ -612,11 +611,11 @@ const SAT_TO_ACT = [
   11
 ];
 
-function LocationFilter(props: FilterProps) {
-  const [suggestions, setSuggestions] = React.useState<
-    LocationAutocompleteResponse["cities"]
-  >([]);
+async function lookupCities(text: string) {
+  return (await apiLocationAutocomplete(text)).cities;
+}
 
+function LocationFilter(props: FilterProps) {
   const location = props.request.location || {
     lat: "0",
     long: "0",
@@ -626,6 +625,13 @@ function LocationFilter(props: FilterProps) {
       max: 3000
     }
   };
+
+  const clearSelection = React.useCallback(() => {
+    props.updateRequest({
+      ...props.request,
+      location: null
+    });
+  }, [props.updateRequest]);
 
   const onDistanceChange = React.useCallback(
     n =>
@@ -643,45 +649,25 @@ function LocationFilter(props: FilterProps) {
     [location, props.request, props.updateRequest]
   );
 
-  const lookupLocation = React.useCallback(
-    async function lookupLocation(text: string) {
-      if (text === "") {
+  const updateCurrent = React.useCallback(
+    suggestion => {
+      if (suggestion) {
         props.updateRequest({
           ...props.request,
-          location: null
+          states: null,
+          location: {
+            ...location,
+            lat: suggestion.lat + "",
+            long: suggestion.long + ""
+          }
         });
-      } else {
-        const response = await apiLocationAutocomplete(text);
-        setSuggestions(response.cities);
-
-        if (response.cities.length > 0) {
-          const location = props.request.location || {
-            lat: 0,
-            long: 0,
-            distance: {
-              min: 0,
-              max: 3000
-            }
-          };
-
-          props.updateRequest({
-            ...props.request,
-            states: null,
-            location: {
-              ...location,
-              name: text,
-              lat: response.cities[0].lat + "",
-              long: response.cities[0].long + ""
-            }
-          });
-        }
       }
     },
-    [location, setSuggestions]
+    [props.request, props.updateRequest]
   );
 
   const onSelect = React.useCallback(
-    (event, { suggestion }) => {
+    suggestion => {
       props.updateRequest({
         ...props.request,
         states: null,
@@ -693,33 +679,22 @@ function LocationFilter(props: FilterProps) {
         }
       });
     },
-    [lookupLocation, props.request, props.updateRequest]
+    [props.request, props.updateRequest]
   );
 
-  const onChange = React.useCallback(
-    (event, { newValue }) => {
+  const textChange = React.useCallback(
+    text => {
       props.updateRequest({
         ...props.request,
         states: null,
         location: {
           ...location,
-          name: newValue
+          name: text
         }
       });
     },
-    [onSelect]
+    [props.updateRequest]
   );
-
-  const onSuggestionsFetchRequested = React.useCallback(
-    ({ value }) => {
-      lookupLocation(value);
-    },
-    [lookupLocation]
-  );
-
-  const onSuggestionsClearRequested = React.useCallback(() => {
-    setSuggestions([]);
-  }, [setSuggestions]);
 
   const geolocate = React.useCallback(() => {
     navigator.geolocation.getCurrentPosition(position => {
@@ -767,38 +742,15 @@ function LocationFilter(props: FilterProps) {
           }
         }}
       >
-        <Autosuggest
-          inputProps={{
-            style: {
-              borderRadius: "4px",
-              borderStyle: "solid",
-              borderWidth: "1px",
-              borderColor: "hsl(0,0%,80%)",
-              minHeight: "34px",
-              fontSize: "16px",
-              fontWeight: 500
-            },
-            onChange,
-            value: text
-          }}
-          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={onSuggestionsClearRequested}
-          suggestions={suggestions}
-          getSuggestionValue={item => item.name}
-          renderSuggestion={(item, { isHighlighted }) => (
-            <div
-              key={item.name}
-              css={{
-                background: isHighlighted ? "lightgray" : "white",
-                padding: "5px"
-              }}
-            >
-              {item.name}
-            </div>
-          )}
-          onSuggestionSelected={onSelect}
-          multiSection={false}
+        <Autocomplete
+          api={lookupCities}
+          text={text}
+          clearSelection={clearSelection}
+          textChange={textChange}
+          updateCurrent={updateCurrent}
+          onSelect={onSelect}
         />
+
         <button
           css={{
             height: "20px",
