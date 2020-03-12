@@ -1,10 +1,7 @@
 import React from "react";
-import {
-  CircularProgressbarWithChildren,
-  buildStyles
-} from "react-circular-progressbar";
+import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { ACCENT, GRAY_DARKEST, MAIN, MAIN_DARKER, GRAY } from "../styles";
+import { ACCENT, GRAY, GRAY_DARKEST, MAIN, MAIN_DARKER } from "../styles";
 import RadialSeparators from "./RadialSeparators";
 
 const CircularProgress = (props: any) => {
