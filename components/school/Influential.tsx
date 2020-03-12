@@ -31,7 +31,9 @@ const InfluentialCard = (props: { person: PersonPartialData }) => {
           />
         )}
         <div style={styles.influentialName}>{props.person.name}</div>
-        <div style={{ paddingBottom: 6 }}>(1955-Present)</div>
+        <div style={{ paddingBottom: 6 }}>
+          ({props.person.birth_year}-{props.person.death_year})
+        </div>
         <div style={{ fontWeight: "bold" }}>
           {props.person.short_description}
         </div>

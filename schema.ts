@@ -28,6 +28,8 @@ export interface EntityFullData extends EntityPartialData {
 }
 
 export interface PersonPartialData extends EntityPartialData {
+  birth_year: number | null;
+  death_year: number | null;
   image_url: string | null;
   image_source_url: string | null;
 }
@@ -112,8 +114,6 @@ export interface LatLng {
 
 export interface PersonData extends PersonPartialData, EntityFullData {
   links: string[];
-  birth_year: number | null;
-  death_year: number | null;
   disciplines: {
     [k: string]: DisciplineInfluenceData;
   };
