@@ -102,6 +102,13 @@ export interface SchoolData extends SchoolPartialData, EntityFullData {
   twitter_username: string | null;
   instagram_username: string | null;
   youtube_channel: string | null;
+
+  location: LatLng | null;
+}
+
+export interface LatLng {
+  lat: number;
+  lng: number;
 }
 
 export interface PersonData extends PersonPartialData, EntityFullData {

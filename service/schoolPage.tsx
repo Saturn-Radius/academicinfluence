@@ -216,6 +216,8 @@ export default async function serveSchoolPage(
     .field("twitter_username")
     .field("instagram_username")
     .field("youtube_channel")
+    .field("ST_X(location::geometry)", "lng")
+    .field("ST_Y(location::geometry)", "lat")
     .execute();
 
   const disciplineQuery = disciplineBreakdownQuery(
@@ -288,7 +290,16 @@ export default async function serveSchoolPage(
       alumni: (await alumniQuery).rows.map(extractPartialPersonWithOverall),
       weather: calcWeather(school.weather_maximums, school.weather_minimums),
       disciplines_text: await processHtml(school.disciplines_text),
-      influential_alumni_text: await processHtml(school.influential_alumni_text)
+      influential_alumni_text: await processHtml(
+        school.influential_alumni_text
+      ),
+      location:
+        school.lat && school.lng
+          ? {
+              lat: school.lat,
+              lng: school.lng
+            }
+          : null
     }
   };
 }

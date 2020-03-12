@@ -634,7 +634,10 @@ validator.compile({
         facebook_id: { type: ["string", "null"] },
         twitter_username: { type: ["string", "null"] },
         instagram_username: { type: ["string", "null"] },
-        youtube_channel: { type: ["string", "null"] }
+        youtube_channel: { type: ["string", "null"] },
+        location: {
+          anyOf: [{ $ref: "#/definitions/LatLng" }, { type: "null" }]
+        }
       },
       required: [
         "acceptance_rate",
@@ -663,6 +666,7 @@ validator.compile({
         "influence_over_time",
         "influential_alumni_text",
         "instagram_username",
+        "location",
         "logo_url",
         "median_act",
         "median_sat",
@@ -687,6 +691,12 @@ validator.compile({
         "youtube_channel",
         "zip"
       ],
+      additionalProperties: false
+    },
+    LatLng: {
+      type: "object",
+      properties: { lat: { type: "number" }, lng: { type: "number" } },
+      required: ["lat", "lng"],
       additionalProperties: false
     },
     PersonData: {

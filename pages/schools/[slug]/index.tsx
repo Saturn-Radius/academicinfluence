@@ -90,7 +90,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
       <section>
         <SectionTitle>{name} Contact & Location</SectionTitle>
         <ContactInfo school={school} />
-        <LocationMap />
+        {school.location && <LocationMap location={school.location} />}
       </section>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <div className="cardContainer">
