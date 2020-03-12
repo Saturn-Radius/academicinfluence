@@ -75,18 +75,22 @@ const ContactInfo = (props: { school: SchoolData }) => {
             </InfoCol>
           </ContactInfoRow>
         )}
-        <ContactInfoRow>
-          <InfoLabel>Contact Admissions:</InfoLabel>
-          <InfoCol>
-            <span>Admissions Email, Phone Number</span>
-          </InfoCol>
-        </ContactInfoRow>
-        <ContactInfoRow>
-          <InfoLabel>Website:</InfoLabel>
-          <InfoCol>
-            <span>school.edu</span>
-          </InfoCol>
-        </ContactInfoRow>
+        {school.admissions_website && (
+          <ContactInfoRow>
+            <InfoLabel>Contact Admissions:</InfoLabel>
+            <InfoCol>
+              <span>{school.admissions_website}</span>
+            </InfoCol>
+          </ContactInfoRow>
+        )}
+        {school.website && (
+          <ContactInfoRow>
+            <InfoLabel>Website:</InfoLabel>
+            <InfoCol>
+              <span>{school.website}</span>
+            </InfoCol>
+          </ContactInfoRow>
+        )}
         <ContactInfoRow>
           <InfoLabel>Social Media:</InfoLabel>
           <InfoCol>

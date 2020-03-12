@@ -210,6 +210,8 @@ export default async function serveSchoolPage(
     .field("influential_alumni_text")
     .field("address")
     .field("zip")
+    .field("website")
+    .field("admissions_website")
     .execute();
 
   const disciplineQuery = disciplineBreakdownQuery(
@@ -253,6 +255,8 @@ export default async function serveSchoolPage(
       ...(await extractEntityFields(school)),
       address: school.address,
       zip: school.zip,
+      website: school.website,
+      admissions_website: school.admissions_website,
       employed_10_years: school.employed_10_years,
       desirability_rank: school.desirability_rank,
       undergrad_tuition_out_of_state: school.undergrad_tuition_out_of_state,

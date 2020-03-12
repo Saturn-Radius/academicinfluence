@@ -94,6 +94,9 @@ export interface SchoolData extends SchoolPartialData, EntityFullData {
 
   address: string | null;
   zip: string | null;
+
+  website: string | null;
+  admissions_website: string | null;
 }
 
 export interface PersonData extends PersonPartialData, EntityFullData {

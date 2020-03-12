@@ -628,11 +628,14 @@ validator.compile({
           items: { $ref: "#/definitions/Html" }
         },
         address: { type: ["string", "null"] },
-        zip: { type: ["string", "null"] }
+        zip: { type: ["string", "null"] },
+        website: { type: ["string", "null"] },
+        admissions_website: { type: ["string", "null"] }
       },
       required: [
         "acceptance_rate",
         "address",
+        "admissions_website",
         "alumni",
         "average_earnings",
         "average_net_price",
@@ -672,6 +675,7 @@ validator.compile({
         "undergrad_tuition_in_state",
         "undergrad_tuition_out_of_state",
         "weather",
+        "website",
         "wikipedia_description",
         "zip"
       ],
