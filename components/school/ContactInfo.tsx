@@ -55,34 +55,42 @@ const ContactInfo = (props: { school: SchoolData }) => {
   return (
     <ContentCard>
       <ContactInfoContainer>
-        <ContactInfoRow>
-          <InfoLabel>Campus:</InfoLabel>
-          <InfoCol>
-            <span>
-              {city}, {state}
-            </span>
-          </InfoCol>
-        </ContactInfoRow>
-        <ContactInfoRow>
-          <InfoLabel>Mailing Address:</InfoLabel>
-          <InfoCol>
-            <span>
-              Street, {city}, {state}
-            </span>
-          </InfoCol>
-        </ContactInfoRow>
-        <ContactInfoRow>
-          <InfoLabel>Contact Admissions:</InfoLabel>
-          <InfoCol>
-            <span>Admissions Email, Phone Number</span>
-          </InfoCol>
-        </ContactInfoRow>
-        <ContactInfoRow>
-          <InfoLabel>Website:</InfoLabel>
-          <InfoCol>
-            <span>school.edu</span>
-          </InfoCol>
-        </ContactInfoRow>
+        {city && (
+          <ContactInfoRow>
+            <InfoLabel>Campus:</InfoLabel>
+            <InfoCol>
+              <span>
+                {city}, {state}
+              </span>
+            </InfoCol>
+          </ContactInfoRow>
+        )}
+        {school.address && (
+          <ContactInfoRow>
+            <InfoLabel>Mailing Address:</InfoLabel>
+            <InfoCol>
+              <span>
+                {school.address}, {city}, {state}, {school.zip}
+              </span>
+            </InfoCol>
+          </ContactInfoRow>
+        )}
+        {school.admissions_website && (
+          <ContactInfoRow>
+            <InfoLabel>Contact Admissions:</InfoLabel>
+            <InfoCol>
+              <span>{school.admissions_website}</span>
+            </InfoCol>
+          </ContactInfoRow>
+        )}
+        {school.website && (
+          <ContactInfoRow>
+            <InfoLabel>Website:</InfoLabel>
+            <InfoCol>
+              <span>{school.website}</span>
+            </InfoCol>
+          </ContactInfoRow>
+        )}
         <ContactInfoRow>
           <InfoLabel>Social Media:</InfoLabel>
           <InfoCol>

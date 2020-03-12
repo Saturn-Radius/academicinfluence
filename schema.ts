@@ -91,6 +91,12 @@ export interface SchoolData extends SchoolPartialData, EntityFullData {
 
   disciplines_text: Html[];
   influential_alumni_text: Html[];
+
+  address: string | null;
+  zip: string | null;
+
+  website: string | null;
+  admissions_website: string | null;
 }
 
 export interface PersonData extends PersonPartialData, EntityFullData {

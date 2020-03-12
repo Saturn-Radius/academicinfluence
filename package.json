@@ -8,7 +8,7 @@
     "build": "rimraf .next && next build",
     "start": "next start",
     "format": "organize-imports-cli tsconfig.json && prettier --write service/** pages/** components/** *.tsx *.ts",
-    "build-api": "ts-node -T -r esm build-api.ts && npm run format"
+    "build-api": "ts-node -T -r esm build-api.ts"
   },
   "husky": {
     "hooks": {
