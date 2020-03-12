@@ -1,9 +1,6 @@
 import { InterpolationWithTheme } from "@emotion/core";
 import { find } from "lodash";
-import { NextPage, NextPageContext } from "next";
-import { NextSeo } from "next-seo";
 import Link from "next/link";
-import Router from "next/router";
 import { ReactElementLike } from "prop-types";
 import { Handle, Range } from "rc-slider";
 import "rc-slider/assets/index.css";
@@ -12,7 +9,6 @@ import "rc-tooltip/assets/bootstrap.css";
 import React from "react";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
-import { format } from "url";
 import USAStates from "usa-states";
 import {
   apiCollegeRankings,
@@ -39,10 +35,12 @@ import {
   MAIN_LIGHTER
 } from "../styles";
 import ToolPage from "../ToolPage";
+import QueryPage from "../utils/QueryPage";
 
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
   request: CollegeRankingsRequest;
+  updateRequest: (request: CollegeRankingsRequest) => void;
   disciplines: DisciplinesResponse;
 };
 
@@ -77,7 +75,7 @@ function BasicCell(props: BasicCellProps) {
   );
 }
 
-const QUERY_SCHEMA = QuerySchema({
+const QUERY_SCHEMA = QuerySchema("/college-ranking", {
   sort: {
     toQuery: (value: CollegeRankingSort) => value,
     fromQuery: value => value as CollegeRankingSort,
@@ -112,19 +110,14 @@ const QUERY_SCHEMA = QuerySchema({
   }
 });
 
-function asHref(request: CollegeRankingsRequest) {
-  return {
-    pathname: "/college-ranking",
-    query: QUERY_SCHEMA.toQuery(request)
-  };
-}
-
 type RankingLinkProps = {
   request: CollegeRankingsRequest;
   children: React.ReactNode;
 };
 function RankingLink(props: RankingLinkProps) {
-  return <Link href={asHref(props.request)}>{props.children}</Link>;
+  return (
+    <Link href={QUERY_SCHEMA.asHref(props.request)}>{props.children}</Link>
+  );
 }
 
 type ArrowProps = {
@@ -963,27 +956,14 @@ for (let index = 2; index < COLUMNS.length; index++) {
   };
 }
 
-const CollegeRanking: NextPage<CollegeRankingProps> = props => {
-  const [request, setRequest] = React.useState(props.request);
-
-  const updateRequest = React.useCallback(
-    request => {
-      setRequest(request);
-      Router.replace(asHref(request));
-    },
-    [setRequest]
-  );
-
+const CollegeRanking: React.SFC<CollegeRankingProps> = props => {
   return (
     <>
-      <NextSeo
-        canonical={format(asHref(QUERY_SCHEMA.canonical(props.request)))}
-      />
       <ToolPage tool="COLLEGE RANKINGS">
         <Filter
-          request={request}
+          request={props.request}
           disciplines={props.disciplines}
-          updateRequest={updateRequest}
+          updateRequest={props.updateRequest}
           limits={props.data.limits}
         />
 
@@ -1103,25 +1083,16 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
   );
 };
 
-CollegeRanking.getInitialProps = async function(context: NextPageContext) {
-  const controller =
-    typeof window === undefined
-      ? new AbortController()
-      : {
-          signal: undefined,
-          abort: () => {}
-        };
-  const onRouteChange = () => {
-    controller.abort();
-  };
-  Router.events.on("routeChangeError", onRouteChange);
-  const request = QUERY_SCHEMA.fromQuery(context.query);
-  const disciplinesPromise = apiDisciplines({}, controller.signal);
-  const data = await apiCollegeRankings(request, controller.signal);
-  const disciplines = await disciplinesPromise;
-  Router.events.off("routeChangeError", onRouteChange);
-
-  return { data, disciplines, request };
-};
-
-export default CollegeRanking;
+export default QueryPage(
+  CollegeRanking,
+  QUERY_SCHEMA,
+  {
+    title: "College Rankings"
+  },
+  async (request: CollegeRankingsRequest, signal?: AbortSignal) => {
+    const disciplinesPromise = apiDisciplines({}, signal);
+    const data = await apiCollegeRankings(request, signal);
+    const disciplines = await disciplinesPromise;
+    return { data, disciplines };
+  }
+);

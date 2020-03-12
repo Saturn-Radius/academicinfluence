@@ -12,10 +12,34 @@ export type Data<P extends { [k: string]: FieldSchema<any> }> = {
   [k in keyof P]: P[k]["default"];
 };
 
+export type QuerySchemaType<P extends { [k: string]: FieldSchema<any> }> = {
+  asHref(data: Data<P>): { pathname: string; query: ParsedUrlQuery };
+  fromQuery(query: ParsedUrlQuery): Data<P>;
+  toQuery(data: Data<P>): ParsedUrlQuery;
+  canonical(data: Data<P>): Data<P>;
+};
+
 export default function QuerySchema<
   P extends { [k: string]: FieldSchema<any> }
->(properties: P) {
+>(base: string, properties: P): QuerySchemaType<P> {
+  const toQuery = (obj: Data<P>) => {
+    const query: { [k: string]: string } = {};
+    for (const [key, value] of Object.entries(properties)) {
+      const encoded = value.toQuery(obj[key]);
+      if (encoded !== value.toQuery(value.default)) {
+        query[key] = encoded;
+      }
+    }
+    return query;
+  };
   return {
+    asHref(obj: Data<P>) {
+      return {
+        pathname: base,
+        query: toQuery(obj)
+      };
+    },
+    toQuery,
     fromQuery(query: ParsedUrlQuery): Data<P> {
       return mapValues(properties, (value, key) => {
         if (key in query) {
@@ -24,16 +48,6 @@ export default function QuerySchema<
           return value.default;
         }
       });
-    },
-    toQuery(obj: Data<P>) {
-      const query: { [k: string]: string } = {};
-      for (const [key, value] of Object.entries(properties)) {
-        const encoded = value.toQuery(obj[key]);
-        if (encoded !== value.toQuery(value.default)) {
-          query[key] = encoded;
-        }
-      }
-      return query;
     },
     canonical(obj: Data<P>): Data<P> {
       const result: Data<P> = { ...obj };
