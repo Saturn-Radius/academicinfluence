@@ -1,5 +1,6 @@
 import { PersonData } from "../../schema";
 import { GRAY, GRAY_LIGHTEST, MAIN } from "../../styles";
+import { formatYear } from "../../utils/years";
 
 const ProfileHeader = (props: { person: PersonData }) => {
   const { person } = props;
@@ -34,16 +35,6 @@ const ProfileHeader = (props: { person: PersonData }) => {
       </div>
     </div>
   );
-};
-
-const formatYear = (year: number | null): string => {
-  if (year === null) {
-    return "";
-  } else if (year < 0) {
-    return `${-year} BC`;
-  } else {
-    return `${year} AD`;
-  }
 };
 
 const styles = {

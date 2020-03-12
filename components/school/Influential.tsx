@@ -1,6 +1,7 @@
 import { PersonLink } from "../../links";
 import { PersonPartialData } from "../../schema";
 import { MAIN, MAIN_DARKER } from "../../styles";
+import { formatYear } from "../../utils/years";
 import Button from "../Button";
 import ContentCard from "../ContentCard";
 
@@ -32,7 +33,8 @@ const InfluentialCard = (props: { person: PersonPartialData }) => {
         )}
         <div style={styles.influentialName}>{props.person.name}</div>
         <div style={{ paddingBottom: 6 }}>
-          ({props.person.birth_year}-{props.person.death_year})
+          ({formatYear(props.person.birth_year)}-
+          {formatYear(props.person.death_year)})
         </div>
         <div style={{ fontWeight: "bold" }}>
           {props.person.short_description}
