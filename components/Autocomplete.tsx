@@ -1,6 +1,6 @@
+import AwesomeDebouncePromise from "awesome-debounce-promise";
 import * as React from "react";
 import Autosuggest from "react-autosuggest";
-
 export const Cow = 2;
 
 export default function Autocomplete<T extends { name: string }>(props: {
@@ -11,6 +11,11 @@ export default function Autocomplete<T extends { name: string }>(props: {
   updateCurrent?: (item: T | null) => void;
   onSelect?: (item: T) => void;
 }) {
+  const debouncedApi = React.useMemo(
+    () => AwesomeDebouncePromise(props.api, 1000),
+    [props.api]
+  );
+
   const [suggestions, setSuggestions] = React.useState<T[]>([]);
   const [currentSuggestion, setCurrentSuggestion] = React.useState<T | null>(
     null
@@ -23,11 +28,11 @@ export default function Autocomplete<T extends { name: string }>(props: {
           props.clearSelection();
         }
       } else {
-        const response = await props.api(text);
+        const response = await debouncedApi(text);
         setSuggestions(response);
       }
     },
-    [setSuggestions, props.updateCurrent]
+    [setSuggestions, props.updateCurrent, debouncedApi]
   );
 
   const onSelect = React.useCallback(
