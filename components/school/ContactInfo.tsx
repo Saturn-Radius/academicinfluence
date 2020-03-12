@@ -8,6 +8,7 @@ import {
   faTwitter
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { SchoolData } from "../../schema";
 import ContentCard from "../ContentCard";
 config.autoAddCss = false;
 
@@ -47,7 +48,7 @@ const SocialIcon: any = styled.div`
   }
 `;
 
-const ContactInfo = (props: any) => {
+const ContactInfo = (props: { school: SchoolData }) => {
   const { school } = props;
   const { city, state } = school;
 

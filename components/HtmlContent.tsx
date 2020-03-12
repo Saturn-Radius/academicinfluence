@@ -1,13 +1,36 @@
 import * as React from "react";
 import { Html } from "../schema";
+import useMoreButton from "./useMoreButton";
+
+function More(props: { children: React.ReactNode }) {
+  const { isMore, moreButton } = useMoreButton();
+
+  return (
+    <>
+      {isMore && props.children}
+      {moreButton}
+    </>
+  );
+}
+
+function lookupComponent(name: string) {
+  switch (name) {
+    case "":
+      return React.Fragment;
+    case "More":
+      return More;
+    default:
+      return name;
+  }
+}
 
 function toReact(node: Html): React.ReactNode {
   if (typeof node !== "object") {
     return node;
   } else {
     return React.createElement(
-      node.component === "" ? React.Fragment : node.component,
-      node.props,
+      lookupComponent(node.component),
+      node.props as any,
       ...node.children.map(toReact)
     );
   }

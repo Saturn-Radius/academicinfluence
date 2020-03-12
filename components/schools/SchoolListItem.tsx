@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import Link from "next/link";
+import { SchoolLink } from "../../links";
 import {
   GRAY,
   GRAY_DARKEST,
@@ -244,9 +244,9 @@ const SchoolListItem = (props: SchoolListItemProps) => {
         <BodyRightCol>
           <InfoValue label="Tuition" value={undergrad_tuition_in_state} />
           <InfoValue label="Avg. Earnings" value={average_earnings} />
-          <Link href={`/schools/${slug}`}>
+          <SchoolLink school={school}>
             <FullDetailsButton>Full Details</FullDetailsButton>
-          </Link>
+          </SchoolLink>
         </BodyRightCol>
       </Body>
     </Wrapper>

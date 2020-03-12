@@ -1,9 +1,10 @@
 import { PersonLink } from "../../links";
+import { PersonPartialData } from "../../schema";
 import { MAIN, MAIN_DARKER } from "../../styles";
 import Button from "../Button";
 import ContentCard from "../ContentCard";
 
-const InfluentialCard = (props: any) => {
+const InfluentialCard = (props: { person: PersonPartialData }) => {
   const trimDesc = (text: any) => {
     if (text.length > 140) {
       return text.slice(0, 140) + "...";
@@ -23,16 +24,18 @@ const InfluentialCard = (props: any) => {
       </div>
 
       <div style={{ width: "100%" }}>
-        <img
-          style={{ float: "left", marginRight: 20, height: 60, width: 60 }}
-          src={props.image_url}
-        />
-        <div style={styles.influentialName}>{props.name}</div>
+        {props.person.image_url && (
+          <img
+            style={{ float: "left", marginRight: 20, height: 60, width: 60 }}
+            src={props.person.image_url}
+          />
+        )}
+        <div style={styles.influentialName}>{props.person.name}</div>
         <div style={{ paddingBottom: 6 }}>(1955-Present)</div>
-        <div style={{ fontWeight: "bold" }}>{props.short_description}</div>
+        <div style={{ fontWeight: "bold" }}>
+          {props.person.short_description}
+        </div>
       </div>
-
-      <p>{trimDesc(props.short_description)}</p>
 
       <div
         style={{
@@ -44,14 +47,17 @@ const InfluentialCard = (props: any) => {
         <div style={styles.influentialRow}>
           <div>IR Score</div>
           <div style={styles.influentialRowText}>
-            {props.ir_score.toFixed(2) * 100}
+            {(props.person.overall.influence * 100).toFixed(2)}
           </div>
         </div>
 
+        {/*
+          TODO
         <div style={styles.influentialRow}>
           <div>School</div>
           <div style={styles.influentialRowText}>1st School</div>
         </div>
+        */}
 
         <div style={styles.influentialRow}>
           <div>Disciplines</div>
@@ -67,7 +73,7 @@ const InfluentialCard = (props: any) => {
         </div>
 
         <div style={{ float: "right" }}>
-          <PersonLink person={{ name: props.name, slug: props.slug }}>
+          <PersonLink person={props.person}>
             <Button color={MAIN_DARKER} text="See Profile" />
           </PersonLink>
         </div>
