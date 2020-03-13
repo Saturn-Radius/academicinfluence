@@ -23,14 +23,14 @@ async function main() {
       const key = typekey.slice(0, typekey.length - 7);
       console.log("API", key);
       content += `export const api${key} = process.browser ? 
-        async function(request: ${key}Request): Promise<${key}Response> {
-            const response = await fetch("/api/${key}/" + encodeURIComponent(JSON.stringify(request)));
+        async function(request: ${key}Request, abortSignal?: AbortSignal): Promise<${key}Response> {
+            const response = await fetch("/api/${key}/" + encodeURIComponent(JSON.stringify(request)), {signal: abortSignal});
             const data = await response.json()
             if (!validate("${key}Response", data)) {
               throw new Error("validation failed")
             }
             return data
-        } : async function(request: ${key}Request): Promise<${key}Response> {
+        } : async function(request: ${key}Request, abortSignal?: AbortSignal): Promise<${key}Response> {
             const module = await import("./service/${camelCase(key)}");
             const response = await module.default(request)
             if (!validate("${key}Response", response)) {

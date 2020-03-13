@@ -1,29 +1,22 @@
 import { find } from "lodash";
-import { NextPage, NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { Handle, Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
 import React from "react";
-import Autocomplete from "react-autocomplete";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
+import { apiInfluentialPeoplePage, apiPersonSearch } from "../../api";
+import Autocomplete from "../../components/Autocomplete";
+import { useBasicContext } from "../../components/BasicContext";
+import QuerySchema, { RangeParameter } from "../../QuerySchema";
 import {
-  apiCountries,
-  apiDisciplines,
-  apiInfluentialPeoplePage,
-  apiPersonSearch
-} from "../../api";
-import { lookupDiscipline } from "../../disciplines";
-import {
-  CountriesResponse,
-  DisciplinesResponse,
-  Identifiable,
   InfluentialPeoplePageRequest,
   InfluentialPeoplePageResponse
 } from "../../schema";
 import { GRAY } from "../../styles";
+import QueryPage from "../../utils/QueryPage";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
 // refactoring is encouraged
@@ -65,14 +58,10 @@ function FilterLabel(props: FilterLabelProps) {
   );
 }
 
-type FilterProps = {
-  request: InfluentialPeoplePageRequest;
-  disciplines: DisciplinesResponse;
-  countries: CountriesResponse;
-  updateRequest: (request: InfluentialPeoplePageRequest) => void;
-};
+type FilterProps = InfluentialPeopleProps;
 
 function Discipline(props: FilterProps) {
+  const basicContext = useBasicContext();
   const onChange = React.useCallback(
     event => {
       props.updateRequest({
@@ -87,14 +76,11 @@ function Discipline(props: FilterProps) {
   let supertopic: string | null;
   let subtopic: string | null;
 
-  if (
-    discipline === null ||
-    lookupDiscipline(props.disciplines, discipline).level === 1
-  ) {
+  if (discipline === null || basicContext.discipline(discipline).level === 1) {
     supertopic = discipline;
     subtopic = null;
   } else {
-    supertopic = lookupDiscipline(props.disciplines, discipline).parent;
+    supertopic = basicContext.discipline(discipline).parent;
     subtopic = discipline;
   }
 
@@ -103,7 +89,7 @@ function Discipline(props: FilterProps) {
       value: null,
       label: "Overall"
     },
-    ...props.disciplines
+    ...basicContext.disciplines
       .filter(item => item.level === 1)
       .map(item => ({
         value: item.slug,
@@ -119,7 +105,7 @@ function Discipline(props: FilterProps) {
       value: null,
       label: "Overall"
     },
-    ...props.disciplines
+    ...basicContext.disciplines
       .filter(item => item.parent === supertopic)
       .map(item => ({
         value: item.slug,
@@ -200,6 +186,7 @@ function Gender(props: FilterProps) {
 }
 
 function Country(props: FilterProps) {
+  const basicContext = useBasicContext();
   const onChange = React.useCallback(
     event => {
       props.updateRequest({
@@ -217,7 +204,7 @@ function Country(props: FilterProps) {
       value: null,
       label: "All"
     },
-    ...props.countries.map(item => ({
+    ...basicContext.countries.map(item => ({
       value: item.name,
       label: item.name
     }))
@@ -301,119 +288,81 @@ function YearsFilter(props: FilterProps) {
 }
 
 type InfluentialPeopleProps = InfluentialPeoplePageResponse & {
-  countries: CountriesResponse;
-  disciplines: DisciplinesResponse;
   request: InfluentialPeoplePageRequest;
+  updateRequest: (request: InfluentialPeoplePageRequest) => void;
 };
 
-function PersonSearchBox() {
-  const [value, setValue] = React.useState("");
-  const [items, setItems] = React.useState([] as Identifiable[]);
+async function lookupPersons(text: string, signal?: AbortSignal) {
+  const response = await apiPersonSearch(text, signal);
+  return response.people;
+}
 
-  const onChange = React.useCallback(
-    async text => {
-      setItems([]);
-      setValue(text.target.value);
-      const items = await apiPersonSearch(text.target.value);
-      setItems(items.people);
-    },
-    [setValue, setItems]
-  );
-
+const PersonSearchBox = (props: {}) => {
+  const [text, setText] = React.useState("");
   const router = useRouter();
-
   const onSelect = React.useCallback(
-    slug => {
-      router.push("/people/" + slug);
+    school => {
+      router.push("/people/[slug]", "/people/" + school.slug);
     },
     [router]
   );
 
   return (
     <Autocomplete
-      value={value}
-      items={items}
-      onChange={onChange}
+      text={text}
+      textChange={setText}
       onSelect={onSelect}
-      getItemValue={item => item.slug}
-      renderItem={(item, isHighlighted) => (
-        <div
-          key={item.slug}
-          style={{ background: isHighlighted ? "lightgray" : "white" }}
-        >
-          {item.name}
-        </div>
-      )}
+      api={lookupPersons}
     />
   );
-}
-function asHref(request: InfluentialPeoplePageRequest) {
-  return {
-    pathname: "/people",
-    query: {
-      discipline: request.discipline,
-      minYear: request.years.min,
-      maxYear: request.years.max,
-      country: request.country,
-      gender: request.gender === null ? undefined : request.gender ? "m" : "f"
-    }
-  };
-}
-const InfluentialPeople: NextPage<InfluentialPeopleProps> = props => {
-  const router = useRouter();
-  const [request, setRequest] = React.useState(props.request);
+};
 
-  const updateRequest = React.useCallback(
-    request => {
-      setRequest(request);
-      router.replace(asHref(request));
-    },
-    [setRequest, router]
-  );
+const QUERY_SCHEMA = QuerySchema("/schools", {
+  discipline: {
+    toQuery: value => value,
+    fromQuery: value => value,
+    default: null as null | string,
+    canonical: true
+  },
+  years: RangeParameter(-4000, 2020),
+  country: {
+    toQuery: value => value,
+    fromQuery: value => value,
+    default: null as null | string,
+    canonical: true
+  },
+  gender: {
+    toQuery: value => (value ? "m" : "f"),
+    fromQuery: value => value === "m",
+    default: null as null | boolean
+  }
+});
 
-  const filterProps: FilterProps = {
-    ...props,
-    request,
-    updateRequest
-  };
+const InfluentialPeople: React.SFC<InfluentialPeopleProps> = props => {
   return (
     <div>
       <PersonSearchBox />
-      <Discipline {...filterProps} />
-      <YearsFilter {...filterProps} />
-      <Country {...filterProps} />
-      <Gender {...filterProps} />
+      <Discipline {...props} />
+      <YearsFilter {...props} />
+      <Country {...props} />
+      <Gender {...props} />
 
       <pre>{JSON.stringify(props.people, null, 4)}</pre>
     </div>
   );
 };
 
-InfluentialPeople.getInitialProps = async function(context: NextPageContext) {
-  const request = {
-    country: (context.query.country as string) || null,
-    years: {
-      min: parseInt((context.query.minYear as string) || "1900"),
-      max: parseInt((context.query.maxYear as string) || "2020")
-    },
-    gender:
-      context.query.gender === "m"
-        ? true
-        : context.query.gender === "f"
-        ? false
-        : null,
-    discipline: (context.query.discipline as string) || null
-  };
-
-  const schools = apiInfluentialPeoplePage(request);
-  const disciplines = apiDisciplines({});
-  const countries = apiCountries({});
-  return {
-    ...(await schools),
-    disciplines: await disciplines,
-    countries: await countries,
-    request
-  };
-};
-
-export default InfluentialPeople;
+export default QueryPage(
+  InfluentialPeople,
+  QUERY_SCHEMA,
+  {
+    title: "Influential People"
+  },
+  async (request: InfluentialPeoplePageRequest, signal?: AbortSignal) => {
+    const schools = apiInfluentialPeoplePage(request);
+    return {
+      ...(await schools)
+    };
+  },
+  props => props.people.length == 0
+);

@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
+import DisciplineIcon from "../../components/DisciplineIcon";
 import { SchoolLink } from "../../links";
+import { SchoolData } from "../../schema";
 import {
   GRAY,
   GRAY_DARKEST,
@@ -8,6 +10,7 @@ import {
   MAIN_DARKER,
   MAIN_LIGHTER
 } from "../../styles";
+import { useBasicContext } from "../BasicContext";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -164,20 +167,23 @@ const InfoValueWrapper = styled.div`
 
 interface InfoValueProps {
   readonly label: string;
-  readonly value: number;
+  readonly value: number | null;
 }
-const InfoValue = (props: InfoValueProps) => (
-  <InfoValueWrapper>
-    <RightColLabel>{props.label}</RightColLabel>
-    <RightColValue>${props.value}</RightColValue>
-  </InfoValueWrapper>
-);
+const InfoValue = (props: InfoValueProps) =>
+  props.value === null ? null : (
+    <InfoValueWrapper>
+      <RightColLabel>{props.label}</RightColLabel>
+      <RightColValue>${props.value.toLocaleString()}</RightColValue>
+    </InfoValueWrapper>
+  );
 
 interface SchoolThListItemProps {
   mode: string;
-  school: any;
+  school: SchoolData;
 }
 const SchoolThListItem = (props: SchoolThListItemProps) => {
+  const basicContext = useBasicContext();
+
   const { school } = props;
   const {
     slug,
@@ -197,7 +203,7 @@ const SchoolThListItem = (props: SchoolThListItemProps) => {
   return (
     <Wrapper>
       <Header>
-        <Logo src={logo_url} />
+        <Logo src={logo_url || undefined} />
         <SchoolLink school={school}>
           <FullDetailsButton>Full Details</FullDetailsButton>
         </SchoolLink>
@@ -222,8 +228,18 @@ const SchoolThListItem = (props: SchoolThListItemProps) => {
             <SchoolDescription>{short_description}</SchoolDescription>
           </BodyLeftCol>
           <BodyRightCol>
-            <LawImage src={``} />
-            <LawRank>#1 for Law</LawRank>
+            {school.top_discipline && (
+              <DisciplineIcon
+                style={{ fontSize: "70px" }}
+                discipline={basicContext.discipline(school.top_discipline)}
+              />
+            )}
+            {school.top_discipline && (
+              <LawRank>
+                #{school.top_discipline_rank} for{" "}
+                {basicContext.disciplineName(school.top_discipline)}
+              </LawRank>
+            )}
             <InfoValue label="Tuition" value={undergrad_tuition_in_state} />
             <InfoValue label="Avg. Earnings" value={average_earnings} />
           </BodyRightCol>

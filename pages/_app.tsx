@@ -1,13 +1,17 @@
 import { jsx } from "@emotion/core";
 import { DefaultSeo } from "next-seo";
 import App from "next/app";
+import { AppContextType } from "next/dist/next-server/lib/utils";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import * as React from "react";
 import CookieConsent from "react-cookie-consent";
 import ReactGA from "react-ga";
 import "typeface-montserrat/index.css";
+import { apiBasicContext } from "../api";
+import { BasicContextReactContext } from "../components/BasicContext";
 import "../public/fonts/sfui_font.css";
+import { BasicContextResponse } from "../schema";
 import { BG_PAGE, GRAY, PAGE_WIDTH_STYLE } from "../styles";
 import "../styles/colors.css";
 
@@ -437,7 +441,15 @@ function AddAnalytics() {
   return <></>;
 }
 
-class AIApp extends App {
+async function fetchContext() {
+  if (typeof window == "undefined") {
+    return await apiBasicContext({});
+  } else {
+    return (window as any).__NEXT_DATA__.props.basicContext;
+  }
+}
+
+class AIApp extends App<{ basicContext: BasicContextResponse }> {
   render() {
     const { Component, pageProps } = this.props;
 
@@ -460,12 +472,24 @@ class AIApp extends App {
         >
           <div className="body">
             <SiteHeader currentSection={currentSection} />
-            <Component {...pageProps} />
+            <BasicContextReactContext.Provider value={this.props.basicContext}>
+              <Component {...pageProps} />
+            </BasicContextReactContext.Provider>
           </div>
           <Footer />
         </div>
       </>
     );
+  }
+
+  static async getInitialProps(context: AppContextType<Router>) {
+    const basicContext = fetchContext();
+    const initialProps = await App.getInitialProps(context);
+
+    return {
+      ...initialProps,
+      basicContext: await basicContext
+    };
   }
 }
 

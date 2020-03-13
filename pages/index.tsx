@@ -1,11 +1,7 @@
 import { NextPage } from "next";
-import {
-  apiDisciplines,
-  apiFeaturesPage,
-  apiHomePage,
-  apiInfluentialPeoplePage
-} from "../api";
+import { apiFeaturesPage, apiHomePage, apiInfluentialPeoplePage } from "../api";
 import BacktotopButton from "../components/BacktotopButton";
+import { useBasicContext } from "../components/BasicContext";
 import {
   CollegeList,
   FeatureArticles,
@@ -15,7 +11,6 @@ import {
 } from "../components/home";
 import { ArticleLink } from "../links";
 import {
-  DisciplinesResponse,
   FeaturesPageResponse,
   HomePageResponse,
   PersonPartialData
@@ -24,11 +19,11 @@ import {
 type IndexProps = {
   homePage: HomePageResponse;
   features: FeaturesPageResponse;
-  disciplines: DisciplinesResponse;
   people: PersonPartialData[];
 };
 
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
+  const basicContext = useBasicContext();
   return (
     <div>
       <style jsx>
@@ -137,7 +132,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
         </div>
         <div className="influence">
           <h1 className="influenceTitle">Influence by discipline</h1>
-          <Influence disciplines={props.disciplines} />
+          <Influence disciplines={basicContext.disciplines} />
         </div>
         <div className="influencers">
           <h1 className="influencerTitle">NOTABLE INFLUENCERS</h1>
@@ -155,7 +150,6 @@ Index.getInitialProps = async function({ req }) {
     category: null,
     article: null
   });
-  const disciplinesQuery = apiDisciplines({});
   const peopleQuery = apiInfluentialPeoplePage({
     country: null,
     discipline: null,
@@ -169,7 +163,6 @@ Index.getInitialProps = async function({ req }) {
   return {
     homePage: await homePageQuery,
     features: await featuresQuery,
-    disciplines: await disciplinesQuery,
     people: (await peopleQuery).people
   };
 };

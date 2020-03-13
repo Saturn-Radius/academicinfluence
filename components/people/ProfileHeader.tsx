@@ -1,60 +1,34 @@
+import { PersonData } from "../../schema";
 import { GRAY, GRAY_LIGHTEST, MAIN } from "../../styles";
-import CheckBox from "../Checkbox";
+import { YearRange } from "../../utils/years";
 
-const AddToLocker = (props: any) => (
-  <div
-    style={{
-      ...{ display: "flex", marginLeft: "auto", paddingBottom: 20 },
-      ...props.style
-    }}
-  >
-    <span
-      style={{ color: "#666666", marginRight: 10, fontSize: 12, paddingTop: 2 }}
-    >
-      Add to My Locker
-    </span>
-    <CheckBox />
-  </div>
-);
-
-const ProfileHeader = (props: any) => {
+const ProfileHeader = (props: { person: PersonData }) => {
+  const { person } = props;
   return (
     <div>
-      <div style={{ display: "flex" }}>
-        <ProfileInfo
-          name={props.name}
-          image_url={props.image_url}
-          birth_year={props.birth_year}
-          death_year={props.death_year}
-          short_description={props.short_description}
-        />
-        {/* <AddToLocker /> */}
-      </div>
-    </div>
-  );
-};
-
-const formatYear = (year: number | null): string => {
-  if (year === null) {
-    return "";
-  } else if (year < 0) {
-    return `${-year} BC`;
-  } else {
-    return `${year} AD`;
-  }
-};
-
-const ProfileInfo = (props: any) => {
-  return (
-    <div style={{ ...{ display: "flex" }, ...props.style }}>
-      <img style={styles.headerImg} src={props.image_url} />
-      <div style={{ marginLeft: 20 }}>
-        <h1 style={styles.name}>{props.name}</h1>
-        <div style={styles.lifePeriod}>
-          <div style={styles.profileTitle}>{props.short_description}</div>
-          <div style={{ marginBottom: 10 }}>
-            {" "}
-            ( {formatYear(props.birth_year)} – {formatYear(props.death_year)})
+      <div css={{ display: "flex" }}>
+        <div
+          css={{
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center"
+          }}
+        >
+          {person.image_url && (
+            <img css={styles.headerImg} src={person.image_url} />
+          )}
+          {person.image_source_url && (
+            <a href={person.image_source_url}>(Source)</a>
+          )}
+        </div>
+        <div css={{ marginLeft: 20 }}>
+          <h1 css={styles.name}>{person.name}</h1>
+          <div css={styles.lifePeriod}>
+            <div css={styles.profileTitle}>{person.short_description}</div>
+            <div css={{ marginBottom: 10 }}>
+              {" "}
+              <YearRange person={person} />
+            </div>
           </div>
         </div>
       </div>

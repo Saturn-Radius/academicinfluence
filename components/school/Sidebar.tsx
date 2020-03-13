@@ -1,3 +1,5 @@
+import Link from "next/link";
+import React from "react";
 import { MAIN } from "../../styles";
 
 const Sidebar = () => {
@@ -9,29 +11,42 @@ const Sidebar = () => {
         padding: 12
       }}
     >
-      <SidebarButton img="/images/ranking-icon.png" text="College Rankings" />
+      <Link href="/college-ranking">
+        <SidebarButton img="/images/ranking-icon.png" text="College Rankings" />
+      </Link>
       {/* <SidebarButton img="/images/match-icon.png" text="College Match" /> */}
       {/* <SidebarButton img="/images/compare-icon.png" text="College Compare" /> */}
     </div>
   );
 };
 
-const SidebarButton = (props: any) => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        boxShadow: "0 4px 4px 0 rgba(0, 0, 0, 0.25)",
-        padding: "12px 17px",
-        marginBottom: 20
-      }}
-    >
-      <img style={{ width: 60, height: 60 }} src={props.img} />
-      <span style={styles.sidebarText}>{props.text}</span>
-    </div>
-  );
-};
+const SidebarButton = React.forwardRef(
+  (
+    props: {
+      img: string;
+      text: string;
+      onClick?: () => void;
+    },
+    ref: any
+  ) => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          boxShadow: "0 4px 4px 0 rgba(0, 0, 0, 0.25)",
+          padding: "12px 17px",
+          marginBottom: 20
+        }}
+        onClick={props.onClick}
+        ref={ref}
+      >
+        <img style={{ width: 60, height: 60 }} src={props.img} />
+        <span style={styles.sidebarText}>{props.text}</span>
+      </div>
+    );
+  }
+);
 
 const styles = {
   sidebarText: {

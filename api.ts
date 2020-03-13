@@ -1,14 +1,12 @@
 // GENERATED.DO NOT EDIT
 import Ajv from "ajv";
 import {
+  BasicContextRequest,
+  BasicContextResponse,
   CollegeRankingsRequest,
   CollegeRankingsResponse,
-  CountriesRequest,
-  CountriesResponse,
   DisciplineRequest,
   DisciplineResponse,
-  DisciplinesRequest,
-  DisciplinesResponse,
   FeaturesPageRequest,
   FeaturesPageResponse,
   HomePageRequest,
@@ -34,10 +32,12 @@ import {
 } from "./schema";
 export const apiCollegeRankings = process.browser
   ? async function(
-      request: CollegeRankingsRequest
+      request: CollegeRankingsRequest,
+      abortSignal?: AbortSignal
     ): Promise<CollegeRankingsResponse> {
       const response = await fetch(
-        "/api/CollegeRankings/" + encodeURIComponent(JSON.stringify(request))
+        "/api/CollegeRankings/" + encodeURIComponent(JSON.stringify(request)),
+        { signal: abortSignal }
       );
       const data = await response.json();
       if (!validate("CollegeRankingsResponse", data)) {
@@ -46,7 +46,8 @@ export const apiCollegeRankings = process.browser
       return data;
     }
   : async function(
-      request: CollegeRankingsRequest
+      request: CollegeRankingsRequest,
+      abortSignal?: AbortSignal
     ): Promise<CollegeRankingsResponse> {
       const module = await import("./service/collegeRankings");
       const response = await module.default(request);
@@ -55,50 +56,40 @@ export const apiCollegeRankings = process.browser
       }
       return response;
     };
-export const apiDisciplines = process.browser
-  ? async function(request: DisciplinesRequest): Promise<DisciplinesResponse> {
+export const apiBasicContext = process.browser
+  ? async function(
+      request: BasicContextRequest,
+      abortSignal?: AbortSignal
+    ): Promise<BasicContextResponse> {
       const response = await fetch(
-        "/api/Disciplines/" + encodeURIComponent(JSON.stringify(request))
+        "/api/BasicContext/" + encodeURIComponent(JSON.stringify(request)),
+        { signal: abortSignal }
       );
       const data = await response.json();
-      if (!validate("DisciplinesResponse", data)) {
+      if (!validate("BasicContextResponse", data)) {
         throw new Error("validation failed");
       }
       return data;
     }
-  : async function(request: DisciplinesRequest): Promise<DisciplinesResponse> {
-      const module = await import("./service/disciplines");
+  : async function(
+      request: BasicContextRequest,
+      abortSignal?: AbortSignal
+    ): Promise<BasicContextResponse> {
+      const module = await import("./service/basicContext");
       const response = await module.default(request);
-      if (!validate("DisciplinesResponse", response)) {
-        throw new Error("validation failed");
-      }
-      return response;
-    };
-export const apiCountries = process.browser
-  ? async function(request: CountriesRequest): Promise<CountriesResponse> {
-      const response = await fetch(
-        "/api/Countries/" + encodeURIComponent(JSON.stringify(request))
-      );
-      const data = await response.json();
-      if (!validate("CountriesResponse", data)) {
-        throw new Error("validation failed");
-      }
-      return data;
-    }
-  : async function(request: CountriesRequest): Promise<CountriesResponse> {
-      const module = await import("./service/countries");
-      const response = await module.default(request);
-      if (!validate("CountriesResponse", response)) {
+      if (!validate("BasicContextResponse", response)) {
         throw new Error("validation failed");
       }
       return response;
     };
 export const apiFeaturesPage = process.browser
   ? async function(
-      request: FeaturesPageRequest
+      request: FeaturesPageRequest,
+      abortSignal?: AbortSignal
     ): Promise<FeaturesPageResponse> {
       const response = await fetch(
-        "/api/FeaturesPage/" + encodeURIComponent(JSON.stringify(request))
+        "/api/FeaturesPage/" + encodeURIComponent(JSON.stringify(request)),
+        { signal: abortSignal }
       );
       const data = await response.json();
       if (!validate("FeaturesPageResponse", data)) {
@@ -107,7 +98,8 @@ export const apiFeaturesPage = process.browser
       return data;
     }
   : async function(
-      request: FeaturesPageRequest
+      request: FeaturesPageRequest,
+      abortSignal?: AbortSignal
     ): Promise<FeaturesPageResponse> {
       const module = await import("./service/featuresPage");
       const response = await module.default(request);
@@ -117,9 +109,13 @@ export const apiFeaturesPage = process.browser
       return response;
     };
 export const apiHomePage = process.browser
-  ? async function(request: HomePageRequest): Promise<HomePageResponse> {
+  ? async function(
+      request: HomePageRequest,
+      abortSignal?: AbortSignal
+    ): Promise<HomePageResponse> {
       const response = await fetch(
-        "/api/HomePage/" + encodeURIComponent(JSON.stringify(request))
+        "/api/HomePage/" + encodeURIComponent(JSON.stringify(request)),
+        { signal: abortSignal }
       );
       const data = await response.json();
       if (!validate("HomePageResponse", data)) {
@@ -127,7 +123,10 @@ export const apiHomePage = process.browser
       }
       return data;
     }
-  : async function(request: HomePageRequest): Promise<HomePageResponse> {
+  : async function(
+      request: HomePageRequest,
+      abortSignal?: AbortSignal
+    ): Promise<HomePageResponse> {
       const module = await import("./service/homePage");
       const response = await module.default(request);
       if (!validate("HomePageResponse", response)) {
@@ -137,11 +136,13 @@ export const apiHomePage = process.browser
     };
 export const apiInfluentialSchoolsPage = process.browser
   ? async function(
-      request: InfluentialSchoolsPageRequest
+      request: InfluentialSchoolsPageRequest,
+      abortSignal?: AbortSignal
     ): Promise<InfluentialSchoolsPageResponse> {
       const response = await fetch(
         "/api/InfluentialSchoolsPage/" +
-          encodeURIComponent(JSON.stringify(request))
+          encodeURIComponent(JSON.stringify(request)),
+        { signal: abortSignal }
       );
       const data = await response.json();
       if (!validate("InfluentialSchoolsPageResponse", data)) {
@@ -150,7 +151,8 @@ export const apiInfluentialSchoolsPage = process.browser
       return data;
     }
   : async function(
-      request: InfluentialSchoolsPageRequest
+      request: InfluentialSchoolsPageRequest,
+      abortSignal?: AbortSignal
     ): Promise<InfluentialSchoolsPageResponse> {
       const module = await import("./service/influentialSchoolsPage");
       const response = await module.default(request);
@@ -161,11 +163,13 @@ export const apiInfluentialSchoolsPage = process.browser
     };
 export const apiInfluentialPeoplePage = process.browser
   ? async function(
-      request: InfluentialPeoplePageRequest
+      request: InfluentialPeoplePageRequest,
+      abortSignal?: AbortSignal
     ): Promise<InfluentialPeoplePageResponse> {
       const response = await fetch(
         "/api/InfluentialPeoplePage/" +
-          encodeURIComponent(JSON.stringify(request))
+          encodeURIComponent(JSON.stringify(request)),
+        { signal: abortSignal }
       );
       const data = await response.json();
       if (!validate("InfluentialPeoplePageResponse", data)) {
@@ -174,7 +178,8 @@ export const apiInfluentialPeoplePage = process.browser
       return data;
     }
   : async function(
-      request: InfluentialPeoplePageRequest
+      request: InfluentialPeoplePageRequest,
+      abortSignal?: AbortSignal
     ): Promise<InfluentialPeoplePageResponse> {
       const module = await import("./service/influentialPeoplePage");
       const response = await module.default(request);
@@ -185,11 +190,13 @@ export const apiInfluentialPeoplePage = process.browser
     };
 export const apiLocationAutocomplete = process.browser
   ? async function(
-      request: LocationAutocompleteRequest
+      request: LocationAutocompleteRequest,
+      abortSignal?: AbortSignal
     ): Promise<LocationAutocompleteResponse> {
       const response = await fetch(
         "/api/LocationAutocomplete/" +
-          encodeURIComponent(JSON.stringify(request))
+          encodeURIComponent(JSON.stringify(request)),
+        { signal: abortSignal }
       );
       const data = await response.json();
       if (!validate("LocationAutocompleteResponse", data)) {
@@ -198,7 +205,8 @@ export const apiLocationAutocomplete = process.browser
       return data;
     }
   : async function(
-      request: LocationAutocompleteRequest
+      request: LocationAutocompleteRequest,
+      abortSignal?: AbortSignal
     ): Promise<LocationAutocompleteResponse> {
       const module = await import("./service/locationAutocomplete");
       const response = await module.default(request);
@@ -209,10 +217,12 @@ export const apiLocationAutocomplete = process.browser
     };
 export const apiSchoolSearch = process.browser
   ? async function(
-      request: SchoolSearchRequest
+      request: SchoolSearchRequest,
+      abortSignal?: AbortSignal
     ): Promise<SchoolSearchResponse> {
       const response = await fetch(
-        "/api/SchoolSearch/" + encodeURIComponent(JSON.stringify(request))
+        "/api/SchoolSearch/" + encodeURIComponent(JSON.stringify(request)),
+        { signal: abortSignal }
       );
       const data = await response.json();
       if (!validate("SchoolSearchResponse", data)) {
@@ -221,7 +231,8 @@ export const apiSchoolSearch = process.browser
       return data;
     }
   : async function(
-      request: SchoolSearchRequest
+      request: SchoolSearchRequest,
+      abortSignal?: AbortSignal
     ): Promise<SchoolSearchResponse> {
       const module = await import("./service/schoolSearch");
       const response = await module.default(request);
@@ -232,10 +243,12 @@ export const apiSchoolSearch = process.browser
     };
 export const apiPersonSearch = process.browser
   ? async function(
-      request: PersonSearchRequest
+      request: PersonSearchRequest,
+      abortSignal?: AbortSignal
     ): Promise<PersonSearchResponse> {
       const response = await fetch(
-        "/api/PersonSearch/" + encodeURIComponent(JSON.stringify(request))
+        "/api/PersonSearch/" + encodeURIComponent(JSON.stringify(request)),
+        { signal: abortSignal }
       );
       const data = await response.json();
       if (!validate("PersonSearchResponse", data)) {
@@ -244,7 +257,8 @@ export const apiPersonSearch = process.browser
       return data;
     }
   : async function(
-      request: PersonSearchRequest
+      request: PersonSearchRequest,
+      abortSignal?: AbortSignal
     ): Promise<PersonSearchResponse> {
       const module = await import("./service/personSearch");
       const response = await module.default(request);
@@ -254,9 +268,13 @@ export const apiPersonSearch = process.browser
       return response;
     };
 export const apiPersonPage = process.browser
-  ? async function(request: PersonPageRequest): Promise<PersonPageResponse> {
+  ? async function(
+      request: PersonPageRequest,
+      abortSignal?: AbortSignal
+    ): Promise<PersonPageResponse> {
       const response = await fetch(
-        "/api/PersonPage/" + encodeURIComponent(JSON.stringify(request))
+        "/api/PersonPage/" + encodeURIComponent(JSON.stringify(request)),
+        { signal: abortSignal }
       );
       const data = await response.json();
       if (!validate("PersonPageResponse", data)) {
@@ -264,7 +282,10 @@ export const apiPersonPage = process.browser
       }
       return data;
     }
-  : async function(request: PersonPageRequest): Promise<PersonPageResponse> {
+  : async function(
+      request: PersonPageRequest,
+      abortSignal?: AbortSignal
+    ): Promise<PersonPageResponse> {
       const module = await import("./service/personPage");
       const response = await module.default(request);
       if (!validate("PersonPageResponse", response)) {
@@ -273,9 +294,13 @@ export const apiPersonPage = process.browser
       return response;
     };
 export const apiSchoolPage = process.browser
-  ? async function(request: SchoolPageRequest): Promise<SchoolPageResponse> {
+  ? async function(
+      request: SchoolPageRequest,
+      abortSignal?: AbortSignal
+    ): Promise<SchoolPageResponse> {
       const response = await fetch(
-        "/api/SchoolPage/" + encodeURIComponent(JSON.stringify(request))
+        "/api/SchoolPage/" + encodeURIComponent(JSON.stringify(request)),
+        { signal: abortSignal }
       );
       const data = await response.json();
       if (!validate("SchoolPageResponse", data)) {
@@ -283,7 +308,10 @@ export const apiSchoolPage = process.browser
       }
       return data;
     }
-  : async function(request: SchoolPageRequest): Promise<SchoolPageResponse> {
+  : async function(
+      request: SchoolPageRequest,
+      abortSignal?: AbortSignal
+    ): Promise<SchoolPageResponse> {
       const module = await import("./service/schoolPage");
       const response = await module.default(request);
       if (!validate("SchoolPageResponse", response)) {
@@ -293,10 +321,12 @@ export const apiSchoolPage = process.browser
     };
 export const apiSchoolSubjectPage = process.browser
   ? async function(
-      request: SchoolSubjectPageRequest
+      request: SchoolSubjectPageRequest,
+      abortSignal?: AbortSignal
     ): Promise<SchoolSubjectPageResponse> {
       const response = await fetch(
-        "/api/SchoolSubjectPage/" + encodeURIComponent(JSON.stringify(request))
+        "/api/SchoolSubjectPage/" + encodeURIComponent(JSON.stringify(request)),
+        { signal: abortSignal }
       );
       const data = await response.json();
       if (!validate("SchoolSubjectPageResponse", data)) {
@@ -305,7 +335,8 @@ export const apiSchoolSubjectPage = process.browser
       return data;
     }
   : async function(
-      request: SchoolSubjectPageRequest
+      request: SchoolSubjectPageRequest,
+      abortSignal?: AbortSignal
     ): Promise<SchoolSubjectPageResponse> {
       const module = await import("./service/schoolSubjectPage");
       const response = await module.default(request);
@@ -315,9 +346,13 @@ export const apiSchoolSubjectPage = process.browser
       return response;
     };
 export const apiDiscipline = process.browser
-  ? async function(request: DisciplineRequest): Promise<DisciplineResponse> {
+  ? async function(
+      request: DisciplineRequest,
+      abortSignal?: AbortSignal
+    ): Promise<DisciplineResponse> {
       const response = await fetch(
-        "/api/Discipline/" + encodeURIComponent(JSON.stringify(request))
+        "/api/Discipline/" + encodeURIComponent(JSON.stringify(request)),
+        { signal: abortSignal }
       );
       const data = await response.json();
       if (!validate("DisciplineResponse", data)) {
@@ -325,7 +360,10 @@ export const apiDiscipline = process.browser
       }
       return data;
     }
-  : async function(request: DisciplineRequest): Promise<DisciplineResponse> {
+  : async function(
+      request: DisciplineRequest,
+      abortSignal?: AbortSignal
+    ): Promise<DisciplineResponse> {
       const module = await import("./service/discipline");
       const response = await module.default(request);
       if (!validate("DisciplineResponse", response)) {
@@ -334,9 +372,13 @@ export const apiDiscipline = process.browser
       return response;
     };
 export const apiPage = process.browser
-  ? async function(request: PageRequest): Promise<PageResponse> {
+  ? async function(
+      request: PageRequest,
+      abortSignal?: AbortSignal
+    ): Promise<PageResponse> {
       const response = await fetch(
-        "/api/Page/" + encodeURIComponent(JSON.stringify(request))
+        "/api/Page/" + encodeURIComponent(JSON.stringify(request)),
+        { signal: abortSignal }
       );
       const data = await response.json();
       if (!validate("PageResponse", data)) {
@@ -344,7 +386,10 @@ export const apiPage = process.browser
       }
       return data;
     }
-  : async function(request: PageRequest): Promise<PageResponse> {
+  : async function(
+      request: PageRequest,
+      abortSignal?: AbortSignal
+    ): Promise<PageResponse> {
       const module = await import("./service/page");
       const response = await module.default(request);
       if (!validate("PageResponse", response)) {
@@ -466,10 +511,14 @@ validator.compile({
           required: ["influence", "world_rank", "usa_rank"],
           additionalProperties: false
         },
+        birth_year: { type: ["number", "null"] },
+        death_year: { type: ["number", "null"] },
         image_url: { type: ["string", "null"] },
         image_source_url: { type: ["string", "null"] }
       },
       required: [
+        "birth_year",
+        "death_year",
         "image_source_url",
         "image_url",
         "name",
@@ -506,7 +555,8 @@ validator.compile({
         acceptance_rate: { type: ["number", "null"] },
         desirability: { type: ["number", "null"] },
         logo_url: { type: ["string", "null"] },
-        top_discipline: { type: ["string", "null"] }
+        top_discipline: { type: ["string", "null"] },
+        top_discipline_rank: { type: ["number", "null"] }
       },
       required: [
         "acceptance_rate",
@@ -523,6 +573,7 @@ validator.compile({
         "slug",
         "state",
         "top_discipline",
+        "top_discipline_rank",
         "total_students",
         "undergrad_tuition_in_state"
       ],
@@ -565,6 +616,7 @@ validator.compile({
         desirability: { type: ["number", "null"] },
         logo_url: { type: ["string", "null"] },
         top_discipline: { type: ["string", "null"] },
+        top_discipline_rank: { type: ["number", "null"] },
         employed_10_years: { type: ["number", "null"] },
         desirability_rank: { type: ["number", "null"] },
         undergrad_tuition_out_of_state: { type: ["number", "null"] },
@@ -599,10 +651,6 @@ validator.compile({
           type: "array",
           items: { $ref: "#/definitions/PersonPartialData" }
         },
-        people: {
-          type: "array",
-          items: { $ref: "#/definitions/PersonPartialData" }
-        },
         weather: {
           anyOf: [
             {
@@ -630,7 +678,14 @@ validator.compile({
         address: { type: ["string", "null"] },
         zip: { type: ["string", "null"] },
         website: { type: ["string", "null"] },
-        admissions_website: { type: ["string", "null"] }
+        admissions_website: { type: ["string", "null"] },
+        facebook_id: { type: ["string", "null"] },
+        twitter_username: { type: ["string", "null"] },
+        instagram_username: { type: ["string", "null"] },
+        youtube_channel: { type: ["string", "null"] },
+        location: {
+          anyOf: [{ $ref: "#/definitions/LatLng" }, { type: "null" }]
+        }
       },
       required: [
         "acceptance_rate",
@@ -650,6 +705,7 @@ validator.compile({
         "disciplines",
         "disciplines_text",
         "employed_10_years",
+        "facebook_id",
         "grad_fees_in_state",
         "grad_fees_out_of_state",
         "grad_tuition_in_state",
@@ -657,19 +713,22 @@ validator.compile({
         "graduation_rate",
         "influence_over_time",
         "influential_alumni_text",
+        "instagram_username",
+        "location",
         "logo_url",
         "median_act",
         "median_sat",
         "meta_description",
         "name",
         "overall",
-        "people",
         "short_description",
         "slug",
         "state",
         "test_competitiveness",
         "top_discipline",
+        "top_discipline_rank",
         "total_students",
+        "twitter_username",
         "undergrad_fees_in_state",
         "undergrad_fees_out_of_state",
         "undergrad_tuition_in_state",
@@ -677,8 +736,15 @@ validator.compile({
         "weather",
         "website",
         "wikipedia_description",
+        "youtube_channel",
         "zip"
       ],
+      additionalProperties: false
+    },
+    LatLng: {
+      type: "object",
+      properties: { lat: { type: "number" }, lng: { type: "number" } },
+      required: ["lat", "lng"],
       additionalProperties: false
     },
     PersonData: {
@@ -700,11 +766,11 @@ validator.compile({
         description: { type: "array", items: { $ref: "#/definitions/Html" } },
         wikipedia_description: { type: "boolean" },
         meta_description: { type: "string" },
+        birth_year: { type: ["number", "null"] },
+        death_year: { type: ["number", "null"] },
         image_url: { type: ["string", "null"] },
         image_source_url: { type: ["string", "null"] },
         links: { type: "array", items: { type: "string" } },
-        birth_year: { type: ["number", "null"] },
-        death_year: { type: ["number", "null"] },
         disciplines: {
           type: "object",
           additionalProperties: {
@@ -904,21 +970,24 @@ validator.compile({
       required: ["level", "parent", "slug", "name"],
       additionalProperties: false
     },
-    DisciplinesRequest: { type: "object", additionalProperties: false },
-    DisciplinesResponse: {
-      type: "array",
-      items: { $ref: "#/definitions/DisciplineDetail" }
-    },
-    CountriesRequest: { type: "object", additionalProperties: false },
     Country: {
       type: "object",
       properties: { name: { type: "string" } },
       required: ["name"],
       additionalProperties: false
     },
-    CountriesResponse: {
-      type: "array",
-      items: { $ref: "#/definitions/Country" }
+    BasicContextRequest: { type: "object", additionalProperties: false },
+    BasicContextResponse: {
+      type: "object",
+      properties: {
+        disciplines: {
+          type: "array",
+          items: { $ref: "#/definitions/DisciplineDetail" }
+        },
+        countries: { type: "array", items: { $ref: "#/definitions/Country" } }
+      },
+      required: ["disciplines", "countries"],
+      additionalProperties: false
     },
     FeaturesPageRequest: {
       type: "object",

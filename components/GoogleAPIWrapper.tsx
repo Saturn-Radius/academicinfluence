@@ -1,10 +1,16 @@
-import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
+import { GoogleAPI, GoogleApiWrapper, Map, Marker } from "google-maps-react";
+import { LatLng } from "../schema";
 
-const MapContainer = (props: any) => {
+const MapContainer = (props: { google: GoogleAPI; location: LatLng }) => {
   const { google } = props;
 
   return (
-    <Map google={google} zoom={14} mapTypeControl={false}>
+    <Map
+      google={google}
+      zoom={14}
+      mapTypeControl={false}
+      initialCenter={props.location}
+    >
       <Marker />
 
       {/* <InfoWindow visible={true} /> */}

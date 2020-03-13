@@ -1,14 +1,14 @@
 import { DisciplineLink } from "../../links";
-import { DisciplinesResponse } from "../../schema";
 import { GRAY, GRAY_DARKEST, MAIN } from "../../styles";
+import { useBasicContext } from "../BasicContext";
 
 type SubdisciplineListProps = {
   discipline: string;
   subdiscipline?: string;
-  disciplines: DisciplinesResponse;
 };
 
 export default function SubdisciplineList(props: SubdisciplineListProps) {
+  const basicContext = useBasicContext();
   return (
     <div>
       <style jsx>
@@ -22,7 +22,7 @@ export default function SubdisciplineList(props: SubdisciplineListProps) {
         `}
       </style>
       <ul className="tableList">
-        {props.disciplines
+        {basicContext.disciplines
           .filter((discipline: any) => discipline.parent === props.discipline)
           .map((discipline: any) => (
             <DisciplineLink discipline={discipline} key={discipline.slug}>

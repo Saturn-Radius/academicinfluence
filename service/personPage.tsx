@@ -20,8 +20,6 @@ export default async function servePersonPage(
   const personQuery = lookupBySlug(PERSON_ENTITY_TYPE, request.slug)
     .apply(addPartialPersonFields)
     .addEntityFields(PERSON_ENTITY_TYPE)
-    .field("birth_year")
-    .field("death_year")
 
     .field("wikipedia_title")
     .field("website")
@@ -68,8 +66,6 @@ export default async function servePersonPage(
     person: {
       ...extractPartialPerson(person),
       ...(await extractEntityFields(person)),
-      birth_year: person.birth_year,
-      death_year: person.death_year,
       links,
       schools: (await schoolQuery).rows,
       works: (await workQuery).rows,

@@ -1,34 +1,25 @@
 import { InterpolationWithTheme } from "@emotion/core";
 import { find } from "lodash";
-import { NextPage, NextPageContext } from "next";
-import { NextSeo } from "next-seo";
 import Link from "next/link";
-import Router from "next/router";
 import { ReactElementLike } from "prop-types";
 import { Handle, Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
 import React from "react";
-import Autosuggest from "react-autosuggest";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
-import { format } from "url";
 import USAStates from "usa-states";
-import {
-  apiCollegeRankings,
-  apiDisciplines,
-  apiLocationAutocomplete
-} from "../api";
+import { apiCollegeRankings, apiLocationAutocomplete } from "../api";
+import Autocomplete from "../components/Autocomplete";
+import { useBasicContext } from "../components/BasicContext";
 import CircularProgress from "../components/CircularProgress";
-import { lookupDiscipline } from "../disciplines";
+import { SchoolLink } from "../links";
 import QuerySchema, { RangeParameter } from "../QuerySchema";
 import {
   CollegeRankingSort,
   CollegeRankingsRequest,
   CollegeRankingsResponse,
-  DisciplinesResponse,
-  LocationAutocompleteResponse,
   SchoolPartialData
 } from "../schema";
 import {
@@ -40,11 +31,12 @@ import {
   MAIN_LIGHTER
 } from "../styles";
 import ToolPage from "../ToolPage";
+import QueryPage from "../utils/QueryPage";
 
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
   request: CollegeRankingsRequest;
-  disciplines: DisciplinesResponse;
+  updateRequest: (request: CollegeRankingsRequest) => void;
 };
 
 type COLUMN = {
@@ -78,7 +70,7 @@ function BasicCell(props: BasicCellProps) {
   );
 }
 
-const QUERY_SCHEMA = QuerySchema({
+const QUERY_SCHEMA = QuerySchema("/college-ranking", {
   sort: {
     toQuery: (value: CollegeRankingSort) => value,
     fromQuery: value => value as CollegeRankingSort,
@@ -89,20 +81,33 @@ const QUERY_SCHEMA = QuerySchema({
     fromQuery: value => value === "t",
     default: false
   },
-  tuition: RangeParameter(0, 57),
-  median_sat: RangeParameter(79, 156),
-  acceptance_rate: RangeParameter(4, 100),
-  total_students: RangeParameter(0, 77),
+  tuition: RangeParameter(0, 100),
+  median_sat: RangeParameter(0, 200),
+  acceptance_rate: RangeParameter(0, 100),
+  total_students: RangeParameter(0, 100),
   years: RangeParameter(1800, 2020),
   states: {
-    toQuery: value => (value === null ? undefined : value.join(",")),
-    fromQuery: value => value.split(","),
+    toQuery: value => (value === null ? undefined : value.join("-")),
+    fromQuery: value => value.split("-"),
     default: null as null | string[],
     canonical: true
   },
   location: {
-    toQuery: value => JSON.stringify(value),
-    fromQuery: value => JSON.parse(value),
+    toQuery: value => {
+      return `${value.lat}~${value.long}~${value.distance.min}~${value.distance.max}~${value.name}`;
+    },
+    fromQuery: value => {
+      const parts = value.split("~", 4);
+      return {
+        lat: parts[0],
+        long: parts[1],
+        distance: {
+          min: parseFloat(parts[2]),
+          max: parseFloat(parts[3])
+        },
+        name: parts[4] || ""
+      };
+    },
     default: null as CollegeRankingsRequest["location"]
   },
   discipline: {
@@ -113,19 +118,14 @@ const QUERY_SCHEMA = QuerySchema({
   }
 });
 
-function asHref(request: CollegeRankingsRequest) {
-  return {
-    pathname: "/college-ranking",
-    query: QUERY_SCHEMA.toQuery(request)
-  };
-}
-
 type RankingLinkProps = {
   request: CollegeRankingsRequest;
   children: React.ReactNode;
 };
 function RankingLink(props: RankingLinkProps) {
-  return <Link href={asHref(props.request)}>{props.children}</Link>;
+  return (
+    <Link href={QUERY_SCHEMA.asHref(props.request)}>{props.children}</Link>
+  );
 }
 
 type ArrowProps = {
@@ -213,10 +213,12 @@ const COLUMNS: COLUMN[] = [
       <div css={{ display: "flex" }}>
         <div css={{ width: "64px", height: "64px" }}>
           {school.logo_url && (
-            <img
-              src={school.logo_url}
-              css={{ maxWidth: "64px", maxHeight: "64px" }}
-            />
+            <SchoolLink school={school}>
+              <img
+                src={school.logo_url}
+                css={{ maxWidth: "64px", maxHeight: "64px" }}
+              />
+            </SchoolLink>
           )}
         </div>
         <div
@@ -224,16 +226,19 @@ const COLUMNS: COLUMN[] = [
             paddingLeft: "16px"
           }}
         >
-          <div
-            css={{
-              fontSize: "16px",
-              lineHeight: "20px",
-              fontWeight: "bold",
-              color: MAIN
-            }}
-          >
-            {school.name}
-          </div>
+          <SchoolLink school={school}>
+            <a
+              css={{
+                fontSize: "16px",
+                lineHeight: "20px",
+                fontWeight: "bold",
+                color: MAIN,
+                display: "block"
+              }}
+            >
+              {school.name}
+            </a>
+          </SchoolLink>
           <div
             css={{
               fontSize: "12px",
@@ -349,7 +354,9 @@ const COLUMNS: COLUMN[] = [
     column: 1,
 
     value: school => (
-      <BasicCell color="black">{school.overall.influence}</BasicCell>
+      <BasicCell color="black">
+        {(school.overall.influence * 100).toFixed()}
+      </BasicCell>
     )
   },
   {
@@ -478,7 +485,8 @@ function StateFilter(props: FilterProps) {
     states => {
       props.updateRequest({
         ...props.request,
-        states: states && states.map((state: any) => state.value),
+        states:
+          states.length > 0 ? states.map((state: any) => state.value) : null,
         location: null
       });
     },
@@ -612,11 +620,11 @@ const SAT_TO_ACT = [
   11
 ];
 
-function LocationFilter(props: FilterProps) {
-  const [suggestions, setSuggestions] = React.useState<
-    LocationAutocompleteResponse["cities"]
-  >([]);
+async function lookupCities(text: string, abort: AbortSignal) {
+  return (await apiLocationAutocomplete(text, abort)).cities;
+}
 
+function LocationFilter(props: FilterProps) {
   const location = props.request.location || {
     lat: "0",
     long: "0",
@@ -626,6 +634,13 @@ function LocationFilter(props: FilterProps) {
       max: 3000
     }
   };
+
+  const clearSelection = React.useCallback(() => {
+    props.updateRequest({
+      ...props.request,
+      location: null
+    });
+  }, [props.updateRequest]);
 
   const onDistanceChange = React.useCallback(
     n =>
@@ -643,45 +658,25 @@ function LocationFilter(props: FilterProps) {
     [location, props.request, props.updateRequest]
   );
 
-  const lookupLocation = React.useCallback(
-    async function lookupLocation(text: string) {
-      if (text === "") {
+  const updateCurrent = React.useCallback(
+    suggestion => {
+      if (suggestion && location.name) {
         props.updateRequest({
           ...props.request,
-          location: null
+          states: null,
+          location: {
+            ...location,
+            lat: suggestion.lat + "",
+            long: suggestion.long + ""
+          }
         });
-      } else {
-        const response = await apiLocationAutocomplete(text);
-        setSuggestions(response.cities);
-
-        if (response.cities.length > 0) {
-          const location = props.request.location || {
-            lat: 0,
-            long: 0,
-            distance: {
-              min: 0,
-              max: 3000
-            }
-          };
-
-          props.updateRequest({
-            ...props.request,
-            states: null,
-            location: {
-              ...location,
-              name: text,
-              lat: response.cities[0].lat + "",
-              long: response.cities[0].long + ""
-            }
-          });
-        }
       }
     },
-    [location, setSuggestions]
+    [props.request, props.updateRequest]
   );
 
   const onSelect = React.useCallback(
-    (event, { suggestion }) => {
+    suggestion => {
       props.updateRequest({
         ...props.request,
         states: null,
@@ -693,33 +688,22 @@ function LocationFilter(props: FilterProps) {
         }
       });
     },
-    [lookupLocation, props.request, props.updateRequest]
+    [props.request, props.updateRequest]
   );
 
-  const onChange = React.useCallback(
-    (event, { newValue }) => {
+  const textChange = React.useCallback(
+    text => {
       props.updateRequest({
         ...props.request,
         states: null,
         location: {
           ...location,
-          name: newValue
+          name: text
         }
       });
     },
-    [onSelect]
+    [props.updateRequest]
   );
-
-  const onSuggestionsFetchRequested = React.useCallback(
-    ({ value }) => {
-      lookupLocation(value);
-    },
-    [lookupLocation]
-  );
-
-  const onSuggestionsClearRequested = React.useCallback(() => {
-    setSuggestions([]);
-  }, [setSuggestions]);
 
   const geolocate = React.useCallback(() => {
     navigator.geolocation.getCurrentPosition(position => {
@@ -752,39 +736,30 @@ function LocationFilter(props: FilterProps) {
           "& .react-autosuggest__suggestions-container": {
             position: "absolute",
             top: "25px",
-            zIndex: 1000
+            width: "100%",
+            zIndex: 1000,
+            "& ul": {
+              listStyle: "none",
+              padding: 0,
+              background: "white",
+              border: "solid 1px black"
+            }
+          },
+          "& input": {
+            paddingLeft: "8px",
+            paddingRight: "8px"
           }
         }}
       >
-        <Autosuggest
-          inputProps={{
-            style: {
-              borderRadius: "4px",
-              borderStyle: "solid",
-              borderWidth: "1px",
-              borderColor: "hsl(0,0%,80%)",
-              minHeight: "34px",
-              fontSize: "16px",
-              fontWeight: 500
-            },
-            onChange,
-            value: text
-          }}
-          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={onSuggestionsClearRequested}
-          suggestions={suggestions}
-          getSuggestionValue={item => item.name}
-          renderSuggestion={(item, { isHighlighted }) => (
-            <div
-              key={item.name}
-              style={{ background: isHighlighted ? "lightgray" : "white" }}
-            >
-              {item.name}
-            </div>
-          )}
-          onSuggestionSelected={onSelect}
-          multiSection={false}
+        <Autocomplete
+          api={lookupCities}
+          text={text}
+          clearSelection={clearSelection}
+          textChange={textChange}
+          updateCurrent={updateCurrent}
+          onSelect={onSelect}
         />
+
         <button
           css={{
             height: "20px",
@@ -809,6 +784,7 @@ function LocationFilter(props: FilterProps) {
 }
 
 function Discipline(props: FilterProps) {
+  const basicContext = useBasicContext();
   const onChange = React.useCallback(
     event => {
       props.updateRequest({
@@ -823,14 +799,11 @@ function Discipline(props: FilterProps) {
 
   let supertopic: string | null;
   let subtopic: string | null;
-  if (
-    discipline === null ||
-    lookupDiscipline(props.disciplines, discipline).level === 1
-  ) {
+  if (discipline === null || basicContext.discipline(discipline).level === 1) {
     supertopic = discipline;
     subtopic = null;
   } else {
-    supertopic = lookupDiscipline(props.disciplines, discipline).parent;
+    supertopic = basicContext.discipline(discipline).parent;
     subtopic = discipline;
   }
 
@@ -839,7 +812,7 @@ function Discipline(props: FilterProps) {
       value: null,
       label: "Overall"
     },
-    ...props.disciplines
+    ...basicContext.disciplines
       .filter(item => item.level === 1)
       .map(item => ({
         value: item.slug,
@@ -855,7 +828,7 @@ function Discipline(props: FilterProps) {
       value: null,
       label: "Overall"
     },
-    ...props.disciplines
+    ...basicContext.disciplines
       .filter(item => item.parent === supertopic)
       .map(item => ({
         value: item.slug,
@@ -907,7 +880,6 @@ function FilterRow(props: { children: React.ReactNode }) {
 
 type FilterProps = {
   request: CollegeRankingsRequest;
-  disciplines: DisciplinesResponse;
   updateRequest: (request: CollegeRankingsRequest) => void;
   limits: CollegeRankingsResponse["limits"];
 };
@@ -997,27 +969,13 @@ for (let index = 2; index < COLUMNS.length; index++) {
   };
 }
 
-const CollegeRanking: NextPage<CollegeRankingProps> = props => {
-  const [request, setRequest] = React.useState(props.request);
-
-  const updateRequest = React.useCallback(
-    request => {
-      setRequest(request);
-      Router.replace(asHref(request));
-    },
-    [setRequest]
-  );
-
+const CollegeRanking: React.SFC<CollegeRankingProps> = props => {
   return (
     <>
-      <NextSeo
-        canonical={format(asHref(QUERY_SCHEMA.canonical(props.request)))}
-      />
       <ToolPage tool="COLLEGE RANKINGS">
         <Filter
-          request={request}
-          disciplines={props.disciplines}
-          updateRequest={updateRequest}
+          request={props.request}
+          updateRequest={props.updateRequest}
           limits={props.data.limits}
         />
 
@@ -1137,13 +1095,60 @@ const CollegeRanking: NextPage<CollegeRankingProps> = props => {
   );
 };
 
-CollegeRanking.getInitialProps = async function(context: NextPageContext) {
-  const request = QUERY_SCHEMA.fromQuery(context.query);
-  const disciplinesPromise = apiDisciplines({});
-  const data = await apiCollegeRankings(request);
-  const disciplines = await disciplinesPromise;
+function processQueryLimit(
+  value: {
+    min: number;
+    max: number;
+  },
+  limits: {
+    min: number;
+    max: number;
+  },
+  min: number,
+  max: number
+) {
+  return {
+    min: value.min <= limits.min ? min : value.min,
+    max: value.max >= limits.max ? max : value.max
+  };
+}
 
-  return { data, disciplines, request };
-};
-
-export default CollegeRanking;
+export default QueryPage(
+  CollegeRanking,
+  QUERY_SCHEMA,
+  {
+    title: "College Rankings"
+  },
+  async (request: CollegeRankingsRequest, signal?: AbortSignal) => {
+    const data = await apiCollegeRankings(request, signal);
+    return { data };
+  },
+  props => props.data.schools.length == 0,
+  (request, props) => ({
+    ...request,
+    tuition: processQueryLimit(
+      request.tuition,
+      props.data.limits.tuition,
+      0,
+      100
+    ),
+    median_sat: processQueryLimit(
+      request.median_sat,
+      props.data.limits.median_sat,
+      0,
+      200
+    ),
+    acceptance_rate: processQueryLimit(
+      request.acceptance_rate,
+      props.data.limits.acceptance_rate,
+      0,
+      100
+    ),
+    total_students: processQueryLimit(
+      request.total_students,
+      props.data.limits.total_students,
+      0,
+      100
+    )
+  })
+);

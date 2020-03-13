@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { LatLng } from "../../schema";
 import GoogleAPIWrapper from "../GoogleAPIWrapper";
 
 const Wrapper = styled.div`
@@ -8,10 +9,10 @@ const Wrapper = styled.div`
   margin-top: 10px;
 `;
 
-const LocationMap = (props: any) => {
+const LocationMap = (props: { location: LatLng }) => {
   return (
     <Wrapper>
-      <GoogleAPIWrapper />
+      <GoogleAPIWrapper location={props.location} />
     </Wrapper>
   );
 };

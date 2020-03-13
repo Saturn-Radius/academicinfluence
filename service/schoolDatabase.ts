@@ -1,5 +1,6 @@
 import { influenceScoreQuery } from "../influenceScore";
 import * as squel from "../squel";
+import { disciplineNameToSlug } from "../utils/disciplines";
 import {
   EntityQuery,
   EntityType,
@@ -52,6 +53,28 @@ export function addPartialSchoolFields(query: EntityQuery) {
         .limit(1)
         .field("ai_disciplines.name"),
       "top_discipline"
+    )
+    .field(
+      squel
+        .select()
+        .from(
+          influenceScoreQuery("school", 1900, 2020)
+            .where("scores.id = schools.id")
+            .where("keyword is not null")
+            .field("world_rank")
+            .field("keyword"),
+          "data"
+        )
+        .join(
+          "editor.ai_disciplines",
+          undefined,
+          "ai_disciplines.id = data.keyword"
+        )
+        .where("ai_disciplines.active")
+        .order("influence", false)
+        .limit(1)
+        .field("data.world_rank"),
+      "top_discipline_rank"
     );
 }
 
@@ -69,6 +92,7 @@ export function extractPartialSchoolFields(row: any) {
     acceptance_rate: row.acceptance_rate,
     desirability: row.desirability,
     logo_url: row.logo_url,
-    top_discipline: row.top_discipline
+    top_discipline: disciplineNameToSlug(row.top_discipline),
+    top_discipline_rank: row.top_discipline_rank
   };
 }

@@ -1,6 +1,7 @@
 import Document, { Head, Html, Main, NextScript } from "next/document";
+import { BasicContextResponse } from "../schema";
 
-class AIDocument extends Document {
+class AIDocument extends Document<{ basicContext: BasicContextResponse }> {
   render() {
     return (
       <Html>

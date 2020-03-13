@@ -22,14 +22,18 @@ export function addPartialPersonFields(select: EntityQuery) {
         "https://commons.wikimedia.org/wiki/File:"
       ),
       "image_source_url"
-    );
+    )
+    .field("birth_year")
+    .field("death_year");
 }
 
 export function extractPartialPerson(row: any) {
   return {
     ...extractDescribableFields(row),
     image_url: row.image_url,
-    image_source_url: row.image_source_url
+    image_source_url: row.image_source_url,
+    birth_year: row.birth_year,
+    death_year: row.death_year
   };
 }
 

@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { SchoolLink } from "../../links";
+import { SchoolData, SchoolPartialData } from "../../schema";
 import {
   GRAY,
   GRAY_DARKEST,
@@ -7,6 +8,8 @@ import {
   MAIN_DARKER,
   MAIN_LIGHTER
 } from "../../styles";
+import { useBasicContext } from "../BasicContext";
+import DisciplineIcon from "../DisciplineIcon";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -139,21 +142,31 @@ const Value = styled.span`
 
 interface InfoValueProps {
   readonly label: string;
-  readonly value: number;
+  readonly value: number | null;
 }
-const InfoValue = (props: InfoValueProps) => (
-  <InfoValueWrapper>
-    <InfoLabel>{props.label}</InfoLabel>
-    <Value>${props.value}</Value>
-  </InfoValueWrapper>
-);
+const InfoValue = (props: InfoValueProps) =>
+  props.value === null ? null : (
+    <InfoValueWrapper>
+      <InfoLabel>{props.label}</InfoLabel>
+      <Value>${props.value.toLocaleString()}</Value>
+    </InfoValueWrapper>
+  );
 
-const LawBadge = () => (
-  <LawBadgeWrapper>
-    <LawImage src={``} />
-    <LawRank>#1 for Law</LawRank>
-  </LawBadgeWrapper>
-);
+const LawBadge = (props: { school: SchoolPartialData }) => {
+  const basicContext = useBasicContext();
+  return props.school.top_discipline === null ? null : (
+    <LawBadgeWrapper>
+      <DisciplineIcon
+        style={{ fontSize: "51px" }}
+        discipline={basicContext.discipline(props.school.top_discipline)}
+      />
+      <LawRank>
+        #{props.school.top_discipline_rank} for{" "}
+        {basicContext.disciplineName(props.school.top_discipline)}
+      </LawRank>
+    </LawBadgeWrapper>
+  );
+};
 
 const RankingLabel = styled.span`
   font-family: "SF UI Display Medium";
@@ -196,7 +209,7 @@ const FullDetailsButton = styled.button`
 
 interface SchoolListItemProps {
   mode: string;
-  school: any;
+  school: SchoolData;
 }
 const SchoolListItem = (props: SchoolListItemProps) => {
   const { school } = props;
@@ -218,7 +231,7 @@ const SchoolListItem = (props: SchoolListItemProps) => {
   return (
     <Wrapper>
       <Header>
-        <Logo src={logo_url} />
+        <Logo src={logo_url || undefined} />
       </Header>
       <Body>
         <BodyLeftCol>
@@ -233,7 +246,7 @@ const SchoolListItem = (props: SchoolListItemProps) => {
               size={51}
               fontSize={7}
             />
-            <LawBadge />
+            <LawBadge school={school} />
           </Row>
         </BodyLeftCol>
         <BodyMidCol>

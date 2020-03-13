@@ -1,6 +1,7 @@
 import { PersonLink } from "../../links";
 import { PersonPartialData } from "../../schema";
 import { MAIN, MAIN_DARKER } from "../../styles";
+import { YearRange } from "../../utils/years";
 import Button from "../Button";
 import ContentCard from "../ContentCard";
 
@@ -31,7 +32,9 @@ const InfluentialCard = (props: { person: PersonPartialData }) => {
           />
         )}
         <div style={styles.influentialName}>{props.person.name}</div>
-        <div style={{ paddingBottom: 6 }}>(1955-Present)</div>
+        <div style={{ paddingBottom: 6 }}>
+          <YearRange person={props.person} />
+        </div>
         <div style={{ fontWeight: "bold" }}>
           {props.person.short_description}
         </div>
@@ -66,11 +69,14 @@ const InfluentialCard = (props: { person: PersonPartialData }) => {
       </div>
 
       <div>
+        {/* 
+        TODO
         <div style={{ color: MAIN, fontWeight: "bold" }}>Influential Works</div>
         <div style={{ paddingBottom: 8 }}>
           Educated: A Memoir, The Body: A Guide for Occupants, Outliers: The
           Story of Success
         </div>
+        */}
 
         <div style={{ float: "right" }}>
           <PersonLink person={props.person}>

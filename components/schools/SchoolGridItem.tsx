@@ -1,6 +1,9 @@
 import styled from "@emotion/styled";
 import { SchoolLink } from "../../links";
+import { SchoolData, SchoolPartialData } from "../../schema";
 import { GRAY, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
+import { useBasicContext } from "../BasicContext";
+import DisciplineIcon from "../DisciplineIcon";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -113,12 +116,21 @@ const LawBadgeWrapper = styled.div`
   justify-content: start;
 `;
 
-const LawBadge = () => (
-  <LawBadgeWrapper>
-    <LawImage src={``} />
-    <LawRank>#1 for Law</LawRank>
-  </LawBadgeWrapper>
-);
+const LawBadge = (props: { school: SchoolPartialData }) => {
+  const basicContext = useBasicContext();
+  return props.school.top_discipline === null ? null : (
+    <LawBadgeWrapper>
+      <DisciplineIcon
+        style={{ fontSize: "51px" }}
+        discipline={basicContext.discipline(props.school.top_discipline)}
+      />
+      <LawRank>
+        #{props.school.top_discipline_rank} for{" "}
+        {basicContext.disciplineName(props.school.top_discipline)}
+      </LawRank>
+    </LawBadgeWrapper>
+  );
+};
 
 const RankingWrapper = styled.div`
   display: flex;
@@ -177,18 +189,19 @@ const HSpacer = styled.div`
 
 interface InfoValueProps {
   readonly label: string;
-  readonly value: number;
+  readonly value: number | null;
 }
-const InfoValue = (props: InfoValueProps) => (
-  <InfoValueWrapper>
-    <InfoLabel>{props.label}</InfoLabel>
-    <Value>${props.value}</Value>
-  </InfoValueWrapper>
-);
+const InfoValue = (props: InfoValueProps) =>
+  props.value === null ? null : (
+    <InfoValueWrapper>
+      <InfoLabel>{props.label}</InfoLabel>
+      <Value>${props.value.toLocaleString()}</Value>
+    </InfoValueWrapper>
+  );
 
 interface SchoolGridItemProps {
   mode: string;
-  school: any;
+  school: SchoolData;
 }
 const SchoolGridItem = (props: SchoolGridItemProps) => {
   const { school } = props;
@@ -211,7 +224,7 @@ const SchoolGridItem = (props: SchoolGridItemProps) => {
     <Wrapper>
       <InnerWrapper>
         <HeaderWrapper>
-          <Logo src={logo_url} />
+          <Logo src={logo_url || undefined} />
           <Header>
             <SchoolName>{name}</SchoolName>
             <Location>
@@ -231,7 +244,7 @@ const SchoolGridItem = (props: SchoolGridItemProps) => {
               size={51}
               fontSize={8}
             />
-            <LawBadge />
+            <LawBadge school={school} />
           </Row>
           <Row>
             <RankingWrapper>

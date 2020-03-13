@@ -10,4 +10,4 @@
 /college-ranking
 /features
 /features/people
-/features/people/most-influential-philosophers-today
+/features/people/most-influential-philosophers

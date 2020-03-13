@@ -28,6 +28,8 @@ export interface EntityFullData extends EntityPartialData {
 }
 
 export interface PersonPartialData extends EntityPartialData {
+  birth_year: number | null;
+  death_year: number | null;
   image_url: string | null;
   image_source_url: string | null;
 }
@@ -45,6 +47,7 @@ export interface SchoolPartialData extends EntityPartialData {
   desirability: number | null;
   logo_url: string | null;
   top_discipline: string | null;
+  top_discipline_rank: number | null;
 }
 
 export interface WeatherData {
@@ -81,7 +84,6 @@ export interface SchoolData extends SchoolPartialData, EntityFullData {
   };
 
   alumni: PersonPartialData[];
-  people: PersonPartialData[];
   weather: {
     winter: WeatherData;
     spring: WeatherData;
@@ -97,12 +99,22 @@ export interface SchoolData extends SchoolPartialData, EntityFullData {
 
   website: string | null;
   admissions_website: string | null;
+
+  facebook_id: string | null;
+  twitter_username: string | null;
+  instagram_username: string | null;
+  youtube_channel: string | null;
+
+  location: LatLng | null;
+}
+
+export interface LatLng {
+  lat: number;
+  lng: number;
 }
 
 export interface PersonData extends PersonPartialData, EntityFullData {
   links: string[];
-  birth_year: number | null;
-  death_year: number | null;
   disciplines: {
     [k: string]: DisciplineInfluenceData;
   };
@@ -192,16 +204,16 @@ export type DisciplineDetail = {
   name: string;
 };
 
-export interface DisciplinesRequest {}
-
-export type DisciplinesResponse = DisciplineDetail[];
-
-export interface CountriesRequest {}
 export type Country = {
   name: string;
 };
 
-export type CountriesResponse = Country[];
+export interface BasicContextRequest {}
+
+export interface BasicContextResponse {
+  disciplines: DisciplineDetail[];
+  countries: Country[];
+}
 
 export interface FeaturesPageRequest {
   category: string | null;

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { SchoolPartialData } from "../../schema";
 import DISPLAY_MODES from "./constants";
 import SchoolGridItem from "./SchoolGridItem";
 import SchoolListItem from "./SchoolListItem";
@@ -18,7 +19,7 @@ const GridWrapper = styled.div`
 
 interface SchoolListProps {
   mode: string;
-  schools: any;
+  schools: SchoolPartialData[];
 }
 const SchoolList = (props: SchoolListProps) => {
   const { mode, schools } = props;

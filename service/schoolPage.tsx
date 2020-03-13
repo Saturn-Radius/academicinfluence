@@ -212,6 +212,12 @@ export default async function serveSchoolPage(
     .field("zip")
     .field("website")
     .field("admissions_website")
+    .field("facebook_id")
+    .field("twitter_username")
+    .field("instagram_username")
+    .field("youtube_channel")
+    .field("ST_X(location::geometry)", "lng")
+    .field("ST_Y(location::geometry)", "lat")
     .execute();
 
   const disciplineQuery = disciplineBreakdownQuery(
@@ -220,26 +226,13 @@ export default async function serveSchoolPage(
     true
   );
 
-  const personQuery = lookupBySlug(SCHOOL_ENTITY_TYPE, request.slug)
-    .join(
-      "ai_data.person_schools",
-      undefined,
-      "person_schools.school_id = schools.id"
-    )
-    .followLink(PERSON_ENTITY_TYPE, "person_schools.person_id")
-    .apply(addPartialPersonFields)
-    .addInfluenceFields(PERSON_ENTITY_TYPE)
-    .order("influence", false)
-    .limit(3)
-    .execute();
-
   const alumniQuery = lookupBySlug(SCHOOL_ENTITY_TYPE, request.slug)
     .join(
       "ai_data.person_schools",
       undefined,
       "person_schools.school_id = schools.id"
     )
-    .where("person_schools.relationship = ?", "student")
+    .where("person_schools.relationship = ?", "Student")
     .followLink(PERSON_ENTITY_TYPE, "person_schools.person_id")
     .apply(addPartialPersonFields)
     .addInfluenceFields(PERSON_ENTITY_TYPE)
@@ -256,6 +249,11 @@ export default async function serveSchoolPage(
       address: school.address,
       zip: school.zip,
       website: school.website,
+      facebook_id: school.facebook_id,
+      twitter_username: school.twitter_username,
+      instagram_username: school.instagram_username,
+      youtube_channel: school.youtube_channel,
+
       admissions_website: school.admissions_website,
       employed_10_years: school.employed_10_years,
       desirability_rank: school.desirability_rank,
@@ -275,11 +273,19 @@ export default async function serveSchoolPage(
       city_violent_crime_rate: school.city_violent_crime_rate,
       test_competitiveness: lookupSatMath(school.median_sat / 2) / 100,
       ...extractDisciplineBreakdownWithYears(await disciplineQuery),
-      people: (await personQuery).rows.map(extractPartialPersonWithOverall),
       alumni: (await alumniQuery).rows.map(extractPartialPersonWithOverall),
       weather: calcWeather(school.weather_maximums, school.weather_minimums),
       disciplines_text: await processHtml(school.disciplines_text),
-      influential_alumni_text: await processHtml(school.influential_alumni_text)
+      influential_alumni_text: await processHtml(
+        school.influential_alumni_text
+      ),
+      location:
+        school.lat && school.lng
+          ? {
+              lat: school.lat,
+              lng: school.lng
+            }
+          : null
     }
   };
 }

@@ -1,11 +1,11 @@
 import databasePool from "../databasePool";
-import { disciplineNameToSlug } from "../disciplines";
-import { DisciplinesRequest, DisciplinesResponse } from "../schema";
+import { BasicContextRequest, BasicContextResponse } from "../schema";
 import * as squel from "../squel";
+import { disciplineNameToSlug } from "../utils/disciplines";
 
-export default async function serveDisciplines(
-  request: DisciplinesRequest
-): Promise<DisciplinesResponse> {
+export default async function serveBasicContext(
+  request: BasicContextRequest
+): Promise<BasicContextResponse> {
   const pool = await databasePool;
 
   const superdisciplineQuery = pool.query(
@@ -33,6 +33,17 @@ export default async function serveDisciplines(
       .toParam()
   );
 
+  const countriesQuery = pool.query(
+    squel
+      .select()
+      .from("ai_data.schools")
+      .field("country")
+      .group("country")
+      .order("country")
+      .where("country is not null")
+      .toParam()
+  );
+
   const disciplines = [];
   for (const discipline of (await superdisciplineQuery).rows) {
     disciplines.push({
@@ -52,5 +63,12 @@ export default async function serveDisciplines(
     });
   }
 
-  return disciplines;
+  const countries = (await countriesQuery).rows.map(row => ({
+    name: row.country
+  }));
+
+  return {
+    disciplines,
+    countries
+  };
 }

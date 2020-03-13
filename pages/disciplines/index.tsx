@@ -1,16 +1,58 @@
-import { NextPage, NextPageContext } from "next";
+import { NextPage } from "next";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
-import { apiDisciplines } from "../../api";
+import { useBasicContext } from "../../components/BasicContext";
 import { DropdownButton } from "../../components/disciplines";
 import { DisciplineLink } from "../../links";
-import { DisciplinesResponse } from "../../schema";
 import StandardPage from "../../templates/StandardPage";
 
-type DisciplinesProps = {
-  disciplines: DisciplinesResponse;
-};
+type DisciplinesProps = {};
+
+function Superdiscipline(props: {
+  superdiscipline: string;
+  image_url: string;
+  title: string;
+}) {
+  const basicContext = useBasicContext();
+  return (
+    <>
+      <style jsx>
+        {`
+          .liStyle {
+            list-style-type: none;
+            background-color: #dfdede;
+            border-bottom: 1px solid #999999;
+            padding-top: 23.5px;
+            padding-bottom: 23.5px;
+            padding-left: 25px;
+          }
+          .linkStyle {
+            text-decoration: none;
+            color: #1e988a;
+            font-size: 20px;
+            font-weight: 600;
+          }
+        `}
+      </style>
+      <DropdownButton
+        image_url={props.image_url}
+        text={props.title}
+        disciplines={basicContext.disciplines
+          .filter(
+            item => item.level === 1 && item.parent === props.superdiscipline
+          )
+          .map(discipline => (
+            <li className="liStyle" key={discipline.name}>
+              <DisciplineLink discipline={discipline}>
+                <a className="linkStyle">{discipline.name}</a>
+              </DisciplineLink>
+            </li>
+          ))}
+      />
+    </>
+  );
+}
 
 const Disciplines: NextPage<DisciplinesProps> = props => {
   return (
@@ -84,95 +126,38 @@ const Disciplines: NextPage<DisciplinesProps> = props => {
         </style>
         <div className="scienceContent">
           <div className="humanContent">
-            <DropdownButton
+            <Superdiscipline
               image_url="/images/humanities.svg"
-              text="Humanities"
-              disciplines={props.disciplines
-                .filter(
-                  item => item.level === 1 && item.parent === "humanities"
-                )
-                .map(discipline => (
-                  <li className="liStyle" key={discipline.name}>
-                    <DisciplineLink discipline={discipline}>
-                      <a className="linkStyle">{discipline.name}</a>
-                    </DisciplineLink>
-                  </li>
-                ))}
+              title="Humanities"
+              superdiscipline="humanities"
             />
-            <DropdownButton
+            <Superdiscipline
               image_url="/images/social-sciences.svg"
-              text="Social Sciences"
-              disciplines={props.disciplines
-                .filter(
-                  item => item.level === 1 && item.parent === "social-sciences"
-                )
-                .map(discipline => (
-                  <li className="liStyle" key={discipline.name}>
-                    <DisciplineLink discipline={discipline}>
-                      <a className="linkStyle">{discipline.name}</a>
-                    </DisciplineLink>
-                  </li>
-                ))}
+              title="Social Sciences"
+              superdiscipline="social-sciences"
             />
           </div>
           <div className="naturalContent">
-            <DropdownButton
+            <Superdiscipline
               image_url="/images/natural-sciences.svg"
-              text="Natural Sciences"
-              disciplines={props.disciplines
-                .filter(
-                  item => item.level === 1 && item.parent === "natural-sciences"
-                )
-                .map(discipline => (
-                  <li className="liStyle" key={discipline.name}>
-                    <DisciplineLink discipline={discipline}>
-                      <a className="linkStyle">{discipline.name}</a>
-                    </DisciplineLink>
-                  </li>
-                ))}
+              title="Natural Sciences"
+              superdiscipline="natural-sciences"
             />
-            <DropdownButton
+            <Superdiscipline
               image_url="/images/formal-sciences.svg"
-              text="Formal Sciences"
-              disciplines={props.disciplines
-                .filter(
-                  item => item.level === 1 && item.parent === "formal-sciences"
-                )
-                .map(discipline => (
-                  <li className="liStyle" key={discipline.name}>
-                    <DisciplineLink discipline={discipline}>
-                      <a className="linkStyle">{discipline.name}</a>
-                    </DisciplineLink>
-                  </li>
-                ))}
+              title="Formal Sciences"
+              superdiscipline="formal-sciences"
             />
-            <DropdownButton
+            <Superdiscipline
               image_url="/images/applied-sciences.svg"
-              text="Applied Sciences"
-              disciplines={props.disciplines
-                .filter(
-                  item => item.level === 1 && item.parent === "applied-sciences"
-                )
-                .map(discipline => (
-                  <li className="liStyle" key={discipline.name}>
-                    <DisciplineLink discipline={discipline}>
-                      <a className="linkStyle">{discipline.name}</a>
-                    </DisciplineLink>
-                  </li>
-                ))}
+              title="Applied Sciences"
+              superdiscipline="applied-sciences"
             />
           </div>
         </div>
       </div>
     </StandardPage>
   );
-};
-
-Disciplines.getInitialProps = async function(context: NextPageContext) {
-  const disciplines = apiDisciplines({});
-  return {
-    disciplines: await disciplines
-  };
 };
 
 export default Disciplines;
