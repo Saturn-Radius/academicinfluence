@@ -92,8 +92,8 @@ const QUERY_SCHEMA = QuerySchema("/college-ranking", {
   total_students: RangeParameter(0, 77),
   years: RangeParameter(1800, 2020),
   states: {
-    toQuery: value => (value === null ? undefined : value.join(",")),
-    fromQuery: value => value.split(","),
+    toQuery: value => (value === null ? undefined : value.join("-")),
+    fromQuery: value => value.split("-"),
     default: null as null | string[],
     canonical: true
   },
@@ -472,7 +472,8 @@ function StateFilter(props: FilterProps) {
     states => {
       props.updateRequest({
         ...props.request,
-        states: states && states.map((state: any) => state.value),
+        states:
+          states.length > 0 ? states.map((state: any) => state.value) : null,
         location: null
       });
     },
