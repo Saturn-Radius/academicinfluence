@@ -61,13 +61,14 @@ export default function QueryPage<
 
   PageWrapper.getInitialProps = async (context: NextPageContext) => {
     const controller =
-      typeof window === undefined
+      typeof window !== "undefined"
         ? new AbortController()
         : {
             signal: undefined,
             abort: () => {}
           };
     const onRouteChange = () => {
+      console.log("TRY", controller);
       controller.abort();
     };
     const request = schema.fromQuery(context.query);
