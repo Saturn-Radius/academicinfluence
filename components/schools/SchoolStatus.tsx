@@ -7,8 +7,8 @@ const Wrapper = styled.div`
 `;
 
 interface SchoolStatusProps {
-  graduationRate: number;
-  acceptanceRate: number;
+  graduationRate: number | null;
+  acceptanceRate: number | null;
   size: number;
   fontSize: number;
 }
@@ -17,18 +17,22 @@ const SchoolStatus = (props: SchoolStatusProps) => {
 
   return (
     <Wrapper>
-      <CircularProgress
-        percentage={graduationRate * 100}
-        size={size}
-        fontSize={fontSize}
-        text="Graduation Rate"
-      />
-      <CircularProgress
-        percentage={acceptanceRate * 100}
-        size={size}
-        fontSize={fontSize}
-        text="Acceptance Rate"
-      />
+      {graduationRate && (
+        <CircularProgress
+          percentage={graduationRate * 100}
+          size={size}
+          fontSize={fontSize}
+          text="Graduation Rate"
+        />
+      )}
+      {acceptanceRate && (
+        <CircularProgress
+          percentage={acceptanceRate * 100}
+          size={size}
+          fontSize={fontSize}
+          text="Acceptance Rate"
+        />
+      )}
     </Wrapper>
   );
 };

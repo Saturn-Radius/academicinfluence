@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { SchoolLink } from "../../links";
+import { SchoolData } from "../../schema";
 import { GRAY, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
@@ -177,7 +178,7 @@ const HSpacer = styled.div`
 
 interface InfoValueProps {
   readonly label: string;
-  readonly value: number;
+  readonly value: number | null;
 }
 const InfoValue = (props: InfoValueProps) =>
   props.value === null ? null : (
@@ -189,7 +190,7 @@ const InfoValue = (props: InfoValueProps) =>
 
 interface SchoolGridItemProps {
   mode: string;
-  school: any;
+  school: SchoolData;
 }
 const SchoolGridItem = (props: SchoolGridItemProps) => {
   const { school } = props;
@@ -212,7 +213,7 @@ const SchoolGridItem = (props: SchoolGridItemProps) => {
     <Wrapper>
       <InnerWrapper>
         <HeaderWrapper>
-          <Logo src={logo_url} />
+          <Logo src={logo_url || undefined} />
           <Header>
             <SchoolName>{name}</SchoolName>
             <Location>

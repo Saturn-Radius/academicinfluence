@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { SchoolLink } from "../../links";
+import { SchoolData } from "../../schema";
 import {
   GRAY,
   GRAY_DARKEST,
@@ -164,7 +165,7 @@ const InfoValueWrapper = styled.div`
 
 interface InfoValueProps {
   readonly label: string;
-  readonly value: number;
+  readonly value: number | null;
 }
 const InfoValue = (props: InfoValueProps) =>
   props.value === null ? null : (
@@ -176,7 +177,7 @@ const InfoValue = (props: InfoValueProps) =>
 
 interface SchoolThListItemProps {
   mode: string;
-  school: any;
+  school: SchoolData;
 }
 const SchoolThListItem = (props: SchoolThListItemProps) => {
   const { school } = props;
@@ -198,7 +199,7 @@ const SchoolThListItem = (props: SchoolThListItemProps) => {
   return (
     <Wrapper>
       <Header>
-        <Logo src={logo_url} />
+        <Logo src={logo_url || undefined} />
         <SchoolLink school={school}>
           <FullDetailsButton>Full Details</FullDetailsButton>
         </SchoolLink>
