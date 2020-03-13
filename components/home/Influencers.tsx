@@ -1,6 +1,11 @@
 import { PersonLink } from "../../links";
+import { PersonPartialData } from "../../schema";
 
-const Influencers = (props: any) => {
+type people = {
+  people: PersonPartialData[];
+};
+
+const Influencers = (props: people) => {
   return (
     <div>
       <style jsx>
@@ -53,7 +58,7 @@ const Influencers = (props: any) => {
         }}
       >
         {props.people.map(
-          (person: any) =>
+          (person: PersonPartialData) =>
             person.image_url && (
               <li className="nameList" key={person.slug}>
                 <img className="imgWidth" src={person.image_url} />

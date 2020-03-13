@@ -3,11 +3,11 @@ import { apiFeaturesPage, apiHomePage, apiInfluentialPeoplePage } from "../api";
 import BacktotopButton from "../components/BacktotopButton";
 import { useBasicContext } from "../components/BasicContext";
 import {
-  CollegeList,
   FeatureArticles,
   FeatureGrid,
   Influence,
-  Influencers
+  Influencers,
+  SearchCollege
 } from "../components/home";
 import { ArticleLink } from "../links";
 import {
@@ -123,7 +123,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
         </div>
         <div className="sidebarSection">
           <h1 className="collegeTitle">FIND YOUR SCHOOL</h1>
-          <CollegeList />
+          <SearchCollege />
         </div>
         <div className="feature">
           <FeatureArticles label="FEATURE">
