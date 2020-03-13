@@ -54,21 +54,13 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
       </style>
 
       <section id="school-header">
-        <CollegeHeader
-          logo_url={logo_url}
-          name={name}
-          city={city}
-          state={state}
-        />
+        <CollegeHeader school={school} />
 
         <ContentCard style={{ marginBottom: 40 }}>
           <Description entity={school} />
         </ContentCard>
 
-        <Rankings
-          acceptance_rate={acceptance_rate}
-          graduation_rate={graduation_rate}
-        />
+        <Rankings school={school} />
       </section>
 
       <DisciplineContainer school={school} />

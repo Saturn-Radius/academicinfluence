@@ -31,19 +31,24 @@ const InfoCol = styled.div`
   display: flex;
 `;
 
-const SocialIcon: any = styled.div`
+type SocialIconProps = {
+  color?: string;
+  fillColor?: string;
+};
+
+const SocialIcon = styled.div<SocialIconProps>`
   width: 24px;
   height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: ${(props: any) => props.color};
+  background: ${(props: SocialIconProps) => props.color};
   margin-right: 5px;
 
   svg {
     path {
-      fill: ${(props: any) => props.fillColor || "#fff"};
+      fill: ${(props: SocialIconProps) => props.fillColor || "#fff"};
     }
   }
 `;

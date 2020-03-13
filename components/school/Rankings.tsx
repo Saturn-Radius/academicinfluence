@@ -1,28 +1,37 @@
+import { SchoolData } from "../../schema";
 import { DESKTOP_MEDIA, TABLE_OR_MOBILE_MEDIA } from "../../utils/responsive";
 import CircularProgress from "../CircularProgress";
 
-const RankGauges = (props: any) => {
+const RankGauges = (props: {
+  school: SchoolData;
+  size?: number;
+  fontSize?: number;
+}) => {
   return (
     <div style={{ display: "flex" }}>
-      <CircularProgress
-        style={{ paddingRight: 20 }}
-        percentage={props.acceptance_rate * 100}
-        size={props.size}
-        fontSize={props.fontSize}
-        text="Acceptance Rate"
-      />
+      {props.school.acceptance_rate && (
+        <CircularProgress
+          style={{ paddingRight: 20 }}
+          percentage={props.school.acceptance_rate * 100}
+          size={props.size}
+          fontSize={props.fontSize}
+          text="Acceptance Rate"
+        />
+      )}
 
-      <CircularProgress
-        percentage={props.graduation_rate * 100}
-        size={props.size}
-        fontSize={props.fontSize}
-        text="Graduation Rate"
-      />
+      {props.school.graduation_rate && (
+        <CircularProgress
+          percentage={props.school.graduation_rate * 100}
+          size={props.size}
+          fontSize={props.fontSize}
+          text="Graduation Rate"
+        />
+      )}
     </div>
   );
 };
 
-const Rankings = (props: any) => {
+const Rankings = (props: { school: SchoolData }) => {
   return (
     <>
       <div
@@ -34,11 +43,7 @@ const Rankings = (props: any) => {
           }
         }}
       >
-        <RankGauges
-          size={95}
-          acceptance_rate={props.acceptance_rate}
-          graduation_rate={props.graduation_rate}
-        />
+        <RankGauges size={95} school={props.school} />
       </div>
 
       <div
@@ -51,12 +56,7 @@ const Rankings = (props: any) => {
         }}
       >
         <div>
-          <RankGauges
-            fontSize={12}
-            size={70}
-            acceptance_rate={props.acceptance_rate}
-            graduation_rate={props.graduation_rate}
-          />
+          <RankGauges fontSize={12} size={70} school={props.school} />
         </div>
       </div>
     </>

@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { SchoolData } from "../../schema";
 import { MAIN } from "../../styles";
 import ContentCard from "../ContentCard";
 
-const Weather = (props: any) => {
+const Weather = (props: { data: SchoolData["weather"] }) => {
   const [scale, setScale] = useState("f");
   let weather = props.data;
+  if (weather === null) {
+    return null;
+  }
 
   return (
     <div style={{ minWidth: 300 }}>
@@ -36,7 +40,7 @@ const Weather = (props: any) => {
   );
 };
 
-const Season = (props: any) => {
+const Season = (props: { name: string; high: number; low: number }) => {
   let [low, high] = [props.high.toFixed(0), props.low.toFixed(0)];
 
   return (

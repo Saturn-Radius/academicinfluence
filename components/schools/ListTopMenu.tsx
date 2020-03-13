@@ -3,6 +3,7 @@ import Country from "./Country";
 import Discipline from "./Discipline";
 import DisplayModes from "./DisplayModes";
 import SchoolSearchBox from "./SchoolSearchBox";
+import { FilterProps } from "./types";
 import YearsFilter from "./YearsFilter";
 
 const MenuRow = styled.div`
@@ -15,7 +16,12 @@ const AdvancedSearch = styled.div`
   width: 100%;
 `;
 
-const ListTopMenu = (props: any) => {
+const ListTopMenu = (
+  props: {
+    mode: string;
+    onDisplayModeSelect: (mode: string) => void;
+  } & FilterProps
+) => {
   const { mode, onDisplayModeSelect } = props;
 
   const onMenuModeSelectHandler = (menuMode: string) => {

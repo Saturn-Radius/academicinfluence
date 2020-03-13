@@ -28,7 +28,7 @@ const SchoolList = (props: SchoolListProps) => {
     case DISPLAY_MODES.grid:
       return (
         <GridWrapper>
-          {schools.map((item: any, index: number) => (
+          {schools.map((item, index) => (
             <SchoolGridItem key={index} mode={mode} school={item} />
           ))}
         </GridWrapper>
@@ -36,7 +36,7 @@ const SchoolList = (props: SchoolListProps) => {
     case DISPLAY_MODES.thMode:
       return (
         <ListWrapper>
-          {schools.map((item: any, index: number) => (
+          {schools.map((item, index) => (
             <SchoolThListItem key={index} mode={mode} school={item} />
           ))}
         </ListWrapper>
@@ -44,7 +44,7 @@ const SchoolList = (props: SchoolListProps) => {
     case DISPLAY_MODES.listMode:
       return (
         <ListWrapper>
-          {schools.map((item: any, index: number) => (
+          {schools.map((item, index) => (
             <SchoolListItem key={index} mode={mode} school={item} />
           ))}
         </ListWrapper>

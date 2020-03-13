@@ -2,7 +2,7 @@ import { InterpolationWithTheme } from "@emotion/core";
 import { find } from "lodash";
 import Link from "next/link";
 import { ReactElementLike } from "prop-types";
-import { Handle, Range } from "rc-slider";
+import { Handle, HandleProps, Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
@@ -380,12 +380,21 @@ const STATE_OPTIONS = new (USAStates as any).UsaStates().states.map(
   })
 );
 
-type RangeHandleProps = {
+type RangeHandleSliderProps = {
   label: string;
   format: (value: number) => string;
 };
 
-function RangeHandle(sliderProps: RangeHandleProps, props: any) {
+type RangeHandleProps = {
+  value: number;
+  dragging: boolean;
+  index: number;
+} & HandleProps;
+
+function RangeHandle(
+  sliderProps: RangeHandleSliderProps,
+  props: RangeHandleProps
+) {
   const { value, dragging, index, ...restProps } = props;
 
   let formatted = sliderProps.format(value);
@@ -398,7 +407,6 @@ function RangeHandle(sliderProps: RangeHandleProps, props: any) {
       key={index}
     >
       <Handle
-        value={value}
         {...restProps}
         aria-label={
           index == 0

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { SchoolLink } from "../../links";
-import { SchoolData, SchoolPartialData } from "../../schema";
+import { SchoolPartialData } from "../../schema";
 import {
   GRAY,
   GRAY_DARKEST,
@@ -209,7 +209,7 @@ const FullDetailsButton = styled.button`
 
 interface SchoolListItemProps {
   mode: string;
-  school: SchoolData;
+  school: SchoolPartialData;
 }
 const SchoolListItem = (props: SchoolListItemProps) => {
   const { school } = props;

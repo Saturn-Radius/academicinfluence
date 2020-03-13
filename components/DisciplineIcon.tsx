@@ -22,14 +22,15 @@ import {
   faUserFriends,
   faUserMd,
   faUserNurse,
-  faUsers
+  faUsers,
+  IconDefinition
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dictionary } from "lodash";
 import { CSSProperties } from "react";
 import { DisciplineDetail } from "../schema";
 
-const ICONS: Dictionary<any> = {
+const ICONS: Dictionary<IconDefinition> = {
   anthropology: faUsers,
   biology: faDna,
   business: faBriefcase,

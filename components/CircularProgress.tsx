@@ -1,13 +1,19 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { ACCENT, GRAY, GRAY_DARKEST, MAIN, MAIN_DARKER } from "../styles";
 import RadialSeparators from "./RadialSeparators";
 
-const CircularProgress = (props: any) => {
+const CircularProgress = (props: {
+  percentage: number;
+  text?: string;
+  style?: CSSProperties;
+  size?: number;
+  textColor?: string;
+  fontSize?: string | number;
+}) => {
   let pathColor;
-  let { text } = props;
-  const percentage = props.percentage || 0;
+  let { text, percentage } = props;
 
   if (percentage >= 0 && percentage <= 30) {
     pathColor = ACCENT;

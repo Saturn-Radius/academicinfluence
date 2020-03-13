@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import _ from "lodash";
+import { CSSProperties } from "react";
 
 interface WrapperProps {
   turns: number;
@@ -12,7 +13,7 @@ const Wrapper = styled.div<WrapperProps>`
 
 interface SeparatorProps {
   turns: number;
-  style: any;
+  style: CSSProperties;
 }
 const Separator = (props: SeparatorProps) => {
   return (
@@ -24,7 +25,7 @@ const Separator = (props: SeparatorProps) => {
 
 interface RadialSeparatorsProps {
   count: number;
-  style: any;
+  style: CSSProperties;
 }
 const RadialSeparators = (props: RadialSeparatorsProps) => {
   const turns = 1 / props.count;

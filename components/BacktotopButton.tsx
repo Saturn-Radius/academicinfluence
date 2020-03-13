@@ -1,4 +1,4 @@
-const BacktotopButton = (props: any) => {
+const BacktotopButton = () => {
   return (
     <div
       style={{ padding: "20px 0px", textAlign: "center" }}

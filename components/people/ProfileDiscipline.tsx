@@ -1,6 +1,9 @@
+import { PersonData } from "../../schema";
 import { GRAY, MAIN } from "../../styles";
 
-const ProfileDiscipline = (props: any) => {
+const ProfileDiscipline = (props: {
+  disciplines: PersonData["disciplines"];
+}) => {
   if (props.disciplines && Object.keys(props.disciplines).length > 0) {
     return (
       <div style={{ display: "flex", flexDirection: "column", width: 300 }}>

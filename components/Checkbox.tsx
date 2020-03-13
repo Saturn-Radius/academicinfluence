@@ -1,4 +1,4 @@
-const CheckBox = (props: any) => {
+const CheckBox = () => {
   return (
     <div
       style={{
