@@ -1,7 +1,13 @@
 import styled from "@emotion/styled";
+import { disciplineName, lookupDiscipline } from "../../disciplines";
 import { SchoolLink } from "../../links";
-import { SchoolData } from "../../schema";
+import {
+  DisciplinesResponse,
+  SchoolData,
+  SchoolPartialData
+} from "../../schema";
 import { GRAY, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
+import DisciplineIcon from "../DisciplineIcon";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -114,12 +120,25 @@ const LawBadgeWrapper = styled.div`
   justify-content: start;
 `;
 
-const LawBadge = () => (
-  <LawBadgeWrapper>
-    <LawImage src={``} />
-    <LawRank>#1 for Law</LawRank>
-  </LawBadgeWrapper>
-);
+const LawBadge = (props: {
+  disciplines: DisciplinesResponse;
+  school: SchoolPartialData;
+}) =>
+  props.school.top_discipline === null ? null : (
+    <LawBadgeWrapper>
+      <DisciplineIcon
+        style={{ fontSize: "51px" }}
+        discipline={lookupDiscipline(
+          props.disciplines,
+          props.school.top_discipline
+        )}
+      />
+      <LawRank>
+        #{props.school.top_discipline_rank} for{" "}
+        {disciplineName(props.disciplines, props.school.top_discipline)}
+      </LawRank>
+    </LawBadgeWrapper>
+  );
 
 const RankingWrapper = styled.div`
   display: flex;
@@ -191,6 +210,7 @@ const InfoValue = (props: InfoValueProps) =>
 interface SchoolGridItemProps {
   mode: string;
   school: SchoolData;
+  disciplines: DisciplinesResponse;
 }
 const SchoolGridItem = (props: SchoolGridItemProps) => {
   const { school } = props;
@@ -233,7 +253,7 @@ const SchoolGridItem = (props: SchoolGridItemProps) => {
               size={51}
               fontSize={8}
             />
-            <LawBadge />
+            <LawBadge school={school} disciplines={props.disciplines} />
           </Row>
           <Row>
             <RankingWrapper>

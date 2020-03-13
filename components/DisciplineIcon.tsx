@@ -26,6 +26,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dictionary } from "lodash";
+import { CSSProperties } from "react";
 import { DisciplineDetail } from "../schema";
 
 const ICONS: Dictionary<any> = {
@@ -33,7 +34,7 @@ const ICONS: Dictionary<any> = {
   biology: faDna,
   business: faBriefcase,
   chemistry: faFlask,
-  communication: faComments,
+  communications: faComments,
   "criminal-justice": faGavel,
   "earth-sciences": faGlobeAmericas,
   economics: faCoins,
@@ -56,7 +57,10 @@ const ICONS: Dictionary<any> = {
 };
 
 export default function DisciplineIcon(props: {
+  style?: CSSProperties;
   discipline: DisciplineDetail;
 }) {
-  return <FontAwesomeIcon icon={ICONS[props.discipline.slug]} />;
+  return (
+    <FontAwesomeIcon style={props.style} icon={ICONS[props.discipline.slug]} />
+  );
 }

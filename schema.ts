@@ -47,6 +47,7 @@ export interface SchoolPartialData extends EntityPartialData {
   desirability: number | null;
   logo_url: string | null;
   top_discipline: string | null;
+  top_discipline_rank: number | null;
 }
 
 export interface WeatherData {

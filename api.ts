@@ -583,7 +583,8 @@ validator.compile({
         acceptance_rate: { type: ["number", "null"] },
         desirability: { type: ["number", "null"] },
         logo_url: { type: ["string", "null"] },
-        top_discipline: { type: ["string", "null"] }
+        top_discipline: { type: ["string", "null"] },
+        top_discipline_rank: { type: ["number", "null"] }
       },
       required: [
         "acceptance_rate",
@@ -600,6 +601,7 @@ validator.compile({
         "slug",
         "state",
         "top_discipline",
+        "top_discipline_rank",
         "total_students",
         "undergrad_tuition_in_state"
       ],
@@ -642,6 +644,7 @@ validator.compile({
         desirability: { type: ["number", "null"] },
         logo_url: { type: ["string", "null"] },
         top_discipline: { type: ["string", "null"] },
+        top_discipline_rank: { type: ["number", "null"] },
         employed_10_years: { type: ["number", "null"] },
         desirability_rank: { type: ["number", "null"] },
         undergrad_tuition_out_of_state: { type: ["number", "null"] },
@@ -751,6 +754,7 @@ validator.compile({
         "state",
         "test_competitiveness",
         "top_discipline",
+        "top_discipline_rank",
         "total_students",
         "twitter_username",
         "undergrad_fees_in_state",

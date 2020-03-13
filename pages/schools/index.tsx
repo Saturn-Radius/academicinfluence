@@ -54,7 +54,11 @@ const InfluentialSchools: React.SFC<InfluentialSchoolsProps> = props => {
         mode={displayMode}
         onDisplayModeSelect={setDisplayMode}
       />
-      <SchoolList mode={displayMode} schools={props.schools} />
+      <SchoolList
+        mode={displayMode}
+        schools={props.schools}
+        disciplines={props.disciplines}
+      />
     </StandardPage>
   );
 };

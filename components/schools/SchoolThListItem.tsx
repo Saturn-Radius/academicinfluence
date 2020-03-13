@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
+import DisciplineIcon from "../../components/DisciplineIcon";
+import { disciplineName, lookupDiscipline } from "../../disciplines";
 import { SchoolLink } from "../../links";
-import { SchoolData } from "../../schema";
+import { DisciplinesResponse, SchoolData } from "../../schema";
 import {
   GRAY,
   GRAY_DARKEST,
@@ -178,6 +180,7 @@ const InfoValue = (props: InfoValueProps) =>
 interface SchoolThListItemProps {
   mode: string;
   school: SchoolData;
+  disciplines: DisciplinesResponse;
 }
 const SchoolThListItem = (props: SchoolThListItemProps) => {
   const { school } = props;
@@ -224,8 +227,21 @@ const SchoolThListItem = (props: SchoolThListItemProps) => {
             <SchoolDescription>{short_description}</SchoolDescription>
           </BodyLeftCol>
           <BodyRightCol>
-            <LawImage src={``} />
-            <LawRank>#1 for Law</LawRank>
+            {school.top_discipline && (
+              <DisciplineIcon
+                style={{ fontSize: "70px" }}
+                discipline={lookupDiscipline(
+                  props.disciplines,
+                  school.top_discipline
+                )}
+              />
+            )}
+            {school.top_discipline && (
+              <LawRank>
+                #{school.top_discipline_rank} for{" "}
+                {disciplineName(props.disciplines, school.top_discipline)}
+              </LawRank>
+            )}
             <InfoValue label="Tuition" value={undergrad_tuition_in_state} />
             <InfoValue label="Avg. Earnings" value={average_earnings} />
           </BodyRightCol>
