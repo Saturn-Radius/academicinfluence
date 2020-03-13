@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SchoolData } from "../../schema";
+import { DisciplineInfluenceData, SchoolData } from "../../schema";
 import { SectionDescription, SectionTitle } from "../../styles";
 import CircularProgress from "../CircularProgress";
 import ContentCard from "../ContentCard";
@@ -20,11 +20,9 @@ const DisciplineContainer = (props: SchoolProps) => {
         return (
           <DisciplineCard
             key={index}
-            schoolName={name}
-            title={discipline}
-            score={data.influence}
-            usa_rank={data.usa_rank}
-            world_rank={data.world_rank}
+            school={school}
+            discipline={discipline}
+            data={data}
           />
         );
       });
@@ -58,8 +56,12 @@ const DisciplineContainer = (props: SchoolProps) => {
 };
 
 //TODO: title = uni name: subject (on h4)
-const DisciplineCard = (props: any) => {
-  let titleTag = `${props.schoolName}:  ${props.title}`;
+const DisciplineCard = (props: {
+  school: SchoolData;
+  discipline: string;
+  data: DisciplineInfluenceData;
+}) => {
+  let titleTag = `${props.school.name}:  ${props.discipline}`;
 
   return (
     <ContentCard
@@ -81,7 +83,7 @@ const DisciplineCard = (props: any) => {
         }}
       >
         <h4 title={titleTag} style={styles.cardHeader}>
-          {props.title}
+          {props.discipline}
         </h4>
         {/* <CheckBox /> */}
       </div>
@@ -89,14 +91,14 @@ const DisciplineCard = (props: any) => {
         <CircularProgress
           size={95}
           fontSize={10}
-          percentage={props.score * 100}
+          percentage={props.data.influence * 100}
           text="Discipline IR"
         />
       </div>
 
       <div style={{ marginLeft: 20 }}>
-        <p> #{props.usa_rank} in USA</p>
-        <p> #{props.world_rank} in Worldwide</p>
+        <p> #{props.data.usa_rank} in USA</p>
+        <p> #{props.data.world_rank} in Worldwide</p>
       </div>
     </ContentCard>
   );

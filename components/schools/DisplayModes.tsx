@@ -19,7 +19,7 @@ const ModeIcon = styled(FontAwesomeIcon)`
 interface ModeButtonProps {
   readonly color: string;
   readonly mode: string;
-  readonly onModeSelect: any;
+  readonly onModeSelect: (mode: string) => void;
 }
 const ModeButton = (props: ModeButtonProps) => {
   const { color, mode, onModeSelect } = props;
@@ -54,7 +54,7 @@ const ModeButton = (props: ModeButtonProps) => {
 
 interface DisplayModesProps {
   readonly mode: string;
-  readonly onMenuModeSelect: any;
+  readonly onMenuModeSelect: (mode: string) => void;
 }
 const DisplayModes = (props: DisplayModesProps) => {
   const { mode, onMenuModeSelect } = props;

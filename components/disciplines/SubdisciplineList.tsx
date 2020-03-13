@@ -23,8 +23,8 @@ export default function SubdisciplineList(props: SubdisciplineListProps) {
       </style>
       <ul className="tableList">
         {basicContext.disciplines
-          .filter((discipline: any) => discipline.parent === props.discipline)
-          .map((discipline: any) => (
+          .filter(discipline => discipline.parent === props.discipline)
+          .map(discipline => (
             <DisciplineLink discipline={discipline} key={discipline.slug}>
               <a
                 style={

@@ -1,7 +1,12 @@
 import styled from "@emotion/styled";
 import { config, IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { faFacebookSquare, faInstagramSquare, faTwitter, faYoutubeSquare } from "@fortawesome/free-brands-svg-icons";
+import {
+  faFacebookSquare,
+  faInstagramSquare,
+  faTwitter,
+  faYoutubeSquare
+} from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SchoolData } from "../../schema";
 import ContentCard from "../ContentCard";
@@ -26,19 +31,24 @@ const InfoCol = styled.div`
   display: flex;
 `;
 
-const SocialIcon: any = styled.div`
+type SocialIconProps = {
+  color?: string;
+  fillColor?: string;
+};
+
+const SocialIcon = styled.div<SocialIconProps>`
   width: 24px;
   height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: ${(props: any) => props.color};
+  background: ${(props: SocialIconProps) => props.color};
   margin-right: 5px;
 
   svg {
     path {
-      fill: ${(props: any) => props.fillColor || "#fff"};
+      fill: ${(props: SocialIconProps) => props.fillColor || "#fff"};
     }
   }
 `;

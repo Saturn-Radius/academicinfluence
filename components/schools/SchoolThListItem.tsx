@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import DisciplineIcon from "../../components/DisciplineIcon";
 import { SchoolLink } from "../../links";
-import { SchoolData } from "../../schema";
+import { SchoolPartialData } from "../../schema";
 import {
   GRAY,
   GRAY_DARKEST,
@@ -179,7 +179,7 @@ const InfoValue = (props: InfoValueProps) =>
 
 interface SchoolThListItemProps {
   mode: string;
-  school: SchoolData;
+  school: SchoolPartialData;
 }
 const SchoolThListItem = (props: SchoolThListItemProps) => {
   const basicContext = useBasicContext();

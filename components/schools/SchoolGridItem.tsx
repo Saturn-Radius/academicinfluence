@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { SchoolLink } from "../../links";
-import { SchoolData, SchoolPartialData } from "../../schema";
+import { SchoolPartialData } from "../../schema";
 import { GRAY, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
 import { useBasicContext } from "../BasicContext";
 import DisciplineIcon from "../DisciplineIcon";
@@ -201,7 +201,7 @@ const InfoValue = (props: InfoValueProps) =>
 
 interface SchoolGridItemProps {
   mode: string;
-  school: SchoolData;
+  school: SchoolPartialData;
 }
 const SchoolGridItem = (props: SchoolGridItemProps) => {
   const { school } = props;

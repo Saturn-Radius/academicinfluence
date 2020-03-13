@@ -1,7 +1,11 @@
+import { CSSProperties } from "react";
 import { EntityFullData } from "../../schema";
 import Description from "../Description";
 
-const ProfileDescription = (props: { style: any; person: EntityFullData }) => {
+const ProfileDescription = (props: {
+  style: CSSProperties;
+  person: EntityFullData;
+}) => {
   return (
     <div style={{ ...styles.card, ...props.style }}>
       <Description entity={props.person} />

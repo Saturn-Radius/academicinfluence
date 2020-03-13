@@ -1,4 +1,10 @@
-const ContentCard = (props: any) => {
+import { CSSProperties } from "react";
+
+const ContentCard = (props: {
+  title?: string;
+  children: React.ReactNode;
+  style?: CSSProperties;
+}) => {
   return (
     <div title={props.title} style={{ ...styles.card, ...props.style }}>
       {props.children}

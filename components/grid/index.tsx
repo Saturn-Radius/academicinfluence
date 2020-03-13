@@ -8,30 +8,41 @@ export const Container = styled.div`
   width: 100%;
 `;
 
+type RowProps = {
+  center?: boolean;
+  middle?: boolean;
+  right?: boolean;
+};
+
 export const Row = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 0;
   width: 100%;
 
-  ${(props: any) =>
+  ${(props: RowProps) =>
     props.center &&
     css`
       justify-content: center;
     `}
 
-  ${(props: any) =>
+  ${(props: RowProps) =>
     props.middle &&
     css`
       align-items: center;
     `}
 
-  ${(props: any) =>
+  ${(props: RowProps) =>
     props.right &&
     css`
       justify-content: flex-end;
     `}
 `;
+
+type ColProps = {
+  last?: boolean;
+  nopadding?: boolean;
+} & RowProps;
 
 export const Col = styled.div`
   position: relative;
@@ -54,7 +65,7 @@ export const Col = styled.div`
   }
 
   /* Change Order */
-  ${(props: any) =>
+  ${(props: ColProps) =>
     props.last &&
     css`
       order: 2;
@@ -65,7 +76,7 @@ export const Col = styled.div`
     `}
 
   /* No Padding */
-  ${(props: any) =>
+  ${(props: ColProps) =>
     props.nopadding &&
     css`
       padding: 0;

@@ -3,7 +3,15 @@ import { apiSchoolPage } from "../../../api";
 import ContentCard from "../../../components/ContentCard";
 import Description from "../../../components/Description";
 import HtmlContent from "../../../components/HtmlContent";
-import { Admissions, AfterGrad, CampusSafety, CollegeHeader, Cost, InfluentialCard, Weather } from "../../../components/school";
+import {
+  Admissions,
+  AfterGrad,
+  CampusSafety,
+  CollegeHeader,
+  Cost,
+  InfluentialCard,
+  Weather
+} from "../../../components/school";
 import ContactInfo from "../../../components/school/ContactInfo";
 import DisciplineContainer from "../../../components/school/Discipline";
 import LocationMap from "../../../components/school/LocationMap";
@@ -46,21 +54,13 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
       </style>
 
       <section id="school-header">
-        <CollegeHeader
-          logo_url={logo_url}
-          name={name}
-          city={city}
-          state={state}
-        />
+        <CollegeHeader school={school} />
 
         <ContentCard style={{ marginBottom: 40 }}>
           <Description entity={school} />
         </ContentCard>
 
-        <Rankings
-          acceptance_rate={acceptance_rate}
-          graduation_rate={graduation_rate}
-        />
+        <Rankings school={school} />
       </section>
 
       <DisciplineContainer school={school} />

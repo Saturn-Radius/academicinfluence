@@ -1,12 +1,12 @@
 import { MAIN_DARKER } from "../styles";
 
-const Subscribe = (props: any) => {
+const Subscribe = (props: {}) => {
   return (
-    <div style={{ display: "flex", flexDirection: "row", paddingLeft: "7%" }}>
+    <div css={{ display: "flex", flexDirection: "row", paddingLeft: "7%" }}>
       <div className="input-container">
         <img
           src="/icons/email.svg"
-          style={{ position: "absolute", paddingTop: 13, paddingLeft: 10 }}
+          css={{ position: "absolute", paddingTop: 13, paddingLeft: 10 }}
         />
         <input
           className="input-field"
@@ -16,7 +16,7 @@ const Subscribe = (props: any) => {
           style={{ height: 35, fontSize: 20, paddingLeft: 30 }}
         />
       </div>
-      <button style={styles.buttonStyle}>Sign Up Now</button>
+      <button css={styles.buttonStyle}>Sign Up Now</button>
     </div>
   );
 };

@@ -1,14 +1,23 @@
-import { Handle } from "rc-slider";
+import { Handle, HandleProps } from "rc-slider";
 import "rc-slider/assets/index.css";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
 
-type RangeHandleProps = {
+type RangeHandleSliderProps = {
   label: string;
   format: (value: number) => string;
 };
 
-const RangeHandle = (sliderProps: RangeHandleProps, props: any) => {
+type RangeHandleProps = {
+  value: number;
+  dragging: boolean;
+  index: number;
+} & HandleProps;
+
+const RangeHandle = (
+  sliderProps: RangeHandleSliderProps,
+  props: RangeHandleProps
+) => {
   const { value, dragging, index, ...restProps } = props;
 
   let formatted = sliderProps.format(value);
@@ -21,7 +30,6 @@ const RangeHandle = (sliderProps: RangeHandleProps, props: any) => {
       key={index}
     >
       <Handle
-        value={value}
         {...restProps}
         aria-label={
           index == 0

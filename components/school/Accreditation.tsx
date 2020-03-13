@@ -1,7 +1,7 @@
 import { MAIN } from "../../styles";
 import ContentCard from "../ContentCard";
 
-const Accreditation = (props: any) => {
+const Accreditation = (props: {}) => {
   return (
     <div
       style={{

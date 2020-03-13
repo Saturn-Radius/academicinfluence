@@ -1,9 +1,10 @@
+import { CSSProperties } from "react";
 import { GRAY, MAIN } from "../../styles";
 import ContentCard from "../ContentCard";
 import useMoreButton from "../useMoreButton";
 
 interface InfulentialData {
-  style: any;
+  style: CSSProperties;
   works: { label: string }[];
 }
 

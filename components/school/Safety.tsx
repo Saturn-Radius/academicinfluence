@@ -1,7 +1,8 @@
+import { SchoolData } from "../../schema";
 import { MAIN } from "../../styles";
 import ContentCard from "../ContentCard";
 
-const CampusSafety = (props: any) => {
+const CampusSafety = (props: { school: SchoolData }) => {
   return (
     <div style={{ minWidth: 300 }}>
       <h4 style={styles.subheaderText}>Campus Safety</h4>
@@ -31,7 +32,10 @@ const CampusSafety = (props: any) => {
   );
 };
 
-const CrimeRate = (props: any) => {
+const CrimeRate = (props: { name: string; value: number | null }) => {
+  if (props.value == null) {
+    return null;
+  }
   return (
     <div style={styles.crimeContainer}>
       <div style={styles.crimeName}>{props.name}</div>

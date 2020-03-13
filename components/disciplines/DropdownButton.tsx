@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { CSSProperties, ReactNode, useState } from "react";
 import { GRAY, MAIN } from "../../styles";
 
+type DropdownButtonProps = {
+  onClick?: () => void;
+  image_url: string;
+  style?: CSSProperties;
+  text: string;
+  disciplines: ReactNode[];
+};
 const DropdownButton = React.forwardRef(
-  ({ onClick, href, ...props }: any, ref) => {
+  ({ onClick, ...props }: DropdownButtonProps, ref) => {
     const [isMore, setIsMore] = useState(true);
 
     const clickButton = () => {
@@ -38,7 +45,7 @@ const styles = {
     borderBottomColor: GRAY,
     borderBottomStyle: "solid",
     borderBottomWidth: "thin"
-  }
+  } as CSSProperties
 };
 
 export default DropdownButton;

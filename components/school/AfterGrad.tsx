@@ -1,8 +1,9 @@
+import { SchoolData } from "../../schema";
 import { MAIN } from "../../styles";
 import CircularProgress from "../CircularProgress";
 import ContentCard from "../ContentCard";
 
-const AfterGrad = (props: any) => {
+const AfterGrad = (props: { school: SchoolData }) => {
   return (
     <div style={{ display: "inline-block", width: 460 }}>
       <h4 style={styles.subheaderText}>After Graduation</h4>
@@ -13,21 +14,24 @@ const AfterGrad = (props: any) => {
         </div>
 
         */}
+        {props.school.employed_10_years && (
+          <div style={{ ...styles.afterGradRow, ...{ paddingTop: 0 } }}>
+            <b>10 Years Employment</b>{" "}
+            <CircularProgress
+              size={70}
+              percentage={props.school.employed_10_years * 100}
+            />{" "}
+          </div>
+        )}
 
-        <div style={{ ...styles.afterGradRow, ...{ paddingTop: 0 } }}>
-          <b>10 Years Employment</b>{" "}
-          <CircularProgress
-            size={70}
-            percentage={props.school.employed_10_years * 100}
-          />{" "}
-        </div>
-
-        <div style={{ ...styles.afterGradRow, ...{ paddingTop: 0 } }}>
-          <b>Avg. Earnings</b>
-          <p style={{ margin: 0 }}>
-            ${props.school.undergrad_tuition_in_state.toLocaleString("en-US")}
-          </p>
-        </div>
+        {props.school.average_earnings && (
+          <div style={{ ...styles.afterGradRow, ...{ paddingTop: 0 } }}>
+            <b>Avg. Earnings</b>
+            <p style={{ margin: 0 }}>
+              ${props.school.average_earnings.toLocaleString("en-US")}
+            </p>
+          </div>
+        )}
       </ContentCard>
     </div>
   );

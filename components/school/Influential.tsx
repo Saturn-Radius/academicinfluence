@@ -6,11 +6,6 @@ import Button from "../Button";
 import ContentCard from "../ContentCard";
 
 const InfluentialCard = (props: { person: PersonPartialData }) => {
-  const trimDesc = (text: any) => {
-    if (text.length > 140) {
-      return text.slice(0, 140) + "...";
-    }
-  };
   return (
     <ContentCard style={styles.cardWrapper}>
       <div
