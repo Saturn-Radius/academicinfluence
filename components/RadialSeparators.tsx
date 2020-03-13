@@ -1,6 +1,6 @@
+import { InterpolationWithTheme } from "@emotion/core";
 import styled from "@emotion/styled";
 import _ from "lodash";
-import { CSSProperties } from "react";
 
 interface WrapperProps {
   turns: number;
@@ -13,19 +13,19 @@ const Wrapper = styled.div<WrapperProps>`
 
 interface SeparatorProps {
   turns: number;
-  style: CSSProperties;
+  style: InterpolationWithTheme<any>;
 }
 const Separator = (props: SeparatorProps) => {
   return (
     <Wrapper turns={props.turns}>
-      <div style={props.style} />
+      <div css={props.style} />
     </Wrapper>
   );
 };
 
 interface RadialSeparatorsProps {
   count: number;
-  style: CSSProperties;
+  style: InterpolationWithTheme<any>;
 }
 const RadialSeparators = (props: RadialSeparatorsProps) => {
   const turns = 1 / props.count;

@@ -27,14 +27,14 @@ export default function SubdisciplineList(props: SubdisciplineListProps) {
           .map(discipline => (
             <DisciplineLink discipline={discipline} key={discipline.slug}>
               <a
-                style={
+                css={
                   props.subdiscipline == discipline.slug
                     ? styles.linkStyle
                     : styles.defaultlinkStyle
                 }
               >
                 <li
-                  style={
+                  css={
                     props.subdiscipline == discipline.slug
                       ? styles.liStyle
                       : styles.defaultliStyle

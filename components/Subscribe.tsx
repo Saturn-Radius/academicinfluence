@@ -13,7 +13,7 @@ const Subscribe = (props: {}) => {
           type="text"
           name="email"
           placeholder="Email"
-          style={{ height: 35, fontSize: 20, paddingLeft: 30 }}
+          css={{ height: 35, fontSize: 20, paddingLeft: 30 }}
         />
       </div>
       <button css={styles.buttonStyle}>Sign Up Now</button>

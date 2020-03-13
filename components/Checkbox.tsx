@@ -1,7 +1,7 @@
 const CheckBox = () => {
   return (
     <div
-      style={{
+      css={{
         height: 16,
         width: 16,
         background: "white",

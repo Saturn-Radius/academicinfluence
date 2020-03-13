@@ -4,25 +4,25 @@ import ContentCard from "../ContentCard";
 const Accreditation = (props: {}) => {
   return (
     <div
-      style={{
+      css={{
         display: "inline-block",
         maxWidth: "100vw",
         minWidth: 320,
         marginRight: 40
       }}
     >
-      <h4 style={styles.subheaderText}>Accreditation</h4>
+      <h4 css={styles.subheaderText}>Accreditation</h4>
       <ContentCard style={styles.container}>
         <div>
           <b>Overall NECHE - Since 1929</b>
         </div>
 
-        <div style={{ paddingTop: 44 }}>
+        <div css={{ paddingTop: 44 }}>
           <b>Programs</b>
         </div>
-        <div style={{ paddingTop: 10 }}>American Bar Association (ABA)</div>
-        <div style={{ paddingTop: 10 }}>American Bar Association (ABA)</div>
-        <div style={{ paddingTop: 10 }}>American Bar Association (ABA)</div>
+        <div css={{ paddingTop: 10 }}>American Bar Association (ABA)</div>
+        <div css={{ paddingTop: 10 }}>American Bar Association (ABA)</div>
+        <div css={{ paddingTop: 10 }}>American Bar Association (ABA)</div>
       </ContentCard>
     </div>
   );

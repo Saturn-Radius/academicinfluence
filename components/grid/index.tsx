@@ -14,7 +14,7 @@ type RowProps = {
   right?: boolean;
 };
 
-export const Row = styled.div`
+export const Row = styled.div<RowProps>`
   display: flex;
   flex-wrap: wrap;
   padding: 0;
@@ -44,7 +44,7 @@ type ColProps = {
   nopadding?: boolean;
 } & RowProps;
 
-export const Col = styled.div`
+export const Col = styled.div<ColProps>`
   position: relative;
   flex-grow: 1;
   flex-shrink: 0;

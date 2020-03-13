@@ -7,9 +7,9 @@ interface SchoolsData {
 const ProfileSchools = (props: SchoolsData) => {
   if (props.schools && props.schools.length > 0) {
     return (
-      <div style={{ display: "flex", flexDirection: "column", width: 450 }}>
-        <div style={styles.sidebarText}>Schools Associated With:</div>
-        <div style={styles.bodyText}>
+      <div css={{ display: "flex", flexDirection: "column", width: 450 }}>
+        <div css={styles.sidebarText}>Schools Associated With:</div>
+        <div css={styles.bodyText}>
           {props.schools.map((school, i) => (
             <li key={i}>{school.name}</li>
           ))}

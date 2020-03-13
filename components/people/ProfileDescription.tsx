@@ -7,7 +7,7 @@ const ProfileDescription = (props: {
   person: EntityFullData;
 }) => {
   return (
-    <div style={{ ...styles.card, ...props.style }}>
+    <div css={{ ...styles.card, ...props.style }}>
       <Description entity={props.person} />
     </div>
   );

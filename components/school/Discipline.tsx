@@ -39,14 +39,14 @@ const DisciplineContainer = (props: SchoolProps) => {
         <HtmlContent html={props.school.disciplines_text} />
       </SectionDescription>
       <div
-        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+        css={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
         {cards}
       </div>
       {cards.length < allCards.length && (
         <div
           onClick={() => setCards(allCards)}
-          style={{ fontWeight: "bold", textAlign: "center" }}
+          css={{ fontWeight: "bold", textAlign: "center" }}
         >
           MORE <img src="/images/arrow-down.png" />
         </div>
@@ -76,13 +76,13 @@ const DisciplineCard = (props: {
       }}
     >
       <div
-        style={{
+        css={{
           flex: "1 1 100%",
           display: "flex",
           justifyContent: "space-between"
         }}
       >
-        <h4 title={titleTag} style={styles.cardHeader}>
+        <h4 title={titleTag} css={styles.cardHeader}>
           {props.discipline}
         </h4>
         {/* <CheckBox /> */}
@@ -96,7 +96,7 @@ const DisciplineCard = (props: {
         />
       </div>
 
-      <div style={{ marginLeft: 20 }}>
+      <div css={{ marginLeft: 20 }}>
         <p> #{props.data.usa_rank} in USA</p>
         <p> #{props.data.world_rank} in Worldwide</p>
       </div>
@@ -108,10 +108,10 @@ const styles = {
   cardHeader: {
     fontSize: 16,
     marginBottom: 8,
-    fontWeight: "bold",
+    fontWeight: "bold" as "bold",
     marginTop: 0,
     marginLeft: 8
-  } as React.CSSProperties
+  }
 };
 
 export default DisciplineContainer;

@@ -11,12 +11,12 @@ const Weather = (props: { data: SchoolData["weather"] }) => {
   }
 
   return (
-    <div style={{ minWidth: 300 }}>
-      <h4 style={styles.subheaderText}>Weather</h4>
+    <div css={{ minWidth: 300 }}>
+      <h4 css={styles.subheaderText}>Weather</h4>
       <ContentCard style={{ padding: 20 }}>
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <div style={{ fontSize: 10 }}>High</div>
-          <div style={{ fontSize: 10, marginLeft: 20 }}>Low</div>
+        <div css={{ display: "flex", justifyContent: "flex-end" }}>
+          <div css={{ fontSize: 10 }}>High</div>
+          <div css={{ fontSize: 10, marginLeft: 20 }}>Low</div>
         </div>
 
         <Season
@@ -44,11 +44,11 @@ const Season = (props: { name: string; high: number; low: number }) => {
   let [low, high] = [props.high.toFixed(0), props.low.toFixed(0)];
 
   return (
-    <div style={styles.seasonContainer}>
-      <div style={styles.seasonName}>{props.name}</div>
+    <div css={styles.seasonContainer}>
+      <div css={styles.seasonName}>{props.name}</div>
 
-      <div style={styles.tempContainer}>
-        <div style={{ marginRight: 30 }}>{low}</div>
+      <div css={styles.tempContainer}>
+        <div css={{ marginRight: 30 }}>{low}</div>
         <div>{high}</div>
       </div>
     </div>
@@ -61,8 +61,8 @@ const styles = {
     fontSize: 22
   },
   seasonName: {
-    fontWeight: "bold"
-  } as React.CSSProperties,
+    fontWeight: "bold" as "bold"
+  },
   seasonContainer: {
     display: "flex",
     marginBottom: 20
