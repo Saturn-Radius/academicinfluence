@@ -18,6 +18,7 @@ import {
 import Autocomplete from "../components/Autocomplete";
 import CircularProgress from "../components/CircularProgress";
 import { lookupDiscipline } from "../disciplines";
+import { SchoolLink } from "../links";
 import QuerySchema, { RangeParameter } from "../QuerySchema";
 import {
   CollegeRankingSort,
@@ -218,10 +219,12 @@ const COLUMNS: COLUMN[] = [
       <div css={{ display: "flex" }}>
         <div css={{ width: "64px", height: "64px" }}>
           {school.logo_url && (
-            <img
-              src={school.logo_url}
-              css={{ maxWidth: "64px", maxHeight: "64px" }}
-            />
+            <SchoolLink school={school}>
+              <img
+                src={school.logo_url}
+                css={{ maxWidth: "64px", maxHeight: "64px" }}
+              />
+            </SchoolLink>
           )}
         </div>
         <div
@@ -229,16 +232,19 @@ const COLUMNS: COLUMN[] = [
             paddingLeft: "16px"
           }}
         >
-          <div
-            css={{
-              fontSize: "16px",
-              lineHeight: "20px",
-              fontWeight: "bold",
-              color: MAIN
-            }}
-          >
-            {school.name}
-          </div>
+          <SchoolLink school={school}>
+            <a
+              css={{
+                fontSize: "16px",
+                lineHeight: "20px",
+                fontWeight: "bold",
+                color: MAIN,
+                display: "block"
+              }}
+            >
+              {school.name}
+            </a>
+          </SchoolLink>
           <div
             css={{
               fontSize: "12px",
