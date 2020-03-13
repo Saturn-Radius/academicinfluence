@@ -9,7 +9,7 @@ export default function useMoreButton() {
   const moreButton = (
     <div
       onClick={() => clickButton()}
-      style={{ fontWeight: "bold", textAlign: "center", fontSize: 16 }}
+      css={{ fontWeight: "bold", textAlign: "center", fontSize: 16 }}
     >
       {!isMore && (
         <div>

@@ -20,9 +20,9 @@ const DropdownButton = React.forwardRef(
       <div>
         <div
           onClick={() => clickButton()}
-          style={{ ...styles.button, ...props.style }}
+          css={{ ...styles.button, ...props.style }}
         >
-          <img src={props.image_url} style={{ width: 75 }} />
+          <img src={props.image_url} css={{ width: 75 }} />
           <span>{props.text}</span>
           {isMore && <img src="/images/arrow-down.png" />}
           {!isMore && <img src="/images/small-arrow-up.png" />}

@@ -69,11 +69,11 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
 
       <section>
         <SectionTitle>{name} Admissions & ROI Stats</SectionTitle>
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
+        <div css={{ display: "flex", flexWrap: "wrap" }}>
           <Cost school={school} />
           <Admissions school={school} />
         </div>
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
+        <div css={{ display: "flex", flexWrap: "wrap" }}>
           {/*TODO <Accreditation /> */}
           <AfterGrad school={school} />
         </div>
@@ -84,7 +84,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
         <ContactInfo school={school} />
         {school.location && <LocationMap location={school.location} />}
       </section>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div css={{ display: "flex", flexWrap: "wrap" }}>
         <div className="cardContainer">
           <Weather data={weather} />
         </div>

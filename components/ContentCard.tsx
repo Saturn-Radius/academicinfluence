@@ -6,7 +6,7 @@ const ContentCard = (props: {
   style?: CSSProperties;
 }) => {
   return (
-    <div title={props.title} style={{ ...styles.card, ...props.style }}>
+    <div title={props.title} css={{ ...styles.card, ...props.style }}>
       {props.children}
     </div>
   );

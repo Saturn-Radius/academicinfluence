@@ -1,6 +1,14 @@
 import { NextPage, NextPageContext } from "next";
 import { apiPersonPage } from "../../api";
-import { InfluenceScore, InfluentialWorks, OtherResources, ProfileDescription, ProfileDiscipline, ProfileHeader, ProfileSchools } from "../../components/people";
+import {
+  InfluenceScore,
+  InfluentialWorks,
+  OtherResources,
+  ProfileDescription,
+  ProfileDiscipline,
+  ProfileHeader,
+  ProfileSchools
+} from "../../components/people";
 import { PersonData } from "../../schema";
 import StandardPage from "../../templates/StandardPage";
 
@@ -53,7 +61,7 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
           }
         `}
       </style>
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div css={{ display: "flex", flexDirection: "column" }}>
         <ProfileHeader person={props.person} />
 
         <div className="profileDetail">
@@ -67,7 +75,7 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
           person={props.person}
         />
 
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
+        <div css={{ display: "flex", flexWrap: "wrap" }}>
           <InfluentialWorks style={styles.InfluenceWorksStyle} works={works} />
           <OtherResources links={links} />
         </div>

@@ -66,7 +66,7 @@ const Discipline: NextPage<DisciplinesProps> = props => {
       </div>
       <div className="subdisciplinesBar">
         <div>
-          <h3 style={{ fontWeight: 800, marginBottom: 0 }}>Sub-Disciplines</h3>
+          <h3 css={{ fontWeight: 800, marginBottom: 0 }}>Sub-Disciplines</h3>
         </div>
         <SubdisciplineList
           discipline={props.discipline}

@@ -7,7 +7,7 @@ export default function Description(props: { entity: EntityFullData }) {
       <HtmlContent html={props.entity.description} />
       <div>
         {props.entity.wikipedia_description && (
-          <div style={{ paddingTop: 5 }}>
+          <div css={{ paddingTop: 5 }}>
             <b>Source:</b> Wikipedia
           </div>
         )}

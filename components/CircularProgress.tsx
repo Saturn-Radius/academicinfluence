@@ -28,7 +28,7 @@ const CircularProgress = (props: {
   return (
     <>
       <div
-        style={{
+        css={{
           ...styles.container,
           ...props.style
         }}
@@ -63,9 +63,7 @@ const CircularProgress = (props: {
             }}
           />
         </CircularProgressbarWithChildren>
-        <p style={{ ...{ fontSize: props.fontSize }, ...styles.text }}>
-          {text}
-        </p>
+        <p css={{ ...{ fontSize: props.fontSize }, ...styles.text }}>{text}</p>
       </div>
     </>
   );

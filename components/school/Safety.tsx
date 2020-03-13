@@ -4,12 +4,12 @@ import ContentCard from "../ContentCard";
 
 const CampusSafety = (props: { school: SchoolData }) => {
   return (
-    <div style={{ minWidth: 300 }}>
-      <h4 style={styles.subheaderText}>Campus Safety</h4>
+    <div css={{ minWidth: 300 }}>
+      <h4 css={styles.subheaderText}>Campus Safety</h4>
       <ContentCard style={{ padding: 20 }}>
         {/* TODO <p style={styles.crimeHeader}>CRIME: LOW</p>*/}
 
-        <div style={styles.crimeSubheader}>On Campus</div>
+        <div css={styles.crimeSubheader}>On Campus</div>
         <CrimeRate
           name="Property"
           value={props.school.campus_property_crime_rate}
@@ -18,7 +18,7 @@ const CampusSafety = (props: { school: SchoolData }) => {
           name="Violent"
           value={props.school.campus_violent_crime_rate}
         />
-        <div style={styles.crimeSubheader}>On Campus</div>
+        <div css={styles.crimeSubheader}>On Campus</div>
         <CrimeRate
           name="Property"
           value={props.school.city_property_crime_rate}
@@ -37,10 +37,10 @@ const CrimeRate = (props: { name: string; value: number | null }) => {
     return null;
   }
   return (
-    <div style={styles.crimeContainer}>
-      <div style={styles.crimeName}>{props.name}</div>
+    <div css={styles.crimeContainer}>
+      <div css={styles.crimeName}>{props.name}</div>
 
-      <div style={styles.tempContainer}>
+      <div css={styles.tempContainer}>
         <div>{(props.value * 100000).toFixed().toLocaleString()} per 100k</div>
       </div>
     </div>
@@ -53,29 +53,29 @@ const styles = {
     fontSize: 22
   },
   crimeSubheader: {
-    fontWeight: "bold",
+    fontWeight: "bold" as "bold",
     fontSize: 18,
     paddingBottom: 10
-  } as React.CSSProperties,
+  },
   crimeHeader: {
     color: MAIN,
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: "bold" as "bold",
     paddingBottom: 20,
     margin: 0
-  } as React.CSSProperties,
+  },
   crimeName: {
     //fontWeight:'bold',
     paddingBottom: 10
-  } as React.CSSProperties,
+  },
   crimeContainer: {
-    display: "flex",
+    display: "flex" as "flex",
     color: "#666666"
     //justifyContent:'flex-start'
-  } as React.CSSProperties,
+  },
   tempContainer: {
-    display: "flex",
-    marginLeft: "auto",
+    display: "flex" as "flex",
+    marginLeft: "auto" as "auto",
     color: "#666666"
   }
 };

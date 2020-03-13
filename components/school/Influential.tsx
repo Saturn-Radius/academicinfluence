@@ -1,3 +1,5 @@
+import { InterpolationWithTheme } from "@emotion/core";
+import { CSSProperties } from "react";
 import { PersonLink } from "../../links";
 import { PersonPartialData } from "../../schema";
 import { MAIN, MAIN_DARKER } from "../../styles";
@@ -9,7 +11,7 @@ const InfluentialCard = (props: { person: PersonPartialData }) => {
   return (
     <ContentCard style={styles.cardWrapper}>
       <div
-        style={{
+        css={{
           flex: "1 1 100%",
           display: "flex",
           justifyContent: "flex-end"
@@ -19,61 +21,59 @@ const InfluentialCard = (props: { person: PersonPartialData }) => {
         <CheckBox /> */}
       </div>
 
-      <div style={{ width: "100%" }}>
+      <div css={{ width: "100%" }}>
         {props.person.image_url && (
           <img
-            style={{ float: "left", marginRight: 20, height: 60, width: 60 }}
+            css={{ float: "left", marginRight: 20, height: 60, width: 60 }}
             src={props.person.image_url}
           />
         )}
-        <div style={styles.influentialName}>{props.person.name}</div>
-        <div style={{ paddingBottom: 6 }}>
+        <div css={styles.influentialName}>{props.person.name}</div>
+        <div css={{ paddingBottom: 6 }}>
           <YearRange person={props.person} />
         </div>
-        <div style={{ fontWeight: "bold" }}>
-          {props.person.short_description}
-        </div>
+        <div css={{ fontWeight: "bold" }}>{props.person.short_description}</div>
       </div>
 
       <div
-        style={{
+        css={{
           display: "flex",
           width: "100%",
           justifyContent: "space-between"
         }}
       >
-        <div style={styles.influentialRow}>
+        <div css={styles.influentialRow}>
           <div>IR Score</div>
-          <div style={styles.influentialRowText}>
+          <div css={styles.influentialRowText}>
             {(props.person.overall.influence * 100).toFixed(2)}
           </div>
         </div>
 
         {/*
           TODO
-        <div style={styles.influentialRow}>
+        <div css={styles.influentialRow}>
           <div>School</div>
-          <div style={styles.influentialRowText}>1st School</div>
+          <div css={styles.influentialRowText}>1st School</div>
         </div>
         */}
 
-        <div style={styles.influentialRow}>
+        <div css={styles.influentialRow}>
           <div>Disciplines</div>
-          <div style={styles.influentialRowText}>Computer Science</div>
+          <div css={styles.influentialRowText}>Computer Science</div>
         </div>
       </div>
 
       <div>
         {/* 
         TODO
-        <div style={{ color: MAIN, fontWeight: "bold" }}>Influential Works</div>
-        <div style={{ paddingBottom: 8 }}>
+        <div css={{ color: MAIN, fontWeight: "bold" }}>Influential Works</div>
+        <div css={{ paddingBottom: 8 }}>
           Educated: A Memoir, The Body: A Guide for Occupants, Outliers: The
           Story of Success
         </div>
         */}
 
-        <div style={{ float: "right" }}>
+        <div css={{ float: "right" }}>
           <PersonLink person={props.person}>
             <Button color={MAIN_DARKER} text="See Profile" />
           </PersonLink>
@@ -96,21 +96,21 @@ const styles = {
     fontSize: 12,
     color: "#333333",
     lineHeight: 1.3
-  } as React.CSSProperties,
+  } as CSSProperties,
 
   influentialRow: {
     //textAlign:'center'
-  } as React.CSSProperties,
+  } as InterpolationWithTheme<any>,
   influentialName: {
     color: MAIN,
     fontSize: 20,
     fontWeight: "bold"
-  } as React.CSSProperties,
+  } as InterpolationWithTheme<any>,
   influentialRowText: {
     color: MAIN,
     fontSize: 14,
     fontWeight: "bold"
-  } as React.CSSProperties
+  } as InterpolationWithTheme<any>
 };
 
 export { InfluentialCard };

@@ -41,7 +41,7 @@ const SidebarButton = React.forwardRef(
         onClick={props.onClick}
         ref={ref}
       >
-        <img style={{ width: 60, height: 60 }} src={props.img} />
+        <img css={{ width: 60, height: 60 }} src={props.img} />
         <span style={styles.sidebarText}>{props.text}</span>
       </div>
     );

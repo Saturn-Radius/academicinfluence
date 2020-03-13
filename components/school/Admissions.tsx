@@ -6,12 +6,12 @@ import ContentCard from "../ContentCard";
 
 const Admissions = (props: { school: SchoolData }) => {
   return (
-    //<div style={{flex:"1 1 100%", marginLeft:40}}>
-    <div style={{}}>
-      <h4 style={styles.subheaderText}>Admissions</h4>
+    //<div css={{flex:"1 1 100%", marginLeft:40}}>
+    <div css={{}}>
+      <h4 css={styles.subheaderText}>Admissions</h4>
       <ContentCard style={{ padding: 20 }}>
         <div
-          style={{
+          css={{
             display: "flex",
             justifyContent: "space-between",
             padding: 20
@@ -43,7 +43,7 @@ const Admissions = (props: { school: SchoolData }) => {
           )}
         </div>
 
-        <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+        <div css={{ display: "flex", justifyContent: "space-evenly" }}>
           {props.school.median_sat && (
             <Button
               style={{ width: 190, marginRight: 24 }}

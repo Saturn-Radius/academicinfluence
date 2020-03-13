@@ -1,10 +1,10 @@
-import { CSSProperties } from "react";
+import { InterpolationWithTheme } from "@emotion/core";
 import { GRAY, MAIN } from "../../styles";
 import ContentCard from "../ContentCard";
 import useMoreButton from "../useMoreButton";
 
 interface InfulentialData {
-  style: CSSProperties;
+  style: InterpolationWithTheme<any>;
   works: { label: string }[];
 }
 
@@ -13,9 +13,9 @@ const InfluentialWorks = (props: InfulentialData) => {
   const displayWorks = !isMore ? props.works.slice(0, 7) : props.works;
 
   return (
-    <div style={props.style}>
-      <h2 style={styles.subheaderText}>Notable Books</h2>
-      <ContentCard style={styles.container}>
+    <div css={props.style}>
+      <h2 css={styles.subheaderText}>Notable Books</h2>
+      <ContentCard css={styles.container}>
         <div>
           {displayWorks.map((work, i) => (
             <li key={i}>{work.label}</li>

@@ -18,14 +18,14 @@ const CollegeHeader = (props: { school: SchoolData }) => {
       }}
     >
       <div css={{ display: "flex", marginBottom: "16px" }}>
-        <img style={styles.headerImg} src={school.logo_url || undefined} />
-        <div style={{ paddingTop: 10 }}>
-          <h1 id="top" style={styles.name}>
+        <img css={styles.headerImg} src={school.logo_url || undefined} />
+        <div css={{ paddingTop: 10 }}>
+          <h1 id="top" css={styles.name}>
             {school.name}
           </h1>
           {school && (
-            <div style={styles.locationText}>
-              <div style={{ marginBottom: 10 }}>
+            <div css={styles.locationText}>
+              <div css={{ marginBottom: 10 }}>
                 {school.city}, {school.state}
               </div>
             </div>

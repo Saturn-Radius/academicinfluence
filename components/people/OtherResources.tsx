@@ -8,19 +8,19 @@ interface ResourceData {
 const OtherResources = (props: ResourceData) => {
   return (
     <div
-      style={{
+      css={{
         display: "inline-block",
         maxWidth: "100vw",
         minWidth: 320,
         marginRight: 40
       }}
     >
-      <h2 style={styles.subheaderText}>Other Resources</h2>
-      <ContentCard style={styles.container}>
+      <h2 css={styles.subheaderText}>Other Resources</h2>
+      <ContentCard css={styles.container}>
         <div>
           {props.links.map((resource, i) => (
             <div key={i}>
-              <a href={resource} style={styles.link}>
+              <a href={resource} css={styles.link}>
                 {new URL(resource).host}
               </a>
             </div>

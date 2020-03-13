@@ -8,7 +8,7 @@ const RankGauges = (props: {
   fontSize?: number;
 }) => {
   return (
-    <div style={{ display: "flex" }}>
+    <div css={{ display: "flex" }}>
       {props.school.acceptance_rate && (
         <CircularProgress
           style={{ paddingRight: 20 }}
