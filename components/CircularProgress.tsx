@@ -1,6 +1,8 @@
 import React from "react";
-import { CircularProgressbar } from "react-circular-progressbar";
-import { ACCENT, GRAY_DARKEST, MAIN, MAIN_DARKER } from "../styles";
+import { CircularProgressbarWithChildren } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import { ACCENT, GRAY, GRAY_DARKEST, MAIN, MAIN_DARKER } from "../styles";
+import RadialSeparators from "./RadialSeparators";
 
 const CircularProgress = (props: any) => {
   let pathColor;
@@ -25,9 +27,10 @@ const CircularProgress = (props: any) => {
           ...props.style
         }}
       >
-        <CircularProgressbar
+        <CircularProgressbarWithChildren
           value={percentage}
-          text={percentage.toFixed() + "%"}
+          text={`${percentage.toFixed()}%`}
+          strokeWidth={20}
           styles={{
             root: {
               width: props.size || 300,
@@ -38,12 +41,22 @@ const CircularProgress = (props: any) => {
               strokeLinecap: "butt"
             },
             text: {
+              fontSize: 14,
               fill: props.textColor || GRAY_DARKEST,
               transformOrigin: "center center"
             },
-            trail: { strokeWidth: 4, stroke: "#999999" }
+            trail: { stroke: `${GRAY}` }
           }}
-        />
+        >
+          <RadialSeparators
+            count={4}
+            style={{
+              background: `${GRAY}`,
+              width: "4px",
+              height: `${20}%`
+            }}
+          />
+        </CircularProgressbarWithChildren>
         <p style={{ ...{ fontSize: props.fontSize }, ...styles.text }}>
           {text}
         </p>

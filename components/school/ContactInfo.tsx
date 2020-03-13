@@ -1,12 +1,7 @@
 import styled from "@emotion/styled";
 import { config, IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import {
-  faFacebookSquare,
-  faInstagramSquare,
-  faTwitter,
-  faYoutubeSquare
-} from "@fortawesome/free-brands-svg-icons";
+import { faFacebookSquare, faInstagramSquare, faTwitter, faYoutubeSquare } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SchoolData } from "../../schema";
 import ContentCard from "../ContentCard";

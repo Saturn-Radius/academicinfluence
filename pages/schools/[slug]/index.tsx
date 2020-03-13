@@ -3,15 +3,7 @@ import { apiSchoolPage } from "../../../api";
 import ContentCard from "../../../components/ContentCard";
 import Description from "../../../components/Description";
 import HtmlContent from "../../../components/HtmlContent";
-import {
-  Admissions,
-  AfterGrad,
-  CampusSafety,
-  CollegeHeader,
-  Cost,
-  InfluentialCard,
-  Weather
-} from "../../../components/school";
+import { Admissions, AfterGrad, CampusSafety, CollegeHeader, Cost, InfluentialCard, Weather } from "../../../components/school";
 import ContactInfo from "../../../components/school/ContactInfo";
 import DisciplineContainer from "../../../components/school/Discipline";
 import LocationMap from "../../../components/school/LocationMap";
