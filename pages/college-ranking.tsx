@@ -10,21 +10,16 @@ import React from "react";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
 import USAStates from "usa-states";
-import {
-  apiCollegeRankings,
-  apiDisciplines,
-  apiLocationAutocomplete
-} from "../api";
+import { apiCollegeRankings, apiLocationAutocomplete } from "../api";
 import Autocomplete from "../components/Autocomplete";
+import { useBasicContext } from "../components/BasicContext";
 import CircularProgress from "../components/CircularProgress";
-import { lookupDiscipline } from "../disciplines";
 import { SchoolLink } from "../links";
 import QuerySchema, { RangeParameter } from "../QuerySchema";
 import {
   CollegeRankingSort,
   CollegeRankingsRequest,
   CollegeRankingsResponse,
-  DisciplinesResponse,
   SchoolPartialData
 } from "../schema";
 import {
@@ -42,7 +37,6 @@ type CollegeRankingProps = {
   data: CollegeRankingsResponse;
   request: CollegeRankingsRequest;
   updateRequest: (request: CollegeRankingsRequest) => void;
-  disciplines: DisciplinesResponse;
 };
 
 type COLUMN = {
@@ -790,6 +784,7 @@ function LocationFilter(props: FilterProps) {
 }
 
 function Discipline(props: FilterProps) {
+  const basicContext = useBasicContext();
   const onChange = React.useCallback(
     event => {
       props.updateRequest({
@@ -804,14 +799,11 @@ function Discipline(props: FilterProps) {
 
   let supertopic: string | null;
   let subtopic: string | null;
-  if (
-    discipline === null ||
-    lookupDiscipline(props.disciplines, discipline).level === 1
-  ) {
+  if (discipline === null || basicContext.discipline(discipline).level === 1) {
     supertopic = discipline;
     subtopic = null;
   } else {
-    supertopic = lookupDiscipline(props.disciplines, discipline).parent;
+    supertopic = basicContext.discipline(discipline).parent;
     subtopic = discipline;
   }
 
@@ -820,7 +812,7 @@ function Discipline(props: FilterProps) {
       value: null,
       label: "Overall"
     },
-    ...props.disciplines
+    ...basicContext.disciplines
       .filter(item => item.level === 1)
       .map(item => ({
         value: item.slug,
@@ -836,7 +828,7 @@ function Discipline(props: FilterProps) {
       value: null,
       label: "Overall"
     },
-    ...props.disciplines
+    ...basicContext.disciplines
       .filter(item => item.parent === supertopic)
       .map(item => ({
         value: item.slug,
@@ -888,7 +880,6 @@ function FilterRow(props: { children: React.ReactNode }) {
 
 type FilterProps = {
   request: CollegeRankingsRequest;
-  disciplines: DisciplinesResponse;
   updateRequest: (request: CollegeRankingsRequest) => void;
   limits: CollegeRankingsResponse["limits"];
 };
@@ -984,7 +975,6 @@ const CollegeRanking: React.SFC<CollegeRankingProps> = props => {
       <ToolPage tool="COLLEGE RANKINGS">
         <Filter
           request={props.request}
-          disciplines={props.disciplines}
           updateRequest={props.updateRequest}
           limits={props.data.limits}
         />
@@ -1130,10 +1120,8 @@ export default QueryPage(
     title: "College Rankings"
   },
   async (request: CollegeRankingsRequest, signal?: AbortSignal) => {
-    const disciplinesPromise = apiDisciplines({}, signal);
     const data = await apiCollegeRankings(request, signal);
-    const disciplines = await disciplinesPromise;
-    return { data, disciplines };
+    return { data };
   },
   props => props.data.schools.length == 0,
   (request, props) => ({

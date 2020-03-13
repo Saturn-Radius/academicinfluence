@@ -2,12 +2,12 @@
 
 import { NextApiRequest, NextApiResponse } from "next";
 import { validate } from "../../../api";
-import serve from "../../../service/countries";
+import serve from "../../../service/basicContext";
 
 export default async (req: NextApiRequest, response: NextApiResponse) => {
   try {
     const request = JSON.parse(req.query.request as string);
-    if (!validate("CountriesRequest", request)) {
+    if (!validate("BasicContextRequest", request)) {
       response.status(400).send("");
     } else {
       const data = await serve(request);

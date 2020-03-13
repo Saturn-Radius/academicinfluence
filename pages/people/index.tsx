@@ -7,18 +7,11 @@ import "rc-tooltip/assets/bootstrap.css";
 import React from "react";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
-import {
-  apiCountries,
-  apiDisciplines,
-  apiInfluentialPeoplePage,
-  apiPersonSearch
-} from "../../api";
+import { apiInfluentialPeoplePage, apiPersonSearch } from "../../api";
 import Autocomplete from "../../components/Autocomplete";
-import { lookupDiscipline } from "../../disciplines";
+import { useBasicContext } from "../../components/BasicContext";
 import QuerySchema, { RangeParameter } from "../../QuerySchema";
 import {
-  CountriesResponse,
-  DisciplinesResponse,
   InfluentialPeoplePageRequest,
   InfluentialPeoplePageResponse
 } from "../../schema";
@@ -68,6 +61,7 @@ function FilterLabel(props: FilterLabelProps) {
 type FilterProps = InfluentialPeopleProps;
 
 function Discipline(props: FilterProps) {
+  const basicContext = useBasicContext();
   const onChange = React.useCallback(
     event => {
       props.updateRequest({
@@ -82,14 +76,11 @@ function Discipline(props: FilterProps) {
   let supertopic: string | null;
   let subtopic: string | null;
 
-  if (
-    discipline === null ||
-    lookupDiscipline(props.disciplines, discipline).level === 1
-  ) {
+  if (discipline === null || basicContext.discipline(discipline).level === 1) {
     supertopic = discipline;
     subtopic = null;
   } else {
-    supertopic = lookupDiscipline(props.disciplines, discipline).parent;
+    supertopic = basicContext.discipline(discipline).parent;
     subtopic = discipline;
   }
 
@@ -98,7 +89,7 @@ function Discipline(props: FilterProps) {
       value: null,
       label: "Overall"
     },
-    ...props.disciplines
+    ...basicContext.disciplines
       .filter(item => item.level === 1)
       .map(item => ({
         value: item.slug,
@@ -114,7 +105,7 @@ function Discipline(props: FilterProps) {
       value: null,
       label: "Overall"
     },
-    ...props.disciplines
+    ...basicContext.disciplines
       .filter(item => item.parent === supertopic)
       .map(item => ({
         value: item.slug,
@@ -195,6 +186,7 @@ function Gender(props: FilterProps) {
 }
 
 function Country(props: FilterProps) {
+  const basicContext = useBasicContext();
   const onChange = React.useCallback(
     event => {
       props.updateRequest({
@@ -212,7 +204,7 @@ function Country(props: FilterProps) {
       value: null,
       label: "All"
     },
-    ...props.countries.map(item => ({
+    ...basicContext.countries.map(item => ({
       value: item.name,
       label: item.name
     }))
@@ -296,8 +288,6 @@ function YearsFilter(props: FilterProps) {
 }
 
 type InfluentialPeopleProps = InfluentialPeoplePageResponse & {
-  countries: CountriesResponse;
-  disciplines: DisciplinesResponse;
   request: InfluentialPeoplePageRequest;
   updateRequest: (request: InfluentialPeoplePageRequest) => void;
 };
@@ -370,13 +360,8 @@ export default QueryPage(
   },
   async (request: InfluentialPeoplePageRequest, signal?: AbortSignal) => {
     const schools = apiInfluentialPeoplePage(request);
-    const disciplines = apiDisciplines({});
-    const countries = apiCountries({});
     return {
-      ...(await schools),
-      disciplines: await disciplines,
-      countries: await countries,
-      request
+      ...(await schools)
     };
   },
   props => props.people.length == 0

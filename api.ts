@@ -1,14 +1,12 @@
 // GENERATED.DO NOT EDIT
 import Ajv from "ajv";
 import {
+  BasicContextRequest,
+  BasicContextResponse,
   CollegeRankingsRequest,
   CollegeRankingsResponse,
-  CountriesRequest,
-  CountriesResponse,
   DisciplineRequest,
   DisciplineResponse,
-  DisciplinesRequest,
-  DisciplinesResponse,
   FeaturesPageRequest,
   FeaturesPageResponse,
   HomePageRequest,
@@ -58,54 +56,28 @@ export const apiCollegeRankings = process.browser
       }
       return response;
     };
-export const apiDisciplines = process.browser
+export const apiBasicContext = process.browser
   ? async function(
-      request: DisciplinesRequest,
+      request: BasicContextRequest,
       abortSignal?: AbortSignal
-    ): Promise<DisciplinesResponse> {
+    ): Promise<BasicContextResponse> {
       const response = await fetch(
-        "/api/Disciplines/" + encodeURIComponent(JSON.stringify(request)),
+        "/api/BasicContext/" + encodeURIComponent(JSON.stringify(request)),
         { signal: abortSignal }
       );
       const data = await response.json();
-      if (!validate("DisciplinesResponse", data)) {
+      if (!validate("BasicContextResponse", data)) {
         throw new Error("validation failed");
       }
       return data;
     }
   : async function(
-      request: DisciplinesRequest,
+      request: BasicContextRequest,
       abortSignal?: AbortSignal
-    ): Promise<DisciplinesResponse> {
-      const module = await import("./service/disciplines");
+    ): Promise<BasicContextResponse> {
+      const module = await import("./service/basicContext");
       const response = await module.default(request);
-      if (!validate("DisciplinesResponse", response)) {
-        throw new Error("validation failed");
-      }
-      return response;
-    };
-export const apiCountries = process.browser
-  ? async function(
-      request: CountriesRequest,
-      abortSignal?: AbortSignal
-    ): Promise<CountriesResponse> {
-      const response = await fetch(
-        "/api/Countries/" + encodeURIComponent(JSON.stringify(request)),
-        { signal: abortSignal }
-      );
-      const data = await response.json();
-      if (!validate("CountriesResponse", data)) {
-        throw new Error("validation failed");
-      }
-      return data;
-    }
-  : async function(
-      request: CountriesRequest,
-      abortSignal?: AbortSignal
-    ): Promise<CountriesResponse> {
-      const module = await import("./service/countries");
-      const response = await module.default(request);
-      if (!validate("CountriesResponse", response)) {
+      if (!validate("BasicContextResponse", response)) {
         throw new Error("validation failed");
       }
       return response;
@@ -998,21 +970,24 @@ validator.compile({
       required: ["level", "parent", "slug", "name"],
       additionalProperties: false
     },
-    DisciplinesRequest: { type: "object", additionalProperties: false },
-    DisciplinesResponse: {
-      type: "array",
-      items: { $ref: "#/definitions/DisciplineDetail" }
-    },
-    CountriesRequest: { type: "object", additionalProperties: false },
     Country: {
       type: "object",
       properties: { name: { type: "string" } },
       required: ["name"],
       additionalProperties: false
     },
-    CountriesResponse: {
-      type: "array",
-      items: { $ref: "#/definitions/Country" }
+    BasicContextRequest: { type: "object", additionalProperties: false },
+    BasicContextResponse: {
+      type: "object",
+      properties: {
+        disciplines: {
+          type: "array",
+          items: { $ref: "#/definitions/DisciplineDetail" }
+        },
+        countries: { type: "array", items: { $ref: "#/definitions/Country" } }
+      },
+      required: ["disciplines", "countries"],
+      additionalProperties: false
     },
     FeaturesPageRequest: {
       type: "object",

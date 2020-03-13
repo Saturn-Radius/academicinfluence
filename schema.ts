@@ -204,16 +204,16 @@ export type DisciplineDetail = {
   name: string;
 };
 
-export interface DisciplinesRequest {}
-
-export type DisciplinesResponse = DisciplineDetail[];
-
-export interface CountriesRequest {}
 export type Country = {
   name: string;
 };
 
-export type CountriesResponse = Country[];
+export interface BasicContextRequest {}
+
+export interface BasicContextResponse {
+  disciplines: DisciplineDetail[];
+  countries: Country[];
+}
 
 export interface FeaturesPageRequest {
   category: string | null;

@@ -1,6 +1,6 @@
-import { disciplineNameToSlug } from "../disciplines";
 import { influenceScoreQuery } from "../influenceScore";
 import * as squel from "../squel";
+import { disciplineNameToSlug } from "../utils/disciplines";
 import {
   EntityQuery,
   EntityType,

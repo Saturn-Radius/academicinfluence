@@ -1,23 +1,20 @@
-import { NextPage, NextPageContext } from "next";
+import { NextPage } from "next";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
-import { apiDisciplines } from "../../api";
+import { useBasicContext } from "../../components/BasicContext";
 import { DropdownButton } from "../../components/disciplines";
 import { DisciplineLink } from "../../links";
-import { DisciplinesResponse } from "../../schema";
 import StandardPage from "../../templates/StandardPage";
 
-type DisciplinesProps = {
-  disciplines: DisciplinesResponse;
-};
+type DisciplinesProps = {};
 
 function Superdiscipline(props: {
-  disciplines: DisciplinesResponse;
   superdiscipline: string;
   image_url: string;
   title: string;
 }) {
+  const basicContext = useBasicContext();
   return (
     <>
       <style jsx>
@@ -41,7 +38,7 @@ function Superdiscipline(props: {
       <DropdownButton
         image_url={props.image_url}
         text={props.title}
-        disciplines={props.disciplines
+        disciplines={basicContext.disciplines
           .filter(
             item => item.level === 1 && item.parent === props.superdiscipline
           )
@@ -133,12 +130,10 @@ const Disciplines: NextPage<DisciplinesProps> = props => {
               image_url="/images/humanities.svg"
               title="Humanities"
               superdiscipline="humanities"
-              disciplines={props.disciplines}
             />
             <Superdiscipline
               image_url="/images/social-sciences.svg"
               title="Social Sciences"
-              disciplines={props.disciplines}
               superdiscipline="social-sciences"
             />
           </div>
@@ -147,18 +142,15 @@ const Disciplines: NextPage<DisciplinesProps> = props => {
               image_url="/images/natural-sciences.svg"
               title="Natural Sciences"
               superdiscipline="natural-sciences"
-              disciplines={props.disciplines}
             />
             <Superdiscipline
               image_url="/images/formal-sciences.svg"
               title="Formal Sciences"
-              disciplines={props.disciplines}
               superdiscipline="formal-sciences"
             />
             <Superdiscipline
               image_url="/images/applied-sciences.svg"
               title="Applied Sciences"
-              disciplines={props.disciplines}
               superdiscipline="applied-sciences"
             />
           </div>
@@ -166,13 +158,6 @@ const Disciplines: NextPage<DisciplinesProps> = props => {
       </div>
     </StandardPage>
   );
-};
-
-Disciplines.getInitialProps = async function(context: NextPageContext) {
-  const disciplines = apiDisciplines({});
-  return {
-    disciplines: await disciplines
-  };
 };
 
 export default Disciplines;

@@ -1,11 +1,12 @@
 import _ from "lodash";
 import { useCallback } from "react";
 import Select from "react-select";
-import { lookupDiscipline } from "../../disciplines";
+import { useBasicContext } from "../BasicContext";
 import FilterLabel from "./FilterLabel";
 import { FilterProps } from "./types";
 
 const Discipline = (props: FilterProps) => {
+  const basicContext = useBasicContext();
   const onChange = useCallback(
     event => {
       props.updateRequest({
@@ -21,14 +22,11 @@ const Discipline = (props: FilterProps) => {
   let supertopic: string | null;
   let subtopic: string | null;
 
-  if (
-    discipline === null ||
-    lookupDiscipline(props.disciplines, discipline).level === 1
-  ) {
+  if (discipline === null || basicContext.discipline(discipline).level === 1) {
     supertopic = discipline;
     subtopic = null;
   } else {
-    supertopic = lookupDiscipline(props.disciplines, discipline).parent;
+    supertopic = basicContext.discipline(discipline).parent;
     subtopic = discipline;
   }
 
@@ -37,7 +35,7 @@ const Discipline = (props: FilterProps) => {
       value: null,
       label: "Overall"
     },
-    ...props.disciplines
+    ...basicContext.disciplines
       .filter(item => item.level === 1)
       .map(item => ({
         value: item.slug,
@@ -53,7 +51,7 @@ const Discipline = (props: FilterProps) => {
       value: null,
       label: "Overall"
     },
-    ...props.disciplines
+    ...basicContext.disciplines
       .filter(item => item.parent === supertopic)
       .map(item => ({
         value: item.slug,

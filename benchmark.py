@@ -11,7 +11,7 @@ for line in open('./urls.txt'):
         soup = BeautifulSoup(response.text, 'html.parser')
         data = json.loads(soup.find(id = '__NEXT_DATA__').text)
         if 'err' in data:
-            print("ERROR")
+            print("ERROR", line)
             break
     after = time.time()
 

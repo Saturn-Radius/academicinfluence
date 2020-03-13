@@ -1,16 +1,10 @@
 import { useState } from "react";
-import {
-  apiCountries,
-  apiDisciplines,
-  apiInfluentialSchoolsPage
-} from "../../api";
+import { apiInfluentialSchoolsPage } from "../../api";
 import DISPLAY_MODES from "../../components/schools/constants";
 import ListTopMenu from "../../components/schools/ListTopMenu";
 import SchoolList from "../../components/schools/SchoolList";
 import QuerySchema, { RangeParameter } from "../../QuerySchema";
 import {
-  CountriesResponse,
-  DisciplinesResponse,
   InfluentialSchoolsPageRequest,
   InfluentialSchoolsPageResponse
 } from "../../schema";
@@ -36,8 +30,6 @@ const QUERY_SCHEMA = QuerySchema("/schools", {
 });
 
 type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
-  countries: CountriesResponse;
-  disciplines: DisciplinesResponse;
   request: InfluentialSchoolsPageRequest;
   updateRequest: (request: InfluentialSchoolsPageRequest) => void;
 };
@@ -54,11 +46,7 @@ const InfluentialSchools: React.SFC<InfluentialSchoolsProps> = props => {
         mode={displayMode}
         onDisplayModeSelect={setDisplayMode}
       />
-      <SchoolList
-        mode={displayMode}
-        schools={props.schools}
-        disciplines={props.disciplines}
-      />
+      <SchoolList mode={displayMode} schools={props.schools} />
     </StandardPage>
   );
 };
@@ -71,13 +59,8 @@ export default QueryPage(
   },
   async (request, signal) => {
     const schools = apiInfluentialSchoolsPage(request, signal);
-    const disciplines = apiDisciplines({}, signal);
-    const countries = apiCountries({}, signal);
     return {
-      ...(await schools),
-      disciplines: await disciplines,
-      countries: await countries,
-      request
+      ...(await schools)
     };
   },
   props => props.schools.length == 0

@@ -1,11 +1,6 @@
 import styled from "@emotion/styled";
-import { disciplineName, lookupDiscipline } from "../../disciplines";
 import { SchoolLink } from "../../links";
-import {
-  DisciplinesResponse,
-  SchoolData,
-  SchoolPartialData
-} from "../../schema";
+import { SchoolData, SchoolPartialData } from "../../schema";
 import {
   GRAY,
   GRAY_DARKEST,
@@ -13,6 +8,7 @@ import {
   MAIN_DARKER,
   MAIN_LIGHTER
 } from "../../styles";
+import { useBasicContext } from "../BasicContext";
 import DisciplineIcon from "../DisciplineIcon";
 import SchoolStatus from "./SchoolStatus";
 
@@ -156,25 +152,21 @@ const InfoValue = (props: InfoValueProps) =>
     </InfoValueWrapper>
   );
 
-const LawBadge = (props: {
-  disciplines: DisciplinesResponse;
-  school: SchoolPartialData;
-}) =>
-  props.school.top_discipline === null ? null : (
+const LawBadge = (props: { school: SchoolPartialData }) => {
+  const basicContext = useBasicContext();
+  return props.school.top_discipline === null ? null : (
     <LawBadgeWrapper>
       <DisciplineIcon
         style={{ fontSize: "51px" }}
-        discipline={lookupDiscipline(
-          props.disciplines,
-          props.school.top_discipline
-        )}
+        discipline={basicContext.discipline(props.school.top_discipline)}
       />
       <LawRank>
         #{props.school.top_discipline_rank} for{" "}
-        {disciplineName(props.disciplines, props.school.top_discipline)}
+        {basicContext.disciplineName(props.school.top_discipline)}
       </LawRank>
     </LawBadgeWrapper>
   );
+};
 
 const RankingLabel = styled.span`
   font-family: "SF UI Display Medium";
@@ -218,7 +210,6 @@ const FullDetailsButton = styled.button`
 interface SchoolListItemProps {
   mode: string;
   school: SchoolData;
-  disciplines: DisciplinesResponse;
 }
 const SchoolListItem = (props: SchoolListItemProps) => {
   const { school } = props;
@@ -255,7 +246,7 @@ const SchoolListItem = (props: SchoolListItemProps) => {
               size={51}
               fontSize={7}
             />
-            <LawBadge school={school} disciplines={props.disciplines} />
+            <LawBadge school={school} />
           </Row>
         </BodyLeftCol>
         <BodyMidCol>

@@ -1,16 +1,11 @@
 import { NextPage } from "next";
-import {
-  apiDisciplines,
-  apiFeaturesPage,
-  apiHomePage,
-  apiInfluentialPeoplePage
-} from "../api";
+import { apiFeaturesPage, apiHomePage, apiInfluentialPeoplePage } from "../api";
+import { useBasicContext } from "../components/BasicContext";
 import DisciplineIcon from "../components/DisciplineIcon";
 import { Article } from "../components/FeaturePage";
 import { ArticleLink, DisciplineLink, PersonLink } from "../links";
 import {
   ArticlePartialData,
-  DisciplinesResponse,
   FeaturesPageResponse,
   HomePageResponse,
   PersonPartialData
@@ -20,7 +15,6 @@ import { ACCENT, MAIN_DARKER } from "../styles";
 type IndexProps = {
   homePage: HomePageResponse;
   features: FeaturesPageResponse;
-  disciplines: DisciplinesResponse;
   people: PersonPartialData[];
 };
 
@@ -84,6 +78,7 @@ function FeatureGrid(props: { articles: ArticlePartialData[] }) {
 }
 
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
+  const basicContext = useBasicContext();
   return (
     <div>
       <div
@@ -137,7 +132,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
       <Section label="FEATURE ARTICLES">
         <FeatureGrid articles={props.features.articles.slice(0, 3)} />
       </Section>
-      {props.disciplines
+      {basicContext.disciplines
         .filter(discipline => discipline.level == 1)
         .map((discipline, index) => (
           <DisciplineLink key={index} discipline={discipline}>
@@ -182,7 +177,6 @@ Index.getInitialProps = async function({ req }) {
     category: null,
     article: null
   });
-  const disciplinesQuery = apiDisciplines({});
   const peopleQuery = apiInfluentialPeoplePage({
     country: null,
     discipline: null,
@@ -196,7 +190,6 @@ Index.getInitialProps = async function({ req }) {
   return {
     homePage: await homePageQuery,
     features: await featuresQuery,
-    disciplines: await disciplinesQuery,
     people: (await peopleQuery).people
   };
 };

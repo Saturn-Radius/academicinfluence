@@ -2,24 +2,24 @@ import { NextPage, NextPageContext } from "next";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
-import { apiDiscipline, apiDisciplines, apiInfluentialSchoolsPage } from "../../../api";
+import { apiDiscipline, apiInfluentialSchoolsPage } from "../../../api";
+import { useBasicContext } from "../../../components/BasicContext";
 import { SubdisciplineList } from "../../../components/disciplines";
 import HtmlContent from "../../../components/HtmlContent";
 import { DISPLAY_MODES, SchoolList } from "../../../components/schools";
-import { disciplineName } from "../../../disciplines";
-import { DisciplineResponse, DisciplinesResponse, SchoolPartialData } from "../../../schema";
+import { DisciplineResponse, SchoolPartialData } from "../../../schema";
 import StandardPage from "../../../templates/StandardPage";
 
 type DisciplinesProps = {
   discipline: string;
   subdiscipline: string;
-  disciplines: DisciplinesResponse;
   schools: SchoolPartialData[];
 } & DisciplineResponse;
 
 const Discipline: NextPage<DisciplinesProps> = props => {
+  const basicContext = useBasicContext();
   return (
-    <StandardPage title={disciplineName(props.disciplines, props.discipline)}>
+    <StandardPage title={basicContext.disciplineName(props.discipline)}>
       <style jsx>
         {`
           .mainContent {
@@ -69,7 +69,6 @@ const Discipline: NextPage<DisciplinesProps> = props => {
           <h3 style={{ fontWeight: 800, marginBottom: 0 }}>Sub-Disciplines</h3>
         </div>
         <SubdisciplineList
-          disciplines={props.disciplines}
           discipline={props.discipline}
           subdiscipline={props.subdiscipline}
         />
@@ -77,9 +76,9 @@ const Discipline: NextPage<DisciplinesProps> = props => {
       <div>
         <div className="disciplineTitle">
           <h1>
-            {disciplineName(props.disciplines, props.discipline)}
+            {basicContext.disciplineName(props.discipline)}
             {props.subdiscipline
-              ? " / " + disciplineName(props.disciplines, props.subdiscipline)
+              ? " / " + basicContext.disciplineName(props.subdiscipline)
               : ""}
           </h1>
         </div>
@@ -92,7 +91,6 @@ const Discipline: NextPage<DisciplinesProps> = props => {
 };
 
 Discipline.getInitialProps = async function(context: NextPageContext) {
-  const disciplines = apiDisciplines({});
   const schools = apiInfluentialSchoolsPage({
     country: null,
     discipline: (context.query.subdiscipline ||
@@ -101,7 +99,6 @@ Discipline.getInitialProps = async function(context: NextPageContext) {
   });
   const discipline = apiDiscipline(context.query.discipline as string);
   return {
-    disciplines: await disciplines,
     discipline: context.query.discipline as string,
     subdiscipline: context.query.subdiscipline as string,
     schools: (await schools).schools,

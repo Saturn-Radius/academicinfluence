@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
 import DisciplineIcon from "../../components/DisciplineIcon";
-import { disciplineName, lookupDiscipline } from "../../disciplines";
 import { SchoolLink } from "../../links";
-import { DisciplinesResponse, SchoolData } from "../../schema";
+import { SchoolData } from "../../schema";
 import {
   GRAY,
   GRAY_DARKEST,
@@ -11,6 +10,7 @@ import {
   MAIN_DARKER,
   MAIN_LIGHTER
 } from "../../styles";
+import { useBasicContext } from "../BasicContext";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -180,9 +180,10 @@ const InfoValue = (props: InfoValueProps) =>
 interface SchoolThListItemProps {
   mode: string;
   school: SchoolData;
-  disciplines: DisciplinesResponse;
 }
 const SchoolThListItem = (props: SchoolThListItemProps) => {
+  const basicContext = useBasicContext();
+
   const { school } = props;
   const {
     slug,
@@ -230,16 +231,13 @@ const SchoolThListItem = (props: SchoolThListItemProps) => {
             {school.top_discipline && (
               <DisciplineIcon
                 style={{ fontSize: "70px" }}
-                discipline={lookupDiscipline(
-                  props.disciplines,
-                  school.top_discipline
-                )}
+                discipline={basicContext.discipline(school.top_discipline)}
               />
             )}
             {school.top_discipline && (
               <LawRank>
                 #{school.top_discipline_rank} for{" "}
-                {disciplineName(props.disciplines, school.top_discipline)}
+                {basicContext.disciplineName(school.top_discipline)}
               </LawRank>
             )}
             <InfoValue label="Tuition" value={undergrad_tuition_in_state} />

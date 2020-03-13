@@ -1,10 +1,12 @@
 import _ from "lodash";
 import { useCallback } from "react";
 import Select from "react-select";
+import { useBasicContext } from "../BasicContext";
 import FilterLabel from "./FilterLabel";
 import { FilterProps } from "./types";
 
 const Country = (props: FilterProps) => {
+  const basicContext = useBasicContext();
   const onChange = useCallback(
     event => {
       props.updateRequest({
@@ -22,7 +24,7 @@ const Country = (props: FilterProps) => {
       value: null,
       label: "All"
     },
-    ...props.countries.map(item => ({
+    ...basicContext.countries.map(item => ({
       value: item.name,
       label: item.name
     }))
