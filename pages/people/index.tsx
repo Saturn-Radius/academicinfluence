@@ -5,7 +5,6 @@ import "rc-slider/assets/index.css";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
 import React from "react";
-import Autocomplete from "react-autocomplete";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
 import {
@@ -14,12 +13,12 @@ import {
   apiInfluentialPeoplePage,
   apiPersonSearch
 } from "../../api";
+import Autocomplete from "../../components/Autocomplete";
 import { lookupDiscipline } from "../../disciplines";
 import QuerySchema, { RangeParameter } from "../../QuerySchema";
 import {
   CountriesResponse,
   DisciplinesResponse,
-  Identifiable,
   InfluentialPeoplePageRequest,
   InfluentialPeoplePageResponse
 } from "../../schema";
@@ -303,47 +302,30 @@ type InfluentialPeopleProps = InfluentialPeoplePageResponse & {
   updateRequest: (request: InfluentialPeoplePageRequest) => void;
 };
 
-function PersonSearchBox() {
-  const [value, setValue] = React.useState("");
-  const [items, setItems] = React.useState([] as Identifiable[]);
+async function lookupPersons(text: string, signal?: AbortSignal) {
+  const response = await apiPersonSearch(text, signal);
+  return response.people;
+}
 
-  const onChange = React.useCallback(
-    async text => {
-      setItems([]);
-      setValue(text.target.value);
-      const items = await apiPersonSearch(text.target.value);
-      setItems(items.people);
-    },
-    [setValue, setItems]
-  );
-
+const PersonSearchBox = (props: {}) => {
+  const [text, setText] = React.useState("");
   const router = useRouter();
-
   const onSelect = React.useCallback(
-    slug => {
-      router.push("/people/" + slug);
+    school => {
+      router.push("/people/[slug]", "/people/" + school.slug);
     },
     [router]
   );
 
   return (
     <Autocomplete
-      value={value}
-      items={items}
-      onChange={onChange}
+      text={text}
+      textChange={setText}
       onSelect={onSelect}
-      getItemValue={item => item.slug}
-      renderItem={(item, isHighlighted) => (
-        <div
-          key={item.slug}
-          style={{ background: isHighlighted ? "lightgray" : "white" }}
-        >
-          {item.name}
-        </div>
-      )}
+      api={lookupPersons}
     />
   );
-}
+};
 
 const QUERY_SCHEMA = QuerySchema("/schools", {
   discipline: {
