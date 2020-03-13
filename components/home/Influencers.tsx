@@ -1,11 +1,11 @@
 import { PersonLink } from "../../links";
 import { PersonPartialData } from "../../schema";
 
-type people = {
+type People = {
   people: PersonPartialData[];
 };
 
-const Influencers = (props: people) => {
+const Influencers = (props: People) => {
   return (
     <div>
       <style jsx>

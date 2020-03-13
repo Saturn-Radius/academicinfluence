@@ -2,11 +2,11 @@ import { DisciplineLink } from "../../links";
 import { DisciplineDetail } from "../../schema";
 import DisciplineIcon from "../DisciplineIcon";
 
-type disciplines = {
+type Disciplines = {
   disciplines: DisciplineDetail[];
 };
 
-const Influence = (props: disciplines) => {
+const Influence = (props: Disciplines) => {
   return (
     <div>
       <style jsx>

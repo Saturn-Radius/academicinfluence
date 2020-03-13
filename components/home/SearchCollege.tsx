@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-const SearchCollege = (props: any) => {
+const SearchCollege = (props: {}) => {
   return (
     <>
       <style jsx>

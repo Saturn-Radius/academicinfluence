@@ -1,6 +1,7 @@
 import { ArticleLink } from "../../links";
+import { ArticlePartialData } from "../../schema";
 
-const HomeArticles = (props: any) => {
+const HomeArticles = (props: { article: ArticlePartialData; type: number }) => {
   if (!props.article) {
     return <></>;
   }
