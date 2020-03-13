@@ -1135,6 +1135,7 @@ export default QueryPage(
     const disciplines = await disciplinesPromise;
     return { data, disciplines };
   },
+  props => props.data.schools.length == 0,
   (request, props) => ({
     ...request,
     tuition: processQueryLimit(

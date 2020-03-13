@@ -378,5 +378,6 @@ export default QueryPage(
       countries: await countries,
       request
     };
-  }
+  },
+  props => props.people.length == 0
 );

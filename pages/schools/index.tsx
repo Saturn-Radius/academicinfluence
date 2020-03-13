@@ -75,5 +75,6 @@ export default QueryPage(
       countries: await countries,
       request
     };
-  }
+  },
+  props => props.schools.length == 0
 );

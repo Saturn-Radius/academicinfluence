@@ -18,6 +18,7 @@ export default function QueryPage<
   schema: QuerySchemaType<RequestType>,
   seoProps: NextSeoProps,
   data: (request: Data<RequestType>, signal?: AbortSignal) => Promise<Props>,
+  isEmpty: (props: Props) => boolean,
   rawProcessRequest?: (
     request: Data<RequestType>,
     props: Props
@@ -77,6 +78,10 @@ export default function QueryPage<
     } finally {
       Router.events.off("routeChangeError", onRouteChange);
     }
+    if (context.res && isEmpty(resolved)) {
+      context.res.statusCode = 404;
+    }
+
     return {
       ...resolved,
       request
