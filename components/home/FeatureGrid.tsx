@@ -1,74 +1,79 @@
 import { ArticlePartialData } from "../../schema";
+import HomeArticles from "./HomeArticles";
 
 interface GridProps {
   articles: ArticlePartialData[];
 }
 
 const FeatureGrid = (props: GridProps) => {
-  let selectArticel = props.articles.slice(0, 3);
   return (
     <div>
       <style jsx>
         {`
           .featureContent {
             display: flex;
-            justify-content: space-evenly;
+            justify-content: center;
           }
-          .leftArticles {
+          .leftArticle {
+            max-width: 650px;
+            padding-right: 35px;
+            border-right: 1px solid #666666;
+          }
+          .rightArticles {
             display: flex;
             flex-direction: column;
             max-width: 650px;
-          }
-          .rightArticles {
-            max-width: 650px;
-          }
-          .article {
-            display: flex;
+            padding-left: 30px;
           }
           @media (max-width: 600px) {
+            .featureContent {
+              flex-direction: column;
+            }
+            .leftArticle {
+              width: 100%;
+              padding-right: 0px;
+              border: none;
+              border-bottom: 1px solid #666666;
+            }
+            .rightArticles {
+              flex-direction: row;
+              padding-left: 0px;
+              justify-content: center;
+              margin-top: 18px;
+            }
+            .showSection {
+              width: 45%;
+            }
+            .hiddenSection {
+              display: none;
+            }
+            #secondArticle {
+              border-right: 1px solid #666666;
+            }
           }
         `}
       </style>
       <div className="featureContent">
-        <div className="leftArticles">
-          <img src="/images/tempFeature01.PNG" />
-          <h1>Article 3 Headline</h1>
-          <span>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
-          </span>
+        <div className="leftArticle">
+          {props.articles.map(
+            (article, index) =>
+              index === 0 && (
+                <HomeArticles article={article} key={index} type={index} />
+              )
+          )}
         </div>
         <div className="rightArticles">
-          <div className="article">
-            <img src="/images/temp02.PNG" />
-            <div>
-              <h2>Article Headline</h2>
-              <span>
-                Pellentesque eu tincidunt tortor aliquam nulla facilisi cras
-                fermentum odio.
-              </span>
-            </div>
-          </div>
-          <div className="article">
-            <img src="/images/temp03.PNG" />
-            <div>
-              <h2>Article Headline</h2>
-              <span>
-                Pellentesque eu tincidunt tortor aliquam nulla facilisi cras
-                fermentum odio.
-              </span>
-            </div>
-          </div>
-          <div className="article">
-            <img src="/images/temp04.PNG" />
-            <div>
-              <h2>Article Headline</h2>
-              <span>
-                Pellentesque eu tincidunt tortor aliquam nulla facilisi cras
-                fermentum odio.
-              </span>
-            </div>
-          </div>
+          {props.articles.map(
+            (article, index) =>
+              index !== 0 && (
+                <div
+                  className={index === 3 ? "hiddenSection" : "showSection"}
+                  id={index === 1 ? "secondArticle" : "extraArticles"}
+                >
+                  <HomeArticles article={article} key={index} type={index} />
+                </div>
+              )
+          )}
         </div>
       </div>
     </div>

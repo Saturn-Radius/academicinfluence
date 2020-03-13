@@ -10,7 +10,8 @@ import {
   CollegeList,
   FeatureArticles,
   FeatureGrid,
-  Influence
+  Influence,
+  Influencers
 } from "../components/home";
 import { ArticleLink } from "../links";
 import {
@@ -28,7 +29,6 @@ type IndexProps = {
 };
 
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
-  console.log("11111", props);
   return (
     <div>
       <style jsx>
@@ -66,7 +66,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
           .sidebarSection {
             text-align: center;
             padding-bottom: 55px;
-            border-bottom: 0.5px solid black;
+            border-bottom: 0.5px solid #666666;
           }
           .collegeTitle {
             color: #1e988a;
@@ -87,6 +87,15 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
             margin-top: 27px;
             margin-bottom: 48px;
           }
+          .influencers {
+            text-align: center;
+            padding-bttom: 55px;
+          }
+          .influencerTitle {
+            color: #1e988a;
+            margin-top: 27px;
+            margin-bottom: 48px;
+          }
           @media (max-width: 700px) {
             .logoContent {
               margin-left: 13%;
@@ -97,6 +106,12 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
               font-size: 20px;
             }
             .collegeTitle {
+              font-size: 20px;
+            }
+            .influenceTitle {
+              font-size: 20px;
+            }
+            .influencerTitle {
               font-size: 20px;
             }
           }
@@ -117,12 +132,16 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
         </div>
         <div className="feature">
           <FeatureArticles label="FEATURE">
-            <FeatureGrid articles={props.features.articles} />
+            <FeatureGrid articles={props.features.articles.slice(0, 4)} />
           </FeatureArticles>
         </div>
         <div className="influence">
           <h1 className="influenceTitle">Influence by discipline</h1>
           <Influence disciplines={props.disciplines} />
+        </div>
+        <div className="influencers">
+          <h1 className="influencerTitle">NOTABLE INFLUENCERS</h1>
+          <Influencers people={props.people} />
         </div>
       </div>
       <BacktotopButton />
