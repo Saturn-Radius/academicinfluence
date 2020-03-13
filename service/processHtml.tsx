@@ -1,4 +1,4 @@
-import { DataNode, Node, NodeWithChildren } from "domhandler";
+import { DataNode, Element, Node, NodeWithChildren } from "domhandler";
 import { AllHtmlEntities } from "html-entities";
 import { domToReact } from "html-react-parser";
 import { ElementType, parseDOM } from "htmlparser2";
@@ -7,6 +7,8 @@ import React, { ReactElement } from "react";
 import smartQuotes from "smart-quotes";
 import { Html } from "../schema";
 import SHORTCODES, { ResolvePromise } from "../shortcodes";
+const inlineStyleParser = require("inline-style-parser");
+
 function allChildren(child: any) {
   return React.Children.map(child, x => x) || [];
 }
@@ -78,6 +80,16 @@ function handleText(node: Node) {
   } else if (node instanceof NodeWithChildren) {
     for (const child of node.childNodes) {
       handleText(child);
+    }
+    if (node instanceof Element) {
+      const style = node.attribs.style;
+      if (style) {
+        try {
+          inlineStyleParser(style);
+        } catch (_error) {
+          delete node.attribs.style;
+        }
+      }
     }
   }
 }
