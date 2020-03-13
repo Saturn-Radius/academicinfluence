@@ -22,7 +22,8 @@ export default function Autocomplete<T extends { name: string }>(props: {
   );
 
   const suggestionsLookup = useAsyncAbortable(
-    (abortSignal, text) => debouncedApi({ text, abortSignal }),
+    async (abortSignal, text) =>
+      text === "" ? [] : debouncedApi({ text, abortSignal }),
     [props.text]
   );
 
