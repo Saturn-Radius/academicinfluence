@@ -179,12 +179,13 @@ interface InfoValueProps {
   readonly label: string;
   readonly value: number;
 }
-const InfoValue = (props: InfoValueProps) => (
-  <InfoValueWrapper>
-    <InfoLabel>{props.label}</InfoLabel>
-    <Value>${props.value}</Value>
-  </InfoValueWrapper>
-);
+const InfoValue = (props: InfoValueProps) =>
+  props.value === null ? null : (
+    <InfoValueWrapper>
+      <InfoLabel>{props.label}</InfoLabel>
+      <Value>${props.value.toLocaleString()}</Value>
+    </InfoValueWrapper>
+  );
 
 interface SchoolGridItemProps {
   mode: string;

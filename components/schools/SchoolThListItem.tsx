@@ -1,6 +1,13 @@
 import styled from "@emotion/styled";
 import { SchoolLink } from "../../links";
-import { GRAY, GRAY_DARKEST, GRAY_LIGHTER, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
+import {
+  GRAY,
+  GRAY_DARKEST,
+  GRAY_LIGHTER,
+  GRAY_LIGHTEST,
+  MAIN_DARKER,
+  MAIN_LIGHTER
+} from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -159,12 +166,13 @@ interface InfoValueProps {
   readonly label: string;
   readonly value: number;
 }
-const InfoValue = (props: InfoValueProps) => (
-  <InfoValueWrapper>
-    <RightColLabel>{props.label}</RightColLabel>
-    <RightColValue>${props.value}</RightColValue>
-  </InfoValueWrapper>
-);
+const InfoValue = (props: InfoValueProps) =>
+  props.value === null ? null : (
+    <InfoValueWrapper>
+      <RightColLabel>{props.label}</RightColLabel>
+      <RightColValue>${props.value.toLocaleString()}</RightColValue>
+    </InfoValueWrapper>
+  );
 
 interface SchoolThListItemProps {
   mode: string;

@@ -1,6 +1,12 @@
 import styled from "@emotion/styled";
 import { SchoolLink } from "../../links";
-import { GRAY, GRAY_DARKEST, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
+import {
+  GRAY,
+  GRAY_DARKEST,
+  GRAY_LIGHTEST,
+  MAIN_DARKER,
+  MAIN_LIGHTER
+} from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -135,12 +141,13 @@ interface InfoValueProps {
   readonly label: string;
   readonly value: number;
 }
-const InfoValue = (props: InfoValueProps) => (
-  <InfoValueWrapper>
-    <InfoLabel>{props.label}</InfoLabel>
-    <Value>${props.value}</Value>
-  </InfoValueWrapper>
-);
+const InfoValue = (props: InfoValueProps) =>
+  props.value === null ? null : (
+    <InfoValueWrapper>
+      <InfoLabel>{props.label}</InfoLabel>
+      <Value>${props.value.toLocaleString()}</Value>
+    </InfoValueWrapper>
+  );
 
 const LawBadge = () => (
   <LawBadgeWrapper>
