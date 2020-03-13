@@ -1,4 +1,3 @@
-import databasePool from "../databasePool";
 import {
   disciplineBreakdownQuery,
   extractDisciplineBreakdown
@@ -15,8 +14,6 @@ import { SCHOOL_ENTITY_TYPE } from "./schoolDatabase";
 export default async function servePersonPage(
   request: PersonPageRequest
 ): Promise<PersonPageResponse> {
-  const pool = await databasePool;
-
   const personQuery = lookupBySlug(PERSON_ENTITY_TYPE, request.slug)
     .apply(addPartialPersonFields)
     .addEntityFields(PERSON_ENTITY_TYPE)

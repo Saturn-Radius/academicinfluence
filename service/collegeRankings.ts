@@ -1,4 +1,4 @@
-import databasePool from "../databasePool";
+import { databaseQuery } from "../databasePool";
 import { CollegeRankingsRequest, CollegeRankingsResponse } from "../schema";
 import * as squel from "../squel";
 import { extractOverall, lookupAll } from "./entityDatabase";
@@ -11,8 +11,6 @@ import {
 export default async function serveCollegeRankings(
   request: CollegeRankingsRequest
 ): Promise<CollegeRankingsResponse> {
-  const pool = await databasePool;
-
   const innerQuery = lookupAll(SCHOOL_ENTITY_TYPE)
     .apply(addPartialSchoolFields)
     .addInfluenceFields(SCHOOL_ENTITY_TYPE, undefined, request.discipline)
@@ -61,9 +59,9 @@ export default async function serveCollegeRankings(
     );
   }
 
-  const sentQuery = pool.query(query.toParam());
+  const sentQuery = databaseQuery(query);
 
-  const limitQuery = pool.query(
+  const limitQuery = databaseQuery(
     squel
       .select()
       .from(innerQuery.inner(), "data")
@@ -75,7 +73,6 @@ export default async function serveCollegeRankings(
       .field(squel.rstr("min(acceptance_rate)"), "min_acceptance_rate")
       .field(squel.rstr("max(total_students)"), "max_total_students")
       .field(squel.rstr("min(total_students)"), "min_total_students")
-      .toParam()
   );
 
   const queryResult = await sentQuery;

@@ -1,4 +1,4 @@
-import databasePool from "../databasePool";
+import { databaseQuery } from "../databasePool";
 import { DisciplineRequest, DisciplineResponse } from "../schema";
 import * as squel from "../squel";
 import processHtml from "./processHtml";
@@ -6,16 +6,13 @@ import processHtml from "./processHtml";
 export default async function serveDiscipline(
   request: DisciplineRequest
 ): Promise<DisciplineResponse> {
-  const pool = await databasePool;
-
-  const data = await pool.query(
+  const data = await databaseQuery(
     squel
       .select()
       .from("editor.ai_disciplines")
       .where("lower(name) = ?", request.replace(/-/g, " "))
       .field("description")
       .field("name")
-      .toParam()
   );
 
   const row = data.rows[0];

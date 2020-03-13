@@ -1,6 +1,6 @@
 import dateFormat from "date-fns/format";
 import smartQuotes from "smart-quotes";
-import databasePool from "../databasePool";
+import { databaseQuery } from "../databasePool";
 import { FeaturesPageRequest, FeaturesPageResponse } from "../schema";
 import * as squel from "../squel";
 import processHtml from "./processHtml";
@@ -8,9 +8,7 @@ import processHtml from "./processHtml";
 export default async function serveFeaturesPage(
   request: FeaturesPageRequest
 ): Promise<FeaturesPageResponse> {
-  const pool = await databasePool;
-
-  const categoriesQuery = pool.query(
+  const categoriesQuery = databaseQuery(
     squel
       .select()
       .from("editor.ai_categories")
@@ -26,14 +24,12 @@ export default async function serveFeaturesPage(
           .where("ai_articles.category = ai_categories.id")
         //.where("ai_articles.status = ?", "PUBLISHED")
       )
-
-      .toParam()
   );
 
   const categoryQuery =
     request.category === null
       ? null
-      : pool.query(
+      : databaseQuery(
           squel
             .select()
             .from("editor.ai_categories")
@@ -41,7 +37,6 @@ export default async function serveFeaturesPage(
             .field("slug")
             .field("description")
             .where("slug = ?", request.category)
-            .toParam()
         );
 
   const articlesQueryBuilder = squel
@@ -70,12 +65,12 @@ export default async function serveFeaturesPage(
     articlesQueryBuilder.where("ai_categories.slug = ?", request.category);
   }
 
-  const articlesQuery = pool.query(articlesQueryBuilder.toParam());
+  const articlesQuery = databaseQuery(articlesQueryBuilder);
 
   const articleQuery =
     request.article === null
       ? null
-      : pool.query(
+      : databaseQuery(
           squel
             .select()
             .from("editor.ai_articles")
@@ -97,7 +92,6 @@ export default async function serveFeaturesPage(
             .field("ai_categories.slug", "category_slug")
             .field("ai_categories.name", "category_name")
             .limit(1)
-            .toParam()
         );
 
   const articles = (await articlesQuery).rows.map(article => ({

@@ -1,5 +1,5 @@
 import { BaseBuilder, Expression, FieldOptions, PostgresSelect } from "squel";
-import databasePool from "../databasePool";
+import { databaseQuery } from "../databasePool";
 import { influenceScoreColumn } from "../influenceScore";
 import * as squel from "../squel";
 import processHtml, { processText } from "./processHtml";
@@ -200,13 +200,7 @@ export class EntityQuery {
   }
 
   async execute() {
-    const pool = await databasePool;
-    try {
-      return pool.query(this._query.toParam());
-    } catch (error) {
-      console.log(this._query.toString());
-      throw error;
-    }
+    return databaseQuery(this._query);
   }
 }
 

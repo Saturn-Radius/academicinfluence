@@ -1,13 +1,11 @@
-import databasePool from "../databasePool";
+import { databaseQuery } from "../databasePool";
 import { HomePageRequest, HomePageResponse } from "../schema";
 import * as squel from "../squel";
 
 export default async function serveHomePage(
   request: HomePageRequest
 ): Promise<HomePageResponse> {
-  const pool = await databasePool;
-
-  const homePageQuery = await pool.query(
+  const homePageQuery = await databaseQuery(
     squel
       .select()
       .from("editor.ai_home_pages")
@@ -30,11 +28,9 @@ export default async function serveHomePage(
       .field("ai_articles.hero_image_thumbnail_url")
       .field("ai_articles.slug")
       .field("ai_categories.slug", "category_slug")
-      .toParam()
   );
 
   const homePage = homePageQuery.rows[0];
-  console.log(homePage);
   return {
     currentFeature: {
       name: homePage.name,

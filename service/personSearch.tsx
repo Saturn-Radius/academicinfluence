@@ -1,5 +1,5 @@
 import { Dictionary } from "lodash";
-import databasePool from "../databasePool";
+import { databaseQuery } from "../databasePool";
 import { PersonSearchRequest, PersonSearchResponse } from "../schema";
 import * as squel from "../squel";
 import { PERSON_ENTITY_TYPE } from "./databasePerson";
@@ -8,9 +8,7 @@ import { extractIdentifiableFields, lookupAll } from "./entityDatabase";
 export default async function serveAutocomplete(
   request: PersonSearchRequest
 ): Promise<PersonSearchResponse> {
-  const pool = await databasePool;
-
-  const query = pool.query(
+  const query = databaseQuery(
     lookupAll(PERSON_ENTITY_TYPE)
       .join(
         "ai_data.person_aliases",
@@ -27,7 +25,6 @@ export default async function serveAutocomplete(
       .field("people.name", "name")
       .where("alias % ?", request)
       .limit(10)
-      .toParam()
   );
 
   const seen: Dictionary<boolean> = {};

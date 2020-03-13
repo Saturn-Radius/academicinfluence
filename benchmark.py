@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 
 for line in open('./urls.txt'):
     before = time.time()
-    for _ in range(1):
+    for _ in range(10):
         response = requests.get('http://localhost:3000' + line.strip())
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')

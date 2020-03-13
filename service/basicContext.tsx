@@ -1,4 +1,4 @@
-import databasePool from "../databasePool";
+import { databaseQuery } from "../databasePool";
 import { BasicContextRequest, BasicContextResponse } from "../schema";
 import * as squel from "../squel";
 import { disciplineNameToSlug } from "../utils/disciplines";
@@ -6,19 +6,16 @@ import { disciplineNameToSlug } from "../utils/disciplines";
 export default async function serveBasicContext(
   request: BasicContextRequest
 ): Promise<BasicContextResponse> {
-  const pool = await databasePool;
-
-  const superdisciplineQuery = pool.query(
+  const superdisciplineQuery = databaseQuery(
     squel
       .select()
       .from("editor.ai_disciplines")
       .field("editor.ai_disciplines.name")
       .field("editor.ai_disciplines.superdiscipline")
       .where("active")
-      .toParam()
   );
 
-  const subdisciplineQuery = pool.query(
+  const subdisciplineQuery = databaseQuery(
     squel
       .select()
       .from("editor.ai_subdisciplines")
@@ -30,10 +27,9 @@ export default async function serveBasicContext(
         "editor.ai_disciplines.id = editor.ai_subdisciplines.parent"
       )
       .where("ai_subdisciplines.active")
-      .toParam()
   );
 
-  const countriesQuery = pool.query(
+  const countriesQuery = databaseQuery(
     squel
       .select()
       .from("ai_data.schools")
@@ -41,7 +37,6 @@ export default async function serveBasicContext(
       .group("country")
       .order("country")
       .where("country is not null")
-      .toParam()
   );
 
   const disciplines = [];

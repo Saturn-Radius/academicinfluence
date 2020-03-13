@@ -1,4 +1,4 @@
-import databasePool from "../databasePool";
+import { databaseQuery } from "../databasePool";
 import {
   LocationAutocompleteRequest,
   LocationAutocompleteResponse
@@ -8,9 +8,7 @@ import * as squel from "../squel";
 export default async function serveAutocomplete(
   request: LocationAutocompleteRequest
 ): Promise<LocationAutocompleteResponse> {
-  const pool = await databasePool;
-
-  const query = await pool.query(
+  const query = await databaseQuery(
     squel
       .select()
       .from("ai_data.cities")
@@ -23,7 +21,6 @@ export default async function serveAutocomplete(
       .field("st_y(location::geometry)", "lat")
       .limit(20)
       .order("population", true)
-      .toParam()
   );
 
   return {

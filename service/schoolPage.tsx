@@ -1,4 +1,3 @@
-import databasePool from "../databasePool";
 import {
   disciplineBreakdownQuery,
   extractDisciplineBreakdownWithYears
@@ -184,8 +183,6 @@ function calcWeather(maximums: number[], minimums: number[]) {
 export default async function serveSchoolPage(
   request: SchoolPageRequest
 ): Promise<SchoolPageResponse> {
-  const pool = await databasePool;
-
   const schoolQuery = lookupBySlug(SCHOOL_ENTITY_TYPE, request.slug)
     .apply(addPartialSchoolFields)
     .addEntityFields(SCHOOL_ENTITY_TYPE)

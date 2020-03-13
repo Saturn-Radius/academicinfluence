@@ -1,4 +1,4 @@
-import databasePool from "../databasePool";
+import { databaseQuery } from "../databasePool";
 import { SchoolSearchRequest, SchoolSearchResponse } from "../schema";
 import * as squel from "../squel";
 import { extractIdentifiableFields, lookupAll } from "./entityDatabase";
@@ -7,9 +7,7 @@ import { SCHOOL_ENTITY_TYPE } from "./schoolDatabase";
 export default async function serveAutocomplete(
   request: SchoolSearchRequest
 ): Promise<SchoolSearchResponse> {
-  const pool = await databasePool;
-
-  const query = pool.query(
+  const query = databaseQuery(
     lookupAll(SCHOOL_ENTITY_TYPE)
       .join(
         "ai_data.school_aliases",
@@ -26,7 +24,6 @@ export default async function serveAutocomplete(
       .field("max(ai_schools.slug)", "slug")
       .field("max(schools.name)", "name")
       .limit(10)
-      .toParam()
   );
 
   return {

@@ -1,4 +1,4 @@
-import databasePool from "../databasePool";
+import { databaseQuery } from "../databasePool";
 import { influenceScoreQuery } from "../influenceScore";
 import { SchoolSubjectPageRequest, SchoolSubjectPageResponse } from "../schema";
 import { addPartialPersonFields, extractPartialPerson } from "./databasePerson";
@@ -170,8 +170,6 @@ function calcWeather(maximums: number[], minimums: number[]) {
 export default async function serveSchoolSubjectPage(
   request: SchoolSubjectPageRequest
 ): Promise<SchoolSubjectPageResponse> {
-  const pool = await databasePool;
-
   const baseQuery = addPartialPersonFields(
     influenceScoreQuery("person", 1900, 2020)
       .join(
@@ -200,22 +198,16 @@ export default async function serveSchoolSubjectPage(
       .limit(10) as any
   ) as any;
 
-  const alumniQuery = pool.query(
-    baseQuery
-      .clone()
-      .where("person_schools.relationship = ?", "Student")
-      .toParam()
+  const alumniQuery = databaseQuery(
+    baseQuery.clone().where("person_schools.relationship = ?", "Student")
   );
 
-  const staffQuery = pool.query(
-    baseQuery
-      .clone()
-      .where("person_schools.relationship = ?", "Staff")
-      .toParam()
+  const staffQuery = databaseQuery(
+    baseQuery.clone().where("person_schools.relationship = ?", "Staff")
   );
 
   return {
     alumni: (await alumniQuery).rows.map(extractPartialPerson),
     staff: (await staffQuery).rows.map(extractPartialPerson)
-  };
+  } as any;
 }
