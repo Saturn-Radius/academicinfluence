@@ -1,16 +1,20 @@
 import { NextPage } from "next";
 import { apiFeaturesPage, apiHomePage, apiInfluentialPeoplePage } from "../api";
+import BacktotopButton from "../components/BacktotopButton";
 import { useBasicContext } from "../components/BasicContext";
-import DisciplineIcon from "../components/DisciplineIcon";
-import { Article } from "../components/FeaturePage";
-import { ArticleLink, DisciplineLink, PersonLink } from "../links";
 import {
-  ArticlePartialData,
+  FeatureArticles,
+  FeatureGrid,
+  Influence,
+  Influencers,
+  SearchCollege
+} from "../components/home";
+import { ArticleLink } from "../links";
+import {
   FeaturesPageResponse,
   HomePageResponse,
   PersonPartialData
 } from "../schema";
-import { ACCENT, MAIN_DARKER } from "../styles";
 
 type IndexProps = {
   homePage: HomePageResponse;
@@ -18,155 +22,124 @@ type IndexProps = {
   people: PersonPartialData[];
 };
 
-type SectionProps = {
-  label: string;
-  children: React.ReactNode;
-};
-function Section(props: SectionProps) {
-  return (
-    <section>
-      <h1
-        css={{
-          color: MAIN_DARKER,
-          fontSize: "15px",
-          fontWeight: "bold",
-          textAlign: "center",
-          marginTop: "32px",
-          marginBottom: "23px"
-        }}
-      >
-        {props.label}
-      </h1>
-      {props.children}
-    </section>
-  );
-}
-
-function FeatureGrid(props: { articles: ArticlePartialData[] }) {
-  return (
-    <div
-      css={{
-        display: "grid",
-        alignItems: "top",
-
-        ">div:nth-of-type(1)": {
-          gridRow: 1,
-          gridColumnStart: 1,
-          gridColumnEnd: 3,
-          ".article": {
-            marginBottom: "20px",
-            borderBottomStyle: "solid",
-            borderBottomColor: "black",
-            borderBottomWidth: "0.5px"
-          }
-        },
-        ">div:nth-of-type(2)": {
-          gridRow: 2,
-          gridColumn: 1
-        },
-        ">div:nth-of-type(3)": {
-          gridRow: 2,
-          gridColumn: 2
-        }
-      }}
-    >
-      {props.articles.map((article, index) => (
-        <Article article={article} key={index} />
-      ))}
-    </div>
-  );
-}
-
 const Index: NextPage<IndexProps> = (props: IndexProps) => {
   const basicContext = useBasicContext();
   return (
     <div>
-      <div
-        css={{
-          backgroundImage: `url(${props.homePage.currentFeature.bannerUrl})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "contain",
-          width: "100%",
-          height: "394px",
-          display: "flex",
-          flexDirection: "column"
-        }}
-      >
-        <div css={{ flexGrow: 1 }} />
-        <div
-          css={{
-            fontSize: "16px",
-            lineHeight: "18px",
-            color: "white",
-            paddingLeft: "20px",
-            paddingRight: "75%",
-            fontWeight: "bold",
-            justifyContent: "end"
-          }}
-        >
-          {props.homePage.currentFeature.name}
+      <style jsx>
+        {`
+          .maincontent {
+            display: flex;
+            flex-direction: column;
+          }
+          .logo {
+            background-image: url(${props.homePage.currentFeature.bannerUrl});
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 100%;
+            height: 394px;
+          }
+          .logoContent {
+            margin-left: 13%;
+            margin-top: 175px;
+            max-width: 400px;
+          }
+          .logoText {
+            color: white;
+          }
+          .exploreBtn {
+            border-radius: 30px;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+            background-color: #eb5857;
+            height: 36px;
+            line-height: 36px;
+            font-size: 20px;
+            color: white;
+            border-width: 0px;
+            width: 189px;
+          }
+          .sidebarSection {
+            text-align: center;
+            padding-bottom: 55px;
+            border-bottom: 0.5px solid #666666;
+          }
+          .collegeTitle {
+            color: #1e988a;
+            margin-top: 27px;
+            margin-bottom: 48px;
+          }
+          .feature {
+            text-align: center;
+            padding-bottom: 55px;
+          }
+          .influence {
+            text-align: center;
+            padding-bottom: 55px;
+            background-color: white;
+          }
+          .influenceTitle {
+            color: #1e988a;
+            margin-top: 27px;
+            margin-bottom: 48px;
+          }
+          .influencers {
+            text-align: center;
+            padding-bttom: 55px;
+          }
+          .influencerTitle {
+            color: #1e988a;
+            margin-top: 27px;
+            margin-bottom: 48px;
+          }
+          @media (max-width: 700px) {
+            .logoContent {
+              margin-left: 13%;
+              margin-top: 210px;
+              max-width: 200px;
+            }
+            .logoText {
+              font-size: 20px;
+            }
+            .collegeTitle {
+              font-size: 20px;
+            }
+            .influenceTitle {
+              font-size: 20px;
+            }
+            .influencerTitle {
+              font-size: 20px;
+            }
+          }
+        `}
+      </style>
+      <div className="maincontent">
+        <div className="logo">
+          <div className="logoContent">
+            <h1 className="logoText">{props.homePage.currentFeature.name}</h1>
+            <ArticleLink article={props.homePage.currentFeature}>
+              <button className="exploreBtn">Explore</button>
+            </ArticleLink>
+          </div>
         </div>
-        <ArticleLink article={props.homePage.currentFeature}>
-          <button
-            css={{
-              borderRadius: "30px",
-              boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.25)",
-              backgroundColor: ACCENT,
-              paddingLeft: "56px",
-              paddingRight: "56px",
-              height: "36px",
-              lineHeight: "36px",
-              marginLeft: "20px",
-              marginTop: "20px",
-              fontSize: "20px",
-              color: "white",
-              borderWidth: "0px",
-              width: "189px",
-              margin: "20px"
-            }}
-          >
-            Explore
-          </button>
-        </ArticleLink>
+        <div className="sidebarSection">
+          <h1 className="collegeTitle">FIND YOUR SCHOOL</h1>
+          <SearchCollege />
+        </div>
+        <div className="feature">
+          <FeatureArticles label="FEATURE">
+            <FeatureGrid articles={props.features.articles.slice(0, 4)} />
+          </FeatureArticles>
+        </div>
+        <div className="influence">
+          <h1 className="influenceTitle">Influence by discipline</h1>
+          <Influence disciplines={basicContext.disciplines} />
+        </div>
+        <div className="influencers">
+          <h1 className="influencerTitle">NOTABLE INFLUENCERS</h1>
+          <Influencers people={props.people} />
+        </div>
       </div>
-      <Section label="FEATURE ARTICLES">
-        <FeatureGrid articles={props.features.articles.slice(0, 3)} />
-      </Section>
-      {basicContext.disciplines
-        .filter(discipline => discipline.level == 1)
-        .map((discipline, index) => (
-          <DisciplineLink key={index} discipline={discipline}>
-            <a
-              css={{
-                display: "inline-block",
-                width: "1in",
-                height: "1in",
-                margin: ".5in",
-                "& svg": {
-                  fontSize: "48pt",
-                  display: "block"
-                }
-              }}
-            >
-              <DisciplineIcon discipline={discipline} />
-              {discipline.name}
-            </a>
-          </DisciplineLink>
-        ))}
-
-      <ul>
-        {props.people.map(person => (
-          <li key={person.slug}>
-            {person.image_url && <img width="100" src={person.image_url} />}
-            {person.image_source_url && (
-              <a href={person.image_source_url}>Source</a>
-            )}
-            <PersonLink person={person}>
-              <a>{person.name}</a>
-            </PersonLink>
-          </li>
-        ))}
-      </ul>
+      <BacktotopButton />
     </div>
   );
 };
