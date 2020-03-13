@@ -25,9 +25,14 @@ export default function QuerySchema<
   const toQuery = (obj: Data<P>) => {
     const query: { [k: string]: string } = {};
     for (const [key, value] of Object.entries(properties)) {
-      const encoded = value.toQuery(obj[key]);
-      if (encoded !== value.toQuery(value.default)) {
-        query[key] = encoded;
+      if (obj[key] !== null) {
+        const encoded = value.toQuery(obj[key]);
+        if (
+          value.default === null ||
+          encoded !== value.toQuery(value.default)
+        ) {
+          query[key] = encoded;
+        }
       }
     }
     return query;

@@ -86,10 +86,10 @@ const QUERY_SCHEMA = QuerySchema("/college-ranking", {
     fromQuery: value => value === "t",
     default: false
   },
-  tuition: RangeParameter(0, 57),
-  median_sat: RangeParameter(79, 156),
-  acceptance_rate: RangeParameter(4, 100),
-  total_students: RangeParameter(0, 77),
+  tuition: RangeParameter(0, 100),
+  median_sat: RangeParameter(0, 200),
+  acceptance_rate: RangeParameter(0, 100),
+  total_students: RangeParameter(0, 100),
   years: RangeParameter(1800, 2020),
   states: {
     toQuery: value => (value === null ? undefined : value.join("-")),
@@ -98,8 +98,21 @@ const QUERY_SCHEMA = QuerySchema("/college-ranking", {
     canonical: true
   },
   location: {
-    toQuery: value => JSON.stringify(value),
-    fromQuery: value => JSON.parse(value),
+    toQuery: value => {
+      return `${value.lat}~${value.long}~${value.distance.min}~${value.distance.max}~${value.name}`;
+    },
+    fromQuery: value => {
+      const parts = value.split("~", 4);
+      return {
+        lat: parts[0],
+        long: parts[1],
+        distance: {
+          min: parseFloat(parts[2]),
+          max: parseFloat(parts[3])
+        },
+        name: parts[4] || ""
+      };
+    },
     default: null as CollegeRankingsRequest["location"]
   },
   discipline: {
@@ -647,7 +660,7 @@ function LocationFilter(props: FilterProps) {
 
   const updateCurrent = React.useCallback(
     suggestion => {
-      if (suggestion) {
+      if (suggestion && location.name) {
         props.updateRequest({
           ...props.request,
           states: null,
@@ -1086,6 +1099,24 @@ const CollegeRanking: React.SFC<CollegeRankingProps> = props => {
   );
 };
 
+function processQueryLimit(
+  value: {
+    min: number;
+    max: number;
+  },
+  limits: {
+    min: number;
+    max: number;
+  },
+  min: number,
+  max: number
+) {
+  return {
+    min: value.min <= limits.min ? min : value.min,
+    max: value.max >= limits.max ? max : value.max
+  };
+}
+
 export default QueryPage(
   CollegeRanking,
   QUERY_SCHEMA,
@@ -1097,5 +1128,32 @@ export default QueryPage(
     const data = await apiCollegeRankings(request, signal);
     const disciplines = await disciplinesPromise;
     return { data, disciplines };
-  }
+  },
+  (request, props) => ({
+    ...request,
+    tuition: processQueryLimit(
+      request.tuition,
+      props.data.limits.tuition,
+      0,
+      100
+    ),
+    median_sat: processQueryLimit(
+      request.median_sat,
+      props.data.limits.median_sat,
+      0,
+      200
+    ),
+    acceptance_rate: processQueryLimit(
+      request.acceptance_rate,
+      props.data.limits.acceptance_rate,
+      0,
+      100
+    ),
+    total_students: processQueryLimit(
+      request.total_students,
+      props.data.limits.total_students,
+      0,
+      100
+    )
+  })
 );

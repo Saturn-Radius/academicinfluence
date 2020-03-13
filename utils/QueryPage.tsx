@@ -17,26 +17,43 @@ export default function QueryPage<
   >,
   schema: QuerySchemaType<RequestType>,
   seoProps: NextSeoProps,
-  data: (request: Data<RequestType>, signal?: AbortSignal) => Promise<Props>
+  data: (request: Data<RequestType>, signal?: AbortSignal) => Promise<Props>,
+  rawProcessRequest?: (
+    request: Data<RequestType>,
+    props: Props
+  ) => Data<RequestType>
 ) {
+  const processRequest =
+    rawProcessRequest ||
+    function(request: Data<RequestType>) {
+      return request;
+    };
+
   const PageWrapper = (props: Props & { request: Data<RequestType> }) => {
     const [request, setRequest] = React.useState(props.request);
 
     const updateRequest = React.useCallback(
       request => {
+        request = processRequest(request, props);
         setRequest(request);
         Router.replace(schema.asHref(request));
       },
       [setRequest]
     );
 
+    const processedRequest = processRequest(request, props);
+
     return (
       <>
         <NextSeo
           {...seoProps}
-          canonical={format(schema.asHref(schema.canonical(props.request)))}
+          canonical={format(schema.asHref(schema.canonical(processedRequest)))}
         />
-        <Page {...props} request={request} updateRequest={updateRequest} />
+        <Page
+          {...props}
+          request={processedRequest}
+          updateRequest={updateRequest}
+        />
       </>
     );
   };
