@@ -1,2 +1,2 @@
-import DisciplinePage from "./index"
-export default DisciplinePage
+import DisciplinePage from "./index";
+export default DisciplinePage;
