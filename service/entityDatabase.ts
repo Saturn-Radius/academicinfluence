@@ -51,6 +51,18 @@ export async function extractEntityFields(row: any) {
   };
 }
 
+function scoreTableFor(keyword: string | null, entityType: EntityType) {
+  return `ai_data.scores_${entityType.kind}_${
+    keyword === null
+      ? "overall"
+      : keyword
+          .split("")
+          .filter(letter => (letter >= "a" && letter <= "z") || letter == "-")
+          .map(letter => (letter === "-" ? "_" : letter))
+          .join("")
+  }`;
+}
+
 export class EntityQuery {
   _query: PostgresSelect;
 
@@ -97,26 +109,16 @@ export class EntityQuery {
   ) {
     this._query
       .join(
-        "ai_data.scores",
-        undefined,
+        scoreTableFor(discipline, entityType),
+        "scores",
         entityType.data_table + ".id = scores.id"
       )
-      .where("scores.kind = ?", entityType.kind)
       .where("scores.year_start <= ?", years.max)
       .where("scores.year_end >= ?", years.min)
       .field(influenceScoreColumn(years.min, years.max), "influence")
       .field("world_rank")
       .field("usa_rank");
 
-    if (discipline === null) {
-      this._query.where("scores.keyword is null");
-    } else {
-      this._query.where(
-        "scores.keyword = ((select id from editor.ai_disciplines where lower(name) = ?) union (select id from editor.ai_subdisciplines where lower(name) = ?))",
-        discipline.replace(/-/g, " "),
-        discipline.replace(/-/g, " ")
-      );
-    }
     return this;
   }
 

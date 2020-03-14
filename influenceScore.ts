@@ -6,11 +6,11 @@ import * as squel from "./squel";
 
 export function influenceScoreColumn(start_year: number, stop_year: number) {
   const start = squel.str(
-    "GREATEST(ai_data.scores.year_start,?)::float - ai_data.scores.year_start",
+    "GREATEST(scores.year_start,?)::float - scores.year_start",
     start_year
   );
   const end = squel.str(
-    "LEAST(scores.year_end + 1,?)::float - ai_data.scores.year_start",
+    "LEAST(scores.year_end + 1,?)::float - scores.year_start",
     stop_year
   );
 
