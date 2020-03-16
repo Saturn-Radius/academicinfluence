@@ -10,16 +10,18 @@ import React from "react";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
 import USAStates from "usa-states";
-import { apiCollegeRankings, apiLocationAutocomplete } from "../api";
+import { apiCollegeRankings, apiLocationAutocomplete, apiPage } from "../api";
 import Autocomplete from "../components/Autocomplete";
 import { useBasicContext } from "../components/BasicContext";
 import CircularProgress from "../components/CircularProgress";
+import HtmlContent from "../components/HtmlContent";
 import { SchoolLink } from "../links";
 import QuerySchema, { RangeParameter } from "../QuerySchema";
 import {
   CollegeRankingSort,
   CollegeRankingsRequest,
   CollegeRankingsResponse,
+  PageData,
   SchoolPartialData
 } from "../schema";
 import {
@@ -36,6 +38,7 @@ import QueryPage from "../utils/QueryPage";
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
   request: CollegeRankingsRequest;
+  page: PageData;
   updateRequest: (request: CollegeRankingsRequest) => void;
 };
 
@@ -980,117 +983,120 @@ const CollegeRanking: React.SFC<CollegeRankingProps> = props => {
             }
           }}
         >
-          <table
-            css={{
-              borderCollapse: "collapse",
-              borderSpacing: "0px",
-              width: "100%",
-              "@media(max-width: 1024px)": {
-                table: {
-                  display: "block"
-                },
-                thead: {
-                  display: "none"
-                },
-                tbody: {
-                  display: "block"
-                },
-                tr: {
-                  display: "grid",
-                  marginBottom: "13px",
-                  boxShadow: "0 6px 5px 0 rgba(0, 0, 0, 0.25)"
-                },
-                td: {
-                  display: "block"
-                },
-                "td:nth-of-type(1)": {
-                  gridRowStart: 1,
-                  gridRowEnd: 1,
-                  gridColumnStart: 1,
-                  gridColumnEnd: 5
-                },
-                "td:nth-of-type(2)": {
-                  paddingLeft: "50px",
-                  paddingTop: "10px",
-                  gridRowStart: 1,
-                  gridRowEnd: 1,
-                  gridColumnStart: 1,
-                  gridColumnEnd: 5,
-                  borderBottomStyle: "solid",
-                  borderBottomColor: GRAY_DARKEST,
-                  borderBottomWidth: ".5px"
-                },
-                ...STYLES
-              }
-            }}
-          >
-            <thead>
-              <tr>
-                {COLUMNS.map((column, index) => (
-                  <th
-                    key={index}
-                    css={{
-                      paddingTop: "30px",
-                      color: MAIN_LIGHTER,
-                      fontSize: "12px",
-                      lineHeight: "14px",
-                      textTransform: "uppercase",
-                      textAlign: "left"
-                    }}
-                  >
-                    <div css={{ display: "flex", "& a": { flexGrow: 1 } }}>
-                      {column.sort ? (
-                        <>
-                          <RankingLink
-                            request={{
-                              ...props.request,
-                              sort: column.sort,
-                              reversed:
-                                column.sort === props.request.sort &&
-                                !props.request.reversed
-                            }}
-                          >
-                            <a css={{ textDecoration: "none" }}>
-                              {column.label.split(" ").map((word, index) => (
-                                <React.Fragment key={index}>
-                                  {word}
-                                  <br />
-                                </React.Fragment>
-                              ))}
-                            </a>
-                          </RankingLink>
-                          <Arrows
-                            active={column.sort === props.request.sort}
-                            reversed={props.request.reversed}
-                          />
-                        </>
-                      ) : (
-                        column.label
-                      )}
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {props.data.schools.map((school, schoolIndex) => (
-                <tr
-                  key={school.slug}
-                  css={{
-                    background: "white",
-                    borderWidth: "0.5px",
-                    borderStyle: "solid",
-                    borderColor: GRAY_DARKEST,
-                    boxSizing: "border-box"
-                  }}
-                >
+          <div>
+            <HtmlContent html={props.page.content} />
+            <table
+              css={{
+                borderCollapse: "collapse",
+                borderSpacing: "0px",
+                width: "100%",
+                "@media(max-width: 1024px)": {
+                  table: {
+                    display: "block"
+                  },
+                  thead: {
+                    display: "none"
+                  },
+                  tbody: {
+                    display: "block"
+                  },
+                  tr: {
+                    display: "grid",
+                    marginBottom: "13px",
+                    boxShadow: "0 6px 5px 0 rgba(0, 0, 0, 0.25)"
+                  },
+                  td: {
+                    display: "block"
+                  },
+                  "td:nth-of-type(1)": {
+                    gridRowStart: 1,
+                    gridRowEnd: 1,
+                    gridColumnStart: 1,
+                    gridColumnEnd: 5
+                  },
+                  "td:nth-of-type(2)": {
+                    paddingLeft: "50px",
+                    paddingTop: "10px",
+                    gridRowStart: 1,
+                    gridRowEnd: 1,
+                    gridColumnStart: 1,
+                    gridColumnEnd: 5,
+                    borderBottomStyle: "solid",
+                    borderBottomColor: GRAY_DARKEST,
+                    borderBottomWidth: ".5px"
+                  },
+                  ...STYLES
+                }
+              }}
+            >
+              <thead>
+                <tr>
                   {COLUMNS.map((column, index) => (
-                    <td key={index}>{column.value(school, schoolIndex)}</td>
+                    <th
+                      key={index}
+                      css={{
+                        paddingTop: "30px",
+                        color: MAIN_LIGHTER,
+                        fontSize: "12px",
+                        lineHeight: "14px",
+                        textTransform: "uppercase",
+                        textAlign: "left"
+                      }}
+                    >
+                      <div css={{ display: "flex", "& a": { flexGrow: 1 } }}>
+                        {column.sort ? (
+                          <>
+                            <RankingLink
+                              request={{
+                                ...props.request,
+                                sort: column.sort,
+                                reversed:
+                                  column.sort === props.request.sort &&
+                                  !props.request.reversed
+                              }}
+                            >
+                              <a css={{ textDecoration: "none" }}>
+                                {column.label.split(" ").map((word, index) => (
+                                  <React.Fragment key={index}>
+                                    {word}
+                                    <br />
+                                  </React.Fragment>
+                                ))}
+                              </a>
+                            </RankingLink>
+                            <Arrows
+                              active={column.sort === props.request.sort}
+                              reversed={props.request.reversed}
+                            />
+                          </>
+                        ) : (
+                          column.label
+                        )}
+                      </div>
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {props.data.schools.map((school, schoolIndex) => (
+                  <tr
+                    key={school.slug}
+                    css={{
+                      background: "white",
+                      borderWidth: "0.5px",
+                      borderStyle: "solid",
+                      borderColor: GRAY_DARKEST,
+                      boxSizing: "border-box"
+                    }}
+                  >
+                    {COLUMNS.map((column, index) => (
+                      <td key={index}>{column.value(school, schoolIndex)}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <div
             css={{
               flex: "0 0 320px",
@@ -1134,8 +1140,9 @@ export default QueryPage(
     title: "College Rankings"
   },
   async (request: CollegeRankingsRequest, signal?: AbortSignal) => {
-    const data = await apiCollegeRankings(request, signal);
-    return { data };
+    const data = apiCollegeRankings(request, signal);
+    const page = apiPage("college-ranking");
+    return { data: await data, page: (await page) as PageData };
   },
   props => props.data.schools.length == 0,
   (request, props) => ({
