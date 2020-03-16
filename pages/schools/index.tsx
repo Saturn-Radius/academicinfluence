@@ -8,7 +8,7 @@ import QuerySchema, { RangeParameter } from "../../QuerySchema";
 import {
   InfluentialSchoolsPageRequest,
   InfluentialSchoolsPageResponse,
-  PageResponse
+  PageData
 } from "../../schema";
 import { PageDescription, PageTitle } from "../../styles";
 import StandardPage from "../../templates/StandardPage";
@@ -33,7 +33,7 @@ const QUERY_SCHEMA = QuerySchema("/schools", {
 type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
   request: InfluentialSchoolsPageRequest;
   updateRequest: (request: InfluentialSchoolsPageRequest) => void;
-  page: PageResponse;
+  page: PageData;
 };
 
 const InfluentialSchools: React.SFC<InfluentialSchoolsProps> = props => {
@@ -66,7 +66,7 @@ export default QueryPage(
     const page = apiPage("schools");
     return {
       ...(await schools),
-      page: await page
+      page: (await page) as PageData
     };
   },
   props => props.schools.length == 0

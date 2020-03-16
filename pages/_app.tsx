@@ -37,12 +37,13 @@ function HamburgerIcon() {
 function SectionLink(props: {
   id: string;
   href: string;
+  as?: string;
   currentSection?: string;
   label: string;
 }) {
   const active = props.id === props.currentSection;
   return (
-    <Link href={props.href}>
+    <Link href={props.href} as={props.as}>
       <a
         css={{
           fontStyle: "normal",
@@ -175,7 +176,8 @@ function SiteHeader(props: { currentSection?: string }) {
           currentSection={props.currentSection}
         />
         <SectionLink
-          href="/about"
+          href="/[slug]"
+          as="/about"
           id="about"
           label="ABOUT"
           currentSection={props.currentSection}
