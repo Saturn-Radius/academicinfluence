@@ -81,6 +81,10 @@ const HamburgerIcon = React.forwardRef(
 function SiteHeader(props: { currentSection?: string }) {
   const [isMobileMenu, SetisMobileMenu] = useState(false);
 
+  const onClick = React.useCallback(() => {
+    SetisMobileMenu(false);
+  }, []);
+
   const setMobileMenu = () => {
     SetisMobileMenu(!isMobileMenu);
   };
@@ -202,11 +206,10 @@ function SiteHeader(props: { currentSection?: string }) {
             />
           </div>
         </div>
-        <div className={!isMobileMenu ? "mainMenu" : "mobileMenu"}>
-          <div className={!isMobileMenu ? "mainSearch" : "mobileSearch"}>
-            <img className="searchSVG" src="/images/search-icon.svg" />
-            <input className="searchInput" type="text" placeholder="Search" />
-          </div>
+        <div
+          className={!isMobileMenu ? "mainMenu" : "mobileMenu"}
+          onClick={onClick}
+        >
           <SectionLink
             href="/schools"
             id="influential-schools"
@@ -232,7 +235,8 @@ function SiteHeader(props: { currentSection?: string }) {
             currentSection={props.currentSection}
           />
           <SectionLink
-            href="/about"
+            href="/[slug]"
+            as="/about"
             id="about"
             label="ABOUT"
             currentSection={props.currentSection}
