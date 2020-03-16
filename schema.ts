@@ -331,7 +331,8 @@ export interface DisciplineResponse {
 }
 
 export type PageRequest = string;
-export interface PageResponse {
+export interface PageData {
   title: string;
   content: Html[];
 }
+export type PageResponse = PageData | null;

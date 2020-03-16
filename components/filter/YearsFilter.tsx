@@ -1,11 +1,18 @@
 import { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import { useCallback } from "react";
-import FilterLabel from "./FilterLabel";
-import RangeHandle from "./RangeHandle";
+import FilterLabel from "../schools/FilterLabel";
+import RangeHandle from "../schools/RangeHandle";
 import { FilterProps } from "./types";
 
-const YearsFilter = (props: FilterProps) => {
+function YearsFilter<
+  R extends {
+    years: {
+      min: number;
+      max: number;
+    };
+  }
+>(props: FilterProps<R>) {
   const onChange = useCallback(
     n =>
       props.updateRequest({
@@ -32,6 +39,6 @@ const YearsFilter = (props: FilterProps) => {
       />
     </FilterLabel>
   );
-};
+}
 
 export default YearsFilter;

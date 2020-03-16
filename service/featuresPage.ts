@@ -20,9 +20,9 @@ export default async function serveFeaturesPage(
         squel
           .select()
           .from("editor.ai_articles")
-          //          .where("ai_articles.kind = 'feature'")
+          .where("ai_articles.kind = 'feature'")
           .where("ai_articles.category = ai_categories.id")
-        //.where("ai_articles.status = ?", "PUBLISHED")
+          .where("ai_articles.status = ?", "PUBLISHED")
       )
   );
 
@@ -58,7 +58,7 @@ export default async function serveFeaturesPage(
       undefined,
       "editor.ai_categories.id = ai_articles.category"
     )
-    //    .where("status = ?", "PUBLISHED")
+    .where("status = ?", "PUBLISHED")
     .limit(6);
 
   if (request.category !== null) {
@@ -97,12 +97,8 @@ export default async function serveFeaturesPage(
   const articles = (await articlesQuery).rows.map(article => ({
     name: article.title,
     excerpt: smartQuotes(article.excerpt),
-    bannerUrl:
-      "https://res.cloudinary.com/dzisol39q/image/upload/c_fill,g_auto,h_250,w_970/b_rgb:000000,e_gradient_fade,y_-0.50/c_scale,co_rgb:ffffff,fl_relative,l_text:montserrat_25_style_light_align_center:Shop%20Now,w_0.5,y_0.18/v1579715759/philosopher_rpvmiu.jpg",
-    thumbnailUrl:
-      "https://res.cloudinary.com/dzisol39q/image/upload/c_thumb,w_200,g_face/v1579715759/philosopher_rpvmiu.jpg",
-    //bannerUrl: article.hero_image_banner_url,
-    //thumbnailUrl: article.hero_image_thumbnail_url,
+    bannerUrl: article.hero_image_banner_url,
+    thumbnailUrl: article.hero_image_thumbnail_url,
     date: dateFormat(article.modified_date_time, "MMM. d"),
     author: article.username,
     slug: article.slug,

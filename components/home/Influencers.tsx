@@ -60,14 +60,14 @@ const Influencers = (props: People) => {
         {props.people.map(
           (person: PersonPartialData) =>
             person.image_url && (
-              <li className="nameList" key={person.slug}>
-                <img className="imgWidth" src={person.image_url} />
-                <PersonLink person={person}>
+              <PersonLink person={person} key={person.slug}>
+                <li className="nameList" key={person.slug}>
+                  <img className="imgWidth" src={person.image_url} />
                   <div className="nameCard">
                     <a className="personName">{person.name}</a>
                   </div>
-                </PersonLink>
-              </li>
+                </li>
+              </PersonLink>
             )
         )}
       </ul>

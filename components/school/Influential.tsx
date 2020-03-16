@@ -10,17 +10,6 @@ import ContentCard from "../ContentCard";
 const InfluentialCard = (props: { person: PersonPartialData }) => {
   return (
     <ContentCard style={styles.cardWrapper}>
-      <div
-        css={{
-          flex: "1 1 100%",
-          display: "flex",
-          justifyContent: "flex-end"
-        }}
-      >
-        {/* <span style={{ paddingRight: 20, fontSize: 12 }}>Add to My Locker</span>{" "}
-        <CheckBox /> */}
-      </div>
-
       <div css={{ width: "100%" }}>
         {props.person.image_url && (
           <img
@@ -55,15 +44,16 @@ const InfluentialCard = (props: { person: PersonPartialData }) => {
           <div>School</div>
           <div css={styles.influentialRowText}>1st School</div>
         </div>
-        */}
+        
 
         <div css={styles.influentialRow}>
           <div>Disciplines</div>
           <div css={styles.influentialRowText}>Computer Science</div>
         </div>
+*/}
       </div>
 
-      <div>
+      <div css={{ marginTop: "auto" }}>
         {/* 
         TODO
         <div css={{ color: MAIN, fontWeight: "bold" }}>Influential Works</div>
@@ -87,7 +77,7 @@ const styles = {
   cardWrapper: {
     width: 280,
     minWidth: 280,
-    height: 350,
+    height: 250,
     padding: 8,
     marginRight: 20,
     marginBottom: 20,

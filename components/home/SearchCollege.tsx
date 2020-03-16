@@ -19,8 +19,8 @@ const SearchCollege = (props: {}) => {
             text="College Ranking"
           />
         </Link>
-        <SidebarButton img="/images/match-icon.png" text="College Match" />
-        <SidebarButton img="/images/compare-icon.png" text="College Compare" />
+        {/*<SidebarButton img="/images/match-icon.png" text="College Match" />*/}
+        {/*<SidebarButton img="/images/compare-icon.png" text="College Compare" />*/}
       </div>
     </>
   );

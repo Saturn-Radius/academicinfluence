@@ -2,10 +2,9 @@ import styled from "@emotion/styled";
 import Country from "../filter/Country";
 import Discipline from "../filter/Discipline";
 import YearsFilter from "../filter/YearsFilter";
-import DisplayModes from "./DisplayModes";
-import SchoolSearchBox from "./SchoolSearchBox";
+import Gender from "./Gender";
+import PeopleSearchBox from "./PeopleSearchBox";
 import { FilterProps } from "./types";
-
 const MenuRow = styled.div`
   display: flex;
   width: 100%;
@@ -31,14 +30,15 @@ const ListTopMenu = (
   return (
     <>
       <MenuRow>
-        <DisplayModes mode={mode} onMenuModeSelect={onMenuModeSelectHandler} />
-        <SchoolSearchBox />
+        <div css={{ flexGrow: 1 }} />
+        <PeopleSearchBox />
       </MenuRow>
 
       <AdvancedSearch>
         <Discipline {...props} />
         <YearsFilter {...props} />
         <Country {...props} />
+        <Gender {...props} />
       </AdvancedSearch>
     </>
   );

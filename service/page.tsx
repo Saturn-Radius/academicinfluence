@@ -5,7 +5,7 @@ import processHtml from "./processHtml";
 
 export default async function servePage(
   request: PageRequest
-): Promise<PageResponse> {
+): Promise<PageResponse | null> {
   const data = await databaseQuery(
     squel
       .select()
@@ -16,9 +16,13 @@ export default async function servePage(
   );
 
   const row = data.rows[0];
-
-  return {
-    title: row.title,
-    content: await processHtml(row.content)
-  };
+  console.log("HI", row);
+  if (row === undefined) {
+    return null;
+  } else {
+    return {
+      title: row.title,
+      content: await processHtml(row.content)
+    };
+  }
 }

@@ -1,43 +1,45 @@
 import _ from "lodash";
 import { useCallback } from "react";
 import Select from "react-select";
-import { useBasicContext } from "../BasicContext";
-import FilterLabel from "./FilterLabel";
+import FilterLabel from "../schools/FilterLabel";
 import { FilterProps } from "./types";
 
-const Country = (props: FilterProps) => {
-  const basicContext = useBasicContext();
+export default function Gender(props: FilterProps) {
   const onChange = useCallback(
     event => {
       props.updateRequest({
         ...props.request,
-        country: event.value
+        gender: event.value
       });
     },
     [props.updateRequest, props.request]
   );
 
-  let country = props.request.country;
+  let gender = props.request.gender;
 
   const options = [
     {
       value: null,
       label: "All"
     },
-    ...basicContext.countries.map(item => ({
-      value: item.name,
-      label: item.name
-    }))
+    {
+      value: true,
+      label: "Male"
+    },
+    {
+      value: false,
+      label: "Female"
+    }
   ];
 
   const selected =
-    _.find(options, option => option.value === country) || options[0];
+    _.find(options, option => option.value === gender) || options[0];
 
   return (
     <>
-      <FilterLabel label="Country">
+      <FilterLabel label="Gender">
         <Select
-          instanceId="country-filter"
+          instanceId="gender-filter"
           value={selected}
           options={options}
           onChange={onChange}
@@ -45,6 +47,4 @@ const Country = (props: FilterProps) => {
       </FilterLabel>
     </>
   );
-};
-
-export default Country;
+}

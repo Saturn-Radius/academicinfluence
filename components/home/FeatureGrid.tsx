@@ -67,6 +67,7 @@ const FeatureGrid = (props: GridProps) => {
             (article, index) =>
               index !== 0 && (
                 <div
+                  key={index}
                   className={index === 3 ? "hiddenSection" : "showSection"}
                   id={index === 1 ? "secondArticle" : "extraArticles"}
                 >
