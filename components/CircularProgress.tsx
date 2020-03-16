@@ -75,7 +75,8 @@ const styles = {
     alignItems: "center",
     justifyContent: "flex-start",
     flexDirection: "column",
-    textAlign: "center"
+    textAlign: "center",
+    padding: "0 4px"
   } as React.CSSProperties,
   text: {
     color: GRAY_DARKEST,

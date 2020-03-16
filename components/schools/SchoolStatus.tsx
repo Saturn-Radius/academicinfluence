@@ -4,6 +4,7 @@ import CircularProgress from "../CircularProgress";
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 0 8px;
 `;
 
 interface SchoolStatusProps {
