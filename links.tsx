@@ -5,6 +5,7 @@ import {
   DisciplineDetail,
   Identifiable
 } from "./schema";
+import { BG_PAGE, GRAY } from "./styles";
 
 export function CategoryLink(props: {
   category: Category;
@@ -80,4 +81,35 @@ export function DisciplineLink(props: {
       </Link>
     );
   }
+}
+
+export function SectionLink(props: {
+  id: string;
+  href: string;
+  currentSection?: string;
+  label: string;
+}) {
+  const active = props.id === props.currentSection;
+  return (
+    <Link href={props.href}>
+      <a
+        css={{
+          fontStyle: "normal",
+          fontWeight: 500,
+          fontSize: "18px",
+          lineHeight: "20px",
+          alignItems: "center",
+          textAlign: "left",
+          textDecoration: "none",
+          display: "block",
+          color: active ? "white" : GRAY,
+          padding: "10px",
+          backgroundColor: active ? "#eb5857" : BG_PAGE,
+          cursor: "pointer"
+        }}
+      >
+        {props.label}
+      </a>
+    </Link>
+  );
 }
