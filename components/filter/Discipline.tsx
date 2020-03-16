@@ -2,10 +2,12 @@ import _ from "lodash";
 import { useCallback } from "react";
 import Select from "react-select";
 import { useBasicContext } from "../BasicContext";
-import FilterLabel from "./FilterLabel";
+import FilterLabel from "../schools/FilterLabel";
 import { FilterProps } from "./types";
 
-const Discipline = (props: FilterProps) => {
+function Discipline<R extends { discipline: string | null }>(
+  props: FilterProps<R>
+) {
   const basicContext = useBasicContext();
   const onChange = useCallback(
     event => {
@@ -83,6 +85,6 @@ const Discipline = (props: FilterProps) => {
       </FilterLabel>
     </>
   );
-};
+}
 
 export default Discipline;

@@ -4,18 +4,23 @@ import { Handle, HandleProps, Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap.css";
-import React from "react";
+import React, { useState } from "react";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
 import { apiInfluentialPeoplePage, apiPersonSearch } from "../../api";
 import Autocomplete from "../../components/Autocomplete";
 import { useBasicContext } from "../../components/BasicContext";
+import ListTopMenu from "../../components/people/ListTopMenu";
+import PeopleList from "../../components/people/PeopleList";
+import { DISPLAY_MODES } from "../../components/schools";
 import QuerySchema, { RangeParameter } from "../../QuerySchema";
 import {
   InfluentialPeoplePageRequest,
   InfluentialPeoplePageResponse
 } from "../../schema";
-import { GRAY } from "../../styles";
+import { GRAY, PageDescription, PageTitle } from "../../styles";
+import StandardPage from "../../templates/StandardPage";
+import { LoremIpsumText } from "../../utils/const";
 import QueryPage from "../../utils/QueryPage";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
@@ -347,7 +352,23 @@ const QUERY_SCHEMA = QuerySchema("/schools", {
 });
 
 const InfluentialPeople: React.SFC<InfluentialPeopleProps> = props => {
+  const [displayMode, setDisplayMode] = useState(DISPLAY_MODES.grid);
+
   return (
+    <StandardPage title="Influential People">
+      <PageTitle>Influential People</PageTitle>
+      <PageDescription>{LoremIpsumText}</PageDescription>
+      <ListTopMenu
+        {...props}
+        mode={displayMode}
+        onDisplayModeSelect={setDisplayMode}
+      />
+      <PeopleList mode={displayMode} people={props.people} />
+    </StandardPage>
+  );
+};
+
+/*
     <div>
       <PersonSearchBox />
       <Discipline {...props} />
@@ -357,8 +378,7 @@ const InfluentialPeople: React.SFC<InfluentialPeopleProps> = props => {
 
       <pre>{JSON.stringify(props.people, null, 4)}</pre>
     </div>
-  );
-};
+*/
 
 export default QueryPage(
   InfluentialPeople,

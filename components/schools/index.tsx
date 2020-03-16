@@ -1,6 +1,7 @@
+import Country from "../filter/Country";
+import Discipline from "../filter/Discipline";
+import YearsFilter from "../filter/YearsFilter";
 import DISPLAY_MODES from "./constants";
-import Country from "./Country";
-import Discipline from "./Discipline";
 import DisplayModes from "./DisplayModes";
 import FilterLabel from "./FilterLabel";
 import ListTopMenu from "./ListTopMenu";
@@ -10,7 +11,6 @@ import SchoolListItem from "./SchoolListItem";
 import SchoolSearchBox from "./SchoolSearchBox";
 import SchoolStatus from "./SchoolStatus";
 import SchoolThListItem from "./SchoolThListItem";
-import YearsFilter from "./YearsFilter";
 
 export {
   DISPLAY_MODES,
