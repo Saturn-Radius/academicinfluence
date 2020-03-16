@@ -893,66 +893,56 @@ type FilterProps = {
 };
 const Filter = function(props: FilterProps) {
   return (
-    <>
-      <FilterRow>
-        <SliderFilter
-          label="Tuition"
-          id="tuition"
-          format={value => value + "K"}
-          {...props}
-        />
-        <FilterSep />
-        <SliderFilter
-          format={value => value + "0/" + SAT_TO_ACT[160 - value]}
-          label="SAT/ACT"
-          id="median_sat"
-          {...props}
-        />
-      </FilterRow>
-      <FilterRow>
-        <SliderFilter
-          label="Acceptance Rate"
-          id="acceptance_rate"
-          format={value => value.toFixed(0) + "%"}
-          {...props}
-        />
-        <FilterSep />
-        <SliderFilter
-          format={value => value + "K"}
-          label="Student Population"
-          id="total_students"
-          {...props}
-        />
-      </FilterRow>
-      <FilterRow>
-        <StateFilter {...props} />
-        <div
-          css={{
-            fontWeight: "bold",
-            alignSelf: "center",
-            padding: "10px"
-          }}
-        >
-          Or
-        </div>
-        <LocationFilter {...props} />
-      </FilterRow>
-      <FilterRow>
-        <Discipline {...props} />
-      </FilterRow>
-      <FilterRow
+    <div
+      css={{
+        width: "311px",
+        padding: "12px"
+      }}
+    >
+      <SliderFilter
+        label="Tuition"
+        id="tuition"
+        format={value => value + "K"}
+        {...props}
+      />
+      <FilterSep />
+      <SliderFilter
+        format={value => value + "0/" + SAT_TO_ACT[160 - value]}
+        label="SAT/ACT"
+        id="median_sat"
+        {...props}
+      />
+      <SliderFilter
+        label="Acceptance Rate"
+        id="acceptance_rate"
+        format={value => value.toFixed(0) + "%"}
+        {...props}
+      />
+      <SliderFilter
+        format={value => value + "K"}
+        label="Student Population"
+        id="total_students"
+        {...props}
+      />
+      <StateFilter {...props} />
+      <div
         css={{
-          display: "flex"
+          fontWeight: "bold",
+          alignSelf: "center",
+          padding: "10px"
         }}
       >
-        <SliderFilter
-          label="Years"
-          id="years"
-          format={value => (value < 0 ? -value + " BC" : value + " AD")}
-          {...props}
-        />
-      </FilterRow>
-    </>
+        Or
+      </div>
+      <LocationFilter {...props} />
+      <Discipline {...props} />
+      <SliderFilter
+        label="Years"
+        id="years"
+        format={value => (value < 0 ? -value + " BC" : value + " AD")}
+        {...props}
+      />
+    </div>
   );
 };
 
@@ -981,123 +971,139 @@ const CollegeRanking: React.SFC<CollegeRankingProps> = props => {
   return (
     <>
       <ToolPage tool="COLLEGE RANKINGS">
-        <Filter
-          request={props.request}
-          updateRequest={props.updateRequest}
-          limits={props.data.limits}
-        />
-
-        <table
+        <div
           css={{
-            borderCollapse: "collapse",
-            borderSpacing: "0px",
-            width: "100%",
-            "@media(max-width: 1024px)": {
-              table: {
-                display: "block"
-              },
-              thead: {
-                display: "none"
-              },
-              tbody: {
-                display: "block"
-              },
-              tr: {
-                display: "grid",
-                marginBottom: "13px",
-                boxShadow: "0 6px 5px 0 rgba(0, 0, 0, 0.25)"
-              },
-              td: {
-                display: "block"
-              },
-              "td:nth-of-type(1)": {
-                gridRowStart: 1,
-                gridRowEnd: 1,
-                gridColumnStart: 1,
-                gridColumnEnd: 5
-              },
-              "td:nth-of-type(2)": {
-                paddingLeft: "50px",
-                paddingTop: "10px",
-                gridRowStart: 1,
-                gridRowEnd: 1,
-                gridColumnStart: 1,
-                gridColumnEnd: 5,
-                borderBottomStyle: "solid",
-                borderBottomColor: GRAY_DARKEST,
-                borderBottomWidth: ".5px"
-              },
-              ...STYLES
+            display: "flex",
+            flexDirection: "column-reverse",
+            "@media(min-width: 1400px)": {
+              flexDirection: "row"
             }
           }}
         >
-          <thead>
-            <tr>
-              {COLUMNS.map((column, index) => (
-                <th
-                  key={index}
-                  css={{
-                    paddingTop: "30px",
-                    color: MAIN_LIGHTER,
-                    fontSize: "12px",
-                    lineHeight: "14px",
-                    textTransform: "uppercase",
-                    textAlign: "left"
-                  }}
-                >
-                  <div css={{ display: "flex", "& a": { flexGrow: 1 } }}>
-                    {column.sort ? (
-                      <>
-                        <RankingLink
-                          request={{
-                            ...props.request,
-                            sort: column.sort,
-                            reversed:
-                              column.sort === props.request.sort &&
-                              !props.request.reversed
-                          }}
-                        >
-                          <a css={{ textDecoration: "none" }}>
-                            {column.label.split(" ").map((word, index) => (
-                              <React.Fragment key={index}>
-                                {word}
-                                <br />
-                              </React.Fragment>
-                            ))}
-                          </a>
-                        </RankingLink>
-                        <Arrows
-                          active={column.sort === props.request.sort}
-                          reversed={props.request.reversed}
-                        />
-                      </>
-                    ) : (
-                      column.label
-                    )}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {props.data.schools.map((school, schoolIndex) => (
-              <tr
-                key={school.slug}
-                css={{
-                  background: "white",
-                  borderWidth: "0.5px",
-                  borderStyle: "solid",
-                  borderColor: GRAY_DARKEST,
-                  boxSizing: "border-box"
-                }}
-              >
+          <table
+            css={{
+              borderCollapse: "collapse",
+              borderSpacing: "0px",
+              width: "100%",
+              "@media(max-width: 1024px)": {
+                table: {
+                  display: "block"
+                },
+                thead: {
+                  display: "none"
+                },
+                tbody: {
+                  display: "block"
+                },
+                tr: {
+                  display: "grid",
+                  marginBottom: "13px",
+                  boxShadow: "0 6px 5px 0 rgba(0, 0, 0, 0.25)"
+                },
+                td: {
+                  display: "block"
+                },
+                "td:nth-of-type(1)": {
+                  gridRowStart: 1,
+                  gridRowEnd: 1,
+                  gridColumnStart: 1,
+                  gridColumnEnd: 5
+                },
+                "td:nth-of-type(2)": {
+                  paddingLeft: "50px",
+                  paddingTop: "10px",
+                  gridRowStart: 1,
+                  gridRowEnd: 1,
+                  gridColumnStart: 1,
+                  gridColumnEnd: 5,
+                  borderBottomStyle: "solid",
+                  borderBottomColor: GRAY_DARKEST,
+                  borderBottomWidth: ".5px"
+                },
+                ...STYLES
+              }
+            }}
+          >
+            <thead>
+              <tr>
                 {COLUMNS.map((column, index) => (
-                  <td key={index}>{column.value(school, schoolIndex)}</td>
+                  <th
+                    key={index}
+                    css={{
+                      paddingTop: "30px",
+                      color: MAIN_LIGHTER,
+                      fontSize: "12px",
+                      lineHeight: "14px",
+                      textTransform: "uppercase",
+                      textAlign: "left"
+                    }}
+                  >
+                    <div css={{ display: "flex", "& a": { flexGrow: 1 } }}>
+                      {column.sort ? (
+                        <>
+                          <RankingLink
+                            request={{
+                              ...props.request,
+                              sort: column.sort,
+                              reversed:
+                                column.sort === props.request.sort &&
+                                !props.request.reversed
+                            }}
+                          >
+                            <a css={{ textDecoration: "none" }}>
+                              {column.label.split(" ").map((word, index) => (
+                                <React.Fragment key={index}>
+                                  {word}
+                                  <br />
+                                </React.Fragment>
+                              ))}
+                            </a>
+                          </RankingLink>
+                          <Arrows
+                            active={column.sort === props.request.sort}
+                            reversed={props.request.reversed}
+                          />
+                        </>
+                      ) : (
+                        column.label
+                      )}
+                    </div>
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {props.data.schools.map((school, schoolIndex) => (
+                <tr
+                  key={school.slug}
+                  css={{
+                    background: "white",
+                    borderWidth: "0.5px",
+                    borderStyle: "solid",
+                    borderColor: GRAY_DARKEST,
+                    boxSizing: "border-box"
+                  }}
+                >
+                  {COLUMNS.map((column, index) => (
+                    <td key={index}>{column.value(school, schoolIndex)}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div
+            css={{
+              flex: "0 0 320px",
+              margin: 30
+            }}
+          >
+            <Filter
+              request={props.request}
+              updateRequest={props.updateRequest}
+              limits={props.data.limits}
+            />
+          </div>
+        </div>
       </ToolPage>
     </>
   );
