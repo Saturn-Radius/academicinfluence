@@ -40,3 +40,11 @@
 --white: #FFFFFF;
 --black: #000000;
 }
+
+.rc-slider .rc-slider-track {
+    background-color: var(--main)
+}
+
+.rc-slider .rc-slider-handle {
+    border-color: var(--main)
+}
