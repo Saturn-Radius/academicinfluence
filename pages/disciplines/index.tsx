@@ -2,12 +2,17 @@ import { NextPage } from "next";
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
 import "react-circular-progressbar/dist/styles.css";
+import { apiPage } from "../../api";
 import { useBasicContext } from "../../components/BasicContext";
 import { DropdownButton } from "../../components/disciplines";
+import HtmlContent from "../../components/HtmlContent";
 import { DisciplineLink } from "../../links";
+import { PageData } from "../../schema";
 import StandardPage from "../../templates/StandardPage";
 
-type DisciplinesProps = {};
+type DisciplinesProps = {
+  page: PageData;
+};
 
 function Superdiscipline(props: {
   superdiscipline: string;
@@ -57,6 +62,7 @@ function Superdiscipline(props: {
 const Disciplines: NextPage<DisciplinesProps> = props => {
   return (
     <StandardPage title="Disciplines">
+      <HtmlContent html={props.page.content} />
       <div>
         <style jsx>
           {`
@@ -158,6 +164,12 @@ const Disciplines: NextPage<DisciplinesProps> = props => {
       </div>
     </StandardPage>
   );
+};
+
+Disciplines.getInitialProps = async function() {
+  return {
+    page: (await apiPage("disciplines")) as PageData
+  };
 };
 
 export default Disciplines;
