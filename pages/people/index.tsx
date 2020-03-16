@@ -7,20 +7,21 @@ import "rc-tooltip/assets/bootstrap.css";
 import React, { useState } from "react";
 import "react-circular-progressbar/dist/styles.css";
 import Select from "react-select";
-import { apiInfluentialPeoplePage, apiPersonSearch } from "../../api";
+import { apiInfluentialPeoplePage, apiPage, apiPersonSearch } from "../../api";
 import Autocomplete from "../../components/Autocomplete";
 import { useBasicContext } from "../../components/BasicContext";
+import HtmlContent from "../../components/HtmlContent";
 import ListTopMenu from "../../components/people/ListTopMenu";
 import PeopleList from "../../components/people/PeopleList";
 import { DISPLAY_MODES } from "../../components/schools";
 import QuerySchema, { RangeParameter } from "../../QuerySchema";
 import {
   InfluentialPeoplePageRequest,
-  InfluentialPeoplePageResponse
+  InfluentialPeoplePageResponse,
+  PageResponse
 } from "../../schema";
 import { GRAY, PageDescription, PageTitle } from "../../styles";
 import StandardPage from "../../templates/StandardPage";
-import { LoremIpsumText } from "../../utils/const";
 import QueryPage from "../../utils/QueryPage";
 
 // I have sloppily copy-pasted bits from college-ranking.tsx
@@ -303,6 +304,7 @@ function YearsFilter(props: FilterProps) {
 type InfluentialPeopleProps = InfluentialPeoplePageResponse & {
   request: InfluentialPeoplePageRequest;
   updateRequest: (request: InfluentialPeoplePageRequest) => void;
+  page: PageResponse;
 };
 
 async function lookupPersons(text: string, signal?: AbortSignal) {
@@ -357,7 +359,9 @@ const InfluentialPeople: React.SFC<InfluentialPeopleProps> = props => {
   return (
     <StandardPage title="Influential People">
       <PageTitle>Influential People</PageTitle>
-      <PageDescription>{LoremIpsumText}</PageDescription>
+      <PageDescription>
+        <HtmlContent html={props.page.content} />
+      </PageDescription>
       <ListTopMenu
         {...props}
         mode={displayMode}
@@ -388,8 +392,10 @@ export default QueryPage(
   },
   async (request: InfluentialPeoplePageRequest, signal?: AbortSignal) => {
     const schools = apiInfluentialPeoplePage(request);
+    const page = apiPage("people");
     return {
-      ...(await schools)
+      ...(await schools),
+      page: await page
     };
   },
   props => props.people.length == 0
