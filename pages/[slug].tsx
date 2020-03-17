@@ -1,11 +1,11 @@
 import { NextPage, NextPageContext } from "next";
 import { apiPage } from "../api";
 import HtmlContent from "../components/HtmlContent";
-import { PageData } from "../schema";
+import { PageResponse } from "../schema";
 import "../styles/features.css";
 import StandardPage from "../templates/StandardPage";
 
-type AboutProps = PageData;
+type AboutProps = PageResponse;
 
 const About: NextPage<AboutProps> = (props: AboutProps) => {
   return (
@@ -74,7 +74,7 @@ const About: NextPage<AboutProps> = (props: AboutProps) => {
 About.getInitialProps = async function(context: NextPageContext) {
   const aboutPage = apiPage(context.query.slug as string);
 
-  return (await aboutPage) as PageData;
+  return (await aboutPage) as PageResponse;
 };
 
 export default About;

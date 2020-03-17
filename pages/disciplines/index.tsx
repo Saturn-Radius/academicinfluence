@@ -7,11 +7,11 @@ import { useBasicContext } from "../../components/BasicContext";
 import { DropdownButton } from "../../components/disciplines";
 import HtmlContent from "../../components/HtmlContent";
 import { DisciplineLink } from "../../links";
-import { PageData } from "../../schema";
+import { PageResponse } from "../../schema";
 import StandardPage from "../../templates/StandardPage";
 
 type DisciplinesProps = {
-  page: PageData;
+  page: PageResponse;
 };
 
 function Superdiscipline(props: {
@@ -168,7 +168,7 @@ const Disciplines: NextPage<DisciplinesProps> = props => {
 
 Disciplines.getInitialProps = async function() {
   return {
-    page: (await apiPage("disciplines")) as PageData
+    page: (await apiPage("disciplines")) as PageResponse
   };
 };
 

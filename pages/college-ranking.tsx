@@ -21,7 +21,7 @@ import {
   CollegeRankingSort,
   CollegeRankingsRequest,
   CollegeRankingsResponse,
-  PageData,
+  PageResponse,
   SchoolPartialData
 } from "../schema";
 import {
@@ -38,7 +38,7 @@ import QueryPage from "../utils/QueryPage";
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
   request: CollegeRankingsRequest;
-  page: PageData;
+  page: PageResponse;
   updateRequest: (request: CollegeRankingsRequest) => void;
 };
 
@@ -1139,7 +1139,7 @@ export default QueryPage(
   async (request: CollegeRankingsRequest, signal?: AbortSignal) => {
     const data = apiCollegeRankings(request, signal);
     const page = apiPage("college-ranking");
-    return { data: await data, page: (await page) as PageData };
+    return { data: await data, page: (await page) as PageResponse };
   },
   props => props.data.schools.length == 0,
   (request, props) => ({
