@@ -1,9 +1,9 @@
 import { differenceInMilliseconds } from "date-fns";
-import { config } from "dotenv";
 import { Pool } from "pg";
 import { PostgresSelect } from "squel";
+import "./load-config";
+
 async function createDatabasePool() {
-  config();
   const pool = new Pool();
   return pool;
 }
