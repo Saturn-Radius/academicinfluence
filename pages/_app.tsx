@@ -13,7 +13,6 @@ import { apiBasicContext } from "../api";
 import { BasicContextReactContext } from "../components/BasicContext";
 import Sidebar from "../components/school/Sidebar";
 import { SectionLink } from "../links";
-import "../public/fonts/sfui_font.css";
 import { BasicContextResponse } from "../schema";
 import { PAGE_WIDTH_STYLE } from "../styles";
 import "../styles/colors.css";
