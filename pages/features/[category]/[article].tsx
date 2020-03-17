@@ -69,7 +69,7 @@ const Features: NextPage<FeaturesProps> = props => {
     throw new Error();
   }
   return (
-    <FeaturePage data={props.data}>
+    <FeaturePage data={props.data} title={props.data.article.name}>
       <Link href="/features">
         <a
           css={{

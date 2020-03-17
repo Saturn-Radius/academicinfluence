@@ -1,6 +1,7 @@
 import { ArticleLink, CategoryLink } from "../links";
 import { ArticlePartialData, Category, FeaturesPageResponse } from "../schema";
 import { MAIN_DARKER, PAGE_WIDTH_STYLE } from "../styles";
+import StandardPage from "../templates/StandardPage";
 
 export function Article(props: { article: ArticlePartialData }) {
   if (!props.article) {
@@ -109,11 +110,15 @@ function CategoryBar(props: { categories: Category[] }) {
 export default function FeaturePage(props: {
   data: FeaturesPageResponse;
   children: React.ReactNode;
+  title: string;
 }) {
   return (
-    <main css={PAGE_WIDTH_STYLE}>
-      <CategoryBar categories={props.data.categories} />
-      {props.children}
-    </main>
+    <StandardPage title={props.title}>
+      {" "}
+      <main css={PAGE_WIDTH_STYLE}>
+        <CategoryBar categories={props.data.categories} />
+        {props.children}
+      </main>
+    </StandardPage>
   );
 }
