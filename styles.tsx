@@ -55,7 +55,7 @@ export const PageTitle = styled.h2`
   color: #000000;
 `;
 
-export const PageDescription = styled.p`
+export const PageDescription = styled.div`
   font-family: "SF UI Display Medium";
   font-size: 16px;
   font-weight: 600;
