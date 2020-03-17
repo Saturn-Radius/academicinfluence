@@ -1,13 +1,7 @@
 import styled from "@emotion/styled";
 import { SchoolLink } from "../../links";
 import { SchoolPartialData } from "../../schema";
-import {
-  GRAY,
-  GRAY_DARKEST,
-  GRAY_LIGHTEST,
-  MAIN_DARKER,
-  MAIN_LIGHTER
-} from "../../styles";
+import { GRAY_DARKEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
 import { useBasicContext } from "../BasicContext";
 import DisciplineIcon from "../DisciplineIcon";
 import SchoolStatus from "./SchoolStatus";
@@ -85,13 +79,7 @@ const Location = styled.p`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY};
   margin: 5px 0;
-`;
-
-const LawImage = styled.img`
-  width: 51px;
-  height: 51px;
 `;
 
 const LawRank = styled.p`
@@ -125,7 +113,6 @@ const InfoLabel = styled.span`
   font-style: normal;
   line-height: 1.67;
   letter-spacing: normal;
-  color: ${GRAY};
 `;
 
 const Value = styled.span`
@@ -169,7 +156,6 @@ const RankingLabel = styled.span`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY};
 `;
 
 const RankText = styled.span`
@@ -186,7 +172,6 @@ const SchoolDescription = styled.p`
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: ${GRAY_LIGHTEST};
 `;
 
 const FullDetailsButton = styled.button`

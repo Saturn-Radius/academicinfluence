@@ -3,10 +3,8 @@ import DisciplineIcon from "../../components/DisciplineIcon";
 import { SchoolLink } from "../../links";
 import { SchoolPartialData } from "../../schema";
 import {
-  GRAY,
   GRAY_DARKEST,
   GRAY_LIGHTER,
-  GRAY_LIGHTEST,
   MAIN_DARKER,
   MAIN_LIGHTER
 } from "../../styles";
@@ -53,7 +51,6 @@ const RankingLabel = styled.span`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY};
   margin-top: 44px;
 `;
 
@@ -107,7 +104,6 @@ const Location = styled.p`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY};
   margin-top: 5px;
 `;
 
@@ -116,7 +112,6 @@ const SchoolDescription = styled.p`
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: ${GRAY_LIGHTEST};
 `;
 
 const LawImage = styled.img`
@@ -129,7 +124,6 @@ const RightColLabel = styled.span`
   font-style: normal;
   line-height: 1.67;
   letter-spacing: normal;
-  color: ${GRAY};
 `;
 
 const RightColValue = styled.span`

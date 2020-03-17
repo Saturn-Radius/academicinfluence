@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { SchoolLink } from "../../links";
 import { SchoolPartialData } from "../../schema";
-import { GRAY, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
+import { MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
 import { useBasicContext } from "../BasicContext";
 import DisciplineIcon from "../DisciplineIcon";
 import SchoolStatus from "./SchoolStatus";
@@ -54,7 +54,6 @@ const Location = styled.p`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY};
   margin-top: 1px;
   margin-bottom: 0;
 `;
@@ -75,7 +74,6 @@ const SchoolDescription = styled.p`
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: ${GRAY_LIGHTEST};
   margin-top: 8px;
 `;
 
@@ -139,7 +137,6 @@ const RankingLabel = styled.span`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY};
 `;
 
 const RankText = styled.span`
@@ -164,7 +161,6 @@ const InfoLabel = styled.span`
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: ${GRAY};
 `;
 
 const Value = styled.span`

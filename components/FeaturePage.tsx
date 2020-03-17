@@ -1,6 +1,6 @@
 import { ArticleLink, CategoryLink } from "../links";
 import { ArticlePartialData, Category, FeaturesPageResponse } from "../schema";
-import { GRAY, GRAY_DARKEST, MAIN_DARKER, PAGE_WIDTH_STYLE } from "../styles";
+import { MAIN_DARKER, PAGE_WIDTH_STYLE } from "../styles";
 
 export function Article(props: { article: ArticlePartialData }) {
   if (!props.article) {
@@ -41,7 +41,6 @@ export function Article(props: { article: ArticlePartialData }) {
           </ArticleLink>
           <div
             css={{
-              color: GRAY,
               fontSize: "12px",
               fontWeight: 250
             }}
@@ -50,7 +49,6 @@ export function Article(props: { article: ArticlePartialData }) {
           </div>
           <div
             css={{
-              color: GRAY_DARKEST,
               fontSize: "12px",
               fontWeight: 250,
               marginBottom: "16px"
@@ -63,8 +61,7 @@ export function Article(props: { article: ArticlePartialData }) {
               "@media(min-width: 800px)": {
                 fontSize: "20px"
               },
-              fontSize: "12px",
-              color: GRAY
+              fontSize: "12px"
             }}
           >
             {props.article.excerpt}
@@ -97,7 +94,6 @@ function CategoryBar(props: { categories: Category[] }) {
               marginRight: "13px",
               marginTop: "5px",
               marginBottom: "5px",
-              color: GRAY_DARKEST,
               fontSize: "20px",
               fontWeight: 500
             }}

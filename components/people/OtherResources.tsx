@@ -1,4 +1,4 @@
-import { GRAY_LIGHTEST, MAIN } from "../../styles";
+import { MAIN } from "../../styles";
 import ContentCard from "../ContentCard";
 
 interface ResourceData {
@@ -43,7 +43,6 @@ const styles = {
     lineHeight: 1.78,
     height: 234,
     padding: 20,
-    color: GRAY_LIGHTEST,
     listStyleType: "none"
   },
   link: {
@@ -51,7 +50,6 @@ const styles = {
     lineHeight: 1.78,
     height: 234,
     textDecoration: "underline",
-    color: GRAY_LIGHTEST,
     listStyleType: "none"
   }
 };

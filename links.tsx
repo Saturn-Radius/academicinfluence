@@ -5,7 +5,7 @@ import {
   DisciplineDetail,
   Identifiable
 } from "./schema";
-import { BG_PAGE, GRAY } from "./styles";
+import { BG_PAGE } from "./styles";
 
 export function CategoryLink(props: {
   category: Category;
@@ -99,7 +99,7 @@ export function SectionLink(props: {
           textAlign: "left",
           textDecoration: "none",
           display: "block",
-          color: active ? "white" : GRAY,
+          color: active ? "white" : "inherit",
           padding: "10px",
           backgroundColor: active ? "#eb5857" : BG_PAGE,
           cursor: "pointer"

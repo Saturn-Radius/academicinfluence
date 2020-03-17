@@ -1,5 +1,5 @@
 import { DisciplineLink } from "../../links";
-import { GRAY, GRAY_DARKEST, MAIN } from "../../styles";
+import { GRAY_DARKEST, MAIN } from "../../styles";
 import { useBasicContext } from "../BasicContext";
 
 type SubdisciplineListProps = {
@@ -83,7 +83,6 @@ const styles = {
   },
   defaultlinkStyle: {
     textDecoration: "none",
-    color: GRAY,
     fontSize: 12,
     fontWeight: 500
   },

@@ -1,5 +1,5 @@
 import { InterpolationWithTheme } from "@emotion/core";
-import { GRAY, MAIN } from "../../styles";
+import { MAIN } from "../../styles";
 import ContentCard from "../ContentCard";
 import useMoreButton from "../useMoreButton";
 
@@ -39,7 +39,6 @@ const styles = {
     lineHeight: 1.78,
     padding: 20,
     minHeight: 234,
-    color: GRAY,
     listStyleType: "none"
   }
 };

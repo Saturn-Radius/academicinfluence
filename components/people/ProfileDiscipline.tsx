@@ -1,5 +1,5 @@
 import { PersonData } from "../../schema";
-import { GRAY, MAIN } from "../../styles";
+import { MAIN } from "../../styles";
 
 const ProfileDiscipline = (props: {
   disciplines: PersonData["disciplines"];
@@ -22,7 +22,6 @@ const ProfileDiscipline = (props: {
 
 const styles = {
   sidebarText: {
-    color: GRAY,
     lineHeight: 1,
     fontSize: 16,
     fontWeight: 500
