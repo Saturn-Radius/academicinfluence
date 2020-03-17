@@ -13,7 +13,7 @@ export default async function serveCollegeRankings(
 ): Promise<CollegeRankingsResponse> {
   const innerQuery = lookupAll(SCHOOL_ENTITY_TYPE)
     .apply(addPartialSchoolFields)
-    .addInfluenceFields(SCHOOL_ENTITY_TYPE, undefined, request.discipline)
+    .addInfluenceFields(SCHOOL_ENTITY_TYPE, request.years, request.discipline)
     .field("location");
 
   const query = squel
