@@ -1,4 +1,5 @@
 // next.config.js
+require("dotenv").config();
 const withCSS = require("@zeit/next-css");
 const withFonts = require("next-fonts");
 const CompressionPlugin = require("compression-webpack-plugin");
@@ -9,7 +10,7 @@ module.exports = withFonts(
       return config;
     },
     env: {
-      GOOGLE_MAP_KEY: "AIzaSyAxvSN_Omt9E7dIHC0-arAWIonzhuHrDl8"
+      GOOGLE_MAP_KEY: process.env.GOOGLE_MAP_KEY
     },
     exportTrailingSlash: true
   })
