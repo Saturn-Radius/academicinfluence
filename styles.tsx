@@ -37,6 +37,8 @@ export const GRAY_DARKEST = "var(--GRAY_DARKEST)";
 export const BG_PAGE = "var(--bg_page)";
 export const BG_PAGE_DARKER = "var(--bg_page_darker)";
 
+export const BLACK = "black";
+
 export const PAGE_WIDTH_STYLE = css({
   paddingLeft: "20px",
   paddingRight: "20px",
@@ -47,7 +49,7 @@ export const PAGE_WIDTH_STYLE = css({
 });
 
 export const PageTitle = styled.h2`
-  font-family: "SF UI Display Bold";
+  font-weight: bold;
   font-size: 20px;
   font-style: normal;
   line-height: 1.6;
@@ -56,13 +58,12 @@ export const PageTitle = styled.h2`
 `;
 
 export const PageDescription = styled.div`
-  font-family: "SF UI Display Medium";
   font-size: 16px;
   font-weight: 600;
   font-style: normal;
   line-height: 1.25;
   letter-spacing: normal;
-  color: ${GRAY};
+  color: ${BLACK};
 `;
 
 export const Header1 = styled.h1({
@@ -78,7 +79,7 @@ export const Header1 = styled.h1({
 });
 
 export const DescriptionText = styled.p({
-  color: GRAY,
+  color: BLACK,
   fontSize: "24px",
   fontWeight: "bold",
   lineHeight: "30px"
@@ -95,7 +96,7 @@ export const SectionTitle = styled.h2({
 });
 
 export const SectionDescription = styled.p({
-  color: GRAY,
+  color: BLACK,
   fontSize: "16px",
   fontWeight: "normal",
   lineHeight: "20px"

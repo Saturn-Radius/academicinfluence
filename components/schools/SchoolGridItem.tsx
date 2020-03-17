@@ -40,7 +40,6 @@ const Header = styled.div`
 `;
 
 const SchoolName = styled.h2`
-  font-family: "Montserrat";
   font-size: 16px;
   font-weight: bold;
   font-style: normal;
@@ -51,7 +50,6 @@ const SchoolName = styled.h2`
 `;
 
 const Location = styled.p`
-  font-family: "SF UI Display Medium";
   font-size: 12px;
   font-style: normal;
   line-height: normal;
@@ -73,7 +71,6 @@ const FullDetailsButton = styled.button`
 `;
 
 const SchoolDescription = styled.p`
-  font-family: "SF UI Display Medium";
   font-size: 12px;
   font-style: normal;
   line-height: 1.33;
@@ -99,7 +96,6 @@ const LawImage = styled.img`
 `;
 
 const LawRank = styled.p`
-  font-family: "SF UI Display Bold";
   font-size: 8px;
   font-style: normal;
   line-height: normal;
@@ -139,7 +135,6 @@ const RankingWrapper = styled.div`
 `;
 
 const RankingLabel = styled.span`
-  font-family: "SF UI Display Medium";
   font-size: 12x;
   font-style: normal;
   line-height: normal;
@@ -148,7 +143,6 @@ const RankingLabel = styled.span`
 `;
 
 const RankText = styled.span`
-  font-family: "Montserrat";
   font-size: 20px;
   font-weight: 600;
   font-style: normal;
@@ -166,7 +160,6 @@ const InfoValueWrapper = styled.div`
 `;
 
 const InfoLabel = styled.span`
-  font-family: "SF UI Display Light";
   font-size: 12px;
   font-style: normal;
   line-height: 1.33;
@@ -175,7 +168,6 @@ const InfoLabel = styled.span`
 `;
 
 const Value = styled.span`
-  font-family: "SF UI Display Medium";
   font-size: 16px;
   font-style: normal;
   line-height: 1.33;
