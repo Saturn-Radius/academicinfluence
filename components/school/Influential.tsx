@@ -13,7 +13,7 @@ const InfluentialCard = (props: { person: PersonPartialData }) => {
       <div css={{ width: "100%" }}>
         {props.person.image_url && (
           <img
-            css={{ float: "left", marginRight: 20, height: 60, width: 60 }}
+            css={{ float: "left", marginRight: 20, height: 80, width: 60 }}
             src={props.person.image_url}
           />
         )}
