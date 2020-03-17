@@ -14,7 +14,7 @@ const Influencers = (props: People) => {
             display: flex;
             position: relative;
             margin: 0 50px 50px 50px;
-            height: 310px;
+            height: 320px;
           }
           .nameCard {
             position: absolute;
@@ -26,6 +26,7 @@ const Influencers = (props: People) => {
           }
           .imgWidth {
             width: 240px;
+            height: 320px;
           }
           .personName {
             color: white;
@@ -33,11 +34,12 @@ const Influencers = (props: People) => {
           }
           @media (max-width: 600px) {
             .nameList {
-              height: 140px;
+              height: 152px;
               margin: 0 10px 10px 10px;
             }
             .imgWidth {
-              width: 115px;
+              width: 114px;
+              height: 152px;
             }
             .nameCard {
               height: 27px;

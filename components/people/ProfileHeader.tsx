@@ -47,9 +47,8 @@ const styles = {
     fontSize: 20
   },
   headerImg: {
-    //width:80,
-    width: 104,
-    height: 104
+    width: 105,
+    height: 140
   },
   profileTitle: {
     fontSize: 20,
