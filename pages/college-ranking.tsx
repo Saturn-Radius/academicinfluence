@@ -962,12 +962,9 @@ for (let index = 2; index < COLUMNS.length; index++) {
     gridRowStart: column.row,
     gridRowEnd: column.row,
     gridColumnStart: column.column,
-    gridColumnEnd: column.column,
-    padding: "10px"
+    gridColumnEnd: column.column
   };
-  STYLES[`td:nth-of-type(${index + 1}) div`] = {
-    padding: "10px"
-  };
+  STYLES[`td:nth-of-type(${index + 1}) div`] = {};
 }
 
 const CollegeRanking: React.SFC<CollegeRankingProps> = props => {
