@@ -20,6 +20,7 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -164,6 +165,7 @@ const InfoValue = (props: InfoValueProps) =>
 
 interface SchoolThListItemProps {
   mode: string;
+  index: number;
   school: SchoolPartialData;
 }
 const SchoolThListItem = (props: SchoolThListItemProps) => {
@@ -188,6 +190,16 @@ const SchoolThListItem = (props: SchoolThListItemProps) => {
   return (
     <Wrapper>
       <Header>
+        <div
+          css={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            padding: "10px"
+          }}
+        >
+          #{props.index + 1}
+        </div>
         <Logo src={logo_url || undefined} />
         <SchoolLink school={school}>
           <FullDetailsButton>Full Details</FullDetailsButton>
