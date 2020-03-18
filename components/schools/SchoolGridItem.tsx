@@ -2,8 +2,6 @@ import styled from "@emotion/styled";
 import { SchoolLink } from "../../links";
 import { SchoolPartialData } from "../../schema";
 import { MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
-import { useBasicContext } from "../BasicContext";
-import DisciplineIcon from "../DisciplineIcon";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -87,44 +85,6 @@ const Row = styled.div`
   display: flex;
   margin-top: 10px;
 `;
-
-const LawImage = styled.img`
-  width: 51px;
-  height: 51px;
-`;
-
-const LawRank = styled.p`
-  font-size: 8px;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #000000;
-  margin-top: 8px;
-  text-align: center;
-`;
-
-const LawBadgeWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-`;
-
-const LawBadge = (props: { school: SchoolPartialData }) => {
-  const basicContext = useBasicContext();
-  return props.school.top_discipline === null ? null : (
-    <LawBadgeWrapper>
-      <DisciplineIcon
-        style={{ fontSize: "51px" }}
-        discipline={basicContext.discipline(props.school.top_discipline)}
-      />
-      <LawRank>
-        #{props.school.top_discipline_rank} for{" "}
-        {basicContext.disciplineName(props.school.top_discipline)}
-      </LawRank>
-    </LawBadgeWrapper>
-  );
-};
 
 const RankingWrapper = styled.div`
   display: flex;
@@ -232,7 +192,6 @@ const SchoolGridItem = (props: SchoolGridItemProps) => {
               size={51}
               fontSize={8}
             />
-            <LawBadge school={school} />
           </Row>
           <Row>
             <RankingWrapper>

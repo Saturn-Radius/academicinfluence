@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import DisciplineIcon from "../../components/DisciplineIcon";
 import { SchoolLink } from "../../links";
 import { SchoolPartialData } from "../../schema";
 import {
@@ -214,18 +213,6 @@ const SchoolThListItem = (props: SchoolThListItemProps) => {
             <SchoolDescription>{short_description}</SchoolDescription>
           </BodyLeftCol>
           <BodyRightCol>
-            {school.top_discipline && (
-              <DisciplineIcon
-                style={{ fontSize: "70px" }}
-                discipline={basicContext.discipline(school.top_discipline)}
-              />
-            )}
-            {school.top_discipline && (
-              <LawRank>
-                #{school.top_discipline_rank} for{" "}
-                {basicContext.disciplineName(school.top_discipline)}
-              </LawRank>
-            )}
             <InfoValue label="Tuition" value={undergrad_tuition_in_state} />
             <InfoValue label="Avg. Earnings" value={average_earnings} />
           </BodyRightCol>

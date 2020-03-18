@@ -1,6 +1,4 @@
-import { influenceScoreQuery } from "../influenceScore";
 import * as squel from "../squel";
-import { disciplineNameToSlug } from "../utils/disciplines";
 import {
   EntityQuery,
   EntityType,
@@ -32,50 +30,7 @@ export function addPartialSchoolFields(query: EntityQuery) {
       "total_students"
     )
     .field("desirability")
-    .field("logo_url")
-    .field(
-      squel
-        .select()
-        .from(
-          influenceScoreQuery("school", 1900, 2020)
-            .where("scores.id = schools.id")
-            .where("keyword is not null")
-            .field("keyword"),
-          "data"
-        )
-        .join(
-          "editor.ai_disciplines",
-          undefined,
-          "ai_disciplines.id = data.keyword"
-        )
-        .where("ai_disciplines.active")
-        .order("influence", false)
-        .limit(1)
-        .field("ai_disciplines.name"),
-      "top_discipline"
-    )
-    .field(
-      squel
-        .select()
-        .from(
-          influenceScoreQuery("school", 1900, 2020)
-            .where("scores.id = schools.id")
-            .where("keyword is not null")
-            .field("world_rank")
-            .field("keyword"),
-          "data"
-        )
-        .join(
-          "editor.ai_disciplines",
-          undefined,
-          "ai_disciplines.id = data.keyword"
-        )
-        .where("ai_disciplines.active")
-        .order("influence", false)
-        .limit(1)
-        .field("data.world_rank"),
-      "top_discipline_rank"
-    );
+    .field("logo_url");
 }
 
 export function extractPartialSchoolFields(row: any) {
@@ -91,8 +46,6 @@ export function extractPartialSchoolFields(row: any) {
     total_students: row.total_students,
     acceptance_rate: row.acceptance_rate,
     desirability: row.desirability,
-    logo_url: row.logo_url,
-    top_discipline: disciplineNameToSlug(row.top_discipline),
-    top_discipline_rank: row.top_discipline_rank
+    logo_url: row.logo_url
   };
 }
