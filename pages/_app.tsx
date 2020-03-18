@@ -18,6 +18,7 @@ import { SectionLink } from "../links";
 import { BasicContextResponse } from "../schema";
 import { PAGE_WIDTH_STYLE } from "../styles";
 import "../styles/colors.css";
+import "../styles/features.css";
 
 type HamburgerIconProps = {
   onClick?: () => void;

@@ -8,7 +8,6 @@ import FeaturePage, { Article } from "../../../components/FeaturePage";
 import HtmlContent from "../../../components/HtmlContent";
 import { ArticlePartialData, FeaturesPageResponse } from "../../../schema";
 import { DescriptionText, Header1 } from "../../../styles";
-import "../../../styles/features.css";
 
 type FeaturesProps = {
   data: FeaturesPageResponse;
