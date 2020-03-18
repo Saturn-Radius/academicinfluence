@@ -1,6 +1,6 @@
 import { ArticleLink, CategoryLink } from "../links";
 import { ArticlePartialData, Category, FeaturesPageResponse } from "../schema";
-import { MAIN_DARKER, PAGE_WIDTH_STYLE } from "../styles";
+import { MAIN_DARKER } from "../styles";
 import StandardPage from "../templates/StandardPage";
 
 export function Article(props: { article: ArticlePartialData }) {
@@ -117,10 +117,8 @@ export default function FeaturePage(props: {
   return (
     <StandardPage title={props.title} section="features">
       {" "}
-      <main css={PAGE_WIDTH_STYLE}>
-        <CategoryBar categories={props.data.categories} />
-        {props.children}
-      </main>
+      <CategoryBar categories={props.data.categories} />
+      {props.children}
     </StandardPage>
   );
 }
