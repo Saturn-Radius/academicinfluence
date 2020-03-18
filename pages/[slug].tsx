@@ -77,4 +77,6 @@ About.getInitialProps = async function(context: NextPageContext) {
   return (await aboutPage) as PageResponse;
 };
 
+(About as any).currentSection = "about";
+
 export default About;
