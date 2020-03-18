@@ -1,13 +1,12 @@
 import "rc-slider/assets/index.css";
 import "rc-tooltip/assets/bootstrap.css";
-import React, { useState } from "react";
+import React from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { apiInfluentialPeoplePage, apiPage } from "../../api";
 import { useBasicContext } from "../../components/BasicContext";
 import HtmlContent from "../../components/HtmlContent";
 import ListTopMenu from "../../components/people/ListTopMenu";
 import PeopleList from "../../components/people/PeopleList";
-import { DISPLAY_MODES } from "../../components/schools";
 import QuerySchema, { RangeParameter } from "../../QuerySchema";
 import {
   InfluentialPeoplePageRequest,
@@ -47,7 +46,6 @@ const QUERY_SCHEMA = QuerySchema("/people", {
 });
 
 const InfluentialPeople: React.SFC<InfluentialPeopleProps> = props => {
-  const [displayMode, setDisplayMode] = useState(DISPLAY_MODES.grid);
   const basicContext = useBasicContext();
 
   return (
@@ -62,12 +60,8 @@ const InfluentialPeople: React.SFC<InfluentialPeopleProps> = props => {
       <PageDescription>
         <HtmlContent html={props.page.content} />
       </PageDescription>
-      <ListTopMenu
-        {...props}
-        mode={displayMode}
-        onDisplayModeSelect={setDisplayMode}
-      />
-      <PeopleList mode={displayMode} people={props.people} />
+      <ListTopMenu {...props} />
+      <PeopleList people={props.people} />
     </StandardPage>
   );
 };

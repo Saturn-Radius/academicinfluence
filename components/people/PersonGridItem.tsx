@@ -44,7 +44,6 @@ const InfoValue = (props: InfoValueProps) =>
   );
 
 interface PersonGridItemProps {
-  mode: string;
   person: PersonPartialData;
 }
 const PersonGridItem = (props: PersonGridItemProps) => {

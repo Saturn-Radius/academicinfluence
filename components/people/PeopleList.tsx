@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { PersonPartialData } from "../../schema";
-import DISPLAY_MODES from "../schools/constants";
 import PersonGridItem from "./PersonGridItem";
 //import PersonListItem from "./PersonListItem";
 //import PersonThListItem from "./PersonThListItem";
@@ -18,41 +17,18 @@ const GridWrapper = styled.div`
 `;
 
 interface PersonListProps {
-  mode: string;
   people: PersonPartialData[];
 }
 const PeopleList = (props: PersonListProps) => {
-  const { mode, people } = props;
+  const { people } = props;
 
-  switch (mode) {
-    case DISPLAY_MODES.grid:
-      return (
-        <GridWrapper>
-          {people.map((item, index) => (
-            <PersonGridItem key={index} mode={mode} person={item} />
-          ))}
-        </GridWrapper>
-      );
-    /*
-    case DISPLAY_MODES.thMode:
-      return (
-        <ListWrapper>
-          {people.map((item, index) => (
-            <PersonThListItem key={index} mode={mode} person={item} />
-          ))}
-        </ListWrapper>
-      );
-    case DISPLAY_MODES.listMode:
-      return (
-        <ListWrapper>
-          {schools.map((item, index) => (
-            <PersonListItem key={index} mode={mode} school={item} />
-          ))}
-        </ListWrapper>
-      );*/
-    default:
-      return null;
-  }
+  return (
+    <GridWrapper>
+      {people.map((item, index) => (
+        <PersonGridItem key={index} person={item} />
+      ))}
+    </GridWrapper>
+  );
 };
 
 export default PeopleList;

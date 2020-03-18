@@ -16,18 +16,7 @@ const AdvancedSearch = styled.div`
   width: 100%;
 `;
 
-const ListTopMenu = (
-  props: {
-    mode: string;
-    onDisplayModeSelect: (mode: string) => void;
-  } & FilterProps
-) => {
-  const { mode, onDisplayModeSelect } = props;
-
-  const onMenuModeSelectHandler = (menuMode: string) => {
-    onDisplayModeSelect(menuMode);
-  };
-
+const ListTopMenu = (props: FilterProps) => {
   return (
     <>
       <MenuRow>
