@@ -172,4 +172,6 @@ Disciplines.getInitialProps = async function() {
   };
 };
 
+(Disciplines as any).currentSection = "by-discipline";
+
 export default Disciplines;

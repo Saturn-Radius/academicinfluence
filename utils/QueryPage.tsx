@@ -100,5 +100,10 @@ export default function QueryPage<
     };
   };
 
+  PageWrapper.currentSection =
+    seoProps.title === "Influential Schools"
+      ? "influential-schools"
+      : "influential-people";
+
   return PageWrapper;
 }

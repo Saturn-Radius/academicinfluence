@@ -289,7 +289,7 @@ const Index: NextPage<IndexProps> = (props: IndexProps) => {
           </FeatureArticles>
         </div>
         <div className="influence">
-          <h1 className="influenceTitle">Influence by discipline</h1>
+          <h1 className="influenceTitle">INFLUENCE BY DISCIPLINE</h1>
           <Influence disciplines={basicContext.disciplines} />
         </div>
         <div className="influencers">

@@ -6,14 +6,27 @@ const ProfileDiscipline = (props: {
 }) => {
   if (props.disciplines && Object.keys(props.disciplines).length > 0) {
     return (
-      <div css={{ display: "flex", flexDirection: "column", width: 300 }}>
-        <div css={styles.sidebarText}>Top Disciplines Influenced:</div>
-        <div css={styles.bodyText}>
-          {Object.entries(props.disciplines).map(([discipline, data]) => (
-            <li key={discipline}>{discipline}</li>
-          ))}
+      <>
+        <style jsx>
+          {`
+            @media (max-width: 800px) {
+              .liStyle {
+                font-size: 18px;
+              }
+            }
+          `}
+        </style>
+        <div css={{ display: "flex", flexDirection: "column", width: 300 }}>
+          <div css={styles.sidebarText}>Top Disciplines Influenced:</div>
+          <div css={styles.bodyText}>
+            {Object.entries(props.disciplines).map(([discipline, data]) => (
+              <li className="liStyle" key={discipline}>
+                {discipline}
+              </li>
+            ))}
+          </div>
         </div>
-      </div>
+      </>
     );
   } else {
     return null;

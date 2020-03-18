@@ -7,32 +7,50 @@ interface InfluenceScore {
 const InfluenceScore = (props: InfluenceScore) => {
   let score = Math.floor(props.overall.influence * 100);
   return (
-    <div css={{ display: "flex", flexDirection: "column", width: 170 }}>
-      {props.overall.influence && (
-        <div>
-          <div css={styles.sidebarText}>Influence Score:</div>
-          <div css={styles.bodyText}>
-            <li>{score}</li>
+    <>
+      <style jsx>
+        {`
+          @media (max-width: 800px) {
+            .liStyle {
+              font-size: 18px;
+            }
+          }
+        `}
+      </style>
+      <div
+        css={{
+          display: "flex",
+          flexDirection: "column",
+          width: 170,
+          marginRight: 10
+        }}
+      >
+        {props.overall.influence && (
+          <div>
+            <div css={styles.sidebarText}>Influence Score:</div>
+            <div css={styles.bodyText}>
+              <li className="liStyle">{score}</li>
+            </div>
           </div>
-        </div>
-      )}
-      {props.overall.world_rank && (
-        <div>
-          <div css={styles.rankingText}>World Ranking:</div>
-          <div css={styles.bodyText}>
-            <li>#{props.overall.world_rank} World</li>
+        )}
+        {props.overall.world_rank && (
+          <div>
+            <div css={styles.rankingText}>World Ranking:</div>
+            <div css={styles.bodyText}>
+              <li className="liStyle">#{props.overall.world_rank} World</li>
+            </div>
           </div>
-        </div>
-      )}
-      {props.overall.usa_rank && (
-        <div>
-          <div css={styles.rankingText}>USA Ranking:</div>
-          <div css={styles.bodyText}>
-            <li>#{props.overall.usa_rank} USA</li>
+        )}
+        {props.overall.usa_rank && (
+          <div>
+            <div css={styles.rankingText}>USA Ranking:</div>
+            <div css={styles.bodyText}>
+              <li className="liStyle">#{props.overall.usa_rank} USA</li>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 
