@@ -7,14 +7,27 @@ interface SchoolsData {
 const ProfileSchools = (props: SchoolsData) => {
   if (props.schools && props.schools.length > 0) {
     return (
-      <div css={{ display: "flex", flexDirection: "column", width: 450 }}>
-        <div css={styles.sidebarText}>Schools Associated With:</div>
-        <div css={styles.bodyText}>
-          {props.schools.map((school, i) => (
-            <li key={i}>{school.name}</li>
-          ))}
+      <>
+        <style jsx>
+          {`
+            @media (max-width: 800px) {
+              .liStyle {
+                font-size: 18px;
+              }
+            }
+          `}
+        </style>
+        <div css={{ display: "flex", flexDirection: "column", width: 450 }}>
+          <div css={styles.sidebarText}>Schools Associated With:</div>
+          <div css={styles.bodyText}>
+            {props.schools.map((school, i) => (
+              <li className="liStyle" key={i}>
+                {school.name}
+              </li>
+            ))}
+          </div>
         </div>
-      </div>
+      </>
     );
   } else {
     return null;
