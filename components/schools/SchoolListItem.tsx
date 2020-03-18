@@ -151,7 +151,6 @@ const FullDetailsButton = styled.button`
 `;
 
 interface SchoolListItemProps {
-  mode: string;
   school: SchoolPartialData;
   index: number;
 }

@@ -6,7 +6,7 @@ import { apiDiscipline, apiInfluentialSchoolsPage } from "../../../api";
 import { useBasicContext } from "../../../components/BasicContext";
 import { SubdisciplineList } from "../../../components/disciplines";
 import HtmlContent from "../../../components/HtmlContent";
-import { DISPLAY_MODES, SchoolList } from "../../../components/schools";
+import { SchoolList } from "../../../components/schools";
 import { DisciplineResponse, SchoolPartialData } from "../../../schema";
 import StandardPage from "../../../templates/StandardPage";
 
@@ -86,7 +86,7 @@ const Discipline: NextPage<DisciplinesProps> = props => {
           </h1>
         </div>
         <div className="schoolList">
-          <SchoolList mode={DISPLAY_MODES.thMode} schools={props.schools} />
+          <SchoolList schools={props.schools} />
         </div>
       </div>
     </StandardPage>
