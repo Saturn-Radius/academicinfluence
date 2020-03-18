@@ -15,6 +15,7 @@ const Influencers = (props: People) => {
             position: relative;
             margin: 0 50px 50px 50px;
             height: 320px;
+            cursor: pointer;
           }
           .nameCard {
             position: absolute;

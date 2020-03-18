@@ -45,7 +45,7 @@ const InfluenceScore = (props: InfluenceScore) => {
           <div>
             <div css={styles.rankingText}>USA Ranking:</div>
             <div css={styles.bodyText}>
-              <li>#{props.overall.usa_rank} USA</li>
+              <li className="liStyle">#{props.overall.usa_rank} USA</li>
             </div>
           </div>
         )}

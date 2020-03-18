@@ -41,6 +41,13 @@ const Influence = (props: Disciplines) => {
           .disciplineName {
             font-size: 22px;
           }
+          .svgs {
+            font-size: 64px;
+            color: #666666;
+          }
+          .svgs :hover {
+            color: #367d8a;
+          }
           @media (max-width: 600px) {
             .icons {
               margin-left: 20px;
@@ -61,6 +68,11 @@ const Influence = (props: Disciplines) => {
             }
             .msvgs {
               display: flex;
+              font-size: 42px;
+              color: #666666;
+            }
+            .msvgs :hover {
+              color: #367d8a;
             }
             .svgs {
               display: none;
@@ -81,16 +93,10 @@ const Influence = (props: Disciplines) => {
                   <img src="images/hexagon.svg" className="hexagon" />
                   <a className="iconLink">
                     <div className="svgs">
-                      <DisciplineIcon
-                        style={styles.svg}
-                        discipline={discipline}
-                      />
+                      <DisciplineIcon discipline={discipline} />
                     </div>
                     <div className="msvgs">
-                      <DisciplineIcon
-                        style={styles.msvg}
-                        discipline={discipline}
-                      />
+                      <DisciplineIcon discipline={discipline} />
                     </div>
                   </a>
                 </div>
@@ -101,17 +107,6 @@ const Influence = (props: Disciplines) => {
       </div>
     </div>
   );
-};
-
-const styles = {
-  svg: {
-    fontSize: 64,
-    color: "#666666"
-  },
-  msvg: {
-    fontSize: 42,
-    color: "#666666"
-  }
 };
 
 export default Influence;
