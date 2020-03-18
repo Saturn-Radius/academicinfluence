@@ -5,7 +5,7 @@ import {
   DisciplineDetail,
   Identifiable
 } from "./schema";
-import { BG_PAGE } from "./styles";
+import { ACCENT, BG_PAGE } from "./styles";
 
 export function CategoryLink(props: {
   category: Category;
@@ -101,7 +101,7 @@ export function SectionLink(props: {
           display: "block",
           color: active ? "white" : "inherit",
           padding: "10px",
-          backgroundColor: active ? "#eb5857" : BG_PAGE,
+          backgroundColor: active ? ACCENT : BG_PAGE,
           cursor: "pointer"
         }}
       >

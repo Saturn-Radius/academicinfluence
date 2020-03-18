@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { apiInfluentialSchoolsPage, apiPage } from "../../api";
+import { useBasicContext } from "../../components/BasicContext";
 import HtmlContent from "../../components/HtmlContent";
 import DISPLAY_MODES from "../../components/schools/constants";
 import ListTopMenu from "../../components/schools/ListTopMenu";
@@ -13,6 +14,7 @@ import {
 import { PageDescription, PageTitle } from "../../styles";
 import StandardPage from "../../templates/StandardPage";
 import QueryPage from "../../utils/QueryPage";
+import { Years } from "../../utils/years";
 
 const QUERY_SCHEMA = QuerySchema("/schools", {
   discipline: {
@@ -37,11 +39,20 @@ type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
 };
 
 const InfluentialSchools: React.SFC<InfluentialSchoolsProps> = props => {
-  const [displayMode, setDisplayMode] = useState(DISPLAY_MODES.grid);
+  const [displayMode, setDisplayMode] = useState(DISPLAY_MODES.listMode);
+  const basicContext = useBasicContext();
 
   return (
     <StandardPage title="Influential Schools">
-      <PageTitle>Influential Schools</PageTitle>
+      <PageTitle>
+        <PageTitle>
+          Most Influential Schools{" "}
+          {props.request.discipline === null
+            ? ""
+            : `in ${basicContext.disciplineName(props.request.discipline)} `}
+          <Years years={props.request.years} />
+        </PageTitle>
+      </PageTitle>
       <PageDescription>
         <HtmlContent html={props.page.content} />
       </PageDescription>

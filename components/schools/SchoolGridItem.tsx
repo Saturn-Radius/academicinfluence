@@ -5,6 +5,7 @@ import { MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
+  position: relative;
   margin: 10px;
   width: 31%;
   height: 300px;
@@ -31,6 +32,7 @@ const Logo = styled.img`
 `;
 
 const Header = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -150,6 +152,7 @@ const InfoValue = (props: InfoValueProps) =>
 interface SchoolGridItemProps {
   mode: string;
   school: SchoolPartialData;
+  index: number;
 }
 const SchoolGridItem = (props: SchoolGridItemProps) => {
   const { school } = props;
@@ -170,6 +173,16 @@ const SchoolGridItem = (props: SchoolGridItemProps) => {
 
   return (
     <Wrapper>
+      <div
+        css={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          padding: "10px"
+        }}
+      >
+        #{props.index + 1}
+      </div>
       <InnerWrapper>
         <HeaderWrapper>
           <Logo src={logo_url || undefined} />

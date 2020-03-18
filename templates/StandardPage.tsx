@@ -1,5 +1,4 @@
 import { NextSeo } from "next-seo";
-import BacktotopButton from "../components/BacktotopButton";
 import { Sidebar } from "../components/school";
 import PageLayout from "./PageLayout";
 
@@ -36,7 +35,6 @@ export default function StandardPage(props: {
             <Sidebar />
           </div>
         </div>
-        <BacktotopButton />
       </PageLayout>
     </>
   );

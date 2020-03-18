@@ -14,6 +14,7 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -152,6 +153,7 @@ const FullDetailsButton = styled.button`
 interface SchoolListItemProps {
   mode: string;
   school: SchoolPartialData;
+  index: number;
 }
 const SchoolListItem = (props: SchoolListItemProps) => {
   const { school } = props;
@@ -173,6 +175,16 @@ const SchoolListItem = (props: SchoolListItemProps) => {
   return (
     <Wrapper>
       <Header>
+        <div
+          css={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            padding: "10px"
+          }}
+        >
+          #{props.index + 1}
+        </div>
         <Logo src={logo_url || undefined} />
       </Header>
       <Body>

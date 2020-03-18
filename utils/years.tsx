@@ -48,3 +48,10 @@ export function YearRange(props: { person: PersonPartialData }) {
     </>
   );
 }
+export function Years(props: { years: { min: number; max: number } }) {
+  return (
+    <>
+      {formatYear(props.years.min)} – {formatYear(props.years.max)}
+    </>
+  );
+}

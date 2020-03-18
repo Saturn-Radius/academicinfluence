@@ -18,6 +18,7 @@ export default function SubdisciplineList(props: SubdisciplineListProps) {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
+            color: white;
           }
         `}
       </style>

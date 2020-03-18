@@ -3,6 +3,7 @@ import "rc-tooltip/assets/bootstrap.css";
 import React, { useState } from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { apiInfluentialPeoplePage, apiPage } from "../../api";
+import { useBasicContext } from "../../components/BasicContext";
 import HtmlContent from "../../components/HtmlContent";
 import ListTopMenu from "../../components/people/ListTopMenu";
 import PeopleList from "../../components/people/PeopleList";
@@ -16,6 +17,7 @@ import {
 import { PageDescription, PageTitle } from "../../styles";
 import StandardPage from "../../templates/StandardPage";
 import QueryPage from "../../utils/QueryPage";
+import { Years } from "../../utils/years";
 
 type InfluentialPeopleProps = InfluentialPeoplePageResponse & {
   request: InfluentialPeoplePageRequest;
@@ -23,7 +25,7 @@ type InfluentialPeopleProps = InfluentialPeoplePageResponse & {
   page: PageResponse;
 };
 
-const QUERY_SCHEMA = QuerySchema("/schools", {
+const QUERY_SCHEMA = QuerySchema("/people", {
   discipline: {
     toQuery: value => value,
     fromQuery: value => value,
@@ -46,10 +48,17 @@ const QUERY_SCHEMA = QuerySchema("/schools", {
 
 const InfluentialPeople: React.SFC<InfluentialPeopleProps> = props => {
   const [displayMode, setDisplayMode] = useState(DISPLAY_MODES.grid);
+  const basicContext = useBasicContext();
 
   return (
     <StandardPage title="Influential People">
-      <PageTitle>Influential People</PageTitle>
+      <PageTitle>
+        Most Influential People{" "}
+        {props.request.discipline === null
+          ? ""
+          : `in ${basicContext.disciplineName(props.request.discipline)} `}
+        <Years years={props.request.years} />
+      </PageTitle>
       <PageDescription>
         <HtmlContent html={props.page.content} />
       </PageDescription>

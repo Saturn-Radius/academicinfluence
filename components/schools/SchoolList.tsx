@@ -29,7 +29,12 @@ const SchoolList = (props: SchoolListProps) => {
       return (
         <GridWrapper>
           {schools.map((item, index) => (
-            <SchoolGridItem key={index} mode={mode} school={item} />
+            <SchoolGridItem
+              key={index}
+              mode={mode}
+              school={item}
+              index={index}
+            />
           ))}
         </GridWrapper>
       );
@@ -37,7 +42,12 @@ const SchoolList = (props: SchoolListProps) => {
       return (
         <ListWrapper>
           {schools.map((item, index) => (
-            <SchoolThListItem key={index} mode={mode} school={item} />
+            <SchoolThListItem
+              key={index}
+              mode={mode}
+              school={item}
+              index={index}
+            />
           ))}
         </ListWrapper>
       );
@@ -45,7 +55,12 @@ const SchoolList = (props: SchoolListProps) => {
       return (
         <ListWrapper>
           {schools.map((item, index) => (
-            <SchoolListItem key={index} mode={mode} school={item} />
+            <SchoolListItem
+              key={index}
+              mode={mode}
+              school={item}
+              index={index}
+            />
           ))}
         </ListWrapper>
       );
