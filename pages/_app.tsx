@@ -11,6 +11,7 @@ import ReactGA from "react-ga";
 import "typeface-montserrat/index.css";
 import { apiBasicContext } from "../api";
 import { BasicContextReactContext } from "../components/BasicContext";
+import Logo from "../components/Logo";
 import Sidebar from "../components/school/Sidebar";
 import { SectionLink } from "../links";
 import { BasicContextResponse } from "../schema";
@@ -245,10 +246,6 @@ function SiteHeader(props: { currentSection?: string }) {
       </nav>
     </>
   );
-}
-
-function Logo() {
-  return <img src="/images/logo.svg" />;
 }
 
 function Footer() {

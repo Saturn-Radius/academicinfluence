@@ -192,7 +192,7 @@ const SchoolThListItem = (props: SchoolThListItemProps) => {
         <SchoolLink school={school}>
           <FullDetailsButton>Full Details</FullDetailsButton>
         </SchoolLink>
-        <RankingLabel>Ranking</RankingLabel>
+        <RankingLabel>Overall Influence</RankingLabel>
         <RankText>#{world_rank}</RankText>
       </Header>
       <Body>

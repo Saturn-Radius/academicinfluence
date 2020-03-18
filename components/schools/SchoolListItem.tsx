@@ -191,7 +191,7 @@ const SchoolListItem = (props: SchoolListItemProps) => {
           </Row>
         </BodyLeftCol>
         <BodyMidCol>
-          <RankingLabel>Ranking</RankingLabel>
+          <RankingLabel>Overall Influence</RankingLabel>
           <RankText>#{world_rank}</RankText>
           <SchoolDescription>{short_description}</SchoolDescription>
         </BodyMidCol>

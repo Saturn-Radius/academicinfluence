@@ -3,44 +3,21 @@ import { QueryResult } from "pg";
 import { DisciplineInfluenceData } from "./schema";
 import { EntityType, lookupBySlug } from "./service/entityDatabase";
 import * as squel from "./squel";
+import { ERAS } from "./utils/years";
 
 export function influenceScoreColumn(start_year: number, stop_year: number) {
-  const start = squel.str(
-    "GREATEST(scores.year_start,?)::float - scores.year_start",
-    start_year
+  console.log(
+    "HEY",
+    start_year,
+    stop_year,
+    ERAS.indexOf(stop_year),
+    ERAS.indexOf(start_year)
   );
-  const end = squel.str(
-    "LEAST(scores.year_end + 1,?)::float - scores.year_start",
-    stop_year
+  return squel.str(
+    "scores.era_scores[?] - scores.era_scores[?]",
+    ERAS.indexOf(stop_year) + 1,
+    ERAS.indexOf(start_year) + 1
   );
-
-  const a_term = squel.str("scores.a * (? - ?)", end, start);
-  const b_term = squel.str(
-    "scores.b * (power(?, 2) - power(?,2)) / 2",
-    end,
-    start
-  );
-  const c_term = squel.str(
-    "scores.c * (power(?, 3) - power(?,3)) / 3",
-    end,
-    start
-  );
-
-  const expression = squel.str("? + ? + ?", a_term, b_term, c_term);
-
-  const adapted = squel.str(
-    "ln(greatest(?,0.0) + exp(1.0)) / 15.0",
-    expression
-  );
-
-  const conditioned = squel.str(
-    "coalesce(case when ? > ? then ? else 0.0 end, 0.0)",
-    end,
-    start,
-    adapted
-  );
-
-  return conditioned;
 }
 export function influenceScoreQuery(
   kind: string,
@@ -79,7 +56,7 @@ export function disciplineBreakdownQuery(
     .field("scores.keyword")
     .field("world_rank")
     .field("usa_rank")
-    .field(influenceScoreColumn(-8000, 2020), "influence")
+    .field(influenceScoreColumn(-4000, 2020), "influence")
     .order("influence", false)
     .where(
       "scores.keyword is null or (ai_disciplines.name is not null and ai_disciplines.active)"

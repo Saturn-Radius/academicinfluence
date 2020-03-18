@@ -41,6 +41,9 @@
 --black: #000000;
 }
 
+.rc-slider {
+    height: 24px !important;
+}
 .rc-slider .rc-slider-track {
     background-color: var(--main)
 }

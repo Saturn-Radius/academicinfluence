@@ -15,6 +15,7 @@ import Autocomplete from "../components/Autocomplete";
 import { useBasicContext } from "../components/BasicContext";
 import CircularProgress from "../components/CircularProgress";
 import HtmlContent from "../components/HtmlContent";
+import { YearsFilter } from "../components/schools";
 import { SchoolLink } from "../links";
 import QuerySchema, { RangeParameter } from "../QuerySchema";
 import {
@@ -935,12 +936,7 @@ const Filter = function(props: FilterProps) {
       </div>
       <LocationFilter {...props} />
       <Discipline {...props} />
-      <SliderFilter
-        label="Years"
-        id="years"
-        format={value => (value < 0 ? -value + " BC" : value + " AD")}
-        {...props}
-      />
+      <YearsFilter {...props} minYear={1800} />
     </div>
   );
 };
@@ -1137,31 +1133,33 @@ export default QueryPage(
     return { data: await data, page: (await page) as PageResponse };
   },
   props => props.data.schools.length == 0,
-  (request, props) => ({
-    ...request,
-    tuition: processQueryLimit(
-      request.tuition,
-      props.data.limits.tuition,
-      0,
-      100
-    ),
-    median_sat: processQueryLimit(
-      request.median_sat,
-      props.data.limits.median_sat,
-      0,
-      200
-    ),
-    acceptance_rate: processQueryLimit(
-      request.acceptance_rate,
-      props.data.limits.acceptance_rate,
-      0,
-      100
-    ),
-    total_students: processQueryLimit(
-      request.total_students,
-      props.data.limits.total_students,
-      0,
-      100
-    )
-  })
+  (request, props) => {
+    return {
+      ...request,
+      tuition: processQueryLimit(
+        request.tuition,
+        props.data.limits.tuition,
+        0,
+        100
+      ),
+      median_sat: processQueryLimit(
+        request.median_sat,
+        props.data.limits.median_sat,
+        0,
+        200
+      ),
+      acceptance_rate: processQueryLimit(
+        request.acceptance_rate,
+        props.data.limits.acceptance_rate,
+        0,
+        100
+      ),
+      total_students: processQueryLimit(
+        request.total_students,
+        props.data.limits.total_students,
+        0,
+        100
+      )
+    };
+  }
 );
