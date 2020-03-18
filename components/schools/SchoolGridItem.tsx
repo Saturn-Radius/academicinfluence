@@ -1,9 +1,7 @@
 import styled from "@emotion/styled";
 import { SchoolLink } from "../../links";
 import { SchoolPartialData } from "../../schema";
-import { GRAY, GRAY_LIGHTEST, MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
-import { useBasicContext } from "../BasicContext";
-import DisciplineIcon from "../DisciplineIcon";
+import { MAIN_DARKER, MAIN_LIGHTER } from "../../styles";
 import SchoolStatus from "./SchoolStatus";
 
 const Wrapper = styled.div`
@@ -40,7 +38,6 @@ const Header = styled.div`
 `;
 
 const SchoolName = styled.h2`
-  font-family: "Montserrat";
   font-size: 16px;
   font-weight: bold;
   font-style: normal;
@@ -51,12 +48,10 @@ const SchoolName = styled.h2`
 `;
 
 const Location = styled.p`
-  font-family: "SF UI Display Medium";
   font-size: 12px;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY};
   margin-top: 1px;
   margin-bottom: 0;
 `;
@@ -73,12 +68,10 @@ const FullDetailsButton = styled.button`
 `;
 
 const SchoolDescription = styled.p`
-  font-family: "SF UI Display Medium";
   font-size: 12px;
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: ${GRAY_LIGHTEST};
   margin-top: 8px;
 `;
 
@@ -93,45 +86,6 @@ const Row = styled.div`
   margin-top: 10px;
 `;
 
-const LawImage = styled.img`
-  width: 51px;
-  height: 51px;
-`;
-
-const LawRank = styled.p`
-  font-family: "SF UI Display Bold";
-  font-size: 8px;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #000000;
-  margin-top: 8px;
-  text-align: center;
-`;
-
-const LawBadgeWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-`;
-
-const LawBadge = (props: { school: SchoolPartialData }) => {
-  const basicContext = useBasicContext();
-  return props.school.top_discipline === null ? null : (
-    <LawBadgeWrapper>
-      <DisciplineIcon
-        style={{ fontSize: "51px" }}
-        discipline={basicContext.discipline(props.school.top_discipline)}
-      />
-      <LawRank>
-        #{props.school.top_discipline_rank} for{" "}
-        {basicContext.disciplineName(props.school.top_discipline)}
-      </LawRank>
-    </LawBadgeWrapper>
-  );
-};
-
 const RankingWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -139,16 +93,13 @@ const RankingWrapper = styled.div`
 `;
 
 const RankingLabel = styled.span`
-  font-family: "SF UI Display Medium";
   font-size: 12x;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY};
 `;
 
 const RankText = styled.span`
-  font-family: "Montserrat";
   font-size: 20px;
   font-weight: 600;
   font-style: normal;
@@ -166,16 +117,13 @@ const InfoValueWrapper = styled.div`
 `;
 
 const InfoLabel = styled.span`
-  font-family: "SF UI Display Light";
   font-size: 12px;
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: ${GRAY};
 `;
 
 const Value = styled.span`
-  font-family: "SF UI Display Medium";
   font-size: 16px;
   font-style: normal;
   line-height: 1.33;
@@ -244,7 +192,6 @@ const SchoolGridItem = (props: SchoolGridItemProps) => {
               size={51}
               fontSize={8}
             />
-            <LawBadge school={school} />
           </Row>
           <Row>
             <RankingWrapper>

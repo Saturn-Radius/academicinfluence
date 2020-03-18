@@ -79,7 +79,6 @@ const styles = {
     padding: "0 4px"
   } as React.CSSProperties,
   text: {
-    color: GRAY_DARKEST,
     fontWeight: "bold"
   } as React.CSSProperties
 };

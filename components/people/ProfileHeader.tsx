@@ -1,5 +1,5 @@
 import { PersonData } from "../../schema";
-import { GRAY, GRAY_LIGHTEST, MAIN } from "../../styles";
+import { MAIN } from "../../styles";
 import { YearRange } from "../../utils/years";
 
 const ProfileHeader = (props: { person: PersonData }) => {
@@ -43,7 +43,6 @@ const styles = {
     margin: 0
   },
   lifePeriod: {
-    color: GRAY,
     fontSize: 20
   },
   headerImg: {
@@ -52,7 +51,6 @@ const styles = {
   },
   profileTitle: {
     fontSize: 20,
-    color: GRAY_LIGHTEST,
     fontWeight: 600
   }
 };

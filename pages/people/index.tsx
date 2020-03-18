@@ -11,7 +11,7 @@ import QuerySchema, { RangeParameter } from "../../QuerySchema";
 import {
   InfluentialPeoplePageRequest,
   InfluentialPeoplePageResponse,
-  PageData
+  PageResponse
 } from "../../schema";
 import { PageDescription, PageTitle } from "../../styles";
 import StandardPage from "../../templates/StandardPage";
@@ -20,7 +20,7 @@ import QueryPage from "../../utils/QueryPage";
 type InfluentialPeopleProps = InfluentialPeoplePageResponse & {
   request: InfluentialPeoplePageRequest;
   updateRequest: (request: InfluentialPeoplePageRequest) => void;
-  page: PageData;
+  page: PageResponse;
 };
 
 const QUERY_SCHEMA = QuerySchema("/schools", {
@@ -74,7 +74,7 @@ export default QueryPage(
     const page = apiPage("people");
     return {
       ...(await schools),
-      page: (await page) as PageData
+      page: (await page) as PageResponse
     };
   },
   props => props.people.length == 0

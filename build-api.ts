@@ -26,6 +26,9 @@ async function main() {
         async function(request: ${key}Request, abortSignal?: AbortSignal): Promise<${key}Response> {
             const response = await fetch("/api/${key}/" + encodeURIComponent(JSON.stringify(request)), {signal: abortSignal});
             const data = await response.json()
+            if (response.status !== 200) {
+              throw new Error("Bad Response")
+            }
             if (!validate("${key}Response", data)) {
               throw new Error("validation failed")
             }
@@ -33,6 +36,9 @@ async function main() {
         } : async function(request: ${key}Request, abortSignal?: AbortSignal): Promise<${key}Response> {
             const module = await import("./service/${camelCase(key)}");
             const response = await module.default(request)
+            if (response === null) {
+              throw new Error("Bad Response")
+            }
             if (!validate("${key}Response", response)) {
               throw new Error("validation failed")
             }

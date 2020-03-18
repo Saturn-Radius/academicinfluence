@@ -130,7 +130,7 @@ function FeatureGrid(props: { articles: ArticlePartialData[] }) {
 const Features: NextPage<FeaturesProps> = props => {
   const articles = props.data.articles;
   return (
-    <FeaturePage data={props.data}>
+    <FeaturePage data={props.data} title="Features">
       <FeatureGrid articles={articles} />
     </FeaturePage>
   );

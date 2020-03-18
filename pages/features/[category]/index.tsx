@@ -6,7 +6,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { apiFeaturesPage } from "../../../api";
 import FeaturePage, { Article } from "../../../components/FeaturePage";
 import { ArticlePartialData, FeaturesPageResponse } from "../../../schema";
-import { DescriptionText, GRAY, Header1 } from "../../../styles";
+import { DescriptionText, Header1 } from "../../../styles";
 
 type FeaturesProps = {
   data: FeaturesPageResponse;
@@ -61,7 +61,7 @@ const Features: NextPage<FeaturesProps> = props => {
     throw new Error();
   }
   return (
-    <FeaturePage data={props.data}>
+    <FeaturePage data={props.data} title={props.data.category.name}>
       <Link href="/features">
         <a
           css={{
@@ -74,7 +74,6 @@ const Features: NextPage<FeaturesProps> = props => {
           <span
             css={{
               fontSize: "20px",
-              color: GRAY,
               lineHeight: "1.3",
               paddingLeft: "6px"
             }}

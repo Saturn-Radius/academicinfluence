@@ -2,10 +2,8 @@ import styled from "@emotion/styled";
 import { PersonLink } from "../../links";
 import { PersonPartialData } from "../../schema";
 import {
-  GRAY,
   GRAY_DARKEST,
   GRAY_LIGHTER,
-  GRAY_LIGHTEST,
   MAIN_DARKER,
   MAIN_LIGHTER
 } from "../../styles";
@@ -47,17 +45,14 @@ const FullDetailsButton = styled.button`
 `;
 
 const RankingLabel = styled.span`
-  font-family: "SF UI Display Medium";
   font-size: 20px;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY};
   margin-top: 44px;
 `;
 
 const RankText = styled.span`
-  font-family: "Montserrat";
   font-size: 40px;
   font-weight: 600;
   font-style: normal;
@@ -93,7 +88,6 @@ const BodyRightCol = styled.div`
 `;
 
 const PersonName = styled.h2`
-  font-family: "Montserrat";
   font-size: 24px;
   font-weight: bold;
   font-style: normal;
@@ -103,56 +97,26 @@ const PersonName = styled.h2`
   margin: 0;
 `;
 
-const Location = styled.p`
-  font-family: "SF UI Display Medium";
-  font-size: 16px;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: ${GRAY};
-  margin-top: 5px;
-`;
-
 const PersonDescription = styled.p`
-  font-family: "SF UI Display Medium";
   font-size: 12px;
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: ${GRAY_LIGHTEST};
-`;
-
-const LawImage = styled.img`
-  width: 91px;
-  height: 82px;
 `;
 
 const RightColLabel = styled.span`
-  font-family: "SF UI Display Light";
   font-size: 12px;
   font-style: normal;
   line-height: 1.67;
   letter-spacing: normal;
-  color: ${GRAY};
 `;
 
 const RightColValue = styled.span`
-  font-family: "SF UI Display Medium";
   font-size: 20px;
   font-style: normal;
   line-height: 1.67;
   letter-spacing: normal;
   color: ${MAIN_DARKER};
-`;
-
-const LawRank = styled.p`
-  font-family: "SF UI Display Bold";
-  font-size: 12px;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #000000;
-  margin-top: 10px;
 `;
 
 const InfoValueWrapper = styled.div`

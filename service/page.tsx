@@ -16,7 +16,6 @@ export default async function servePage(
   );
 
   const row = data.rows[0];
-  console.log("HI", row);
   if (row === undefined) {
     return null;
   } else {

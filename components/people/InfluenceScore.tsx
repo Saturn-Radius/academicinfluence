@@ -1,4 +1,4 @@
-import { GRAY, MAIN } from "../../styles";
+import { MAIN } from "../../styles";
 
 interface InfluenceScore {
   overall: { influence: number; world_rank: number; usa_rank: number | null };
@@ -38,13 +38,11 @@ const InfluenceScore = (props: InfluenceScore) => {
 
 const styles = {
   sidebarText: {
-    color: GRAY,
     lineHeight: 1,
     fontSize: 16,
     fontWeight: 500
   },
   rankingText: {
-    color: GRAY,
     lineHeight: 1,
     fontSize: 16,
     fontWeight: 500,

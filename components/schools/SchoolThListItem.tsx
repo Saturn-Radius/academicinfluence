@@ -1,12 +1,9 @@
 import styled from "@emotion/styled";
-import DisciplineIcon from "../../components/DisciplineIcon";
 import { SchoolLink } from "../../links";
 import { SchoolPartialData } from "../../schema";
 import {
-  GRAY,
   GRAY_DARKEST,
   GRAY_LIGHTER,
-  GRAY_LIGHTEST,
   MAIN_DARKER,
   MAIN_LIGHTER
 } from "../../styles";
@@ -49,17 +46,14 @@ const FullDetailsButton = styled.button`
 `;
 
 const RankingLabel = styled.span`
-  font-family: "SF UI Display Medium";
   font-size: 20px;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY};
   margin-top: 44px;
 `;
 
 const RankText = styled.span`
-  font-family: "Montserrat";
   font-size: 40px;
   font-weight: 600;
   font-style: normal;
@@ -95,7 +89,6 @@ const BodyRightCol = styled.div`
 `;
 
 const SchoolName = styled.h2`
-  font-family: "Montserrat";
   font-size: 24px;
   font-weight: bold;
   font-style: normal;
@@ -106,22 +99,18 @@ const SchoolName = styled.h2`
 `;
 
 const Location = styled.p`
-  font-family: "SF UI Display Medium";
   font-size: 16px;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: ${GRAY};
   margin-top: 5px;
 `;
 
 const SchoolDescription = styled.p`
-  font-family: "SF UI Display Medium";
   font-size: 12px;
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: ${GRAY_LIGHTEST};
 `;
 
 const LawImage = styled.img`
@@ -130,16 +119,13 @@ const LawImage = styled.img`
 `;
 
 const RightColLabel = styled.span`
-  font-family: "SF UI Display Light";
   font-size: 12px;
   font-style: normal;
   line-height: 1.67;
   letter-spacing: normal;
-  color: ${GRAY};
 `;
 
 const RightColValue = styled.span`
-  font-family: "SF UI Display Medium";
   font-size: 20px;
   font-style: normal;
   line-height: 1.67;
@@ -148,7 +134,6 @@ const RightColValue = styled.span`
 `;
 
 const LawRank = styled.p`
-  font-family: "SF UI Display Bold";
   font-size: 12px;
   font-style: normal;
   line-height: normal;
@@ -228,18 +213,6 @@ const SchoolThListItem = (props: SchoolThListItemProps) => {
             <SchoolDescription>{short_description}</SchoolDescription>
           </BodyLeftCol>
           <BodyRightCol>
-            {school.top_discipline && (
-              <DisciplineIcon
-                style={{ fontSize: "70px" }}
-                discipline={basicContext.discipline(school.top_discipline)}
-              />
-            )}
-            {school.top_discipline && (
-              <LawRank>
-                #{school.top_discipline_rank} for{" "}
-                {basicContext.disciplineName(school.top_discipline)}
-              </LawRank>
-            )}
             <InfoValue label="Tuition" value={undergrad_tuition_in_state} />
             <InfoValue label="Avg. Earnings" value={average_earnings} />
           </BodyRightCol>

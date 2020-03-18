@@ -1,5 +1,5 @@
 // next.config.js
-require("dotenv").config();
+require("./load-config");
 const withCSS = require("@zeit/next-css");
 const withFonts = require("next-fonts");
 const CompressionPlugin = require("compression-webpack-plugin");

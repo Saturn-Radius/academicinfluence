@@ -40,6 +40,9 @@ export const apiCollegeRankings = process.browser
         { signal: abortSignal }
       );
       const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Bad Response");
+      }
       if (!validate("CollegeRankingsResponse", data)) {
         throw new Error("validation failed");
       }
@@ -51,6 +54,9 @@ export const apiCollegeRankings = process.browser
     ): Promise<CollegeRankingsResponse> {
       const module = await import("./service/collegeRankings");
       const response = await module.default(request);
+      if (response === null) {
+        throw new Error("Bad Response");
+      }
       if (!validate("CollegeRankingsResponse", response)) {
         throw new Error("validation failed");
       }
@@ -66,6 +72,9 @@ export const apiBasicContext = process.browser
         { signal: abortSignal }
       );
       const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Bad Response");
+      }
       if (!validate("BasicContextResponse", data)) {
         throw new Error("validation failed");
       }
@@ -77,6 +86,9 @@ export const apiBasicContext = process.browser
     ): Promise<BasicContextResponse> {
       const module = await import("./service/basicContext");
       const response = await module.default(request);
+      if (response === null) {
+        throw new Error("Bad Response");
+      }
       if (!validate("BasicContextResponse", response)) {
         throw new Error("validation failed");
       }
@@ -92,6 +104,9 @@ export const apiFeaturesPage = process.browser
         { signal: abortSignal }
       );
       const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Bad Response");
+      }
       if (!validate("FeaturesPageResponse", data)) {
         throw new Error("validation failed");
       }
@@ -103,6 +118,9 @@ export const apiFeaturesPage = process.browser
     ): Promise<FeaturesPageResponse> {
       const module = await import("./service/featuresPage");
       const response = await module.default(request);
+      if (response === null) {
+        throw new Error("Bad Response");
+      }
       if (!validate("FeaturesPageResponse", response)) {
         throw new Error("validation failed");
       }
@@ -118,6 +136,9 @@ export const apiHomePage = process.browser
         { signal: abortSignal }
       );
       const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Bad Response");
+      }
       if (!validate("HomePageResponse", data)) {
         throw new Error("validation failed");
       }
@@ -129,6 +150,9 @@ export const apiHomePage = process.browser
     ): Promise<HomePageResponse> {
       const module = await import("./service/homePage");
       const response = await module.default(request);
+      if (response === null) {
+        throw new Error("Bad Response");
+      }
       if (!validate("HomePageResponse", response)) {
         throw new Error("validation failed");
       }
@@ -145,6 +169,9 @@ export const apiInfluentialSchoolsPage = process.browser
         { signal: abortSignal }
       );
       const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Bad Response");
+      }
       if (!validate("InfluentialSchoolsPageResponse", data)) {
         throw new Error("validation failed");
       }
@@ -156,6 +183,9 @@ export const apiInfluentialSchoolsPage = process.browser
     ): Promise<InfluentialSchoolsPageResponse> {
       const module = await import("./service/influentialSchoolsPage");
       const response = await module.default(request);
+      if (response === null) {
+        throw new Error("Bad Response");
+      }
       if (!validate("InfluentialSchoolsPageResponse", response)) {
         throw new Error("validation failed");
       }
@@ -172,6 +202,9 @@ export const apiInfluentialPeoplePage = process.browser
         { signal: abortSignal }
       );
       const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Bad Response");
+      }
       if (!validate("InfluentialPeoplePageResponse", data)) {
         throw new Error("validation failed");
       }
@@ -183,6 +216,9 @@ export const apiInfluentialPeoplePage = process.browser
     ): Promise<InfluentialPeoplePageResponse> {
       const module = await import("./service/influentialPeoplePage");
       const response = await module.default(request);
+      if (response === null) {
+        throw new Error("Bad Response");
+      }
       if (!validate("InfluentialPeoplePageResponse", response)) {
         throw new Error("validation failed");
       }
@@ -199,6 +235,9 @@ export const apiLocationAutocomplete = process.browser
         { signal: abortSignal }
       );
       const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Bad Response");
+      }
       if (!validate("LocationAutocompleteResponse", data)) {
         throw new Error("validation failed");
       }
@@ -210,6 +249,9 @@ export const apiLocationAutocomplete = process.browser
     ): Promise<LocationAutocompleteResponse> {
       const module = await import("./service/locationAutocomplete");
       const response = await module.default(request);
+      if (response === null) {
+        throw new Error("Bad Response");
+      }
       if (!validate("LocationAutocompleteResponse", response)) {
         throw new Error("validation failed");
       }
@@ -225,6 +267,9 @@ export const apiSchoolSearch = process.browser
         { signal: abortSignal }
       );
       const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Bad Response");
+      }
       if (!validate("SchoolSearchResponse", data)) {
         throw new Error("validation failed");
       }
@@ -236,6 +281,9 @@ export const apiSchoolSearch = process.browser
     ): Promise<SchoolSearchResponse> {
       const module = await import("./service/schoolSearch");
       const response = await module.default(request);
+      if (response === null) {
+        throw new Error("Bad Response");
+      }
       if (!validate("SchoolSearchResponse", response)) {
         throw new Error("validation failed");
       }
@@ -251,6 +299,9 @@ export const apiPersonSearch = process.browser
         { signal: abortSignal }
       );
       const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Bad Response");
+      }
       if (!validate("PersonSearchResponse", data)) {
         throw new Error("validation failed");
       }
@@ -262,6 +313,9 @@ export const apiPersonSearch = process.browser
     ): Promise<PersonSearchResponse> {
       const module = await import("./service/personSearch");
       const response = await module.default(request);
+      if (response === null) {
+        throw new Error("Bad Response");
+      }
       if (!validate("PersonSearchResponse", response)) {
         throw new Error("validation failed");
       }
@@ -277,6 +331,9 @@ export const apiPersonPage = process.browser
         { signal: abortSignal }
       );
       const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Bad Response");
+      }
       if (!validate("PersonPageResponse", data)) {
         throw new Error("validation failed");
       }
@@ -288,6 +345,9 @@ export const apiPersonPage = process.browser
     ): Promise<PersonPageResponse> {
       const module = await import("./service/personPage");
       const response = await module.default(request);
+      if (response === null) {
+        throw new Error("Bad Response");
+      }
       if (!validate("PersonPageResponse", response)) {
         throw new Error("validation failed");
       }
@@ -303,6 +363,9 @@ export const apiSchoolPage = process.browser
         { signal: abortSignal }
       );
       const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Bad Response");
+      }
       if (!validate("SchoolPageResponse", data)) {
         throw new Error("validation failed");
       }
@@ -314,6 +377,9 @@ export const apiSchoolPage = process.browser
     ): Promise<SchoolPageResponse> {
       const module = await import("./service/schoolPage");
       const response = await module.default(request);
+      if (response === null) {
+        throw new Error("Bad Response");
+      }
       if (!validate("SchoolPageResponse", response)) {
         throw new Error("validation failed");
       }
@@ -329,6 +395,9 @@ export const apiSchoolSubjectPage = process.browser
         { signal: abortSignal }
       );
       const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Bad Response");
+      }
       if (!validate("SchoolSubjectPageResponse", data)) {
         throw new Error("validation failed");
       }
@@ -340,6 +409,9 @@ export const apiSchoolSubjectPage = process.browser
     ): Promise<SchoolSubjectPageResponse> {
       const module = await import("./service/schoolSubjectPage");
       const response = await module.default(request);
+      if (response === null) {
+        throw new Error("Bad Response");
+      }
       if (!validate("SchoolSubjectPageResponse", response)) {
         throw new Error("validation failed");
       }
@@ -355,6 +427,9 @@ export const apiDiscipline = process.browser
         { signal: abortSignal }
       );
       const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Bad Response");
+      }
       if (!validate("DisciplineResponse", data)) {
         throw new Error("validation failed");
       }
@@ -366,6 +441,9 @@ export const apiDiscipline = process.browser
     ): Promise<DisciplineResponse> {
       const module = await import("./service/discipline");
       const response = await module.default(request);
+      if (response === null) {
+        throw new Error("Bad Response");
+      }
       if (!validate("DisciplineResponse", response)) {
         throw new Error("validation failed");
       }
@@ -381,6 +459,9 @@ export const apiPage = process.browser
         { signal: abortSignal }
       );
       const data = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Bad Response");
+      }
       if (!validate("PageResponse", data)) {
         throw new Error("validation failed");
       }
@@ -392,6 +473,9 @@ export const apiPage = process.browser
     ): Promise<PageResponse> {
       const module = await import("./service/page");
       const response = await module.default(request);
+      if (response === null) {
+        throw new Error("Bad Response");
+      }
       if (!validate("PageResponse", response)) {
         throw new Error("validation failed");
       }
@@ -554,9 +638,7 @@ validator.compile({
         total_students: { type: ["number", "null"] },
         acceptance_rate: { type: ["number", "null"] },
         desirability: { type: ["number", "null"] },
-        logo_url: { type: ["string", "null"] },
-        top_discipline: { type: ["string", "null"] },
-        top_discipline_rank: { type: ["number", "null"] }
+        logo_url: { type: ["string", "null"] }
       },
       required: [
         "acceptance_rate",
@@ -572,8 +654,6 @@ validator.compile({
         "short_description",
         "slug",
         "state",
-        "top_discipline",
-        "top_discipline_rank",
         "total_students",
         "undergrad_tuition_in_state"
       ],
@@ -615,8 +695,6 @@ validator.compile({
         acceptance_rate: { type: ["number", "null"] },
         desirability: { type: ["number", "null"] },
         logo_url: { type: ["string", "null"] },
-        top_discipline: { type: ["string", "null"] },
-        top_discipline_rank: { type: ["number", "null"] },
         employed_10_years: { type: ["number", "null"] },
         desirability_rank: { type: ["number", "null"] },
         undergrad_tuition_out_of_state: { type: ["number", "null"] },
@@ -725,8 +803,6 @@ validator.compile({
         "slug",
         "state",
         "test_competitiveness",
-        "top_discipline",
-        "top_discipline_rank",
         "total_students",
         "twitter_username",
         "undergrad_fees_in_state",

@@ -46,8 +46,6 @@ export interface SchoolPartialData extends EntityPartialData {
   acceptance_rate: number | null;
   desirability: number | null;
   logo_url: string | null;
-  top_discipline: string | null;
-  top_discipline_rank: number | null;
 }
 
 export interface WeatherData {
@@ -331,8 +329,7 @@ export interface DisciplineResponse {
 }
 
 export type PageRequest = string;
-export interface PageData {
+export interface PageResponse {
   title: string;
   content: Html[];
 }
-export type PageResponse = PageData | null;

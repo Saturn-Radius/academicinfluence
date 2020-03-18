@@ -68,7 +68,6 @@ export default function QueryPage<
             abort: () => {}
           };
     const onRouteChange = () => {
-      console.log("TRY", controller);
       controller.abort();
     };
     const request = schema.fromQuery(context.query);
@@ -76,6 +75,12 @@ export default function QueryPage<
     let resolved = null;
     try {
       resolved = await data(request, controller.signal);
+    } catch (error) {
+      if (error.name === "AbortError") {
+        return {} as any;
+      } else {
+        throw error;
+      }
     } finally {
       Router.events.off("routeChangeError", onRouteChange);
     }

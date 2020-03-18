@@ -21,11 +21,10 @@ import {
   CollegeRankingSort,
   CollegeRankingsRequest,
   CollegeRankingsResponse,
-  PageData,
+  PageResponse,
   SchoolPartialData
 } from "../schema";
 import {
-  GRAY,
   GRAY_DARKEST,
   MAIN,
   MAIN_DARKER,
@@ -38,7 +37,7 @@ import QueryPage from "../utils/QueryPage";
 type CollegeRankingProps = {
   data: CollegeRankingsResponse;
   request: CollegeRankingsRequest;
-  page: PageData;
+  page: PageResponse;
   updateRequest: (request: CollegeRankingsRequest) => void;
 };
 
@@ -201,7 +200,6 @@ const COLUMNS: COLUMN[] = [
           fontSize: "32px",
           lineHeight: "80px",
           textAlign: "center",
-          color: GRAY,
           width: "64px"
         }}
       >
@@ -245,8 +243,7 @@ const COLUMNS: COLUMN[] = [
           <div
             css={{
               fontSize: "12px",
-              lineHeight: "14px",
-              color: GRAY
+              lineHeight: "14px"
             }}
           >
             {school.city}, {school.state}
@@ -448,8 +445,7 @@ function FilterLabel(props: FilterLabelProps) {
       <div
         css={{
           fontSize: "20px",
-          lineHeight: "28px",
-          color: GRAY
+          lineHeight: "28px"
         }}
       >
         {props.label}
@@ -954,7 +950,6 @@ for (let index = 2; index < COLUMNS.length; index++) {
   let column = COLUMNS[index];
   STYLES[`td:nth-of-type(${index + 1})::before`] = {
     content: '"' + column.label + '"',
-    color: GRAY,
     fontSize: "12px",
     lineHeight: "20px"
   };
@@ -1139,7 +1134,7 @@ export default QueryPage(
   async (request: CollegeRankingsRequest, signal?: AbortSignal) => {
     const data = apiCollegeRankings(request, signal);
     const page = apiPage("college-ranking");
-    return { data: await data, page: (await page) as PageData };
+    return { data: await data, page: (await page) as PageResponse };
   },
   props => props.data.schools.length == 0,
   (request, props) => ({

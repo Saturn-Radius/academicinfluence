@@ -1,4 +1,3 @@
-import * as squel from "../squel";
 import {
   EntityQuery,
   EntityType,
@@ -9,20 +8,8 @@ import {
 export function addPartialPersonFields(select: EntityQuery) {
   return select
     .addDescribableFields(PERSON_ENTITY_TYPE)
-    .field(
-      squel.str(
-        "case when (image_url = '') then (? || image) else (image_url) END",
-        "/api/wmcimage/"
-      ),
-      "image_url"
-    )
-    .field(
-      squel.str(
-        "case when image_url = ''then ? || image else image_source_url end",
-        "https://commons.wikimedia.org/wiki/File:"
-      ),
-      "image_source_url"
-    )
+    .field("image_url")
+    .field("image_source_url")
     .field("birth_year")
     .field("death_year");
 }
