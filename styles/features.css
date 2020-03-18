@@ -67,7 +67,7 @@ article .black_bg {background-color: var(--black); }
 article .black {color: var(--black); }
 
 /* SETTING UP DEFAULTS */
-article, article aside, article details, article figcaption, article figure, article footer, article header, article hgroup, article nav, article section, article summary { display: block; font-family: Montserrat, "Open Sans", Verdana, Helvetica, Arial, sans-serif; }
+article, article aside, article details, article figcaption, article figure, article footer, article header, article hgroup, article nav, article section, article summary { display: block; font-family: Montserrat, Verdana, "Open Sans", Helvetica, Arial, sans-serif; }
 article audio, article canvas, article video { display: inline-block; }
 article abbr[title] { border-bottom: none; }
 article hr { -webkit-box-sizing: content-box; box-sizing: content-box; height: 0; }
@@ -92,7 +92,7 @@ article ::-moz-selection { background-color: var(--yellow); color: black; }
 article ::selection { background-color: var(--yellow); color: black; }
 
 /* FONT SIZING */
-article, article p, article blockquote, article aside, article div, article span { font-size: calc(12px + .35vw); line-height: calc(16px + .65vw); }
+article, article p, article blockquote, article aside, article div, article span { font-size: calc(12px + .35vw); line-height: calc(16px + .65vw); color: var(--black);}
 article { padding: 0 5vw 0 5vw; }
 @media screen and (min-width: 320px) { article article { padding: 0; } }
 @media screen and (min-width: 500px) { article article { padding: 0 2vw 0 2vw; } }
@@ -101,9 +101,9 @@ article { padding: 0 5vw 0 5vw; }
 @media screen and (min-width: 1300px) { article article { padding: 0 5vw 0 5vw; } }
 
 /* H1 THROUGH H6 */
-article h1, article h2, article h3, article h4, article h5, article h6 { page-break-after: avoid; page-break-inside: avoid; color: var(--main); font-weight: 600; margin: 1.25rem 0 1.25rem 0; box-sizing: border-box; }
+article h1, article header h1, article h2, article h3, article h4, article h5, article h6 { page-break-after: avoid; page-break-inside: avoid; color: var(--main); font-weight: 600; margin: 1.25rem 0 1.25rem 0; box-sizing: border-box; }
 
-article h1 { font-size: 1.912em; line-height: 1.69em; font-weight: 800; }
+article h1, article header h1 { font-size: 1.912em !important; line-height: 1.69em; font-weight: 800; }
 article h2 { font-size: 1.616em; line-height: 1.471em; font-weight: 700; }
 article h3 { font-size: 1.471em; line-height: 1.3em; font-weight: 600; }
 article h4 { font-size: 1.3em; line-height: 1.243em; }
@@ -111,6 +111,8 @@ article h5 { font-size: 1.243em; line-height: 1.132em; }
 article h6 { font-size: 1.132em; line-height: 1em; }
 
 /* STYLES FOR HEAD AND SUBHEAD */
+article header h1 {color: var(--main) !important; }
+article header p {color: var(--gray_darker) !important; font-size: 1.2rem !important; line-height: 1.5rem !important; font-weight: 400 !important; }
 article .head {color: var(--main); background-color: var(--heading_bg); border-top: 1px solid var(--heading_bg_darker); margin-top: 3rem; }
 article .subhead { color: var(--main); font-size: 1.2rem; line-height: 1.5rem; font-weight: 300; letter-spacing: -1px; margin-bottom: .33rem; }
 @media screen and (max-width: 1000px) { article .subhead { font-size: 1.1rem; line-height: 1.3rem; } }
