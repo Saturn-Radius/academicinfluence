@@ -6,10 +6,17 @@ import * as squel from "./squel";
 import { ERAS } from "./utils/years";
 
 export function influenceScoreColumn(start_year: number, stop_year: number) {
-  return squel.str(
-    "scores.era_scores[?] - scores.era_scores[?]",
+  console.log(
+    "HEY",
+    start_year,
+    stop_year,
     ERAS.indexOf(stop_year),
     ERAS.indexOf(start_year)
+  );
+  return squel.str(
+    "scores.era_scores[?] - scores.era_scores[?]",
+    ERAS.indexOf(stop_year) + 1,
+    ERAS.indexOf(start_year) + 1
   );
 }
 export function influenceScoreQuery(
@@ -49,7 +56,7 @@ export function disciplineBreakdownQuery(
     .field("scores.keyword")
     .field("world_rank")
     .field("usa_rank")
-    .field(influenceScoreColumn(-8000, 2020), "influence")
+    .field(influenceScoreColumn(-4000, 2020), "influence")
     .order("influence", false)
     .where(
       "scores.keyword is null or (ai_disciplines.name is not null and ai_disciplines.active)"
