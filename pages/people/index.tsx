@@ -30,7 +30,7 @@ const QUERY_SCHEMA = QuerySchema("/schools", {
     default: null as null | string,
     canonical: true
   },
-  years: RangeParameter(-4000, 2020),
+  years: RangeParameter(1970, 2020),
   country: {
     toQuery: value => value,
     fromQuery: value => value,
