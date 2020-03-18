@@ -33,7 +33,7 @@ const Person: NextPage<PersonProps> = (props: PersonProps) => {
   } = props.person;
 
   return (
-    <StandardPage title={name}>
+    <StandardPage title={name} section="influential-people">
       <style jsx>
         {`
           .profileSidebar {

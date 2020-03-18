@@ -51,7 +51,7 @@ const InfluentialPeople: React.SFC<InfluentialPeopleProps> = props => {
   const basicContext = useBasicContext();
 
   return (
-    <StandardPage title="Influential People">
+    <StandardPage title="Influential People" section="influential-people">
       <PageTitle>
         Most Influential People{" "}
         {props.request.discipline === null

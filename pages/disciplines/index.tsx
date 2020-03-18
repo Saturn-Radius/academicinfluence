@@ -61,7 +61,7 @@ function Superdiscipline(props: {
 
 const Disciplines: NextPage<DisciplinesProps> = props => {
   return (
-    <StandardPage title="Disciplines">
+    <StandardPage title="Disciplines" section="by-discipline">
       <HtmlContent html={props.page.content} />
       <div>
         <style jsx>
@@ -171,7 +171,5 @@ Disciplines.getInitialProps = async function() {
     page: (await apiPage("disciplines")) as PageResponse
   };
 };
-
-(Disciplines as any).currentSection = "by-discipline";
 
 export default Disciplines;

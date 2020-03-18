@@ -113,7 +113,7 @@ export default function FeaturePage(props: {
   title: string;
 }) {
   return (
-    <StandardPage title={props.title}>
+    <StandardPage title={props.title} section="features">
       {" "}
       <main css={PAGE_WIDTH_STYLE}>
         <CategoryBar categories={props.data.categories} />

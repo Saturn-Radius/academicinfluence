@@ -19,7 +19,10 @@ type DisciplinesProps = {
 const Discipline: NextPage<DisciplinesProps> = props => {
   const basicContext = useBasicContext();
   return (
-    <StandardPage title={basicContext.disciplineName(props.discipline)}>
+    <StandardPage
+      title={basicContext.disciplineName(props.discipline)}
+      section="by-discipline"
+    >
       <style jsx>
         {`
           .mainContent {

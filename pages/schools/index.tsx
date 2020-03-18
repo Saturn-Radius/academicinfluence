@@ -43,7 +43,7 @@ const InfluentialSchools: React.SFC<InfluentialSchoolsProps> = props => {
   const basicContext = useBasicContext();
 
   return (
-    <StandardPage title="Influential Schools">
+    <StandardPage title="Influential Schools" section="influential-schools">
       <PageTitle>
         <PageTitle>
           Most Influential Schools{" "}

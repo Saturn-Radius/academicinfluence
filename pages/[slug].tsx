@@ -9,7 +9,7 @@ type AboutProps = PageResponse;
 
 const About: NextPage<AboutProps> = (props: AboutProps) => {
   return (
-    <StandardPage title={props.title}>
+    <StandardPage title={props.title} section="about">
       <style jsx>
         {`
           .aboutPage {
@@ -76,7 +76,5 @@ About.getInitialProps = async function(context: NextPageContext) {
 
   return (await aboutPage) as PageResponse;
 };
-
-(About as any).currentSection = "about";
 
 export default About;

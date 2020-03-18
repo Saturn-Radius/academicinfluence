@@ -145,6 +145,4 @@ Features.getInitialProps = async function(context: NextPageContext) {
   return { data };
 };
 
-(Features as any).currentSection = "features";
-
 export default Features;

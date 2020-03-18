@@ -6,13 +6,6 @@ import * as squel from "./squel";
 import { ERAS } from "./utils/years";
 
 export function influenceScoreColumn(start_year: number, stop_year: number) {
-  console.log(
-    "HEY",
-    start_year,
-    stop_year,
-    ERAS.indexOf(stop_year),
-    ERAS.indexOf(start_year)
-  );
   return squel.str(
     "scores.era_scores[?] - scores.era_scores[?]",
     ERAS.indexOf(stop_year) + 1,

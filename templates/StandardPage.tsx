@@ -1,13 +1,15 @@
 import { NextSeo } from "next-seo";
 import { Sidebar } from "../components/school";
+import BasicPage, { SectionId } from "./BasicPage";
 import PageLayout from "./PageLayout";
 
 export default function StandardPage(props: {
   title: string;
+  section: SectionId;
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <BasicPage section={props.section}>
       <NextSeo title={props.title} />
       <PageLayout>
         <div
@@ -36,6 +38,6 @@ export default function StandardPage(props: {
           </div>
         </div>
       </PageLayout>
-    </>
+    </BasicPage>
   );
 }

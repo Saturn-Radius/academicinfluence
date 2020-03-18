@@ -38,7 +38,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
   } = school;
 
   return (
-    <StandardPage title={name}>
+    <StandardPage title={name} section="influential-schools">
       <style jsx>
         {`
           .cardContainer {
@@ -129,6 +129,5 @@ School.getInitialProps = async function(context: NextPageContext) {
     school: data.school
   };
 };
-(School as any).currentSection = "influential-schools";
 
 export default School;
