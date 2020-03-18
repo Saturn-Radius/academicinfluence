@@ -30,7 +30,9 @@ export default function QueryPage<
       return request;
     };
 
-  const PageWrapper = (props: Props & { request: Data<RequestType> }) => {
+  const PageWrapper = (
+    props: Props & { aborted?: boolean; request: Data<RequestType> }
+  ) => {
     const [request, setRequest] = React.useState(props.request);
 
     const updateRequest = React.useCallback(
@@ -43,6 +45,10 @@ export default function QueryPage<
     );
 
     const processedRequest = processRequest(request, props);
+
+    if (props.aborted) {
+      return <></>;
+    }
 
     return (
       <>
@@ -77,7 +83,7 @@ export default function QueryPage<
       resolved = await data(request, controller.signal);
     } catch (error) {
       if (error.name === "AbortError") {
-        return {} as any;
+        return { aborted: true };
       } else {
         throw error;
       }

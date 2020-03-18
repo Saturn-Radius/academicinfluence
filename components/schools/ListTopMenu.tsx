@@ -37,7 +37,7 @@ const ListTopMenu = (
 
       <AdvancedSearch>
         <Discipline {...props} />
-        <YearsFilter {...props} />
+        <YearsFilter {...props} minYear={1200} />
         <Country {...props} />
       </AdvancedSearch>
     </>
