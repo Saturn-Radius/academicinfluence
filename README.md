@@ -8,9 +8,9 @@
 
 ## How To Run
 
-You need to create a .env file which defines environment variables that tell
-the site where to find the database. You can see a sample .env file in .env.sample. An existing team member will be able to provide you with a .env
-file which points to the live database which is probably what you want. 
+You need to create a .env file which defines a AI_SECRET_PASSWORD environment variable. This is used to decrypt secrets.enc to get the actual secrets keys.
+Ask someone on the project for the key.
+
 You will also need to make sure that your IP address is whitelisted to
 access the database.
 
