@@ -19,12 +19,15 @@ const SchoolSearchBox = (props: {}) => {
   );
 
   return (
-    <Autocomplete
-      text={text}
-      textChange={setText}
-      onSelect={onSelect}
-      api={lookupSchools}
-    />
+    <>
+      Search by Name:&nbsp;
+      <Autocomplete
+        text={text}
+        textChange={setText}
+        onSelect={onSelect}
+        api={lookupSchools}
+      />
+    </>
   );
 };
 

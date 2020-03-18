@@ -10,6 +10,7 @@ const MenuRow = styled.div`
   display: flex;
   width: 100%;
   min-height: 40px;
+  line-height: 40px;
 `;
 
 const AdvancedSearch = styled.div`

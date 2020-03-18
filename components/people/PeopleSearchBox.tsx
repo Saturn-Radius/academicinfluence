@@ -19,12 +19,15 @@ const PersonSearchBox = (props: {}) => {
   );
 
   return (
-    <Autocomplete
-      text={text}
-      textChange={setText}
-      onSelect={onSelect}
-      api={lookupPeople}
-    />
+    <>
+      Search by Name:&nbsp;
+      <Autocomplete
+        text={text}
+        textChange={setText}
+        onSelect={onSelect}
+        api={lookupPeople}
+      />
+    </>
   );
 };
 
