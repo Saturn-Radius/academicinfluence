@@ -108,6 +108,13 @@ export default async function serveFeaturesPage(
     }
   }));
 
+  if (articles.length > 0) {
+    let index = 0;
+    while (articles.length < 6) {
+      articles.push(articles[index++]);
+    }
+  }
+
   const article = articleQuery && (await articleQuery).rows[0];
 
   return {
