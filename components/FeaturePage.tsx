@@ -23,7 +23,8 @@ export function Article(props: { article: ArticlePartialData }) {
           <ArticleLink article={props.article}>
             <a
               css={{
-                textDecoration: "none"
+                textDecoration: "none",
+                cursor: "pointer"
               }}
             >
               <h2
@@ -96,7 +97,8 @@ function CategoryBar(props: { categories: Category[] }) {
               marginTop: "5px",
               marginBottom: "5px",
               fontSize: "20px",
-              fontWeight: 500
+              fontWeight: 500,
+              cursor: "pointer"
             }}
           >
             {category.name}

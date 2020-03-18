@@ -88,20 +88,20 @@ const Influence = (props: Disciplines) => {
           .filter((discipline: any) => discipline.level == 1)
           .map((discipline: any, index: number) => (
             <DisciplineLink key={index} discipline={discipline}>
-              <div>
+              <a css={{ textDecoration: "none", cursor: "pointer" }}>
                 <div className="icons">
                   <img src="images/hexagon.svg" className="hexagon" />
-                  <a className="iconLink">
+                  <div className="iconLink">
                     <div className="svgs">
                       <DisciplineIcon discipline={discipline} />
                     </div>
                     <div className="msvgs">
                       <DisciplineIcon discipline={discipline} />
                     </div>
-                  </a>
+                  </div>
                 </div>
                 <span className="disciplineName">{discipline.name}</span>
-              </div>
+              </a>
             </DisciplineLink>
           ))}
       </div>
