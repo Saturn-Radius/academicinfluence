@@ -18,7 +18,7 @@ const CampusSafety = (props: { school: SchoolData }) => {
           name="Violent"
           value={props.school.campus_violent_crime_rate}
         />
-        <div css={styles.crimeSubheader}>On Campus</div>
+        <div css={styles.crimeSubheader}>Off Campus</div>
         <CrimeRate
           name="Property"
           value={props.school.city_property_crime_rate}
