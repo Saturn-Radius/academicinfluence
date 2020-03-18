@@ -39,7 +39,7 @@ type InfluentialSchoolsProps = InfluentialSchoolsPageResponse & {
 };
 
 const InfluentialSchools: React.SFC<InfluentialSchoolsProps> = props => {
-  const [displayMode, setDisplayMode] = useState(DISPLAY_MODES.grid);
+  const [displayMode, setDisplayMode] = useState(DISPLAY_MODES.listMode);
   const basicContext = useBasicContext();
 
   return (
