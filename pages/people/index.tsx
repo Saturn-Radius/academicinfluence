@@ -25,7 +25,7 @@ type InfluentialPeopleProps = InfluentialPeoplePageResponse & {
   page: PageResponse;
 };
 
-const QUERY_SCHEMA = QuerySchema("/schools", {
+const QUERY_SCHEMA = QuerySchema("/people", {
   discipline: {
     toQuery: value => value,
     fromQuery: value => value,
