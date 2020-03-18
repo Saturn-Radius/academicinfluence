@@ -30,7 +30,7 @@ export function addPartialSchoolFields(query: EntityQuery) {
       "total_students"
     )
     .field("desirability")
-    .field("logo_url");
+    .field("ai_schools.logo_url");
 }
 
 export function extractPartialSchoolFields(row: any) {
