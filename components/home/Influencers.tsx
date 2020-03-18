@@ -17,6 +17,9 @@ const Influencers = (props: People) => {
             height: 320px;
             cursor: pointer;
           }
+          .nameList:hover .personName {
+            color: var(--main);
+          }
           .nameCard {
             position: absolute;
             bottom: 0px;
