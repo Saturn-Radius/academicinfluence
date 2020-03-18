@@ -10,6 +10,7 @@ import CookieConsent from "react-cookie-consent";
 import ReactGA from "react-ga";
 import "typeface-montserrat/index.css";
 import { apiBasicContext } from "../api";
+import BacktotopButton from "../components/BacktotopButton";
 import { BasicContextReactContext } from "../components/BasicContext";
 import Logo from "../components/Logo";
 import Sidebar from "../components/school/Sidebar";
@@ -491,6 +492,7 @@ class AIApp extends App<{ basicContext: BasicContextResponse }> {
           </div>
           <Footer />
         </div>
+        <BacktotopButton />
       </>
     );
   }
