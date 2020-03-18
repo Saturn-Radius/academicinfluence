@@ -962,6 +962,7 @@ const CollegeRanking: React.SFC<CollegeRankingProps> = props => {
   return (
     <>
       <ToolPage tool="COLLEGE RANKINGS">
+        <HtmlContent html={props.page.content} />
         <div
           css={{
             display: "flex",
@@ -972,7 +973,6 @@ const CollegeRanking: React.SFC<CollegeRankingProps> = props => {
           }}
         >
           <div>
-            <HtmlContent html={props.page.content} />
             <table
               css={{
                 borderCollapse: "collapse",
