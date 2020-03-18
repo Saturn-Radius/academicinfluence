@@ -195,7 +195,7 @@ const SchoolGridItem = (props: SchoolGridItemProps) => {
           </Row>
           <Row>
             <RankingWrapper>
-              <RankingLabel>Ranking</RankingLabel>
+              <RankingLabel>Overall Influence</RankingLabel>
               <RankText>#{world_rank}</RankText>
             </RankingWrapper>
             <HSpacer />
