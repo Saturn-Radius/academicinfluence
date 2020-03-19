@@ -7,7 +7,7 @@ import { ERAS } from "./utils/years";
 
 export function influenceScoreColumn(start_year: number, stop_year: number) {
   return squel.str(
-    "scores.era_scores[?] - scores.era_scores[?]",
+    "ln(greatest(scores.era_scores[?] - scores.era_scores[?], 0) + exp(1.0)) / 15",
     ERAS.indexOf(stop_year) + 1,
     ERAS.indexOf(start_year) + 1
   );
