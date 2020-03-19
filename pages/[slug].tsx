@@ -1,6 +1,5 @@
 import { NextPage, NextPageContext } from "next";
 import { apiPage } from "../api";
-import HtmlContent from "../components/HtmlContent";
 import { PageResponse } from "../schema";
 import "../styles/features.css";
 import StandardPage from "../templates/StandardPage";
@@ -9,7 +8,7 @@ type AboutProps = PageResponse;
 
 const About: NextPage<AboutProps> = (props: AboutProps) => {
   return (
-    <StandardPage title={props.title} section="about">
+    <StandardPage title={props.title} section="about" blurb={props.content}>
       <style jsx>
         {`
           .aboutPage {
@@ -63,10 +62,6 @@ const About: NextPage<AboutProps> = (props: AboutProps) => {
           }
         `}
       </style>
-
-      <div className="aboutContent">
-        <HtmlContent html={props.content} />
-      </div>
     </StandardPage>
   );
 };

@@ -59,7 +59,6 @@ export const PageTitle = styled.h2`
 
 export const PageDescription = styled.div`
   font-size: 16px;
-  font-weight: 600;
   font-style: normal;
   line-height: 1.25;
   letter-spacing: normal;

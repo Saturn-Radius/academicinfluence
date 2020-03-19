@@ -5,7 +5,6 @@ import "react-circular-progressbar/dist/styles.css";
 import { apiPage } from "../../api";
 import { useBasicContext } from "../../components/BasicContext";
 import { DropdownButton } from "../../components/disciplines";
-import HtmlContent from "../../components/HtmlContent";
 import { DisciplineLink } from "../../links";
 import { PageResponse } from "../../schema";
 import StandardPage from "../../templates/StandardPage";
@@ -61,8 +60,11 @@ function Superdiscipline(props: {
 
 const Disciplines: NextPage<DisciplinesProps> = props => {
   return (
-    <StandardPage title="Disciplines" section="by-discipline">
-      <HtmlContent html={props.page.content} />
+    <StandardPage
+      title="Disciplines"
+      section="by-discipline"
+      blurb={props.page.content}
+    >
       <div>
         <style jsx>
           {`

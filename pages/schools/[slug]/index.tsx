@@ -38,7 +38,7 @@ const School: NextPage<SchoolProps> = (props: SchoolProps) => {
   } = school;
 
   return (
-    <StandardPage title={name} section="influential-schools">
+    <StandardPage title={name} section="influential-schools" hideTitle>
       <style jsx>
         {`
           .cardContainer {

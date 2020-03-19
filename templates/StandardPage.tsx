@@ -1,6 +1,8 @@
 import { NextSeo } from "next-seo";
+import HtmlContent from "../components/HtmlContent";
 import { Sidebar } from "../components/school";
-import { PageTitle } from "../styles";
+import { Html } from "../schema";
+import { PageDescription, PageTitle } from "../styles";
 import BasicPage, { SectionId } from "./BasicPage";
 import PageLayout from "./PageLayout";
 
@@ -9,6 +11,7 @@ export default function StandardPage(props: {
   section: SectionId;
   children: React.ReactNode;
   hideTitle?: boolean;
+  blurb?: Html[];
 }) {
   return (
     <BasicPage section={props.section}>
@@ -29,6 +32,11 @@ export default function StandardPage(props: {
             }}
           >
             {!props.hideTitle && <PageTitle>{props.title}</PageTitle>}
+            {props.blurb && (
+              <PageDescription>
+                <HtmlContent html={props.blurb} />
+              </PageDescription>
+            )}
             {props.children}
           </div>
           <div

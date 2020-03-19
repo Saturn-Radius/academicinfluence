@@ -22,6 +22,7 @@ const Discipline: NextPage<DisciplinesProps> = props => {
     <StandardPage
       title={basicContext.disciplineName(props.discipline)}
       section="by-discipline"
+      blurb={props.description}
     >
       <style jsx>
         {`

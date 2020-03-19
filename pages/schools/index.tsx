@@ -1,6 +1,5 @@
 import { apiInfluentialSchoolsPage, apiPage } from "../../api";
 import { useBasicContext } from "../../components/BasicContext";
-import HtmlContent from "../../components/HtmlContent";
 import ListTopMenu from "../../components/schools/ListTopMenu";
 import SchoolList from "../../components/schools/SchoolList";
 import QuerySchema, { RangeParameter } from "../../QuerySchema";
@@ -9,7 +8,6 @@ import {
   InfluentialSchoolsPageResponse,
   PageResponse
 } from "../../schema";
-import { PageDescription } from "../../styles";
 import StandardPage from "../../templates/StandardPage";
 import QueryPage from "../../utils/QueryPage";
 
@@ -44,10 +42,8 @@ const InfluentialSchools: React.SFC<InfluentialSchoolsProps> = props => {
         props.request
       )}`}
       section="influential-schools"
+      blurb={props.page.content}
     >
-      <PageDescription>
-        <HtmlContent html={props.page.content} />
-      </PageDescription>
       <ListTopMenu {...props} />
       <SchoolList schools={props.schools} />
     </StandardPage>

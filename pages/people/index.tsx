@@ -4,7 +4,6 @@ import React from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { apiInfluentialPeoplePage, apiPage } from "../../api";
 import { useBasicContext } from "../../components/BasicContext";
-import HtmlContent from "../../components/HtmlContent";
 import ListTopMenu from "../../components/people/ListTopMenu";
 import PeopleList from "../../components/people/PeopleList";
 import QuerySchema, { RangeParameter } from "../../QuerySchema";
@@ -13,7 +12,6 @@ import {
   InfluentialPeoplePageResponse,
   PageResponse
 } from "../../schema";
-import { PageDescription } from "../../styles";
 import StandardPage from "../../templates/StandardPage";
 import QueryPage from "../../utils/QueryPage";
 
@@ -64,10 +62,8 @@ const InfluentialPeople: React.SFC<InfluentialPeopleProps> = props => {
         props.request.gender
       )} ${basicContext.describeRequest(props.request)}`}
       section="influential-people"
+      blurb={props.page.content}
     >
-      <PageDescription>
-        <HtmlContent html={props.page.content} />
-      </PageDescription>
       <ListTopMenu {...props} />
       <PeopleList people={props.people} />
     </StandardPage>
