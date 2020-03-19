@@ -48,15 +48,6 @@ export const PAGE_WIDTH_STYLE = css({
   }
 });
 
-export const PageTitle = styled.h2`
-  font-weight: bold;
-  font-size: 20px;
-  font-style: normal;
-  line-height: 1.6;
-  letter-spacing: normal;
-  color: #000000;
-`;
-
 export const PageDescription = styled.div`
   font-size: 16px;
   font-style: normal;
@@ -76,6 +67,8 @@ export const Header1 = styled.h1({
     margin: 0
   }
 });
+
+export const PageTitle = Header1;
 
 export const DescriptionText = styled.p({
   color: BLACK,
