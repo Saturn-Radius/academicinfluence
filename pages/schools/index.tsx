@@ -42,13 +42,11 @@ const InfluentialSchools: React.SFC<InfluentialSchoolsProps> = props => {
   return (
     <StandardPage title="Influential Schools" section="influential-schools">
       <PageTitle>
-        <PageTitle>
-          Most Influential Schools{" "}
-          {props.request.discipline === null
-            ? ""
-            : `in ${basicContext.disciplineName(props.request.discipline)} `}
-          <Years years={props.request.years} />
-        </PageTitle>
+        Most Influential Schools{" "}
+        {props.request.discipline === null
+          ? ""
+          : `in ${basicContext.disciplineName(props.request.discipline)} `}
+        <Years years={props.request.years} />
       </PageTitle>
       <PageDescription>
         <HtmlContent html={props.page.content} />
