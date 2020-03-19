@@ -55,3 +55,7 @@ export function Years(props: { years: { min: number; max: number } }) {
     </>
   );
 }
+
+export function formatYears(years: { min: number; max: number }) {
+  return `${formatYear(years.min)} – ${formatYear(years.max)}`;
+}

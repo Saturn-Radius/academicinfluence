@@ -1,5 +1,6 @@
 import { NextSeo } from "next-seo";
 import { Sidebar } from "../components/school";
+import { PageTitle } from "../styles";
 import BasicPage, { SectionId } from "./BasicPage";
 import PageLayout from "./PageLayout";
 
@@ -7,6 +8,7 @@ export default function StandardPage(props: {
   title: string;
   section: SectionId;
   children: React.ReactNode;
+  hideTitle?: boolean;
 }) {
   return (
     <BasicPage section={props.section}>
@@ -26,6 +28,7 @@ export default function StandardPage(props: {
               flexGrow: 1
             }}
           >
+            {!props.hideTitle && <PageTitle>{props.title}</PageTitle>}
             {props.children}
           </div>
           <div

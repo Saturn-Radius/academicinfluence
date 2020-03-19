@@ -13,10 +13,9 @@ import {
   InfluentialPeoplePageResponse,
   PageResponse
 } from "../../schema";
-import { PageDescription, PageTitle } from "../../styles";
+import { PageDescription } from "../../styles";
 import StandardPage from "../../templates/StandardPage";
 import QueryPage from "../../utils/QueryPage";
-import { Years } from "../../utils/years";
 
 type InfluentialPeopleProps = InfluentialPeoplePageResponse & {
   request: InfluentialPeoplePageRequest;
@@ -45,18 +44,27 @@ const QUERY_SCHEMA = QuerySchema("/people", {
   }
 });
 
+function peopleName(gender: boolean | null) {
+  switch (gender) {
+    case true:
+      return "Men";
+    case false:
+      return "Women";
+    case null:
+      return "People";
+  }
+}
+
 const InfluentialPeople: React.SFC<InfluentialPeopleProps> = props => {
   const basicContext = useBasicContext();
 
   return (
-    <StandardPage title="Influential People" section="influential-people">
-      <PageTitle>
-        Most Influential People{" "}
-        {props.request.discipline === null
-          ? ""
-          : `in ${basicContext.disciplineName(props.request.discipline)} `}
-        <Years years={props.request.years} />
-      </PageTitle>
+    <StandardPage
+      title={`Most Influential ${peopleName(
+        props.request.gender
+      )} ${basicContext.describeRequest(props.request)}`}
+      section="influential-people"
+    >
       <PageDescription>
         <HtmlContent html={props.page.content} />
       </PageDescription>

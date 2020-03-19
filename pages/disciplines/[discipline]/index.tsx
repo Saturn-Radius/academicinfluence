@@ -60,9 +60,6 @@ const Discipline: NextPage<DisciplinesProps> = props => {
         `}
       </style>
       <div className="descriptionBar">
-        <div className="descriptionTitle">
-          <h1>{props.name}</h1>
-        </div>
         <div className="descriptionContent">
           <HtmlContent html={props.description} />
         </div>

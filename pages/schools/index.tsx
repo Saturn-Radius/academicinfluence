@@ -9,10 +9,9 @@ import {
   InfluentialSchoolsPageResponse,
   PageResponse
 } from "../../schema";
-import { PageDescription, PageTitle } from "../../styles";
+import { PageDescription } from "../../styles";
 import StandardPage from "../../templates/StandardPage";
 import QueryPage from "../../utils/QueryPage";
-import { Years } from "../../utils/years";
 
 const QUERY_SCHEMA = QuerySchema("/schools", {
   discipline: {
@@ -40,14 +39,12 @@ const InfluentialSchools: React.SFC<InfluentialSchoolsProps> = props => {
   const basicContext = useBasicContext();
 
   return (
-    <StandardPage title="Influential Schools" section="influential-schools">
-      <PageTitle>
-        Most Influential Schools{" "}
-        {props.request.discipline === null
-          ? ""
-          : `in ${basicContext.disciplineName(props.request.discipline)} `}
-        <Years years={props.request.years} />
-      </PageTitle>
+    <StandardPage
+      title={`Most Influential Schools ${basicContext.describeRequest(
+        props.request
+      )}`}
+      section="influential-schools"
+    >
       <PageDescription>
         <HtmlContent html={props.page.content} />
       </PageDescription>

@@ -44,14 +44,6 @@ export function Article(props: { article: ArticlePartialData }) {
           <div
             css={{
               fontSize: "12px",
-              fontWeight: 250
-            }}
-          >
-            {props.article.author}
-          </div>
-          <div
-            css={{
-              fontSize: "12px",
               fontWeight: 250,
               marginBottom: "16px"
             }}
@@ -115,7 +107,7 @@ export default function FeaturePage(props: {
   title: string;
 }) {
   return (
-    <StandardPage title={props.title} section="features">
+    <StandardPage title={props.title} section="features" hideTitle>
       {" "}
       <CategoryBar categories={props.data.categories} />
       {props.children}

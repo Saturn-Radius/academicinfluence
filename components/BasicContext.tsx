@@ -1,6 +1,7 @@
 import { createContext, useContext } from "react";
 import { createSelector } from "reselect";
 import { BasicContextResponse, Country, DisciplineDetail } from "../schema";
+import { formatYears } from "../utils/years";
 
 export const BasicContextReactContext = createContext(
   {} as BasicContextResponse
@@ -26,6 +27,17 @@ export default class BasicContext {
 
   disciplineName(slug: string) {
     return this.discipline(slug).name;
+  }
+
+  describeRequest(request: {
+    years: { min: number; max: number };
+    discipline: string | null;
+  }) {
+    return `${
+      request.discipline === null
+        ? ""
+        : `in ${this.disciplineName(request.discipline)} `
+    } ${formatYears(request.years)}`;
   }
 }
 
