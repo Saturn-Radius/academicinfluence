@@ -1,6 +1,6 @@
 import { ArticleLink, CategoryLink } from "../links";
 import { ArticlePartialData, Category, FeaturesPageResponse } from "../schema";
-import { MAIN_DARKER } from "../styles";
+import { GRAY_DARKER, MAIN_DARKER } from "../styles";
 import StandardPage from "../templates/StandardPage";
 
 export function Article(props: { article: ArticlePartialData }) {
@@ -77,7 +77,9 @@ function CategoryBar(props: { categories: Category[] }) {
     <div
       css={{
         display: "flex",
-        justifyContent: "center"
+        justifyContent: "center",
+        position: "relative",
+        top: "-27px"
       }}
     >
       {props.categories.map(category => (
@@ -90,7 +92,8 @@ function CategoryBar(props: { categories: Category[] }) {
               marginBottom: "5px",
               fontSize: "20px",
               fontWeight: 500,
-              cursor: "pointer"
+              cursor: "pointer",
+              color: GRAY_DARKER
             }}
           >
             {category.name}

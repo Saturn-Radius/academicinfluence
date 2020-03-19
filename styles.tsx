@@ -28,11 +28,11 @@ export const SECONDARY_ACCENT = "var(--secondary_accent)";
 export const SECONDARY_ACCENT_DARKER = "var(--secondary_accent_darker)";
 export const SECONDARY_ACCENT_DARKEST = "var(--secondary_accent_darkest)";
 
-export const GRAY_LIGHTEST = "var(--GRAY_LIGHTEST)";
-export const GRAY_LIGHTER = "var(--GRAY_LIGHTER)";
+export const GRAY_LIGHTEST = "var(--gray_lightest)";
+export const GRAY_LIGHTER = "var(--gray_lighter)";
 export const GRAY = "var(--gray)";
-export const GRAY_DARKER = "var(--GRAY_DARKER)";
-export const GRAY_DARKEST = "var(--GRAY_DARKEST)";
+export const GRAY_DARKER = "var(--gray_darker)";
+export const GRAY_DARKEST = "var(--gray_darkest)";
 
 export const BG_PAGE = "var(--bg_page)";
 export const BG_PAGE_DARKER = "var(--bg_page_darker)";
